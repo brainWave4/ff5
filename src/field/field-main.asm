@@ -7889,7 +7889,11 @@ _c04528:
         iny
         cpy     #$001e
         bne     @452c
+.if LANG_EN
+        lda     #$a2                    ; question mark
+.else
         lda     #$cb                    ; question mark
+.endif
         sta     $0990
         lda     #$ff
         sta     $0991
@@ -13315,7 +13319,11 @@ _c07241:
 @83ae:  jsr     GetDlgPtr
 @83b1:  jsr     _c08f54
         ldx     $b1
+.if ::LANG_EN
+        jsl     _e02d60
+.else
         lda     f:Dlg,x
+.endif
         beq     @83fa
         jsr     LoadDlgText
         ldy     $06
@@ -13326,7 +13334,11 @@ _c07241:
         jsr     DrawObjSprites
         jsr     DrawOverlaySprites
         ldy     $ab
+.if ::LANG_EN
+        cpy     #$00f0
+.else
         cpy     #$0040
+.endif
         bne     @83c3
         lda     $b8
         bne     @83e6
@@ -13355,10 +13367,15 @@ _c07241:
         longa
         lda     $af         ; dialog index
         and     #$7fff
+.if ::LANG_EN
+        jsl     _e02d40
+        nop4
+.else
         asl
         tax
         lda     f:DlgPtrs,x   ; pointer to dialog
         sta     $b1
+.endif
         lda     $06
         shorta
         lda     $b0
@@ -13375,11 +13392,26 @@ _c07241:
 
 ; [ load dialogue text ]
 
+.if LANG_EN
+        DLG_WIDTH = $f0
+        wDlgBuf = $1b00
+        wDlgDakutenBuf = $1c00
+.else
+        DLG_WIDTH = $40
+        wDlgBuf = $19d3
+        wDlgDakutenBuf = $1a13
+.endif
+
+
 LoadDlgText:
 @8427:  ldx     $06
         stx     $ab
 _842b:  ldx     $b1
+.if ::LANG_EN
+        jsl     _e02d60
+.else
         lda     f:Dlg,x
+.endif
         cmp     #$ff
         beq     _c08451
         cmp     #$cd
@@ -13397,7 +13429,7 @@ _842b:  ldx     $b1
 
 _c08451:
 @8451:  ldy     $ab
-        sta     $19d3,y
+        sta     wDlgBuf,y
         iny
         sty     $ab
 
@@ -13406,15 +13438,19 @@ _c08459:
         iny
         sty     $b1
         ldy     $ab
-        cpy     #$0040
+        cpy     #DLG_WIDTH
         bne     _842b
         rts
 
 _c08466:
         ldx     $b1
         ldy     $ab
+.if LANG_EN
+        jsl     _e02d60
+.else
         lda     f:Dlg,x
-        sta     $19d3,y
+.endif
+        sta     wDlgBuf,y
         iny
         sty     $ab
         jmp     _c08459
@@ -13422,12 +13458,20 @@ _c08466:
 _c08477:
         ldx     $b1
         ldy     $ab
+.if LANG_EN
+        jsl     _e02d60
+.else
         lda     f:Dlg,x
-        sta     $19d3,y
+.endif
+        sta     wDlgBuf,y
         inx
         iny
+.if LANG_EN
+        jsl     _e02d60
+.else
         lda     f:Dlg,x
-        sta     $19d3,y
+.endif
+        sta     wDlgBuf,y
         stx     $b1
         iny
         sty     $ab
@@ -13436,13 +13480,13 @@ _c08477:
 _c08493:
         ldy     $ab
         lda     #$ff
-        sta     $19d3,y
+        sta     wDlgBuf,y
         iny
-        cpy     #$0040
+        cpy     #DLG_WIDTH
         beq     @84a5
         lda     #$00
-        sta     $19d3,y
-@84a5:  ldy     #$0040
+        sta     wDlgBuf,y
+@84a5:  ldy     #DLG_WIDTH
         sty     $ab
         inc     $b3
         jmp     _c08459
@@ -13450,9 +13494,14 @@ _c08493:
 _c084af:
         longa
         lda     $ab
+.if LANG_EN
+        jsl     _e02ee6
+        nop3
+.else
         and     #$fff0
         clc
         adc     #$0010
+.endif
         sta     $23
         lda     $06
         shorta
@@ -13460,17 +13509,17 @@ _c084af:
         cpy     $23
         beq     @84e4
         lda     #$ff
-        sta     $19d3,y
+        sta     wDlgBuf,y
         iny
         cpy     $23
         beq     @84e4
         lda     #$01
-        sta     $19d3,y
+        sta     wDlgBuf,y
         iny
         cpy     $23
         beq     @84e4
         lda     #$ff
-@84dc:  sta     $19d3,y
+@84dc:  sta     wDlgBuf,y
         iny
         cpy     $23
         bne     @84dc
@@ -13483,9 +13532,9 @@ _c084e9:
 @84ed:  lda     $0990,x
         cmp     #$ff
         beq     @8503
-        sta     $19d3,y
+        sta     wDlgBuf,y
         lda     #$00
-        sta     $1a13,y
+        sta     wDlgDakutenBuf,y
         iny
         inx
         cpx     #$0006
@@ -13517,9 +13566,9 @@ _c08512:
         shorta
         ldy     $ab
 @8528:  lda     f:_c0858f,x
-        sta     $19d3,y
+        sta     wDlgBuf,y
         lda     f:_c087f7,x
-        sta     $1a13,y
+        sta     wDlgDakutenBuf,y
         inx
         iny
         dec     $0d
@@ -13705,7 +13754,7 @@ _c08a5f:
         ldx     $b1
         ldy     $ab
         lda     #$01
-        sta     $1a13,y
+        sta     wDlgDakutenBuf,y
         bra     _8a73
 
 ; $1f: kanji (2nd bank)
@@ -13713,9 +13762,14 @@ _c08a6a:
         ldx     $b1
         ldy     $ab
         lda     #$02
-        sta     $1a13,y
-_8a73:  lda     f:Dlg+1,x
-        sta     $19d3,y
+        sta     wDlgDakutenBuf,y
+_8a73:
+.if LANG_EN
+        jsl     _e02dd0
+.else
+        lda     f:Dlg+1,x
+.endif
+        sta     wDlgBuf,y
         iny
         sty     $ab
         ldy     $b1
@@ -13739,9 +13793,9 @@ _c08a85:
 @8a98:  lda     f:MagicName+1,x
         cmp     #$ff
         beq     @8ab2
-        sta     $19d3,y
+        sta     wDlgBuf,y
         lda     #$00
-        sta     $1a13,y
+        sta     wDlgDakutenBuf,y
         iny
         inx
         inc     $09
@@ -13756,26 +13810,43 @@ _c08ab7:
         lda     $16a2
         longa
         sta     $0f                     ; multiply by 9
+.if LANG_EN
+        jsl     _e031b2
+.else
         asl3
         clc
+.endif
         adc     $0f
         tax
         lda     $06
         shorta
         stz     $09
-@8acb:  lda     f:ItemName+1,x
+_8acb:
+.if LANG_EN
+        lda     f:ItemName,x
+        jml     _e02f11
+::_c08ad3:
+.else
+        lda     f:ItemName+1,x
         cmp     #$ff
-        beq     @8ae5
-        sta     $19d3,y
+        beq     _8ae5
+.endif
+        sta     wDlgBuf,y
         lda     #$00
-        sta     $1a13,y
+        sta     wDlgDakutenBuf,y
         iny
+::_c08adc:
         inx
         inc     $09
         lda     $09
+.if LANG_EN
+        cmp     #$18
+.else
         cmp     #ItemName::ITEM_SIZE - 1
-        bne     @8acb
-@8ae5:  sty     $ab
+.endif
+        bne     _8acb
+::_c08ae5:
+_8ae5:  sty     $ab
         jmp     _c08459
 
 ; $10: gil amount
@@ -13790,9 +13861,9 @@ _c08aea:
 @8af9:  lda     $10ad,x
         clc
         adc     #$53
-        sta     $19d3,y
+        sta     wDlgBuf,y
         lda     #$00
-        sta     $1a13,y
+        sta     wDlgDakutenBuf,y
         iny
 @8b08:  inx
         cpx     #7
@@ -14038,12 +14109,12 @@ _c08d0e:
 
 ; [  ]
 
-_c08d3b:
+.proc _c08d3b
         jsr     _c08e08
-@8d3e:  ldy     $ab
-        lda     $1a13,y
-        jne     @8de1
-        lda     $19d3,y
+_8d3e:  ldy     $ab
+        lda     wDlgDakutenBuf,y
+        jne     _8de1
+        lda     wDlgBuf,y
         cmp     #$0c
         bne     @8d54
         ldx     #$003c
@@ -14051,15 +14122,21 @@ _c08d3b:
 @8d54:  cmp     #$17
         bne     @8d83
         iny
-        lda     $19d3,y
+        lda     wDlgBuf,y
         longa
         asl6
         tax
         lda     $06
         shorta
-@8d69:  stx     $ad
+@8d69:
+.if ::LANG_EN
+        jsl     _e02f09
+        nop
+.else
+        stx     $ad
         iny
         sty     $ab
+.endif
 @8d6e:  jsr     WaitVBlank
         jsr     DrawPlayerSprite
         jsr     DrawObjSprites
@@ -14068,21 +14145,29 @@ _c08d3b:
         dex
         stx     $ad
         bne     @8d6e
-        bra     @8d3e
+        bra     _8d3e
 @8d83:  cmp     #$0f
         bne     @8d8e
         inc     $b8
         iny
         sty     $ab
-        bra     @8d3e
-@8d8e:  cmp     #$00
-        bne     @8d99
+        bra     _8d3e
+@8d8e:
+.if ::LANG_EN
+        jml     _e02e7a
+::_c08d92:
+        jsl     _e02e06
+.else
+        cmp     #$00
+        bne     _8d99
         lda     #$40
         sta     $ab
-        jmp     @8e07
-@8d99:  cmp     #$01
-        bne     @8de1
-@8d9d:  lda     $a8
+.endif
+        jmp     _8e07
+::_c08d99:
+_8d99:  cmp     #$01
+        bne     _8de1
+_8d9d:  lda     $a8
         beq     @8dba
         inc     $a7
         jsr     WaitVBlank
@@ -14091,47 +14176,66 @@ _c08d3b:
         jsr     DrawOverlaySprites
         lda     $a8
         clc
+.if ::LANG_EN
+        adc     #$10
+.else
         adc     #$0d
+.endif
         sta     $a8
         cmp     #$10
-        bcc     @8d9d
+        bcc     _8d9d
 @8dba:  stz     $a8
         ldy     $ab
+.if ::LANG_EN
+        jml     _e02e10
+        nop8
+        nop3
+::_c08dcd:
+.else
         tya
         and     #$f0
         clc
         adc     #$10
         sta     $ab
         cmp     #$40
-        beq     @8e07
+        beq     _8e07
         lsr3
+.endif
         tax
         lda     f:_c08e1b,x
         sta     $0ba9
         lda     f:_c08e1b+1,x
         sta     $0baa
-        bra     @8e07
-        jmp     @8d3e
+        bra     _8e07
+        jmp     _8d3e
 
 ; kanji
-@8de1:  lda     $1a13,y
+_8de1:  lda     wDlgDakutenBuf,y
         xba
-        lda     $19d3,y
+        lda     wDlgBuf,y
         iny
         sty     $ab
         jsr     _c08f01
         lda     $a8
         jsr     _c08ed3
         lda     $a8
+.if ::LANG_EN
+        jsl     _e02de0
+        nop
+.else
         clc
         adc     #$0d
         sta     $a8
+.endif
         cmp     #$10
-        jcc     @8d3e
+        jcc     _8d3e
         and     #$0f
         sta     $a8
         inc     $a7
-@8e07:  rts
+::_c08e07:
+_8e07:  rts
+
+.endproc  ; _c08d3b
 
 ; ---------------------------------------------------------------------------
 
@@ -14324,10 +14428,14 @@ _c08f54:
         bne     @8f5e
         ldx     $06
 @8f69:  lda     #$ff
-        sta     $19d3,x
-        stz     $1a13,x
+        sta     wDlgBuf,x
+        stz     wDlgDakutenBuf,x
         inx
+.if LANG_EN
+        cpx     #$0100
+.else
         cpx     #$0040
+.endif
         bne     @8f69
         rts
 
@@ -14449,11 +14557,19 @@ _c08fed:
         ldy     #$0004
 @905e:  lda     f:_c090f7,x
         sta     $16f3,y
+.if LANG_EN
+        lda     #$23
+.else
         lda     #$03
+.endif
         sta     $16f4,y
         lda     f:_c090f7+10,x
         sta     $1733,y
+.if LANG_EN
+        lda     #$23
+.else
         lda     #$03
+.endif
         sta     $1734,y
         inx
         iny2
@@ -14520,12 +14636,21 @@ _c090ad:
 
 ; tile data for yes/no window
 _c090f7:
+.if LANG_EN
+        .byte   $d1,$d7,$d7,$d7,$d7,$d7,$d7,$d7,$d7,$d2
+        .byte   $d5,$d9,$da,$ea,$eb,$ec,$d0,$d0,$d0,$d6
+        .byte   $d5,$db,$dc,$fa,$fb,$fc,$d0,$d0,$d0,$d6
+        .byte   $d5,$d0,$d0,$ed,$ee,$ef,$d0,$d0,$d0,$d6
+        .byte   $d5,$d0,$d0,$fd,$fe,$ff,$d0,$d0,$d0,$d6
+        .byte   $d3,$d8,$d8,$d8,$d8,$d8,$d8,$d8,$d8,$d4
+.else
         .byte   $d1,$d7,$d7,$d7,$d7,$d7,$d7,$d7,$d7,$d2
         .byte   $d5,$d9,$da,$d0,$ea,$eb,$ec,$ed,$d0,$d6
         .byte   $d5,$db,$dc,$d0,$fa,$fb,$fc,$fd,$d0,$d6
         .byte   $d5,$d0,$d0,$ec,$ed,$ec,$ed,$ee,$ef,$d6
         .byte   $d5,$d0,$d0,$fc,$fd,$fc,$fd,$fe,$ff,$d6
         .byte   $d3,$d8,$d8,$d8,$d8,$d8,$d8,$d8,$d8,$d4
+.endif
 
 ; ---------------------------------------------------------------------------
 
@@ -14557,11 +14682,19 @@ _c09133:
         ldy     #$0024
 @9163:  lda     f:_c09237,x
         sta     $16f3,y
+.if LANG_EN
+        lda     #$23
+.else
         lda     #$03
+.endif
         sta     $16f4,y
         lda     f:_c09237+12,x
         sta     $1733,y
+.if LANG_EN
+        lda     #$23
+.else
         lda     #$03
+.endif
         sta     $1734,y
         inx
         iny2
@@ -14706,32 +14839,54 @@ _c0928c:
         sec
         sbc     f:MapTitlePtrs,x
         sta     $2c
+.if LANG_EN
+        jsl     _e02e8e
+.else
         lda     f:MapTitlePtrs,x
+.endif
         tax
         lda     $06
         shorta
         ldy     $06
-@92bd:  lda     f:MapTitle,x
+@92bd:
+.if LANG_EN
+        lda     f:$e70000,x
+.else
+        lda     f:MapTitle,x
+.endif
         cmp     #$1e
         bne     @92cc
         lda     #$01
-        sta     $1a13,y
+        sta     wDlgDakutenBuf,y
         bra     @92d5
 @92cc:  cmp     #$1f
         bne     @92e2
         lda     #$02
-        sta     $1a13,y
+        sta     wDlgDakutenBuf,y
 @92d5:  inx
         dec     $2c
+.if LANG_EN
+        lda     f:$e70000,x
+.else
         lda     f:MapTitle,x
-        sta     $19d3,y
+.endif
+        sta     wDlgBuf,y
         iny
         bra     @92e6
-@92e2:  sta     $19d3,y
+@92e2:  sta     wDlgBuf,y
         iny
 @92e6:  inx
         dec     $2c
         bne     @92bd
+.if LANG_EN
+        jsl     _e02ead
+        nop8
+        nop
+        lda     #$68
+        sec
+        sbc     $ab
+        nop
+.else
         tya
         sta     hWRMPYA
         lda     #$06
@@ -14740,6 +14895,7 @@ _c0928c:
         lda     #$60
         sec
         sbc     hRDMPYL
+.endif
         sta     hWRDIVL
         stz     hWRDIVH
         lda     #$10
@@ -14795,11 +14951,19 @@ _c0928c:
         ldy     #$0004
 @936c:  lda     f:_c09399,x
         sta     $16f3,y
+.if ::LANG_EN
+        lda     #$23
+.else
         lda     #$03
+.endif
         sta     $16f4,y
         lda     f:_c093b9,x
         sta     $1733,y
+.if ::LANG_EN
+        lda     #$23
+.else
         lda     #$03
+.endif
         sta     $1734,y
         inx
         iny2
@@ -14891,11 +15055,19 @@ _c09440:
         ldy     #$0004
 @9478:  lda     f:_c094d8,x
         sta     $16f3,y
+.if LANG_EN
+        lda     #$23
+.else
         lda     #$03
+.endif
         sta     $16f4,y
         lda     f:_c094f8,x
         sta     $1733,y
+.if LANG_EN
+        lda     #$23
+.else
         lda     #$03
+.endif
         sta     $1734,y
         inx
         iny2
@@ -19103,7 +19275,11 @@ EventCmd_ad:
         jsr     GetDlgPtr
 @bb5a:  jsr     _c08f54       ;
         ldx     $b1
+.if LANG_EN
+        jsl     _e02d60
+.else
         lda     f:Dlg,x   ; dialog
+.endif
         beq     @bb8a
         jsr     LoadDlgText
         ldy     $06
@@ -19111,7 +19287,11 @@ EventCmd_ad:
 @bb6c:  jsr     _c08d3b
         jsr     WaitVBlank
         ldy     $ab
+.if LANG_EN
+        cpy     #$00f0
+.else
         cpy     #$0040
+.endif
         bne     @bb6c
         lda     $b3
         bne     @bb8a
@@ -19573,11 +19753,19 @@ EventCmd_b7:
 
 ; character names (8 bytes each, 6 bytes useable)
 _c0bec1:
+.if LANG_EN
+        .byte   $c7,$c7,$ff,$ff,$ff,$ff,$ff,$ff      ; ……
+        .byte   $6b,$7e,$87,$87,$7a,$ff,$ff,$ff      ; Lenna
+        .byte   $66,$7a,$85,$8e,$7f,$ff,$ff,$ff      ; Galuf
+        .byte   $65,$7a,$8b,$82,$8c,$ff,$ff,$ff      ; Faris
+        .byte   $62,$7a,$8b,$7a,$ff,$ff,$ff,$ff      ; Cara
+.else
         .byte   $c7,$c7,$ff,$ff,$ff,$ff,$ff,$ff      ; ……
         .byte   $ac,$92,$ff,$ff,$ff,$ff,$ff,$ff      ; レナ
         .byte   $2a,$a6,$64,$ff,$ff,$ff,$ff,$ff      ; ガラフ
         .byte   $64,$c4,$a8,$78,$ff,$ff,$ff,$ff      ; ファリス
         .byte   $6e,$aa,$aa,$ff,$ff,$ff,$ff,$ff      ; クルル
+.endif
 
 ; ---------------------------------------------------------------------------
 
@@ -20182,7 +20370,11 @@ EventCmd_f0:
 @c2cd:  jsr     GetDlgPtr
 @c2d0:  jsr     _c08f54
         ldx     $b1
-        lda     f:Dlg,x   ; dialog
+.if LANG_EN
+        jsl     _e02d60
+.else
+        lda     f:Dlg,x
+.endif
         beq     @c300       ; branch if end of string
         jsr     LoadDlgText
         ldy     $06
@@ -20190,7 +20382,11 @@ EventCmd_f0:
 @c2e2:  jsr     _c08d3b
         jsr     WaitVBlank
         ldy     $ab
+.if LANG_EN
+        cpy     #$00f0
+.else
         cpy     #$0040
+.endif
         bne     @c2e2
         lda     $b3
         bne     @c300
@@ -22214,3 +22410,783 @@ EventCond:
         .incbin "event_cond.dat"
 
 ; ===========================================================================
+
+.if LANG_EN
+
+.segment "rpge_code1"
+
+; ---------------------------------------------------------------------------
+
+        fixed_block $20
+
+_e00000:
+        lda     #$18
+        sta     $70
+
+_e00004:
+        lda     f:ItemName,x   ; item names
+        nop4
+        cmp     #$e3
+        bcs     _e00014
+        jml     $c12c8d
+
+_e00014:
+        inx
+        dec     $70
+        bne     _e00004
+        jml     $c12c99
+
+        end_fixed_block
+
+; ---------------------------------------------------------------------------
+
+        fixed_block $10
+
+_e00020:
+        dey2
+        lda     #$05
+        sta     ($bc),y
+        sta     ($ba),y
+        iny2
+        rtl
+
+        end_fixed_block
+
+; ---------------------------------------------------------------------------
+
+_e00030:
+        phy
+        txy
+        lda     $4038,y
+        pha
+        asl
+        sta     $4038,y
+        asl2
+        clc
+        adc     $4038,y
+        tax
+        pla
+        sta     $4038,y
+        ply
+        rtl
+
+; ---------------------------------------------------------------------------
+
+; E0/0F50: 98           TYA
+; E0/0F51: 18           CLC
+; E0/0F52: E9 00 58     SBC #$5800
+; E0/0F55: AA           TAX
+; E0/0F56: BF 71 0F E0  LDA $E00F71,X
+; E0/0F5A: 18           CLC
+; E0/0F5B: 69 50 11     ADC #$1150
+; E0/0F5E: AA           TAX
+; E0/0F5F: A0 40 2B     LDY #$2B40
+; E0/0F62: 6B           RTL
+
+; ---------------------------------------------------------------------------
+
+.segment "rpge_code2"
+
+; ---------------------------------------------------------------------------
+
+; get pointer to dialogue
+_e02d40:
+        fixed_block $20
+
+        php
+        sta     $b1
+        asl
+        clc
+        adc     $b1
+        tax
+        lda     f:DlgPtrs,x
+        sta     $b1
+        shorta
+        lda     f:DlgPtrs+2,x
+        sta     $19d5
+        plp
+        rtl
+
+        end_fixed_block
+
+; ---------------------------------------------------------------------------
+
+; get dialogue
+_e02d60:
+        fixed_block $70
+
+        php
+        shorta
+        lda     $19d5
+        cmp     #$c0
+        beq     @2d90
+        cmp     #$ca
+        beq     @2d97
+        cmp     #$e0
+        beq     @2d9e
+        cmp     #$e1
+        beq     @2da5
+        cmp     #$e2
+        beq     @2dac
+        cmp     #$e3
+        beq     @2db3
+        cmp     #$e4
+        beq     @2dba
+        cmp     #$e5
+        beq     @2dc1
+        cmp     #$e6
+        beq     @2dc8
+        plp
+        lda     $e70000,x
+@2d8f:  rtl
+@2d90:  plp
+        lda     $c00000,x
+        bra     @2d8f
+@2d97:  plp
+        lda     $ca0000,x
+        bra     @2d8f
+@2d9e:  plp
+        lda     $e00000,x
+        bra     @2d8f
+@2da5:  plp
+        lda     $e10000,x
+        bra     @2d8f
+@2dac:  plp
+        lda     $e20000,x
+        bra     @2d8f
+@2db3:  plp
+        lda     $e30000,x
+        bra     @2d8f
+@2dba:  plp
+        lda     $e40000,x
+        bra     @2d8f
+@2dc1:  plp
+        lda     $e50000,x
+        bra     @2d8f
+@2dc8:  plp
+        lda     $e60000,x
+        bra     @2d8f
+
+        end_fixed_block
+
+; ---------------------------------------------------------------------------
+
+_e02dd0:
+        fixed_block $10
+
+        inx
+        jsl     _e02d60
+        dex
+        rtl
+
+        end_fixed_block
+
+; ---------------------------------------------------------------------------
+
+_e02de0:
+        longa
+        phx
+        pha
+        ldx     $ab
+        dex
+        lda     $7e1c00,x
+        beq     @2df2
+        lda     #$001f
+        bra     @2df9
+@2df2:  lda     $7e1b00,x
+        and     #$00ff
+@2df9:  tax
+        pla
+        shorta
+        clc
+        adc     f:FontWidth,x
+        sta     $a8
+        plx
+        rtl
+
+; ---------------------------------------------------------------------------
+
+_e02e06:
+        longa
+        lda     #$00f0
+        sta     $ab
+        shorta
+        rtl
+
+; ---------------------------------------------------------------------------
+
+_e02e10:
+        shorta
+        sty     $19db
+        sty     $4204
+        lda     #$3c
+        sta     $4206
+        nop8
+        longa
+        lda     $4214
+        sta     $19d9
+        inc     $19d9
+        lda     $19db
+        sec
+        sbc     $4216
+        clc
+        adc     #$003c
+        sta     $ab
+        cmp     #$00f0
+        bne     @2e48
+        shorta
+        jml     _c08e07
+@2e48:  lda     $19d9
+        asl
+        shorta
+        jml     _c08dcd
+
+; ---------------------------------------------------------------------------
+
+_e02e52:
+        sta     $7e1b00
+        sec
+        sbc     #$20
+        tax
+        jml     $c12cf7
+
+; ---------------------------------------------------------------------------
+
+_e02e5e:
+        longa
+        phx
+        pha
+        lda     $7e1b00
+        and     #$00ff
+        tax
+        pla
+        shorta
+        jsr     _e031cf
+        nop2
+        sta     $f507
+        plx
+        jml     $c12da9
+
+; ---------------------------------------------------------------------------
+
+_e02e7a:
+        cmp     #$00
+        bne     @2e8a
+        pha
+        lda     #$10
+        sta     $a8
+        inc     $a7
+        pla
+        jml     _c08d92
+@2e8a:  jml     _c08d99
+
+; ---------------------------------------------------------------------------
+
+_e02e8e:
+        .a16
+        phx
+        ldx     #$0000
+@2e92:  lda     #$5252
+        sta     $7e1b00,x
+        lda     #$0000
+        sta     $7e1c00,x
+        inx
+        inx
+        cpx     #$0040
+        bne     @2e92
+        plx
+        lda     f:MapTitlePtrs,x   ; pointers to map titles
+        rtl
+        .a8
+
+; ---------------------------------------------------------------------------
+
+_e02ead:
+        sty     $19e2
+        phx
+        lda     #$00
+        xba
+        lda     #$00
+        ldy     #$0000
+        stz     $ab
+@2ebb:  tyx
+        lda     $7e1c00,x
+        bne     @2ed2
+        lda     $7e1b00,x
+        tax
+        lda     $ab
+        clc
+        adc     f:FontWidth,x
+        sta     $ab
+        bra     @2ed9
+@2ed2:  lda     $ab
+        clc
+        adc     #$0d
+        sta     $ab
+@2ed9:  iny
+        cpy     $19e2
+        bne     @2ebb
+        lda     $ab
+        lsr
+        sta     $ab
+        plx
+        rtl
+
+; ---------------------------------------------------------------------------
+
+_e02ee6:
+
+        .i16
+        sta     $19db
+        sta     $4204
+        shorta
+        lda     #$3c
+        sta     $4206
+        longa
+        nop8
+        lda     $19db
+        sec
+        sbc     $4216
+        clc
+        adc     #$003c
+        rtl
+
+; ---------------------------------------------------------------------------
+
+_e02f09:
+        stx     $ad
+        iny
+        sty     $ab
+        jmp     _e031a8
+        .a8
+
+; ---------------------------------------------------------------------------
+
+_e02f11:
+        cmp     #$ff
+        beq     @2f1d
+        cmp     #$e3
+        bcs     @2f21
+        jml     _c08ad3
+@2f1d:  jml     _c08ae5
+@2f21:  jml     _c08adc
+
+; ---------------------------------------------------------------------------
+
+_e02f25:
+        cmp     #$ff
+        beq     @2f31
+        cmp     #$e3
+        bcs     @2f35
+        jml     $c12b0a
+@2f31:  jml     $c12b12
+@2f35:  jml     $c12b0d
+
+_e02f39:
+        lda     #$e7
+        ldy     #$1780      ; long attack names
+        bra     _2f68
+
+_e02f40:
+        lda     #$d1
+        ldy     #$1c80      ; spell names (short)
+        bra     _2f68
+
+_e02f47:
+        lda     #$d1
+        ldy     #$1c81      ; spell names (short, no icon)
+        bra     _2f68
+
+_e02f4e:
+        lda     #$e0
+        ldy     #$1150      ; battle command names
+        bra     _2f68
+
+_e02f55:
+        lda     #$e7
+        ldy     #$0900      ; spell names (long)
+        bra     _2f68
+
+_e02f5c:
+        lda     #$e7
+        ldy     #$3700      ; enemy attack names
+        bra     _2f68
+
+_e02f63:
+        lda     #$e7
+        ldy     #$5860
+
+_2f68:
+        sta     $7e1c03
+        longa
+        tya
+        sta     $7e1c01
+        lda     #$0000
+        shorta
+        lda     #$bf
+        sta     $7e1c00
+        lda     #$6b
+        sta     $7e1c04
+@2f84:
+        jsl     $7e1c00
+        cmp     #$ff
+        beq     @2fa1
+        cmp     #$e3
+        bcs     @2f9c
+        txy
+        tax
+        lda     $80
+        clc
+        adc     $e03225,x
+        sta     $80
+        tyx
+@2f9c:  inx
+        dec     $7e
+        bne     @2f84
+@2fa1:  lda     $80
+        lsr
+        sta     $80
+        lda     #$3a
+        sec
+        sbc     $80
+        sta     $f507
+        jml     $c13c87
+        lda     [$b8]
+        bra     _2fb9
+
+_e02fb6:
+        lda     $dbf7
+_2fb9:  longa
+        and     #$00ff
+        asl
+        asl
+        asl
+        asl
+        tax
+        lda     #$0000
+        shorta
+        rtl
+
+_e02fc9:
+        lda     #$09
+        sta     $70
+        lda     #$0c
+        jml     $c12fb5
+
+_e02fd3:
+        shorta
+        lda     #$0d
+        sta     f:$004202
+        tya
+        sta     f:$004203
+        longa
+        nop6
+        lda     f:$004216
+        jml     $c2c76b
+
+_e02ff0:
+        stz     $1a17
+        ldx     $e8
+        tya
+        cmp     $c0fa29
+        beq     @302a
+        cmp     $c0f997
+        beq     @3034
+        cmp     $c0f999
+        beq     @3051
+        cmp     $c0f9e5
+        beq     @3082
+        cmp     $c0fa43
+        beq     @307a
+        cmp     $c0fa45
+        beq     @307a
+        cmp     $c0fa4b
+        beq     @307a
+        cmp     $c0fa4d
+        beq     @307a
+        jml     @3096
+
+@302a:  txa
+        sec
+        sbc     #$0006
+        tax
+        jml     @30a2
+
+@3034:  cpx     #$4088
+        beq     @3092
+        cpx     #$4108
+        beq     @3092
+        cpx     #$42c4
+        beq     @3092
+        cpx     #$4348
+        beq     @3092
+        cpx     #$50c8
+        beq     @3092
+        jml     @30a2
+
+@3051:  cpx     #$52a6
+        beq     @3069
+        cpx     #$5860
+        beq     @3069
+        cpx     #$40c6
+        beq     @3069
+        cpx     #$40f4
+        beq     @308c
+        jml     @30a2
+
+@3069:  ldx     $e8
+        lda     $e4
+        ldy     #$3113
+        and     #$00ff
+        ora     #$e000
+        jml     $c2c340
+
+@307a:  dex4
+        jml     @30a2
+
+@3082:  txa
+        sec
+        sbc     #$0012
+        tax
+        jml     @30a2
+
+@308c:  dex2
+        jml     @30a2
+
+@3092:  jml     $c2c349
+
+@3096:  cmp     $c0f9bb
+        beq     @30ae
+        cmp     $c0f9d3
+        beq     @30d1
+
+@30a2:  lda     $e4
+        and     #$00ff
+        ora     #$e700
+        jml     $c2c340
+
+@30ae:  cpx     #$5532
+        beq     @30bc
+        cpx     #$40ee
+        beq     @30bc
+        jml     @30a2
+
+@30bc:  txa
+        sec
+        sbc     #$0006
+        tax
+        lda     $e4
+        ldy     #$3118
+        and     #$00ff
+        ora     #$e000
+        jml     $c2c340
+
+@30d1:  cpx     #$66a0
+        beq     @30e9
+        cpx     #$56e0
+        beq     @30e9
+        cpx     #$67a6
+        beq     @30f6
+        cpx     #$57e6
+        beq     @30f6
+        jml     @30a2
+
+@30e9:  ldy     #$3103
+        and     #$00ff
+        ora     #$e000
+        jml     $c2c340
+
+@30f6:  ldy     #$310e
+        and     #$00ff
+        ora     #$e000
+        jml     $c2c340
+
+; "Defense   "
+_e03103:
+        .byte   $63,$7e,$7f,$7e,$87,$8c,$7e,$ff,$ff,$ff,$00
+
+; ".Def"
+_e0310f:
+        .byte   $a3,$63,$7e,$7f,$00
+
+; "Eqp."
+_e03113:
+        .byte   $64,$8a,$89,$a3,$00
+
+; "Empty"
+_e03118:
+        .byte   $64,$86,$89,$8d,$92,$00
+
+_e0311e:
+        longa
+        lda     #$0004
+        sta     $2b92
+        jml     $c2c477
+
+_e0312a:
+        lda     f:_e03143
+        sta     $0990
+        lda     f:_e03143 + 2
+        sta     $0992
+        lda     f:_e03143 + 4
+        sta     $0994
+        jml     $c2c486
+
+; "Butz  "
+_e03143:
+        .byte   $61,$8e,$8d,$93,$ff,$ff
+
+_e03149:
+        php
+        shorta
+        lda     #$01
+        sta     $7e1a21
+        plp
+        lda     $d14000,x
+        jml     $c2ab73
+
+_e0315b:
+        php
+        shorta
+        lda     #$00
+        sta     $7e1a21
+        plp
+        lda     $d17140,x
+        jml     $c2a9f5
+
+_e0316d:
+        php
+        shorta
+        lda     #$00
+        sta     $7e1a21
+        plp
+        lda     $d14000,x
+        jml     $c2ac88
+
+_e0317f:
+        php
+        shorta
+        lda     #$00
+        sta     $7e1a21
+        plp
+        lda     $d1716c,x
+        jml     $c2d78d
+
+_e03191:
+        dec
+        pha
+        php
+        shorta
+        lda     $7e1a21
+        nop
+        nop
+        plp
+        pla
+        mvn     #$d1,#$7e
+        rtl
+
+_e031a2:
+        plp
+        pla
+        mvn     #$e7,#$7e
+        rtl
+
+; ---------------------------------------------------------------------------
+
+_e031a8:
+        inc     $a7
+        lda     $a8
+        clc
+        adc     #$10
+        sta     $a8
+        rtl
+
+; ---------------------------------------------------------------------------
+
+_e031b2:
+        asl3
+        sta     $0f
+        asl
+        clc
+        rtl
+
+; ---------------------------------------------------------------------------
+
+_e031ba:
+        dec
+        beq     @31cb
+        cmp     #$01
+        bne     @31c7
+        ldx     #$73a0
+        stx     $f9df
+@31c7:  jml     $c1f840
+@31cb:  jml     $c12999
+
+; ---------------------------------------------------------------------------
+
+_e031cf:
+        pha
+        lda     $7e1c00
+        cmp     #$74
+        beq     @31df
+        pla
+        clc
+        adc     f:FontWidth,x
+        rts
+@31df:  pla
+        clc
+        adc     f:FontWidth + $0100,x
+        rts
+
+; ---------------------------------------------------------------------------
+
+_e031e6:
+        lda     #$74
+        sta     $7e1c00
+        tdc
+@31ed:  sta     $a937,x
+        inx
+        cpx     #$0200
+        bne     @31ed
+        rtl
+
+_e031f7:
+        tdc
+        sta     $7e1c00
+        ldx     a:$00b8
+        inx
+        rtl
+
+_e03201:
+        lda     $7e1c00
+        cmp     #$74
+        bne     @320e
+        lda     f:ProphecyTextGfx,x
+        rtl
+@320e:  lda     $c3eb00,x
+        rtl
+
+_e03213:
+        lda     $7e1c00
+        cmp     #$74
+        bne     @3220
+        lda     f:ProphecyTextGfx + 12,x
+        rtl
+@3220:  lda     $c3eb0c,x
+        rtl
+
+; ---------------------------------------------------------------------------
+
+; e0/3225
+FontWidth:
+        .incbin "font_width_en.dat"
+
+; ---------------------------------------------------------------------------
+
+; e0/3725
+ProphecyTextGfx:
+        .incbin "prophecy_text.1bpp"
+
+; ---------------------------------------------------------------------------
+
+.endif

@@ -1,0 +1,10 @@
+{
+  "asset_label": "MapTitle",
+  "inc_path": "include/text/map_title_en.inc",
+  "is_sequential": true,
+  "char_tables": [
+    "text_en",
+    "null_terminated_en"
+  ],
+  "text": []
+}

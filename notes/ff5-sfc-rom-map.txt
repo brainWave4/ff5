@@ -350,8 +350,8 @@
 | E01150-E013F0 | battle command names (7 bytes each)                       |
 | E013F0-E02D40 | pointers to dialog (absolute)                             |
 | E02D40-E03225 | code                                                      |
-| E03225-E03425 | vwf widths (2 different versions ???)                     |
-| E03425-E04C25 | vwf graphics ???                                          |
+| E03225-E03725 | vwf widths                                                |
+| E03725-E04C25 | prophecy text graphics                                    |
 | E04C25-E10000 | unused                                                    |
 | E10000-E36FBB | dialog (2160 items, variable size)                        |
 | E36FBB-E70000 | unused                                                    |

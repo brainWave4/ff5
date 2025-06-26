@@ -9,6 +9,7 @@
 ; | description: graphics assets main assembly file                            |
 ; +----------------------------------------------------------------------------+
 
+.include "const.inc"
 .include "macros.inc"
 
 ; ------------------------------------------------------------------------------
@@ -23,7 +24,7 @@ WindowPal:
 
 ; c0/d380
 WindowGfx:
-        .incbin "window.4bpp"
+        incbin_lang "window_%s.4bpp"
 
 ; ------------------------------------------------------------------------------
 
@@ -55,7 +56,7 @@ MapPal:
 
 ; c3/eb00
 BigFontGfx:
-        .incbin "big_font.1bpp"
+        incbin_lang "big_font_%s.1bpp"
 
 ; ------------------------------------------------------------------------------
 

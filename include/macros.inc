@@ -521,6 +521,13 @@ PSW_C = %00000001
 
 ; ------------------------------------------------------------------------------
 
+; [ include with language suffix ]
+
+.define inc_lang(_path) .include .sprintf(_path, LANG_SUFFIX)
+.define incbin_lang(_path) .incbin .sprintf(_path, LANG_SUFFIX)
+
+; ------------------------------------------------------------------------------
+
 .define array_item(array, index) array::.ident(.sprintf("_%d", index))
 .define array_member(array, index, member) array::.ident(.sprintf("_%d", index))::member
 

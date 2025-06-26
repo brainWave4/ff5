@@ -45,7 +45,7 @@
       "asset_range": "0xC0D340-0xC0D37F"
     },
     {
-      "file_path": "src/gfx/window.4bpp",
+      "file_path": "src/gfx/window_jp.4bpp",
       "asset_range": "0xC0D380-0xC0D97F"
     },
     {
@@ -62,7 +62,7 @@
       "item_size": 256
     },
     {
-      "file_path": "src/gfx/big_font.1bpp",
+      "file_path": "src/gfx/big_font_jp.1bpp",
       "asset_range": "0xC3EB00-0xC3FDFF"
     },
     {
