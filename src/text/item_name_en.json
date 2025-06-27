@@ -1,0 +1,11 @@
+{
+  "asset_label": "ItemName",
+  "item_size": 24,
+  "char_tables": [
+    "small_symbols_en",
+    "text_en",
+    "fixed_length_en",
+    "dte_en"
+  ],
+  "text": []
+}

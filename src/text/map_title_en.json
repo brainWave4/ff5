@@ -1,11 +1,10 @@
 {
   "asset_label": "MapTitle",
-  "inc_path": "include/text/map_title_jp.inc",
+  "inc_path": "include/text/map_title_en.inc",
   "is_sequential": true,
   "char_tables": [
-    "big_symbols_jp",
-    "kana",
-    "kanji"
+    "text_en",
+    "null_terminated_en"
   ],
   "text": []
 }

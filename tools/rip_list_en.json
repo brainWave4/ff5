@@ -1,5 +1,36 @@
 {
-  "text": [],
-  "data": [],
+  "text": [
+    {
+      "json_path": "src/text/magic_name_en.json",
+      "asset_range": "0xD11C80-0xD11E89"
+    },
+    {
+      "json_path": "src/text/dlg_en.json",
+      "asset_range": "0xE10000-0xE36FBA",
+      "ptr_range": "0xE013F0-0xE02D3F",
+      "ptr_size": 3,
+      "is_mapped": true
+    },
+    {
+      "json_path": "src/text/map_title_en.json",
+      "asset_range": "0xE70000-0xE70672",
+      "ptr_range": "0xD07000-0xD07147",
+      "ptr_offset": "0xE70000"
+    },
+    {
+      "json_path": "src/text/item_name_en.json",
+      "asset_range": "0xE75860-0xE7705F"
+    }
+  ],
+  "data": [
+    {
+      "file_path": "src/gfx/window_en.4bpp",
+      "asset_range": "0xC0D380-0xC0D97F"
+    },
+    {
+      "file_path": "src/gfx/big_font_en.1bpp",
+      "asset_range": "0xC3EB00-0xC3FDFF"
+    }
+  ],
   "array": []
 }

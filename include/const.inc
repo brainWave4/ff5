@@ -12,6 +12,21 @@
 .ifndef CONST_INC
 CONST_INC = 1
 
+; ---------------------------------------------------------------------------
+
+.ifndef LANG_EN
+        LANG_EN = 0
+.endif
+
+; define language suffix
+.if LANG_EN
+        .define LANG_SUFFIX "en"
+.else
+        .define LANG_SUFFIX "jp"
+.endif
+
+; ---------------------------------------------------------------------------
+
 ; bit masks
 
 BIT_0               = %00000001
