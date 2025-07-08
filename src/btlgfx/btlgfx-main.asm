@@ -68,8 +68,8 @@ _0009:  jmp     _c1003f
 ; ---------------------------------------------------------------------------
 
 ExecBtlGfxTbl:
-@0021:  .addr   $39f9, $3a55, $0348, _c102e0, _c102df, $422b, _c101e4, $768d
-        .addr   $75d7, _c10208, $8189, _c1010b, _c100f2, _c100c6, _c10092
+@0021:  .addr   _c139f9, _c13a55, _c10348, _c102e0, _c102df, _c1422b, _c101e4, _c1768d
+        .addr   _c175d7, _c10208, $8189, _c1010b, _c100f2, _c100c6, _c10092
 
 ; ---------------------------------------------------------------------------
 
@@ -325,8 +325,8 @@ _c101e4:
         cmp     #$0b
         bne     @01f5
         lda     $cf
-        jeq     $3cc7
-        jmp     $3cca
+        jeq     _c13cc7
+        jmp     _c13cca
 @01f5:  rts
 
 ; ---------------------------------------------------------------------------
@@ -501,11 +501,11 @@ _c102df:
 
 _c102e0:
         jsr     $fd1d       ; wait for vblank
-        jsr     $3a6e
+        jsr     _c13a6e
         jsr     $aef6
         jsr     $ad64
         jsr     $ad2d
-        jmp     $37ef
+        jmp     _c137ef
 
 ; ---------------------------------------------------------------------------
 
@@ -515,7 +515,7 @@ _c102f2:
 @02f2:  jsr     $fd1d       ; wait for vblank
         jsr     $3a6e
         jsr     $ad2d
-        jmp     $37ef
+        jmp     _c137ef
 
 ; ---------------------------------------------------------------------------
 
@@ -538,11 +538,7 @@ _c102fe:
 @031b:  sta     $70
         phx
         txa
-        asl
-        asl
-        asl
-        asl
-        asl
+        asl5
         tax
         lda     $70
         sta     $cf54,x
@@ -555,10 +551,7 @@ _c102fe:
         sta     $cf45,x
         plx
 @033d:  inx
-        iny
-        iny
-        iny
-        iny
+        iny4
         cpy     #$0010
         bne     @0305
         rts
@@ -688,10 +681,7 @@ _c10401:
         lsr     $a209,x
         lsr     $a00b,x
         lsr     $a20b,x
-@0442:  inx
-        inx
-        inx
-        inx
+@0442:  inx4
         cpx     #$0100
         bne     @040a
 @044b:  lda     $70
@@ -716,10 +706,7 @@ _c10401:
         lsr     $a209,x
         lsr     $a00b,x
         lsr     $a20b,x
-@0483:  inx
-        inx
-        inx
-        inx
+@0483:  inx4
         cpx     #$0200
         bne     @044b
         shorta0
@@ -961,10 +948,7 @@ _c104c9:
 @06ac:  lda     $7ba1,x     ; get erased monsters
         asl
         rol     $70
-        inx
-        inx
-        inx
-        inx
+        inx4
         cpx     #$0020
         bne     @06ac
         lda     $70
@@ -1013,8 +997,7 @@ _c104c9:
         lda     #$20
         sta     $f9a3,y
         inx
-        iny
-        iny
+        iny2
         cpy     #$002a
         bne     @072a
         lda     $3efb       ; get monster palettes
@@ -1058,10 +1041,7 @@ _c104c9:
         bne     @0796
         ldx     #$0000
 @07a8:  lda     $4000,x     ; monster x position
-        lsr
-        lsr
-        lsr
-        lsr
+        lsr4
         and     #$0f
         sta     $d00e,x
         lda     $4000,x     ; monster y position
@@ -1649,7 +1629,7 @@ _c10ba4:
 @0be1:  cmp     #$1a
         bne     @0beb       ; branch if not karnak castle interior
         inc     $f8c5
-        jmp     $10eb
+        jmp     _c110eb
 @0beb:  cmp     #$02
         bne     @0bf5       ; branch if not desert
         inc     $f8c6
@@ -1657,11 +1637,11 @@ _c10ba4:
 @0bf5:  cmp     #$ff
         bne     @0bff
         inc     $f8c6
-        jmp     $1015
+        jmp     _c11015
 @0bff:  cmp     #$fe
         bne     @0c09
         inc     $f8c6
-        jmp     $105a
+        jmp     _c1105a
 @0c09:  lda     $dbd3
         beq     @0c35       ; branch if not credits
         lda     $dbd4
@@ -1861,10 +1841,7 @@ _c10c5f:
         lda     $88
         sta     $acb9,x
         sta     $acc9,x
-        iny
-        iny
-        iny
-        iny
+        iny4
         txa
         clc
         adc     #$0020
@@ -1888,8 +1865,7 @@ _c10c5f:
         sta     $acb7,x     ; bg2 h-scroll hdma data
         lda     $88
         sta     $acb9,x     ; bg2 v-scroll hdma data
-        iny
-        iny
+        iny2
         txa
         clc
         adc     #$0010
@@ -3247,7 +3223,7 @@ _c118d2:
         jsr     $0b81       ; play queued song
 @19e2:  stz     $a5         ; clear vblank flag
         stz     $a4
-        jmp     $17c4
+        jmp     _c117c4
 
 ; ---------------------------------------------------------------------------
 
@@ -3855,8 +3831,7 @@ _c11df6:
         lsr
         and     #$fffe
         beq     @1e88
-        dec
-        dec
+        dec2
 @1e88:  sta     $7a
         lda     $78
         lsr
@@ -4204,7 +4179,7 @@ _c120c4:
 @212a:  iny                 ; next monster
         cpy     #$0008
         bne     @20d2
-        jmp     $22f2
+        jmp     _c122f2
 
 ; ---------------------------------------------------------------------------
 
@@ -4713,7 +4688,7 @@ _c124e2:
         adc     #$0800
         sta     $7a
         shorta0
-        jmp     $259a
+        jmp     @259a
 @2505:  asl3
         tax
         longa
@@ -4783,9 +4758,8 @@ _c124e2:
 @259a:  ply
         iny
         cpy     #$0004
-        beq     @25a4
-        jmp     $24ed
-@25a4:  rts
+        jne     $24ed
+        rts
 
 ; ---------------------------------------------------------------------------
 
@@ -4929,7 +4903,7 @@ _c12689:
         jsr     $26ab
         ldy     #$7f48
         ldx     #$0ae0
-        jmp     $26ab
+        jmp     @26ab
 @26ab:  sty     $70
         stx     $76
         lda     #$0a
@@ -5293,10 +5267,10 @@ _c12971:
         bcc     @2990
         jsr     $2cf1
         jsr     $299a       ; get next byte
-        jmp     $297b
+        jmp     @297b
 @2990:  jsr     $29a0       ; do big text escape code
         jsr     $299a       ; get next byte
-        jmp     $297b
+        jmp     @297b
 @2999:  rts
 
 ; ---------------------------------------------------------------------------
@@ -5885,7 +5859,7 @@ _2cb7:  phy
         iny
         cpy     #$000c
         bne     @2cd5
-        jmp     $2d1f
+        jmp     _2d1f
 
 ; ---------------------------------------------------------------------------
 
@@ -5925,7 +5899,7 @@ _c12cf1:
         iny
         cpy     #$000c
         bne     @2d06
-@2d1f:  lda     $f507       ; text horizontal position
+_2d1f:  lda     $f507       ; text horizontal position
         and     #$07
         beq     @2d3e
         sta     $74
@@ -6015,10 +5989,10 @@ _c12dac:
         bcc     @2de0
         jsr     $2dea       ; draw small text character
         jsr     $299a       ; get next byte
-        jmp     $2dcf
+        jmp     @2dcf
 @2de0:  jsr     $2f5d       ; decode small text escape code
         jsr     $299a       ; get next byte
-        jmp     $2dcf
+        jmp     @2dcf
 @2de9:  rts
 
 ; ---------------------------------------------------------------------------
@@ -6027,28 +6001,30 @@ _c12dac:
 
 _c12dea:
 @2dea:  cmp     #$53
-        bcc     @2dfd
+        bcc     _2dfd
+
+_c12dee:
 @2dee:  sta     ($bc),y
         lda     #$ff        ; no dakuten
-@2df2:  sta     ($ba),y
+_2df2:  sta     ($ba),y
         iny
         lda     $be         ; tile flags
         sta     ($bc),y
         sta     ($ba),y
         iny
         rts
-@2dfd:  cmp     #$49
+_2dfd:  cmp     #$49
         bcc     @2e0b
         clc
         adc     #$17
         sta     ($bc),y
         lda     #$52        ; handakuten
-        jmp     $2df2
+        jmp     _2df2
 @2e0b:  clc
         adc     #$40
         sta     ($bc),y
         lda     #$51        ; dakuten
-        jmp     $2df2
+        jmp     _2df2
 
 ; ---------------------------------------------------------------------------
 
@@ -6096,7 +6072,7 @@ _c12e55:
         ror     $72
         ror     $71
         ror     $70
-        jmp     $2eab
+        jmp     _2eab
 
 ; ---------------------------------------------------------------------------
 
@@ -6122,7 +6098,7 @@ _c12ea4:
         ldx     $09c2       ; save count
 _2ea7:  stx     $70
         stz     $72
-@2eab:  phy
+_2eab:  phy
         jsr     $ff88       ; convert hex to decimal digits
         jsr     $fefe
         ply
@@ -6156,11 +6132,11 @@ _c12ebf:
         cmp     #$fc
         bne     @2ef0       ; branch if not 100%
         lda     #$54
-        jsr     $2dea       ; draw small text character
+        jsr     _c12dea       ; draw small text character
         lda     #$53
-        jsr     $2dea       ; draw small text character
+        jsr     _c12dea       ; draw small text character
         lda     #$53
-        jmp     $2dea       ; draw small text character
+        jmp     _c12dea       ; draw small text character
 @2ef0:  ldx     #$0f80
         stx     $80
         jsr     $fe67       ; ++$82 = +$7e * +$80
@@ -6172,7 +6148,7 @@ _c12ebf:
         lda     a:$00c6
         jsr     $2dea       ; draw small text character
         lda     a:$00c7
-        jmp     $2dea       ; draw small text character
+        jmp     _c12dea       ; draw small text character
 
 ; ---------------------------------------------------------------------------
 
@@ -6246,7 +6222,7 @@ _c12f42:
 _c12f55:
         jsr     $299a       ; get next byte
         lda     ($b8)
-        jmp     $2dee
+        jmp     _c12dee
 
 ; ---------------------------------------------------------------------------
 
@@ -6273,7 +6249,7 @@ _c12f6e:
         sbc     #$0a
         bcc     @2f7f
         inc     $70
-        jmp     $2f75
+        jmp     @2f75
 @2f7f:  clc
         adc     #$0a
         sta     $71
@@ -6282,16 +6258,16 @@ _c12f6e:
         lda     #$ac        ; this is a hack to draw a space ($ac + $53 = $ff)
 @2f8a:  clc
         adc     #$53
-        jsr     $2dee
+        jsr     _c12dee
         lda     $71
         ora     $70
         bne     @2f9b
         lda     #$ff
-        jmp     $2dee
+        jmp     _c12dee
 @2f9b:  lda     $71
         clc
         adc     #$53
-        jmp     $2dee
+        jmp     _c12dee
 
 ; ---------------------------------------------------------------------------
 
@@ -6443,7 +6419,7 @@ _c13061:
         stx     $70
         ldx     #$382c
         stx     $78
-        jmp     $3092
+        jmp     _3092
 
 ; ---------------------------------------------------------------------------
 
@@ -6454,7 +6430,7 @@ _c1306e:
         stx     $70
         ldx     #$3834
         stx     $78
-        jmp     $3092
+        jmp     _3092
 
 ; ---------------------------------------------------------------------------
 
@@ -6465,7 +6441,7 @@ _c1307b:
         stx     $70
         ldx     #$383c
         stx     $78
-        jmp     $3092
+        jmp     _3092
 
 ; ---------------------------------------------------------------------------
 
@@ -6476,7 +6452,7 @@ _c13088:
         stx     $70
         ldx     #$3844
         stx     $78
-@3092:  lda     #$7e
+_3092:  lda     #$7e
         sta     $72
         jsr     $299a       ; get next byte
         lda     ($b8)
@@ -6503,7 +6479,7 @@ _c130d6:
         jsr     $ff2e
         jsr     $ff12
         clr_ax
-        jmp     $32f0
+        jmp     _c132f0
         phy
         ldy     #$0003
         lda     [$70],y
@@ -6557,27 +6533,27 @@ _c13112:
 
 _c1313f:
         lda     #$00
-        jmp     $32bc
+        jmp     _c132bc
 
 _c13144:
         lda     #$02
-        jmp     $32bc
+        jmp     _c132bc
 
 _c13149:
         lda     #$04
-        jmp     $32cb
+        jmp     _c132cb
 
 _c1314e:
         lda     #$06
-        jmp     $32cb
+        jmp     _c132cb
 
 _c13153:
         lda     #$06
-        jmp     $32ed
+        jmp     _c132ed
 
 _c13158:
         lda     #$02
-        jmp     $32da
+        jmp     _c132da
 
 _c1315d:
         phy
@@ -6858,6 +6834,8 @@ _c132da:
 
 _c132ed:
 @32ed:  jsr     $32a5
+
+_c132f0:
 @32f0:  lda     $c5,x
         cmp     #$ff
         beq     @32f9
@@ -7603,9 +7581,9 @@ _c13835:
         bne     @3862
         lda     #$07
         jsr     $4641
-        jsr     $2dac
+        jsr     _c12dac
         lda     #$07
-        jmp     $4622
+        jmp     _c14622
         ldx     #$0004
 @38c5:  jsr     $38dc
         bcs     @38d4
@@ -7615,7 +7593,7 @@ _c13835:
         rts
 @38d4:  jsr     $40e4
         lda     #$05
-        jmp     $4622
+        jmp     _c14622
 @38dc:  lda     #$04
         sta     $71
         stz     $70
@@ -7663,7 +7641,7 @@ _c138fe:
 @3936:  lda     $db49
         beq     @393f
         clr_a
-        jsr     $4622
+        jsr     _c14622
 @393f:  rts
 
 ; ---------------------------------------------------------------------------
@@ -7676,7 +7654,7 @@ _c13940:
         lda     #$12
         jsr     $39b2
         lda     #$01
-        jmp     $4622
+        jmp     _c14622
 
 ; ---------------------------------------------------------------------------
 
@@ -7697,7 +7675,7 @@ _c13954:
         beq     @397d
         jsr     $3fa8
         clr_a
-        jsr     $4622
+        jsr     _c14622
 @397d:  rts
 
 ; ---------------------------------------------------------------------------
@@ -7723,7 +7701,7 @@ _c1397e:
 @39a8:  lda     #$0a
         jsr     $39b2
 @39ad:  lda     #$01
-        jmp     $4622
+        jmp     _c14622
 
 ; ---------------------------------------------------------------------------
 
@@ -7790,7 +7768,7 @@ _c139f9:
         sta     $fef9
         ldx     $70
         phx
-@3a23:  jsr     $02f2       ; wait one frame
+@3a23:  jsr     _c102f2       ; wait one frame
         lda     $cd41
         bne     @3a23
         plx
@@ -7821,10 +7799,10 @@ _c13a55:
         bne     @3a6d
         inc     $cdf9
         inc     $cdf8
-@3a62:  jsr     $02f2       ; wait one frame
+@3a62:  jsr     _c102f2       ; wait one frame
         lda     $cd41
         bne     @3a62
-        jsr     $02f2       ; wait one frame
+        jsr     _c102f2       ; wait one frame
 @3a6d:  rts
 
 ; ---------------------------------------------------------------------------
@@ -7833,7 +7811,7 @@ _c13a55:
 
 _c13a6e:
         lda     $bc65
-        bne     @3a95
+        bne     _c13a95
         lda     $cd38
         bne     @3a81
         lda     $cd39
@@ -7842,21 +7820,25 @@ _c13a6e:
 @3a81:  lda     $cd38
         asl
         tax
-        lda     $c13a96,x
+        lda     f:_c13a96,x
         sta     $70
-        lda     $c13a97,x
+        lda     f:_c13a96+1,x
         sta     $71
         jmp     ($0070)
-@3a95:  rts
+
+; ---------------------------------------------------------------------------
+
+_c13a95:
+        rts
 
 ; ---------------------------------------------------------------------------
 
 ; battle menu jump table
 _c13a96:
-        .addr   $3a95,$416b,$422b,$455b,$43ce,$4176,$3a95,$422b
-        .addr   $4552,$3cd3,$3cd7,$3cdc,$3ce1,$3ce6,$3ceb,$3cf0
-        .addr   $3cf5,$3cfa,$414b,$421d,$4224,$609d,$60cc,$605c
-        .addr   $60bb,$3ccd,$3cd0,$3cc7,$3cca,$382e
+        .addr   _c13a95,_c1416b,_c1422b,_c1455b,_c143ce,_c14176,_c13a95,_c1422b
+        .addr   _c14552,_c13cd3,_c13cd7,_c13cdc,_c13ce1,_c13ce6,_c13ceb,_c13cf0
+        .addr   _c13cf5,_c13cfa,_c1414b,_c1421d,_c14224,$609d,$60cc,$605c
+        .addr   $60bb,_c13ccd,_c13cd0,_c13cc7,_c13cca,_c1382e
 
 ; 08: item
 ; 09: spellblade
@@ -8220,22 +8202,22 @@ _c13c88:
 _c13cbb:
         jsr     $3ad2
         inc     $bc76
-        jsr     $02f2       ; wait one frame
+        jsr     _c102f2       ; wait one frame
         jmp     _c13b11
 
 ; ---------------------------------------------------------------------------
 
 _c13cc7:
-        jmp     $44d1
+        jmp     _c144d1
 
 _c13cca:
-        jmp     $445a
+        jmp     _c1445a
 
 _c13ccd:
-        jmp     $455e
+        jmp     _c1455e
 
 _c13cd0:
-        jmp     $43ce
+        jmp     _c143ce
 
 ; ---------------------------------------------------------------------------
 
@@ -8243,7 +8225,7 @@ _c13cd0:
 
 _c13cd3:
         clr_a
-        jmp     $44c8
+        jmp     _c144c8
 
 ; ---------------------------------------------------------------------------
 
@@ -8251,7 +8233,7 @@ _c13cd3:
 
 _c13cd7:
         lda     #$01
-        jmp     $44c8
+        jmp     _c144c8
 
 ; ---------------------------------------------------------------------------
 
@@ -8259,7 +8241,7 @@ _c13cd7:
 
 _c13cdc:
         lda     #$02
-        jmp     $44c8
+        jmp     _c144c8
 
 ; ---------------------------------------------------------------------------
 
@@ -8267,7 +8249,7 @@ _c13cdc:
 
 _c13ce1:
         lda     #$03
-        jmp     $44c8
+        jmp     _c144c8
 
 ; ---------------------------------------------------------------------------
 
@@ -8275,7 +8257,7 @@ _c13ce1:
 
 _c13ce6:
         lda     #$04
-        jmp     $44c8
+        jmp     _c144c8
 
 ; ---------------------------------------------------------------------------
 
@@ -8299,7 +8281,7 @@ _c13cf0:
 
 _c13cf5:
         lda     #$07
-        jmp     $44c8
+        jmp     _c144c8
 
 ; ---------------------------------------------------------------------------
 
@@ -8307,7 +8289,7 @@ _c13cf5:
 
 _c13cfa:
         lda     #$08
-        jmp     $44c8
+        jmp     _c144c8
 
 ; ---------------------------------------------------------------------------
 
@@ -8376,11 +8358,10 @@ _c13d8c:
         jsr     _c13f95
         jsr     $3fa8
         jsr     $405b
-        jsr     $416b
+        jsr     _c1416b
         lda     $cd40
-        beq     @3da3
-        jmp     $4176
-@3da3:  ldx     #$027f
+        jne     _c14176
+        ldx     #$027f
         stx     $70
         ldx     #$bcb1
         ldy     #$bf31
@@ -8633,7 +8614,7 @@ _c13f95:
         inx
         cpy     #$0008
         bne     @3f97
-        jmp     $3ed3
+        jmp     _c13ed3
 
 ; ---------------------------------------------------------------------------
 
@@ -8671,7 +8652,7 @@ _c13fa8:
         bne     @3fbc
         clr_a
         sta     $dbf6,y
-        jsr     $2dac
+        jsr     _c12dac
 @3ff3:  rts
 
 ; ---------------------------------------------------------------------------
@@ -8729,5 +8710,8541 @@ _c13ff4:
         cpy     #$0004
         bne     @4009
         rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1405b:
+        lda     #$04
+        jsr     $4641
+        lda     #$02
+        jsr     $4656
+        clr_axy
+@4068:  lda     $b444,x
+        cmp     #$ff
+        beq     @4081
+        lda     $dbf6,y
+        clc
+        adc     $b444,x
+        sta     $dbf6,y
+        sta     $dbf9,y
+        tya
+        clc
+        adc     #$06
+        tay
+@4081:  inx
+        cpx     #$0004
+        bne     @4068
+        clr_a
+        sta     $dbf6,y
+        jsr     _c12dac
+        lda     #$5e
+        sta     $bd1f
+        inc
+        sta     $bd21
+        lda     $0425
+        beq     @409f
+        jsr     $3ff4
+@409f:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c140a0:
+@40a0:  lda     #$01
+        jsr     $4641
+        lda     #$01
+        jsr     $4656
+        clr_axy
+@40ad:  lda     $b444,x
+        cmp     #$ff
+        beq     @40d7
+        lda     $dbf8,y
+        clc
+        adc     $b444,x
+        sta     $dbf8,y
+        lda     $41b0
+        and     #$01
+        beq     @40d2
+        lda     $b444,x
+        cmp     $cd42
+        bne     @40d2
+        lda     #$08
+        sta     $dbf7,y
+@40d2:  tya
+        clc
+        adc     #$05
+        tay
+@40d7:  inx
+        cpx     #$0004
+        bne     @40ad
+        clr_a
+        sta     $dbf6,y
+        jmp     _c12dac
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c140e4:
+@40e4:  lda     $cd42
+        asl3
+        tax
+        longa
+        lda     $3830,x
+        sta     $70
+        lda     $3832,x
+        sta     $72
+        shorta0
+        lda     $ce
+        pha
+        lda     #$69
+        sta     $ce
+        ldx     $70
+        ldy     #$00ae
+        jsr     $412f
+        lda     #$76
+        sta     $c265
+        iny2
+        ldx     $72
+        jsr     $412f
+        lda     $cd42
+        tay
+        asl
+        tax
+        lda     $db
+        clc
+        adc     ($d3),y
+        longa
+        clc
+        adc     $ceff8d,x
+        tax
+        shorta0
+        pla
+        sta     $ce
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1412f:
+@412f:  jsr     $ff2e
+        jsr     $ff0e
+        lda     $c5
+        sta     $c1b1,y
+        iny2
+        lda     $c6
+        sta     $c1b1,y
+        iny2
+        lda     $c7
+        sta     $c1b1,y
+        iny2
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1414b:
+        jsr     $40e4
+        lda     $ce
+        pha
+        lda     #$69
+        sta     $ce
+        lda     $2e38,x
+        tax
+        ldy     #$01b2
+        jsr     $412f
+        pla
+        sta     $ce
+        lda     #$05
+        jsr     _c14622
+        stz     $cd38
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1416b:
+        jsr     $40a0
+        clr_a
+        jsr     _c14622
+        stz     $cd38
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14176:
+@4176:  ldx     #$027f
+        stx     $70
+        ldx     #$bcb1
+        lda     #$7e
+        ldy     #$bf31
+        jsr     $fce1       ; move data
+        ldx     #$0028
+        jsr     $3f95
+        jsr     $41a7
+        lda     #$04
+        sta     $75
+        jsr     $427f
+        lda     #$03
+        jsr     $4641
+        jsr     _c12dac
+        lda     #$01
+        jsr     _c14622
+        stz     $cd38
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c141a7:
+@41a7:  lda     $cd42
+        asl
+        tax
+        longa
+        lda     $ceff10,x
+        sta     $70
+        lda     $ceff18,x
+        sta     $72
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c141be:
+@41be:  lda     $cd42
+        asl
+        tax
+        longa
+        lda     $ceff00,x
+        sta     $70
+        lda     $ceff08,x
+        sta     $72
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c141d5:
+@41d5:  ldx     #$0098
+        bra     _41dd
+
+_c141da:
+@41da:  ldx     #$01c0
+_41dd:  stx     $72
+        lda     $0426
+        bpl     @41e7       ; branch if memory cursor setting
+        clr_a
+        bra     @41ef
+@41e7:  lda     $cd42
+        tax
+        lda     $042d,x
+        asl
+@41ef:  tax
+        longa
+        lda     $d83000,x   ; battle menu cursor positions
+        sta     $70
+        clr_ax
+@41fa:  lda     $72
+        sta     $bb25,x
+        lda     $b537,x
+        clc
+        adc     $70
+        clc
+        adc     #$0040
+        clc
+        adc     #$0100
+        sta     $bb27,x
+        inx4
+        cpx     #$0050
+        bne     @41fa
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1421d:
+        jsr     $41da
+        stz     $cd38
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14224:
+        jsr     $41d5
+        stz     $cd38
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ battle graphics function $05:  ]
+
+_c1422b:
+        jsr     $40a0
+        lda     $cd40
+        jne     _c14176
+        ldx     #$027f
+        stx     $70
+        ldx     #$bcb1
+        lda     #$7e
+        ldy     #$bf31
+        jsr     $fce1       ; move data
+        lda     $0426
+        bpl     @425e
+        ldx     #$0078
+        jsr     $3f95
+        jsr     $41be
+        jsr     $4365
+        lda     #$08
+        jsr     $4641
+        bra     @4273
+@425e:  ldx     #$0010
+        jsr     $3f95
+        jsr     $41be
+        lda     #$04
+        sta     $75
+        jsr     $42f3
+        lda     #$03
+        jsr     $4641
+@4273:  jsr     _c12dac
+        lda     #$01
+        jsr     _c14622
+        stz     $cd38
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1427f:
+@427f:  clr_ay
+@4281:  lda     #$0d
+        sta     $dbf6,y
+        iny
+        lda     ($72)
+        bmi     @428f
+        lda     #$00
+        bra     @4291
+@428f:  lda     #$04
+@4291:  sta     $dbf6,y
+        iny
+        lda     ($70)
+        cmp     #$57
+        bcc     @42bc
+        sec
+        sbc     #$57
+        sta     $7e
+.if LANG_EN
+        lda     #$0c
+.else
+        lda     #$09
+.endif
+        sta     $80
+        jsr     $feba       ; +$82 = $7e * $80
+        ldx     $82
+.if LANG_EN
+        lda     #$0c
+        sta     $74
+@42ad:  lda     $e70f90,x
+.else
+        lda     #$09
+        sta     $74
+@42ad:  lda     $d11e8a,x
+.endif
+        sta     $dbf6,y
+        inx
+        iny
+        dec     $74
+        bne     @42ad
+        bra     @42d8
+@42bc:  sta     $7e
+        lda     #$06
+        sta     $80
+        jsr     $feba       ; +$82 = $7e * $80
+        ldx     $82
+        lda     #$06
+        sta     $74
+@42cb:  lda     $d11c80,x
+        sta     $dbf6,y
+        inx
+        iny
+        dec     $74
+        bne     @42cb
+@42d8:  lda     #$01
+        sta     $dbf6,y
+        iny
+        phx
+        ldx     $70
+        inx
+        stx     $70
+        ldx     $72
+        inx
+        stx     $72
+        plx
+        dec     $75
+        bne     @4281
+        clr_a
+        sta     $dbf6,y
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c142f3:
+@42f3:  clr_ay
+@42f5:  jsr     $4316
+        jsr     $4336
+        lda     #$01
+        sta     $dbf6,y
+        iny
+        phx
+        ldx     $70
+        inx
+        stx     $70
+        ldx     $72
+        inx
+        stx     $72
+        plx
+        dec     $75
+        bne     @42f5
+        clr_a
+        sta     $dbf6,y
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14316:
+@4316:  lda     ($70)
+        sta     $7e
+.if LANG_EN
+        lda     #$07
+.else
+        lda     #$05
+.endif
+        sta     $80
+        jsr     $feba       ; +$82 = $7e * $80
+        lda     #$0d
+        sta     $dbf6,y
+        iny
+        lda     ($72)
+        bmi     @432f
+        lda     #$00
+        bra     @4331
+@432f:  lda     #$04
+@4331:  sta     $dbf6,y
+        iny
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14336:
+@4336:  ldx     $82
+.if LANG_EN
+        lda     #$07
+        sta     $74
+@433c:  lda     $e01150,x
+.else
+        lda     #$05
+        sta     $74
+@433c:  lda     $d15800,x
+.endif
+        sta     $dbf6,y
+        inx
+        iny
+        dec     $74
+        bne     @433c
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1434a:
+@434a:  sta     $dbf6,y
+        iny
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1434f:
+@434f:  tax
+        lda     $fef6,x
+        longa
+        pha
+        clc
+        adc     $78
+        sta     $70
+        pla
+        clc
+        adc     $7a
+        sta     $72
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14365:
+@4365:  ldx     $70
+        stx     $78
+        ldx     $72
+        stx     $7a
+        clr_ay
+        clr_a
+        jsr     $434f
+        jsr     $4316
+        lda     #$ff
+        jsr     $434a
+        jsr     $434a
+        jsr     $434a
+        jsr     $434a
+        jsr     $4336
+        lda     #$01
+        jsr     $434a
+        lda     #$01
+        jsr     $434f
+        jsr     $4316
+        jsr     $4336
+        lda     #$ff
+        jsr     $434a
+        lda     #$02
+        jsr     $434f
+        jsr     $4316
+        lda     #$ff
+        jsr     $434a
+        jsr     $4336
+        lda     #$01
+        jsr     $434a
+        lda     #$03
+        jsr     $434f
+        jsr     $4316
+        lda     #$ff
+        jsr     $434a
+        jsr     $434a
+        jsr     $434a
+        jsr     $434a
+        jsr     $4336
+        clr_a
+        jmp     $434a
+
+; ---------------------------------------------------------------------------
+
+_c143ce:
+        ldx     #$0018
+        jsr     $3f95
+        lda     #$04
+        jsr     $4656
+        lda     #$06
+        jsr     $4641
+        lda     $cd42
+        tax
+        lda     $ceff80,x
+        sta     $7a
+        stz     $70
+        lda     $ceff84,x
+        tax
+        lda     $37ac,x
+        ora     $37ad,x
+        bne     @43fb
+        inc     $70
+        bra     @4415
+@43fb:  lda     $37ac,x
+        bne     @4409
+        lda     $37ad,x
+        bpl     @4409
+        inc     $70
+        bra     @4415
+@4409:  lda     $37ad,x
+        bne     @4415
+        lda     $37ac,x
+        bpl     @4415
+        inc     $70
+@4415:  ldy     #$000a
+        jsr     $442e
+        inx
+        ldy     #$0013
+        jsr     $442e
+        jsr     _c12dac
+        lda     #$02
+        jsr     _c14622
+        stz     $cd38
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1442e:
+@442e:  lda     #$00
+        ora     #$20
+        sta     $dbf7,y
+        lda     $37ac,x
+        bne     @443d
+        clc
+        adc     $70
+@443d:  sta     $dbf9,y
+        lda     $37ae,x
+        sta     $dbfc,y
+        lda     $37ac,x
+        bne     @4450
+        lda     #$ff
+        sta     $dbfa,y
+@4450:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c14451:
+        jsr     $37b6
+        jsr     $45f1
+        jsr     $3ea8
+
+_c1445a:
+        lda     #$06
+        jsr     $4656
+        lda     $cdfa
+        tax
+        lda     $ceff67,x
+        sta     $72
+        lda     $cd42
+        tay
+        asl
+        tax
+        lda     ($d9),y
+        asl
+        clc
+        adc     $db
+        sta     $70
+        stz     $71
+        longa
+        lda     $ceff8d,x
+        clc
+        adc     $70
+        sta     $70
+        shorta0
+        ldx     $70
+        lda     #$0a
+        sta     $74
+@448d:  phx
+        lda     $72
+        tax
+        lda     $ceff6c,x
+        tay
+        inc     $72
+        plx
+        lda     $2f3c,x
+        bmi     @44a2
+        lda     #$00
+        bra     @44a4
+@44a2:  lda     #$04
+@44a4:  sta     $dbf7,y
+        lda     $2d34,x
+        sta     $dbf9,y
+        inx
+        cpx     #$0082
+        beq     @44b7
+        dec     $74
+        bne     @448d
+@44b7:  lda     #$05
+        jsr     $4641
+        jsr     _c12dac
+        lda     #$03
+        jsr     _c14622
+        stz     $cd38
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c144c8:
+        jsr     $37b6
+        jsr     $45f1
+        jsr     $3ea8
+
+_c144d1:
+        lda     #$05
+        jsr     $4656
+        lda     $cdfa
+        tax
+        lda     $ceff62,x
+        sta     $72
+        lda     $cd42
+        tay
+        asl
+        tax
+        lda     ($d9),y
+        asl
+        clc
+        adc     ($d9),y
+        clc
+        adc     $db
+        sta     $70
+        stz     $71
+        longa
+        lda     $ceff8d,x
+        clc
+        adc     $70
+        sta     $70
+        shorta0
+        ldx     $70
+        lda     #$0f
+        sta     $74
+@4507:  phx
+        lda     $72
+        tax
+        lda     $ceff44,x
+        tay
+        inc     $72
+        plx
+        lda     $2f3c,x
+        bmi     @451c
+        lda     #$00
+        bra     @451e
+@451c:  lda     #$04
+@451e:  sta     $dbf7,y
+        lda     $2d34,x
+        cmp     #$ff
+        bne     @452f
+        lda     #$05
+        sta     $dbf8,y
+        lda     #$06
+@452f:  cmp     #$57
+        bcc     @4534
+        clr_a
+@4534:  sta     $dbf9,y
+        inx
+        cpx     #$0082
+        beq     @4541
+        dec     $74
+        bne     @4507
+@4541:  lda     #$05
+        jsr     $4641
+        jsr     _c12dac
+        lda     #$03
+        jsr     _c14622
+        stz     $cd38
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14552:
+        jsr     $45f1
+        jsr     $3ea8
+        jmp     _c1455e
+
+_c1455b:
+        jsr     $45f1
+
+_c1455e:
+        lda     #$03
+        jsr     $4656
+        lda     $cdfa
+        tax
+        lda     $ceff88,x
+        sta     $70
+        lda     $cd42
+        tax
+        lda     $db4f
+        beq     @457a
+        lda     #$40
+        bra     @458f
+@457a:  lda     $db4e
+        beq     @458b
+        cmp     #$01
+        beq     @4587
+        lda     #$02
+        bra     @458f
+@4587:  lda     #$10
+        bra     @458f
+@458b:  lda     $ceff80,x
+@458f:  sta     $7a
+        lda     $044d,x
+        asl
+        tax
+        lda     #$0a
+        sta     $72
+@459a:  phx
+        lda     $70
+        tax
+        lda     $ceff30,x
+        tay
+        inc     $70
+        plx
+        lda     $db4e
+        ora     $db4f
+        beq     @45b3
+        lda     $2b34,x
+        bra     @45b6
+@45b3:  lda     $2c34,x
+@45b6:  and     $7a
+        beq     @45be
+        lda     #$04
+        bra     @45c0
+@45be:  lda     #$00
+@45c0:  sta     $dbf7,y
+        lda     $2834,x
+        sta     $dbfe,y
+        lda     $2734,x
+        sta     $dbfb,y
+        bne     @45d6
+        lda     #$ff
+        sta     $dbfc,y
+@45d6:  inx
+        cpx     #$0100
+        beq     @45e0
+        dec     $72
+        bne     @459a
+@45e0:  lda     #$05
+        jsr     $4641
+        jsr     _c12dac
+        lda     #$03
+        jsr     _c14622
+        stz     $cd38
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c145f1:
+@45f1:  lda     #$04
+        sta     $cdfa
+        clr_axy
+@45f9:  lda     #$0c
+        sta     $70
+@45fd:  lda     $d4b952,x
+        longa
+        sec
+        sbc     #$00a4
+        sta     $ba37,y
+        lda     #$0001
+        sta     $ba35,y
+        shorta0
+        iny4
+        dec     $70
+        bne     @45fd
+        inx
+        cpy     #$00f0
+        bne     @45f9
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c14622:
+@4622:  sta     $7e
+        lda     #$06
+        sta     $80
+        jsr     $feba       ; +$82 = $7e * $80
+        ldx     $82
+        clr_ay
+@462f:  lda     $d83216,x
+        sta     $bc66,y
+        iny
+        inx
+        cpy     #$0006
+        bne     @462f
+        inc     $bc65
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c14641:
+@4641:  asl3
+        tax
+        clr_ay
+@4647:  lda     $d8314e,x
+        sta     $bca0,y
+        iny
+        inx
+        cpy     #$0006
+        bne     @4647
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c14656:
+@4656:  asl
+        tax
+        lda     $d83008,x
+        sta     $70
+        lda     $d83009,x
+        sta     $71
+        lda     #$d8
+        sta     $72
+        clr_ay
+@466a:  lda     [$70],y
+        sta     $dbf6,y
+        iny
+        cpy     #$0080
+        bne     @466a
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ battle command menu $00/$0a: no menu ]
+
+_c14676:
+        lda     $cd42
+        tax
+        jsr     $5270
+        lda     ($88)
+        pha
+        lda     #$09
+        clc
+        adc     $cdf7
+        sta     $88
+        pla
+        jmp     _c1510e
+
+; ---------------------------------------------------------------------------
+
+; [ battle command menu $0b: ??? ]
+
+_c1468c:
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ battle command menu $0d: combine ]
+
+_c1468d:
+        jsr     $47b6
+        lda     #$08
+        sta     $f891
+        lda     #$01
+        sta     $cfc3
+        inc
+        sta     $db4e
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ battle command menu $0e: drink ]
+
+_c1469f:
+        jsr     $47b6
+        lda     #$01
+        sta     $cfc3
+        sta     $db4e
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ battle command menu $0f: throw ]
+
+_c146ab:
+        jsr     $47b6
+        lda     #$01
+        sta     $cfc3
+        sta     $db4f
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ battle command menu $01: spellblade ]
+
+_c146b7:
+        lda     #$09
+        jmp     _c146fd
+
+; ---------------------------------------------------------------------------
+
+; [ battle command menu $02: white magic ]
+
+_c146bc:
+        lda     #$0a
+        jmp     _c146fd
+
+; ---------------------------------------------------------------------------
+
+; [ battle command menu $03: black magic ]
+
+_c146c1:
+        lda     #$0b
+        jmp     _c146fd
+
+; ---------------------------------------------------------------------------
+
+; [ battle command menu $04: time magic ]
+
+_c146c6:
+        lda     #$0c
+        jmp     _c146fd
+
+; ---------------------------------------------------------------------------
+
+; [ battle command menu $05: summon ]
+
+_c146cb:
+        lda     #$0d
+        jmp     _c146fd
+
+; ---------------------------------------------------------------------------
+
+; [ battle command menu $06: blue magic ]
+
+_c146d0:
+        lda     #$0e
+        jmp     $46e9
+
+; ---------------------------------------------------------------------------
+
+; [ battle command menu $09: red magic ]
+
+_c146d5:
+        lda     #$0f
+        jmp     $46e9
+
+; ---------------------------------------------------------------------------
+
+; [ battle command menu $07: song ??? ]
+
+_c146da:
+        lda     #$10
+        jmp     _c146fd
+
+; ---------------------------------------------------------------------------
+
+; [ battle command menu $08: x-magic ]
+
+_c146df:
+        lda     #$08
+        sta     $f891
+        lda     #$11
+        jmp     _c146fd
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c146e9:
+@46e9:  pha
+        lda     #$01
+        sta     $cf
+        lda     #$03
+        sta     $d0
+        lda     #$01
+        sta     $d1
+        lda     #$02
+        sta     $d2
+        pla
+        bra     _470b
+
+_c146fd:
+@46fd:  pha
+        stz     $cf
+        stz     $d0
+        lda     #$02
+        sta     $d1
+        lda     #$03
+        sta     $d2
+        pla
+_470b:  sta     $cd39       ; menu id ???
+        stz     $cfc3
+        lda     #$04
+        sta     $cdfa
+        lda     #$04
+        jsr     $496a
+        lda     #$05
+        sta     $cd3a
+        lda     #$01
+        sta     $cd3b
+        lda     #$0c
+        sta     $cd3c
+        lda     #$20
+        jsr     $5318
+        jsr     $47ef
+        jmp     _c15494
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c14735:
+        stz     $cd6c
+        stz     $cd70
+        lda     #$05
+        jsr     $496a
+        lda     #$07
+        sta     $cd39
+        lda     #$05
+        sta     $cd3a
+        lda     #$02
+        sta     $cd3b
+        lda     #$09
+        clc
+        adc     $cdf7
+        sta     $cd3c
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c14759:
+        lda     #$12
+        sta     $cd39
+        lda     #$0a
+        jsr     $496a
+        lda     #$05
+        sta     $cd3a
+        lda     #$01
+        sta     $cd3b
+        lda     #$0b
+        sta     $cd3c
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c14773:
+        stz     $cd6c
+        stz     $cd70
+        lda     #$0b
+        jsr     $496a
+        lda     #$02
+        sta     $cd3a
+        lda     #$0d
+        sta     $cd3b
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c14789:
+        lda     #$06
+        jsr     $496a
+        lda     #$04
+        sta     $cd39
+        lda     #$05
+        sta     $cd3a
+        lda     #$01
+        sta     $cd3b
+        lda     #$08
+        sta     $cd3c
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c147a3:
+        lda     #$07
+        jsr     $496a
+        lda     #$02
+        sta     $cd3a
+        lda     #$07
+        sta     $cd3b
+        stz     $cd50
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ battle command menu $0c: item ]
+
+_c147b6:
+@47b6:  stz     $cfc3
+        stz     $db4e
+        stz     $db4f
+        lda     #$04
+        sta     $cdfa
+        lda     #$04
+        jsr     $496a
+        lda     #$08
+        sta     $cd39
+        lda     #$05
+        sta     $cd3a
+        lda     #$01
+        sta     $cd3b
+        lda     #$07
+        sta     $cd3c
+        jsr     $47ef
+        stz     $f891
+        stz     $f88c
+        stz     $f88e
+        stz     $cf3b
+        jmp     _c15494
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c147ef:
+@47ef:  clr_ax
+@47f1:  lda     $c5f1,x
+        sta     $cd77,x
+        inx
+        cpx     #$0080
+        bne     @47f1
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c147fe:
+        lda     #$05
+        jsr     $496a
+        lda     #$06
+        clc
+        adc     $cdf7
+        sta     $cd39
+        lda     #$05
+        sta     $cd3a
+        lda     #$02
+        sta     $cd3b
+        lda     #$09
+        clc
+        adc     $cdf7
+        sta     $cd3c
+        stz     $cfc3
+        stz     $cdf7
+        stz     $cf3b
+        stz     $cd4c
+        stz     $cd48
+        stz     $f88c
+        stz     $f88e
+        stz     $cd6c
+        stz     $cd70
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1483b:
+        lda     #$09
+        sta     $bc83
+        lda     #$0e
+        jsr     $496a
+        lda     #$1d
+        sta     $cd39
+        lda     #$05
+        sta     $cd3a
+        lda     #$01
+        sta     $cd3b
+        lda     #$12
+        sta     $cd3c
+        jmp     _c15494
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1485b:
+@485c:  pha
+        lda     #$0f
+        jsr     $496a
+        lda     #$02
+        sta     $cd3a
+        pla
+        sta     $cd3b
+        jmp     _c15494
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1486e:
+        lda     $cd42
+        asl5
+        tax
+        stz     $cf58,x
+        lda     $cf56,x
+        and     #$fe
+        sta     $cf56,x
+        lda     #$02
+        jsr     $496a
+        lda     #$02
+        sta     $cd39
+        lda     #$05
+        sta     $cd3a
+        lda     #$01
+        sta     $cd3b
+        lda     #$06
+        sta     $cd3c
+        stz     $cfd2
+        stz     $cfc3
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c148a2:
+        lda     #$03
+        jsr     $496a
+        lda     #$01
+        sta     $cd39
+        lda     #$05
+        sta     $cd3a
+        lda     #$02
+        sta     $cd3b
+        lda     #$0e
+        sta     $cd3c
+        lda     $cdf9
+        bne     @48f6
+        lda     $cd42
+        asl5
+        tax
+        lda     $41b1
+        bmi     @48da
+        and     #$20
+        beq     @48d6
+        lda     #$09
+        bra     @48eb
+@48d6:  lda     #$01
+        bra     @48eb
+@48da:  lda     $cf4d,x
+        cmp     #$03
+        beq     @48eb
+        phx
+        lda     $41b6
+        tax
+        lda     $d83366,x
+        plx
+@48eb:  sta     $cf58,x
+        lda     $cf56,x
+        ora     #$01
+        sta     $cf56,x
+@48f6:  rts
+
+; ---------------------------------------------------------------------------
+
+_c148f7:
+@48f7:  lda     $0426
+        bpl     @48ff
+        clr_a
+        bra     @4907
+@48ff:  lda     $cd42
+        tax
+        lda     $042d,x
+        asl
+@4907:  tax
+        longa
+        lda     $d8335e,x
+        sta     $88
+        lda     $cd33
+        clc
+        adc     $88
+        sta     $cd33
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1491d:
+        lda     #$0d
+        jsr     $496a
+        jsr     $48f7
+        lda     #$02
+        sta     $cd3a
+        lda     #$06
+        sta     $cd3b
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14930:
+        lda     #$0c
+        jsr     $496a
+        jsr     $48f7
+        lda     #$14
+        sta     $cd39
+        lda     #$05
+        sta     $cd3a
+        lda     #$01
+        sta     $cd3b
+        lda     #$10
+        sta     $cd3c
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1494d:
+        lda     #$0c
+        jsr     $496a
+        jsr     $48f7
+        lda     #$13
+        sta     $cd39
+        lda     #$05
+        sta     $cd3a
+        lda     #$01
+        sta     $cd3b
+        lda     #$0f
+        sta     $cd3c
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1496a:
+@496a:  sta     $98
+        lda     #$05
+        sta     $9a
+        jsr     $fe4b
+        ldx     $9c
+        clr_ay
+@4977:  lda     $d83392,x
+        sta     $cd31,y
+        inx
+        iny
+        cpy     #$0005
+        bne     @4977
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14986:
+        ldx     $cd31
+        stx     $88
+        ldx     $cd33
+        stx     $8a
+        clr_ay
+@4992:  lda     ($88),y
+        sta     $8c
+        lda     ($8a),y
+        sta     ($88),y
+        lda     $8c
+        sta     ($8a),y
+        iny
+        cpy     #$0020
+        bne     @4992
+        longa
+        lda     $88
+        clc
+        adc     #$0020
+        sta     $cd31
+        lda     $8a
+        clc
+        adc     #$0020
+        sta     $cd33
+        shorta0
+        dec     $cd35
+        bne     @49c3
+        jsr     $fd07
+@49c3:  rts
+
+; ---------------------------------------------------------------------------
+
+_c149c4:
+        ldx     $cd31
+        stx     $88
+        ldx     $cd33
+        stx     $8a
+        clr_ay
+@49d0:  lda     ($88),y
+        pha
+        lda     ($8a),y
+        sta     ($88),y
+        pla
+        sta     ($8a),y
+        iny
+        cpy     #$0020
+        bne     @49d0
+        longa
+        lda     $88
+        sec
+        sbc     #$0020
+        sta     $cd31
+        lda     $8a
+        sec
+        sbc     #$0020
+        sta     $cd33
+        shorta0
+        dec     $cd35
+        bne     @4a04
+        jsr     $fd07
+        lda     #$01
+        sta     $bc83
+@4a04:  rts
+
+; ---------------------------------------------------------------------------
+
+_c14a05:
+        lda     $bc76
+        beq     @4a4e
+        ldx     #$0100
+        stx     $88
+        ldx     #$c9b1
+        lda     #$7e
+        ldy     #$4820
+        jsr     $fdb6       ; copy data to vram
+        stz     $bc76
+        longa
+        lda     #$4080
+        sta     f:$002116
+        lda     #$f357
+        sta     f:$004342
+        lda     #$01a0
+        sta     f:$004345
+        shorta0
+        lda     #$7e
+        sta     f:$004344
+        clr_a
+        sta     f:$004340
+        lda     #$19
+        sta     f:$004341
+        lda     #$10
+        sta     f:$00420b
+@4a4e:  rts
+
+; ---------------------------------------------------------------------------
+
+_c14a4f:
+        lda     $cd74
+        beq     @4a67
+        ldx     #$0080
+        stx     $88
+        ldy     $cd75
+        ldx     #$cd77
+        lda     #$7e
+        jsr     $fdb6       ; copy data to vram
+        stz     $cd74
+@4a67:  rts
+
+; ---------------------------------------------------------------------------
+
+_c14a68:
+        lda     $dbd3
+        bne     @4a85
+        lda     $bc65
+        beq     @4a85
+        ldx     $bc66
+        stx     $88
+        ldy     $bc68
+        ldx     $bc6a
+        lda     #$7e
+        jsr     $fdb6       ; copy data to vram
+        stz     $bc65
+@4a85:  rts
+
+; ---------------------------------------------------------------------------
+
+_c14a86:
+        clr_ax
+        longa
+        lda     $ba37,x
+        sta     $88
+        lda     $ba3b,x
+        sta     $8a
+        lda     $ba3f,x
+        sta     $8c
+        lda     $ba43,x
+        sta     $8e
+@4a9e:  lda     $ba47,x
+        clc
+        adc     #$0004
+        sta     $ba37,x
+        lda     $ba4b,x
+        clc
+        adc     #$0004
+        sta     $ba3b,x
+        lda     $ba4f,x
+        clc
+        adc     #$0004
+        sta     $ba3f,x
+        lda     $ba53,x
+        clc
+        adc     #$0004
+        sta     $ba43,x
+        txa
+        clc
+        adc     #$0010
+        tax
+        cpx     #$00e0
+        bne     @4a9e
+        lda     $8e
+        sec
+        sbc     #$0038
+        sta     $ba43,x
+        lda     $8c
+        sec
+        sbc     #$0038
+        sta     $ba3f,x
+        lda     $8a
+        sec
+        sbc     #$0038
+        sta     $ba3b,x
+        lda     $88
+        sec
+        sbc     #$0038
+        sta     $ba37,x
+        clr_ax
+@4af7:  lda     $ba37,x
+        sta     $b2d5,x
+        inx4
+        cpx     #$00c0
+        bne     @4af7
+        lda     $cf3e
+        sec
+        sbc     #$0004
+        sta     $cf3e
+        shorta0
+        jsr     $4bbc
+        dec     $cd37
+        bne     @4b21
+        jsr     $fd07
+        jsr     $1186
+@4b21:  rts
+
+; ---------------------------------------------------------------------------
+
+_c14b22:
+        ldx     #$00e0
+        longa
+        lda     $ba37,x
+        sta     $88
+        lda     $ba3b,x
+        sta     $8a
+        lda     $ba3f,x
+        sta     $8c
+        lda     $ba43,x
+        sta     $8e
+@4b3b:  lda     $ba33,x
+        sec
+        sbc     #$0004
+        sta     $ba43,x
+        lda     $ba2f,x
+        sec
+        sbc     #$0004
+        sta     $ba3f,x
+        lda     $ba2b,x
+        sec
+        sbc     #$0004
+        sta     $ba3b,x
+        lda     $ba27,x
+        sec
+        sbc     #$0004
+        sta     $ba37,x
+        txa
+        sec
+        sbc     #$0010
+        tax
+        bne     @4b3b
+        lda     $8e
+        clc
+        adc     #$0038
+        sta     $ba43,x
+        lda     $8c
+        clc
+        adc     #$0038
+        sta     $ba3f,x
+        lda     $8a
+        clc
+        adc     #$0038
+        sta     $ba3b,x
+        lda     $88
+        clc
+        adc     #$0038
+        sta     $ba37,x
+        clr_ax
+@4b91:  lda     $ba37,x
+        sta     $b2d5,x
+        inx4
+        cpx     #$00c0
+        bne     @4b91
+        lda     $cf3e
+        clc
+        adc     #$0004
+        sta     $cf3e
+        shorta0
+        jsr     $4bbc
+        dec     $cd37
+        bne     @4bbb
+        jsr     $fd07
+        jsr     $1186
+@4bbb:  rts
+
+; ---------------------------------------------------------------------------
+
+_c14bbc:
+@4bbc:  stz     $cd4c
+        lda     $cf3b
+        beq     @4be8
+        longa
+        lda     $cf3e
+        cmp     #$00a8
+        bcc     @4be5
+        cmp     #$00d0
+        bcs     @4be5
+        shorta0
+        lda     $cf3c
+        sta     $cd4d
+        lda     $cf3e
+        sta     $cd4e
+        inc     $cd4c
+@4be5:  shorta0
+@4be8:  rts
+
+; ---------------------------------------------------------------------------
+
+_c14be9:
+@4be9:  stz     $cd58
+        stz     $cd5c
+        stz     $cd60
+        stz     $cd64
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14bf6:
+@4bf6:  tax
+        clr_ay
+@4bf9:  asl     $88
+        bcc     @4c12
+        lda     $d04e,x
+        clc
+        adc     $d096,x
+        sta     $cd59,y
+        lda     $d05a,x
+        sta     $cd5a,y
+        lda     #$01
+        sta     $cd58,y
+@4c12:  inx
+        iny4
+        cpy     #$0010
+        bne     @4bf9
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14c1d:
+@4c1d:  jsr     $4be9
+        lda     $d0c5
+        beq     @4c59
+        cmp     #$01
+        beq     @4c38
+        lda     $a2
+        and     #$01
+        bne     @4c72
+        lda     $df
+        sta     $88
+        lda     #$08
+        jmp     $4bf6
+@4c38:  lda     $a2
+        and     #$01
+        beq     @4c49
+        lda     $de
+        and     $dbe1
+        sta     $88
+        clr_a
+        jmp     $4bf6
+@4c49:  lda     $de
+        and     $dbe1
+        asl4
+        sta     $88
+        lda     #$04
+        jmp     $4bf6
+@4c59:  lda     $d0c4
+        tax
+        lda     $d04e,x
+        clc
+        adc     $d096,x
+        sta     $cd59
+        lda     $d05a,x
+        sta     $cd5a
+        lda     #$01
+        sta     $cd58
+@4c72:  rts
+
+; ---------------------------------------------------------------------------
+
+_c14c73:
+@4c73:  jsr     $fc96       ; generate random number
+        and     #$0f
+        sta     $88
+        asl
+        tax
+        longa
+        lda     $de
+        and     $dbe1
+        and     $ceffd5,x
+        bne     @4c8e
+        shorta0
+        bra     @4c73
+@4c8e:  shorta0
+        lda     $88
+        sta     $d0c4
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14c97:
+@4c97:  jsr     $fbad       ; play system sound effect $10
+        lda     $d0c4
+        sta     $88
+@4c9f:  inc     $88
+        lda     $88
+        and     #$0f
+        sta     $88
+        asl
+        tax
+        longa
+        lda     $de
+        and     $dbe1
+        and     $ceffd5,x
+        bne     @4cbb
+        shorta0
+        bra     @4c9f
+@4cbb:  shorta0
+        lda     $88
+        sta     $d0c4
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14cc4:
+@4cc4:  lda     $d0c5
+        beq     @4cde
+        cmp     #$01
+        beq     @4cd4
+        stz     $88
+        lda     $df
+        sta     $89
+        rts
+@4cd4:  stz     $89
+        lda     $de
+        and     $dbe1
+        sta     $88
+        rts
+@4cde:  lda     $d0c4
+        asl
+        longa
+        tax
+        lda     $ceffd5,x
+        sta     $88
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14cef:
+        lda     $db47
+        bne     @4d12
+        lda     $db48
+        and     #$02
+        beq     @4d00
+        jsr     $4be9
+        bra     @4d03
+@4d00:  jsr     _c14c1d
+@4d03:  dec     $db48
+        bne     @4d11
+        jsr     $4d3c
+        jsr     $4be9
+        jsr     $4d28
+@4d11:  rts
+@4d12:  dec     $db47
+        bne     @4d1c
+        lda     #$10
+        sta     $db48
+@4d1c:  lda     $a2
+        and     #$0f
+        bne     @4d25
+        jsr     $4c97
+@4d25:  jmp     _c14c1d
+
+; ---------------------------------------------------------------------------
+
+_c14d28:
+@4d28:  lda     $d0c2
+        and     #$08
+        bne     @4d35
+        lda     $d0c3
+        jmp     $485c
+@4d35:  lda     $d0c3
+        sta     $cd3a
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14d3c:
+@4d3c:  jsr     $4cc4
+        lda     $f890
+        tax
+        lda     $88
+        sta     $41b4,x
+        lda     $89
+        sta     $41b5,x
+        lda     $d0c2
+        and     #$04
+        bne     @4d57
+        jsr     $4be9
+@4d57:  lda     $db4e
+        cmp     #$02
+        bne     @4d69
+        lda     $41b2
+        sta     $41b9
+        ldx     $88
+        stx     $41b4
+@4d69:  lda     $f891
+        beq     @4d79
+        lda     $f890
+        bne     @4d79
+        lda     #$07
+        sta     $f890
+        rts
+@4d79:  stz     $f890
+        inc     $cdf8
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14d80:
+        lda     $01
+        and     #$0f
+        beq     @4d89
+        jsr     $fbad       ; play system sound effect $10
+@4d89:  lda     $d0c2
+        cmp     #$08
+        beq     @4d97
+        lda     $00
+        bpl     @4db9
+        jsr     $fbb8       ; play system sound effect $11
+@4d97:  lda     $d0c2
+        and     #$04
+        beq     @4db3
+        jsr     _c15494
+        jsr     $fc96       ; generate random number
+        and     #$3f
+        clc
+        adc     #$20
+        sta     $db47
+        lda     #$13
+        sta     $cd3a
+        bra     @4db6
+@4db3:  jsr     $4d28
+@4db6:  jmp     $4d3c
+@4db9:  lda     $cdf8
+        bne     @4dc8
+        lda     $01
+        bpl     @4de4
+        jsr     $fbc3       ; play system sound effect $11
+        jsr     _c15494
+@4dc8:  lda     $d0c2
+        and     #$08
+        bne     @4dd7
+        lda     $d0c3
+        jsr     $485c
+        bra     @4ddd
+@4dd7:  lda     $d0c3
+        sta     $cd3a
+@4ddd:  jsr     $4be9
+        stz     $f890
+        rts
+@4de4:  lda     $d0c2
+        and     #$20
+        beq     @4e2d
+        lda     $d0c2
+        and     #$04
+        beq     @4dfd
+        lda     $a2
+        and     #$03
+        bne     @4e2d
+        jsr     $4c97
+        bra     @4e2d
+@4dfd:  lda     $01
+        and     #$0f
+        cmp     #$08
+        bne     @4e0a
+        jsr     $4ea3
+        bra     @4e2d
+@4e0a:  cmp     #$04
+        bne     @4e13
+        jsr     $4ec6
+        bra     @4e2d
+@4e13:  cmp     #$02
+        bne     @4e20
+        lda     $f6
+        bne     @4e28
+@4e1b:  jsr     $4f28
+        bra     @4e2d
+@4e20:  cmp     #$01
+        bne     @4e2d
+        lda     $f6
+        bne     @4e1b
+@4e28:  jsr     $4ee9
+        bra     @4e2d
+@4e2d:  jsr     $4e5e
+        bcc     @4dc8
+        jmp     _c14c1d
+
+; ---------------------------------------------------------------------------
+
+_c14e35:
+@4e35:  sec
+        sbc     #$08
+        sta     $88
+@4e3a:  lda     $88
+        and     #$03
+        asl5
+        tax
+        lda     $cf43,x
+        beq     @4e53
+        lda     $88
+        clc
+        adc     $8a
+        sta     $88
+        jmp     @4e3a
+@4e53:  lda     $88
+        and     #$03
+        clc
+        adc     #$08
+        sta     $d0c4
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14e5e:
+@4e5e:  lda     $d0c5
+        bne     @4e9e
+        lda     $d0c4
+        asl
+        tax
+        longa
+        lda     $de
+        and     $dbe1
+        and     $ceffd5,x
+        bne     @4e9e
+        shorta0
+        lda     $d0c4
+        cmp     #$08
+        bcc     @4e81
+@4e7f:  clc
+        rts
+@4e81:  lda     $de
+        beq     @4e7f
+        clr_ay
+@4e87:  lda     $d0aa,y
+        jsr     $5195
+        bcs     @4e98
+        iny
+        cpy     #$0008
+        bne     @4e87
+        jmp     @4e7f
+@4e98:  lda     $d0aa,y
+        sta     $d0c4
+@4e9e:  shorta0
+        sec
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14ea3:
+@4ea3:  lda     $d0c5
+        bne     @4ec5
+        lda     $d0c4
+        cmp     #$08
+        bcc     @4eb9
+        pha
+        lda     #$ff
+        sta     $8a
+        pla
+        dec
+        jmp     _c14e35
+@4eb9:  jsr     _c14ffe
+        lda     $e2
+        cmp     #$ff
+        beq     @4ec5
+        sta     $d0c4
+@4ec5:  rts
+
+; ---------------------------------------------------------------------------
+
+_c14ec6:
+@4ec6:  lda     $d0c5
+        bne     @4ee8
+        lda     $d0c4
+        cmp     #$08
+        bcc     @4edc
+        pha
+        lda     #$01
+        sta     $8a
+        pla
+        inc
+        jmp     $4e35
+@4edc:  jsr     $5041
+        lda     $e2
+        cmp     #$ff
+        beq     @4ee8
+        sta     $d0c4
+@4ee8:  rts
+
+; ---------------------------------------------------------------------------
+
+_c14ee9:
+@4ee9:  lda     $d0c4
+        cmp     #$08
+        bcc     @4f00
+        lda     $d0c5
+        bne     @4eff
+        lda     $d0c2
+        bpl     @4eff
+        lda     #$02
+        sta     $d0c5
+@4eff:  rts
+@4f00:  lda     $d0c5
+        cmp     #$01
+        bne     @4f0b
+        stz     $d0c5
+        rts
+@4f0b:  jsr     $50c9
+        lda     $e2
+        cmp     #$ff
+        bne     @4f24
+        lda     $d0c2
+        and     #$10
+        beq     @4eff
+        lda     #$01
+        sta     $8a
+        lda     #$08
+        jmp     $4e35
+@4f24:  sta     $d0c4
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14f28:
+@4f28:  lda     $d0c4
+        cmp     #$08
+        bcc     @4f59
+        lda     $d0c5
+        cmp     #$02
+        bne     @4f3a
+        stz     $d0c5
+        rts
+@4f3a:  lda     $d0c2
+        and     #$10
+        beq     @4f58
+        clr_ay
+@4f43:  lda     $d0aa,y
+        jsr     $5195
+        bcs     @4f52
+        iny
+        cpy     #$0008
+        bne     @4f43
+        rts
+@4f52:  lda     $d0aa,y
+        sta     $d0c4
+@4f58:  rts
+@4f59:  jsr     $5086
+        lda     $e2
+        cmp     #$ff
+        bne     @4f6d
+        lda     $d0c2
+        bpl     @4f58
+        lda     #$01
+        sta     $d0c5
+        rts
+@4f6d:  sta     $d0c4
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14f71:
+        lda     #$ff
+        sta     $e0
+        sta     $e1
+        sta     $e2
+        lda     $d0c4
+        tax
+        lda     $d036,x
+        lsr3
+        sta     $88
+        stz     $89
+        lda     $d042,x
+        lsr3
+        sta     $8a
+        stz     $8b
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14f92:
+        lda     $d036,y
+        lsr3
+        sta     $8c
+        stz     $8d
+        lda     $d042,y
+        lsr3
+        sta     $8e
+        stz     $8f
+        longa
+        lda     $8c
+        sec
+        sbc     $88
+        sta     $90
+        lda     $8e
+        sec
+        sbc     $8a
+        sta     $92
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14fba:
+        longa
+        lda     $90
+        bpl     @4fc6
+        eor     #$ffff
+        inc
+        sta     $90
+@4fc6:  lda     $92
+        bpl     @4fd0
+        eor     #$ffff
+        inc
+        sta     $92
+@4fd0:  shorta0
+        lda     $90
+        sta     $98
+        sta     $9a
+        jsr     $fe4b
+        ldx     $9c
+        lda     $92
+        sta     $98
+        sta     $9a
+        jsr     $fe4b
+        longa
+        txa
+        clc
+        adc     $9c
+        cmp     $e0
+        bcs     @4ffa
+        sta     $e0
+        shorta0
+        tya
+        sta     $e2
+        rts
+@4ffa:  shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c14ffe:
+        jsr     $4f71
+        clr_ay
+@5003:  tya
+        cmp     $d0c4
+        beq     @500e
+        jsr     $5195
+        bcs     @5018
+@500e:  shorta0
+        iny
+        cpy     #$0008
+        bne     @5003
+        rts
+@5018:  jsr     $4f92
+        longa
+        lda     $92
+        bpl     @500e
+        lda     $90
+        bpl     @502f
+        lda     $92
+        cmp     $90
+        beq     @5038
+        bcc     @5038
+        bra     @500e
+@502f:  lda     $92
+        clc
+        adc     $90
+        beq     @5038
+        bpl     @500e
+@5038:  shorta0
+        jsr     $4fba
+        jmp     $500e
+
+; ---------------------------------------------------------------------------
+
+_c15041:
+        jsr     $4f71
+        clr_ay
+@5046:  tya
+        cmp     $d0c4
+        beq     @5051
+        jsr     $5195
+        bcs     @505b
+@5051:  shorta0
+        iny
+        cpy     #$0008
+        bne     @5046
+        rts
+@505b:  jsr     $4f92
+        longa
+        lda     $92
+        beq     @5051
+        bmi     @5051
+        lda     $90
+        bmi     @5074
+        lda     $90
+        cmp     $92
+        bcc     @507d
+        beq     @507d
+        bra     @5051
+@5074:  lda     $92
+        clc
+        adc     $90
+        beq     @507d
+        bmi     @5051
+@507d:  shorta0
+        jsr     $4fba
+        jmp     $5051
+
+; ---------------------------------------------------------------------------
+
+_c15086:
+        jsr     $4f71
+        clr_ay
+@508b:  tya
+        cmp     $d0c4
+        beq     @5096
+        jsr     $5195
+        bcs     @50a0
+@5096:  shorta0
+        iny
+        cpy     #$0008
+        bne     @508b
+        rts
+@50a0:  jsr     $4f92
+        longa
+        lda     $90
+        bpl     @5096
+        lda     $92
+        bpl     @50b7
+        lda     $90
+        cmp     $92
+        bcc     @50c0
+        beq     @50c0
+        bra     @5096
+@50b7:  lda     $92
+        clc
+        adc     $90
+        beq     @50c0
+        bpl     @5096
+@50c0:  shorta0
+        jsr     $4fba
+        jmp     $5096
+
+; ---------------------------------------------------------------------------
+
+_c150c9:
+        jsr     $4f71
+        clr_ay
+@50ce:  tya
+        cmp     $d0c4
+        beq     @50d9
+        jsr     $5195
+        bcs     @50e3
+@50d9:  shorta0
+        iny
+        cpy     #$0008
+        bne     @50ce
+        rts
+@50e3:  jsr     $4f92
+        longa
+        lda     $90
+        beq     @50d9
+        bmi     @50d9
+        lda     $92
+        bmi     @50fc
+        lda     $92
+        cmp     $90
+        beq     @5105
+        bcc     @5105
+        bra     @50d9
+@50fc:  lda     $92
+        clc
+        adc     $90
+        beq     @5105
+        bmi     @50d9
+@5105:  shorta0
+        jsr     $4fba
+        jmp     @50d9
+
+; ---------------------------------------------------------------------------
+
+_c1510e:
+@510e:  stz     $d0c5
+        sta     $d0c2
+        sta     $8a
+        lda     $88
+        sta     $d0c3
+        lda     $8a
+        bne     @5124
+        lda     $cd42
+        bra     @5129
+@5124:  and     #$08
+        bne     @514a
+        clr_a
+@5129:  sta     $8c
+@512b:  lda     $8c
+        and     #$03
+        asl5
+        tax
+        lda     $cf43,x
+        beq     @513f
+        inc     $8c
+        jmp     @512b
+@513f:  lda     $8c
+        clc
+        adc     #$08
+        sta     $d0c4
+        jmp     @5160
+@514a:  clr_ay
+@514c:  lda     $d0aa,y
+        jsr     $5195
+        bcs     @515a
+        iny
+        cpy     #$0008
+        bne     @514c
+@515a:  lda     $d0aa,y
+        sta     $d0c4
+@5160:  lda     $d0c2
+        and     #$04
+        beq     @516c
+        jsr     $4c73
+        bra     @5185
+@516c:  lda     $d0c2
+        and     #$48
+        cmp     #$40
+        bne     @517c
+        lda     #$02
+        sta     $d0c5
+        bra     @5185
+@517c:  cmp     #$48
+        bne     @5185
+        lda     #$01
+        sta     $d0c5
+@5185:  lda     $d0c2
+        and     #$08
+        jeq     $483b
+        lda     #$12
+        sta     $cd3a
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c15195:
+@5195:  tax
+        lda     $de
+        and     $dbe1
+        and     $ceffcd,x
+        beq     @51a3
+        sec
+        rts
+@51a3:  clc
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c151a5:
+        stz     $cd48
+        lda     $cdf8
+        jne     _c1491d
+        lda     $00
+        bpl     @51c2
+        jsr     $fbb8       ; play system sound effect $11
+        lda     #$03
+        sta     $41b2
+        inc     $cdf8
+        jmp     _c1491d
+@51c2:  lda     $01
+        and     #$01
+        beq     @51cd
+        jsr     $fbad       ; play system sound effect $10
+        bra     @51e1
+@51cd:  lda     $0426
+        bpl     @51da
+        lda     $02
+        and     #$30
+        cmp     #$20
+        bne     @51e1
+@51da:  lda     $01
+        bpl     @51e4
+        jsr     $fbc3       ; play system sound effect $11
+@51e1:  jmp     _c1491d
+@51e4:  lda     #$08
+        jmp     $522f
+
+; ---------------------------------------------------------------------------
+
+_c151e9:
+        stz     $cd48
+        lda     #$03
+        sta     $cd4b
+        lda     $cdf8
+        jne     _c1491d
+        lda     $00
+        bpl     @520b
+        jsr     $fbb8       ; play system sound effect $11
+        lda     #$04
+        sta     $41b2
+        inc     $cdf8
+        jmp     _c1491d
+@520b:  lda     $01
+        and     #$02
+        beq     @5216
+        jsr     $fbad       ; play system sound effect $10
+        bra     @522a
+@5216:  lda     $0426
+        bpl     @5223
+        lda     $02
+        and     #$30
+        cmp     #$10
+        bne     @522a
+@5223:  lda     $01
+        bpl     @522d
+        jsr     $fbc3       ; play system sound effect $11
+@522a:  jmp     _c1491d
+@522d:  lda     #$60
+@522f:  sta     $cd49
+        lda     $0426
+        bpl     @523a
+        clr_a
+        bra     @5242
+@523a:  lda     $cd42
+        tax
+        lda     $042d,x
+        asl
+@5242:  tax
+        lda     $ceffc6,x
+        sta     $cd4a
+        inc     $cd48
+        lda     #$33
+        sta     $cd4b
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c15253:
+        .addr   $a630,$b210,$b248,$be30,$ba10,$ba80,$a630,$b230,$be30
+
+_c15265:
+        .byte   $04,$3c,$74,$04,$54
+
+_c1526a:
+        .byte   $10,$80
+
+_c1526c:
+        .byte   $aa,$b6,$c2,$ce
+
+; ---------------------------------------------------------------------------
+
+_c15270:
+        phx
+        lda     $042d,x
+        and     #$03
+        sta     $042d,x
+        sta     $88
+        stz     $89
+        lda     $cd42
+        asl
+        tax
+        lda     $cd40
+        beq     @5297
+        longa
+        lda     $ceff28,x
+        clc
+        adc     $88
+        sta     $88
+        shorta0
+        bra     @52a5
+@5297:  longa
+        lda     $ceff20,x
+        clc
+        adc     $88
+        sta     $88
+        shorta0
+@52a5:  plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ get menu id for battle command ]
+
+_c152a7:
+@52a7:  tax
+        lda     $c15f17,x
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c152ad:
+@52ad:  lda     $cd40
+        beq     @52d4
+        phx
+        lda     $042d,x
+        and     #$03
+        sta     $042d,x
+        sta     $88
+        stz     $89
+        lda     $cd42
+        asl
+        tax
+        longa
+        lda     $ceff18,x
+        clc
+        adc     $88
+        sta     $88
+        shorta0
+        plx
+        rts
+@52d4:  phx
+        lda     $042d,x
+        and     #$03
+        sta     $042d,x
+        sta     $88
+        stz     $89
+        lda     $cd42
+        asl
+        tax
+        longa
+        lda     $ceff08,x
+        clc
+        adc     $88
+        sta     $88
+        shorta0
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c152f6:
+        phx
+        lda     $042d,x
+        and     #$03
+        sta     $042d,x
+        sta     $88
+        stz     $89
+        lda     $cd42
+        asl
+        tax
+        longa
+        lda     $ceff00,x
+        clc
+        adc     $88
+        sta     $88
+        shorta0
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c15318:
+@5318:  sta     $41b1
+        sta     $41b8
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1531f:
+@531f:  lda     $042d,x
+        sta     $98
+        jsr     $52ad
+        lda     ($88)
+        bpl     @5332
+        lda     #$03
+        sta     $042d,x
+        sta     $98
+@5332:  lda     $01
+        and     #$0f
+        beq     @536d
+        and     #$08
+        beq     @533f
+        clr_a
+        bra     @5355
+@533f:  lda     $01
+        and     #$04
+        beq     @5349
+        lda     #$03
+        bra     @5355
+@5349:  lda     $01
+        and     #$02
+        beq     @5353
+        lda     #$01
+        bra     @5355
+@5353:  lda     #$02
+@5355:  tay
+        lda     $fef6,y
+        sta     $042d,x
+        jsr     $52ad
+        lda     ($88)
+        bpl     @536a
+        lda     $98
+        sta     $042d,x
+        bra     @536d
+@536a:  jsr     $fbad       ; play system sound effect $10
+@536d:  lda     $cd40
+        bne     @5394
+        lda     $02
+        and     #$30
+        cmp     #$20
+        bne     @5383
+        stz     $cd48
+        jsr     $fbad       ; play system sound effect $10
+        jmp     _c1494d
+@5383:  lda     $02
+        and     #$30
+        cmp     #$10
+        bne     @5394
+        stz     $cd48
+        jsr     $fbad       ; play system sound effect $10
+        jmp     $4930
+@5394:  phx
+        lda     $042d,x
+        sta     $98
+        clr_ax
+@539c:  lda     $fef6,x
+        cmp     $98
+        beq     @53a9
+        inx
+        cpx     #$0004
+        bne     @539c
+@53a9:  txa
+        asl
+        tax
+        lda     $c15253,x
+        sta     $cd49
+        lda     $c15254,x
+        sta     $cd4a
+        lda     #$01
+        sta     $cd48
+        plx
+        lda     $00
+        bpl     @53cd
+        jsr     $fbb8       ; play system sound effect $11
+        stz     $cd48
+        jsr     $54a1
+@53cd:  rts
+
+; ---------------------------------------------------------------------------
+
+_c153ce:
+        stz     $7c52       ; unpause battle (wait mode)
+        lda     $cdf8
+        beq     @53df
+        stz     $cdf8
+        stz     $cd48
+        jmp     $48a2
+@53df:  lda     $cd42
+        sta     $41b3
+        sta     $41ba
+        stz     $41b4
+        stz     $41b5
+        stz     $41b6
+        stz     $41bb
+        stz     $41bc
+        stz     $41bd
+        stz     $f891
+        stz     $f890
+        lda     #$80
+        jsr     $5318
+        lda     #$01
+        sta     $cdf7
+        lda     $cd42
+        tax
+        lda     $cd40
+        bne     @541b
+        lda     $0426
+        jmi     $531f
+@541b:  lda     $01
+        and     #$0c
+        beq     @5442
+        jsr     $fbad       ; play system sound effect $10
+        cmp     #$08
+        beq     @5438
+        cmp     #$04
+        bne     @5442
+@542c:  inc     $042d,x
+        jsr     $52ad
+        lda     ($88)
+        bmi     @542c
+        bra     @5442
+@5438:  dec     $042d,x
+        jsr     $52ad
+        lda     ($88)
+        bmi     @5438
+@5442:  jsr     $52ad
+        lda     ($88)
+        bmi     @542c
+        phx
+        lda     $042d,x
+        asl
+        tax
+        lda     $ceffc5,x
+        sta     $cd49
+        lda     $ceffc6,x
+        sta     $cd4a
+        lda     #$01
+        sta     $cd48
+        plx
+        lda     $cd40
+        bne     @5486
+        lda     $01
+        and     #$02
+        beq     @5477
+        stz     $cd48
+        jsr     $fbad       ; play system sound effect $10
+        jmp     _c1494d
+@5477:  lda     $01
+        and     #$01
+        beq     @5486
+        stz     $cd48
+        jsr     $fbad       ; play system sound effect $10
+        jmp     $4930
+@5486:  lda     $00
+        bpl     @5493
+        jsr     $fbb8       ; play system sound effect $11
+        stz     $cd48
+        jsr     $54a1
+@5493:  rts
+
+; ---------------------------------------------------------------------------
+
+_c15494:
+        lda     $0970
+        and     #$08
+        beq     @54a0       ; branch if not wait mode
+        lda     #$01
+        sta     $7c52       ; pause battle while menu is open
+@54a0:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c154a1:
+@54a1:  lda     $042d,x     ; cursor position
+        tay
+        lda     $cd42
+        asl
+        tax
+        lda     $cd40
+        beq     @54ca
+        lda     $ceff10,x
+        sta     $88
+        lda     $ceff11,x
+        sta     $89
+        lda     ($88),y
+        sta     $41b2
+        tya
+        sta     $41b6
+        sta     $41bd
+        jmp     $4676
+@54ca:  lda     $ceff00,x
+        sta     $88
+        lda     $ceff01,x
+        sta     $89
+        lda     ($88),y
+        sta     $41b2
+        lda     ($88),y
+        jsr     $52a7       ; get menu id for battle command
+        asl
+        tax
+        lda     $c154f1,x
+        sta     $88
+        lda     $c154f2,x
+        sta     $89
+        jmp     ($0088)
+
+; ---------------------------------------------------------------------------
+
+; battle command menu jump table
+_c154f1:
+        .addr   $4676,$46b7,$46bc,$46c1,$46c6,$46cb,$46d0,$46da
+        .addr   $46df,$46d5,$4676,$468c,$47b6,$468d,$469f,$46ab
+
+; ---------------------------------------------------------------------------
+
+_c15511:
+@5511:  phx
+        lda     $cd42
+        tay
+        lda     $0445,y
+        tax
+        lda     $c1526a,x
+        sta     $cd49
+        lda     $0449,y
+        tax
+        lda     $c1526c,x
+        sta     $cd4a
+        lda     #$01
+        sta     $cd48
+        jsr     $4bbc
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c15536:
+@5536:  phx
+        phy
+        lda     $cd42
+        tay
+        lda     ($d5),y
+        clc
+        adc     $d0
+        tax
+        lda     $c15265,x
+        sta     $cd49
+        lda     ($d7),y
+        tax
+        lda     $c1526c,x
+        sta     $cd4a
+        lda     #$01
+        sta     $cd48
+        ply
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1555b:
+        lda     $cd44
+        beq     @5573
+        ldx     #$0006
+        stx     $88
+        ldx     #$c363
+        ldy     #$1f59
+        lda     #$7e
+        jsr     $fdb6       ; copy data to vram
+        stz     $cd44
+@5573:  rts
+
+; ---------------------------------------------------------------------------
+
+_c15574:
+@5574:  lda     $db
+        clc
+        adc     ($d3),y
+        longa
+        clc
+        adc     $ceff8d,x
+        tax
+        shorta0
+        stz     $88
+        stz     $89
+        lda     $2e38,x
+@558b:  sec
+        sbc     #$64
+        bcc     @5594
+        inc     $88
+        bra     @558b
+@5594:  clc
+        adc     #$64
+@5597:  sec
+        sbc     #$0a
+        bcc     @55a0
+        inc     $89
+        bra     @5597
+@55a0:  clc
+        adc     #$73
+        sta     $c367
+        lda     $88
+        bne     @55b6
+        lda     #$68
+        sta     $88
+        lda     $89
+        bne     @55bd
+        lda     #$68
+        bra     @55c0
+@55b6:  clc
+        adc     #$69
+        sta     $88
+        lda     $89
+@55bd:  clc
+        adc     #$69
+@55c0:  sta     $89
+        lda     $88
+        sta     $c363
+        lda     $89
+        sta     $c365
+        inc     $cd44
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c155d0:
+        lda     $cd42
+        tay
+        asl
+        tax
+        stz     $cd6c
+        stz     $cd70
+        lda     $cdf8
+        bne     @5646
+        inc     $cd6c
+        inc     $cd70
+        lda     #$33
+        sta     $cd6f
+        lda     #$b3
+        sta     $cd73
+        lda     ($d9),y
+        bne     @55fa
+        stz     $cd6c
+        bra     @5601
+@55fa:  cmp     $dd
+        bne     @5601
+        stz     $cd70
+@5601:  lda     $00
+        bpl     @564c
+        jsr     $fbb8       ; play system sound effect $11
+        lda     ($d3),y
+        clc
+        adc     $db
+        longa
+        clc
+        adc     $ceff8d,x
+        tax
+        shorta0
+        lda     $2f3c,x
+        bpl     @5623
+        jsr     $fbce       ; play system sound effect $12
+        jmp     $5683
+@5623:  stz     $cd48
+        phx
+        lda     $f890
+        tax
+        lda     ($d3),y
+        clc
+        adc     $db
+        sta     $41b6,x
+        lda     #$20
+        ora     $f891
+        sta     $41b1,x
+        plx
+        lda     #$0b
+        sta     $88
+        lda     $2eba,x
+        jmp     _c1510e
+@5646:  stz     $cd48
+        jmp     $4773
+@564c:  lda     $01
+        bpl     @5659
+        jsr     $fbc3       ; play system sound effect $11
+        stz     $cd48
+        jmp     $4773
+@5659:  jsr     $5574
+        jsr     $5536
+        lda     $01
+        and     #$02
+        jne     $56b5
+        lda     $01
+        and     #$01
+        jne     $5684
+        lda     $01
+        and     #$04
+        jne     $56e0
+        lda     $01
+        and     #$08
+        jne     $571a
+@5683:  rts
+@5684:  lda     ($d5),y
+        cmp     $d1
+        beq     @5699
+        jsr     $fbad       ; play system sound effect $10
+        lda     ($d3),y
+        inc
+        sta     ($d3),y
+        lda     ($d5),y
+        inc
+        sta     ($d5),y
+        bra     @56b2
+@5699:  lda     $dc
+        sec
+        sbc     $db
+        cmp     ($d3),y
+        beq     @56b2
+        jsr     $fbad       ; play system sound effect $10
+        lda     ($d3),y
+        sec
+        sbc     $d1
+        sta     ($d3),y
+        clr_a
+        sta     ($d5),y
+        jsr     $56e0
+@56b2:  jmp     $5536
+@56b5:  lda     ($d5),y
+        beq     @56c8
+        jsr     $fbad       ; play system sound effect $10
+        lda     ($d5),y
+        dec
+        sta     ($d5),y
+        lda     ($d3),y
+        dec
+        sta     ($d3),y
+        bra     @56dd
+@56c8:  lda     ($d3),y
+        beq     @56dd
+        jsr     $fbad       ; play system sound effect $10
+        lda     ($d3),y
+        clc
+        adc     $d1
+        sta     ($d3),y
+        lda     $d1
+        sta     ($d5),y
+        jsr     $571a
+@56dd:  jmp     $5536
+
+; ---------------------------------------------------------------------------
+
+_c156e0:
+@56e0:  lda     ($d7),y
+        cmp     #$03
+        beq     @56f6
+        jsr     $fbad       ; play system sound effect $10
+        lda     ($d3),y
+        clc
+        adc     $d2
+        sta     ($d3),y
+        lda     ($d7),y
+        inc
+        sta     ($d7),y
+        rts
+@56f6:  lda     ($d9),y
+        cmp     $dd
+        bne     @56fd
+        rts
+@56fd:  jsr     $fbad       ; play system sound effect $10
+        lda     ($d3),y
+        clc
+        adc     $d2
+        sta     ($d3),y
+        jsr     $5750
+        lda     #$03
+        sta     $cd37
+        lda     #$03
+        sta     $cd3a
+        lda     #$0b
+        sta     $cd3b
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1571a:
+@571a:  lda     ($d7),y
+        beq     @572e
+        jsr     $fbad       ; play system sound effect $10
+        lda     ($d3),y
+        sec
+        sbc     $d2
+        sta     ($d3),y
+        lda     ($d7),y
+        dec
+        sta     ($d7),y
+        rts
+@572e:  lda     ($d9),y
+        bne     @5733
+        rts
+@5733:  jsr     $fbad       ; play system sound effect $10
+        lda     ($d3),y
+        sec
+        sbc     $d2
+        sta     ($d3),y
+        jsr     $576c
+        lda     #$03
+        sta     $cd37
+        lda     #$04
+        sta     $cd3a
+        lda     #$0b
+        sta     $cd3b
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c15750:
+@5750:  lda     #$03
+        sta     $88
+        lda     ($d9),y
+        inc
+        sta     ($d9),y
+        jsr     $57b1
+        lda     $cdfa
+        cmp     #$04
+        bne     @5768
+        lda     #$ff
+        sta     $cdfa
+@5768:  inc     $cdfa
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1576c:
+@576c:  stz     $88
+        lda     ($d9),y
+        dec
+        sta     ($d9),y
+        jsr     $57b1
+        lda     $cdfa
+        bne     @5780
+        lda     #$05
+        sta     $cdfa
+@5780:  dec     $cdfa
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c15784:
+@5784:  lda     $cf
+        beq     @5790
+        lda     ($d9),y
+        clc
+        adc     $88
+        asl
+        bra     @579b
+@5790:  lda     ($d9),y
+        clc
+        adc     $88
+        sta     $88
+        asl
+        clc
+        adc     $88
+@579b:  adc     $db
+        sta     $88
+        stz     $89
+        longa
+        lda     $ceff8d,x   ; pointers to character battle lists
+        clc
+        adc     $88
+        sta     $88
+        tax
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c157b1:
+@57b1:  phy
+        ldx     #$cd7b
+        stx     $bf
+        ldx     #$cdbb
+        stx     $c1
+        tya                 ; y = character index
+        asl
+        tax
+        jsr     $5784
+        lda     $cf
+        beq     @57d5
+        ldy     #$0000
+        jsr     $584b
+        inx
+        jsr     $584b
+        ldx     #$0008
+        bra     @57e6
+@57d5:  ldy     #$0000
+        jsr     $5806
+        inx
+        jsr     $5806
+        inx
+        jsr     $5806
+        ldx     #$0007
+@57e6:  lda     #$ff
+        jsr     $5f6b
+        dex
+        bne     @57e6
+        lda     $cdfa
+        asl
+        tax
+        lda     $cefff5,x
+        sta     $cd75
+        lda     $cefff6,x
+        sta     $cd76
+        inc     $cd74
+        ply
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c15806:
+@5806:  lda     $2f3c,x
+        bmi     @580f
+        lda     #$00
+        bra     @5811
+@580f:  lda     #$04
+@5811:  sta     $c3
+        lda     $2d34,x
+        cmp     #$ff
+        bne     @5829
+        phx
+        ldx     #$0006
+@581e:  lda     #$ff
+        jsr     $5f6b
+        dex
+        bne     @581e
+        jmp     $5845
+@5829:  sta     $98
+        lda     #$06
+        sta     $9a
+        jsr     $fe4b
+        phx
+        ldx     $9c
+        lda     #$06
+        sta     $88
+@5839:  lda     $d11c80,x   ; spell names
+        jsr     $5f67
+        inx
+        dec     $88
+        bne     @5839
+@5845:  plx
+        lda     #$ff
+        jmp     $5f6b
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1584b:
+@584b:  lda     $2f3c,x
+        bmi     @5854
+        lda     #$00
+        bra     @5856
+@5854:  lda     #$04
+@5856:  sta     $c3
+        lda     $2d34,x
+        sec
+        sbc     #$57
+        sta     $98
+.if LANG_EN
+        lda     #$0c
+.else
+        lda     #$09
+.endif
+        sta     $9a
+        jsr     $fe4b
+        phx
+        ldx     $9c
+        lda     #$09
+        sta     $88
+.if LANG_EN
+@586e:  lda     $e70f90,x   ; short attack names
+.else
+@586e:  lda     $d11e8a,x   ; short attack names
+.endif
+        jsr     $5f67
+        inx
+        dec     $88
+        bne     @586e
+        plx
+        lda     #$ff
+        jmp     $5f6b
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c15880:
+@5880:  lda     $cd42
+        tax
+        lda     $ceff84,x
+        clc
+        adc     $88
+        tax
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1588d:
+@588d:  phx
+        sta     $88
+        sta     $cfd4
+        lda     $f88d
+        sta     $cfd3
+        lda     $f88c
+        bmi     @58ab
+        lda     $88
+        sta     $f88d
+        lda     #$c0
+        sta     $f88c
+        plx
+        clc
+        rts
+@58ab:  and     #$40
+        bne     @58f1
+        jsr     $5880
+        lda     $cfd3
+        tay
+        lda     $37ac,x
+        beq     @58d1
+        cmp     $2734,y
+        beq     @58d1
+        lda     $2734,y
+        beq     @58d1
+        lda     $2834,y
+        cmp     #$01
+        beq     @58d1
+        lda     $cfd5
+        bne     @5929
+@58d1:  lda     $88
+        jsr     $5ad0
+        lda     $2734,y
+        sta     $d0d0
+        lda     $2b34,y
+        sta     $d0d1
+        lda     $2c34,y
+        sta     $d0d2
+        jsr     $5af9
+        bcc     @5929
+        lda     #$18
+        bra     @58fa
+@58f1:  lda     $f88d
+        cmp     $88
+        beq     @5917
+        lda     #$15
+@58fa:  sta     $cd39
+        lda     #$05
+        sta     $cd3a
+        lda     #$11
+        sta     $cd3b
+        lda     #$05
+        sta     $cd3c
+        lda     #$08
+        sta     $cd3d
+        jsr     $5b93
+        plx
+        clc
+        rts
+@5917:  jsr     $5880
+        jsr     $5b86
+        lda     $37b6,x
+        and     $92
+        bne     @5929
+        lda     $37ac,x
+        bpl     @5932
+@5929:  jsr     $fbce       ; play system sound effect $12
+        jsr     $5b93
+        plx
+        clc
+        rts
+@5932:  phy
+        lda     $f890
+        tay
+        lda     $cfd4
+        sta     $41b6,y
+        ply
+        lda     #$08
+        sta     $88
+        lda     $37b2,x
+        jsr     _c1510e
+        jsr     $5b99
+        plx
+        sec
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1594e:
+@594e:  phx
+        sta     $88
+        sta     $cfd4
+        lda     $f88d
+        sta     $cfd3
+        lda     $db4f
+        bne     @5968
+        lda     $db4e
+        beq     @5982
+        cmp     #$01
+        bne     @596d
+@5968:  lda     $88
+        jmp     $5a47
+@596d:  lda     $f88c
+        bmi     @59ac
+        phx
+        lda     $cfd4
+        tax
+        lda     $2b34,x
+        plx
+        and     #$02
+        jne     $5a97
+@5982:  lda     $f88c
+        bmi     @59ac
+        lda     $88
+        sta     $f88d
+        lda     #$80
+        sta     $f88c
+        lda     $cd49
+        clc
+        adc     #$04
+        sta     $cf3c
+        stz     $cf3d
+        lda     $cd4a
+        sta     $cf3e
+        stz     $cf3f
+        inc     $cf3b
+        plx
+        clc
+        rts
+@59ac:  and     #$40
+        beq     @59ff
+        lda     $cd42
+        tax
+        lda     $ceff84,x
+        clc
+        adc     $cfd3
+        tay
+        lda     $88
+        tax
+        lda     $37ac,y
+        beq     @59db
+        cmp     $2734,x
+        beq     @59db
+        lda     $2834,x
+        beq     @59db
+        cmp     #$01
+        beq     @59db
+        lda     $cfd5
+        jne     $5a91
+@59db:  lda     $cfd3
+        jsr     $5ad0
+        lda     $2734,x
+        sta     $d0d0
+        lda     $2b34,x
+        sta     $d0d1
+        lda     $2c34,x
+        sta     $d0d2
+        jsr     $5af9
+        jcc     $5a91
+        lda     #$16
+        bra     @5a2a
+@59ff:  lda     $db4e
+        cmp     #$02
+        bne     @5a21
+        lda     $f890
+        tax
+        lda     #$40
+        ora     $f891
+        sta     $41b1,x
+        lda     $cfd3
+        sta     $41b6,x
+        lda     #$07
+        sta     $f890
+        lda     $88
+        bra     @5a47
+@5a21:  lda     $f88d
+        cmp     $88
+        beq     @5a47
+        lda     #$17
+@5a2a:  sta     $cd39
+        lda     #$05
+        sta     $cd3a
+        lda     #$11
+        sta     $cd3b
+        lda     #$05
+        sta     $cd3c
+        lda     #$07
+        sta     $cd3d
+        jsr     $5b93
+        plx
+        clc
+        rts
+@5a47:  tax
+        lda     $db4f
+        beq     @5a51
+        lda     #$40
+        bra     @5a6f
+@5a51:  lda     $db4e
+        beq     @5a7a
+        cmp     #$01
+        beq     @5a6d
+        lda     $cfd3
+        cmp     $cfd4
+        bne     @5a69
+        lda     $2834,x
+        cmp     #$02
+        bcc     @5a97
+@5a69:  lda     #$02
+        bra     @5a6f
+@5a6d:  lda     #$10
+@5a6f:  sta     $92
+        lda     $2b34,x
+        and     $92
+        beq     @5a9a
+        bra     @5a97
+@5a7a:  jsr     $5b86
+        lda     $2c34,x
+        and     $92
+        bne     @5a91
+        lda     $2734,x
+        cmp     #$e0
+        bcc     @5a91
+        bra     @5a9a
+        and     $92
+        beq     @5a9a
+@5a91:  jsr     $fbce       ; play system sound effect $12
+        jsr     $5b93
+@5a97:  plx
+        clc
+        rts
+@5a9a:  phy
+        lda     $f890
+        tay
+        lda     $cfd4
+        sta     $41b6,y
+        ply
+        lda     #$07
+        sta     $88
+        lda     $db4f
+        beq     @5ab3
+        lda     #$28
+        bra     @5ac7
+@5ab3:  lda     $db4e
+        beq     @5ac4
+        cmp     #$01
+        beq     @5ac0
+        lda     #$30
+        bra     @5ac7
+@5ac0:  lda     #$00
+        bra     @5ac7
+@5ac4:  lda     $2a34,x
+@5ac7:  jsr     _c1510e
+        jsr     $5b99
+        plx
+        sec
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1ad0:
+@5ad0:  phx
+        phy
+        and     #$01
+        eor     #$01
+        sta     $8c
+        lda     $cd42
+        tax
+        lda     $ceff84,x
+        clc
+        adc     $8c
+        tay
+        lda     $37ac,y
+        sta     $d0ca
+        lda     $37b4,y
+        sta     $d0cb
+        lda     $37b6,y
+        sta     $d0cc
+        ply
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c15af9:
+@5af9:  phx
+        jsr     $5b86
+        lda     $d0ca
+        bne     @5b05
+        stz     $d0cc
+@5b05:  lda     $d0d0
+        bne     @5b0d
+        stz     $d0d2
+@5b0d:  lda     $d0cc
+        ora     $d0d2
+        and     $92
+        beq     @5b1a
+@5b17:  plx
+        clc
+        rts
+@5b1a:  lda     $d0ca
+        sta     $88
+        lda     $d0cb
+        sta     $8a
+        jsr     $5b65
+        sta     $8c
+        lda     $d0d0
+        sta     $88
+        lda     $d0d1
+        sta     $8a
+        jsr     $5b65
+        sta     $8d
+        lda     $8c
+        ora     $8d
+        cmp     #$ff
+        beq     @5b17
+        and     #$01
+        bne     @5b62
+        ldx     $8c
+        cpx     #$0802
+        beq     @5b62
+        cpx     #$0208
+        beq     @5b62
+        lda     $cd42
+        tax
+        lda     $cfce,x
+        and     #$01
+        beq     @5b17
+        ldx     $8c
+        cpx     #$0202
+        bne     @5b17
+@5b62:  plx
+        sec
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c15b65:
+@5b65:  lda     $88
+        bne     @5b6c
+        lda     #$01
+        rts
+@5b6c:  lda     $88
+        bmi     @5b7c
+        lda     $8a
+        and     #$04
+        bne     @5b79
+        lda     #$02
+        rts
+@5b79:  lda     #$04
+        rts
+@5b7c:  cmp     #$e0
+        bcc     @5b83
+        lda     #$ff
+        rts
+@5b83:  lda     #$08
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c15bb8:
+@5b86:  phx
+        lda     $cd42
+        tax
+        lda     $ceff80,x
+        sta     $92
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c15b93:
+@5b93:  stz     $f88c
+        stz     $f88e
+@5b99:  stz     $cf3b
+        stz     $cd4c
+        stz     $cd50
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c15ba3:
+        lda     #$03
+        sta     $cd4b
+        lda     $cd42
+        tax
+        lda     $cdf8
+        bne     @5c09
+        lda     #$01
+        sta     $043d,x
+        lda     $00
+        bpl     @5bda
+        jsr     $fbb8       ; play system sound effect $11
+        lda     $0435,x
+        jsr     $588d
+        bcc     @5c44
+        phx
+        lda     $f890
+        tax
+        lda     #$10
+        ora     $f891
+        sta     $41b1,x
+        plx
+        jsr     $5b93
+        stz     $cd48
+        rts
+@5bda:  lda     $01
+        bpl     @5bf4
+        jsr     $fbc3       ; play system sound effect $11
+        lda     $f88c
+        bpl     @5bec
+        jsr     $5b93
+        jmp     $5c44
+@5bec:  lda     #$01
+        sta     $0439,x
+        jmp     $5c09
+@5bf4:  lda     $01
+        and     #$04
+        beq     @5c0f
+        jsr     $fbad       ; play system sound effect $10
+        lda     $0435,x
+        sta     $0445,x
+        sta     $0441,x
+        stz     $043d,x
+@5c09:  stz     $cd48
+        jmp     $47a3
+@5c0f:  lda     $01
+        and     #$02
+        beq     @5c22
+        lda     $0435,x
+        beq     @5c44
+        jsr     $fbad       ; play system sound effect $10
+        dec     $0435,x
+        bra     @5c44
+@5c22:  lda     $01
+        and     #$01
+        beq     @5c44
+        jsr     $fbad       ; play system sound effect $10
+        lda     $0435,x
+        beq     @5c41
+        lda     #$00
+        sta     $0445,x
+        sta     $0441,x
+        stz     $cd48
+        stz     $043d,x
+        jmp     $47a3
+@5c41:  inc     $0435,x
+@5c44:  lda     $0435,x
+        asl
+        tax
+        lda     $c1525b,x
+        sta     $cd49
+        lda     $c1525c,x
+        sta     $cd4a
+        lda     #$01
+        sta     $cd48
+        lda     #$33
+        sta     $cd4b
+        sta     $cd53
+        stz     $cd50
+        lda     $f88c
+        and     #$40
+        beq     @5c87
+        lda     $f88d
+        asl
+        tax
+        lda     $c1525b,x
+        clc
+        adc     #$04
+        sta     $cd51
+        lda     $c1525c,x
+        sta     $cd52
+        inc     $cd50
+@5c87:  rts
+
+; ---------------------------------------------------------------------------
+
+_c15c88:
+        lda     $cd42
+        tax
+        stz     $cd6c
+        stz     $cd70
+        lda     $cdf8
+        bne     @5d03
+        lda     $0439,x
+        bne     @5d03
+        inc     $cd6c
+        inc     $cd70
+        lda     #$03
+        sta     $cd6f
+        lda     #$83
+        sta     $cd73
+        lda     $044d,x
+        cmp     #$7c
+        bne     @5cb6
+        stz     $cd70
+@5cb6:  lda     $cfc3
+        beq     @5cc1
+        clr_a
+        sta     $043d,x
+        bra     @5ccc
+@5cc1:  lda     $043d,x
+        beq     @5ccc
+        stz     $cd48
+        jmp     $4789
+@5ccc:  jsr     $5511
+        lda     $00
+        bpl     @5cf4
+        jsr     $fbb8       ; play system sound effect $11
+        lda     $0441,x
+        jsr     $594e
+        bcc     @5cf3
+        phx
+        lda     $f890
+        tax
+        lda     #$40
+        ora     $f891
+        sta     $41b1,x
+        plx
+        jsr     $5b93
+        stz     $cd48
+        rts
+@5cf3:  rts
+@5cf4:  lda     $01
+        bpl     @5d0c
+        jsr     $fbc3       ; play system sound effect $11
+        lda     $f88c
+        jmi     $5b93
+@5d03:  stz     $cd48
+        stz     $0439,x
+        jmp     $47fe
+@5d0c:  lda     $01
+        and     #$02
+        jne     $5d31
+        lda     $01
+        and     #$01
+        jne     $5d66
+        lda     $01
+        and     #$04
+        jne     $5ee0
+        lda     $01
+        and     #$08
+        jne     $5d8c
+        rts
+@5d31:  lda     $0445,x
+        beq     @5d41
+        jsr     $fbad       ; play system sound effect $10
+        dec     $0441,x
+        dec     $0445,x
+        bra     @5d63
+@5d41:  lda     $0441,x
+        bne     @5d5a
+        lda     $cfc3
+        beq     @5d4c
+        rts
+@5d4c:  jsr     $fbad       ; play system sound effect $10
+        stz     $cd48
+        lda     #$01
+        sta     $0435,x
+        jmp     $4789
+@5d5a:  inc     $0441,x
+        inc     $0445,x
+        jsr     $5d8c
+@5d63:  jmp     $5511
+@5d66:  lda     $0445,x
+        bne     @5d76
+        jsr     $fbad       ; play system sound effect $10
+        inc     $0441,x
+        inc     $0445,x
+        bra     @5d89
+@5d76:  lda     $0441,x
+        cmp     #$ff
+        beq     @5d89
+        jsr     $fbad       ; play system sound effect $10
+        dec     $0441,x
+        stz     $0445,x
+        jsr     $5ee0
+@5d89:  jmp     $5511
+@5d8c:  lda     $0449,x
+        beq     @5d9e
+        jsr     $fbad       ; play system sound effect $10
+        dec     $0449,x
+        dec     $0441,x
+        dec     $0441,x
+        rts
+@5d9e:  lda     $044d,x
+        bne     @5db8
+        lda     $cfc3
+        beq     @5da9
+        rts
+@5da9:  jsr     $fbad       ; play system sound effect $10
+        stz     $cd48
+        lda     $0445,x
+        sta     $0435,x
+        jmp     $4789
+@5db8:  jsr     $fbad       ; play system sound effect $10
+        dec     $0441,x
+        dec     $0441,x
+        jsr     $5dd4
+        lda     #$03
+        sta     $cd37
+        lda     #$04
+        sta     $cd3a
+        lda     #$07
+        sta     $cd3b
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c15dd4:
+@5dd4:  stz     $88
+        dec     $044d,x
+        jsr     $5e04
+        lda     $cdfa
+        bne     @5de6
+        lda     #$05
+        sta     $cdfa
+@5de6:  dec     $cdfa
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c15dea:
+@5dea:  lda     #$03
+        sta     $88
+        inc     $044d,x
+        jsr     $5e04
+        lda     $cdfa
+        cmp     #$04
+        bne     @5e00
+        lda     #$ff
+        sta     $cdfa
+@5e00:  inc     $cdfa
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c15e04:
+@5e04:  phx
+        jsr     $5b86
+        ldy     #$cd7b
+        sty     $bf
+        ldy     #$cdbb
+        sty     $c1
+        clr_ay
+        lda     $044d,x
+        clc
+        adc     $88
+        asl
+        tax
+        jsr     $5e3b
+        inx
+        jsr     $5e3b
+        lda     $cdfa
+        asl
+        tax
+        lda     $cefff5,x
+        sta     $cd75
+        lda     $cefff6,x
+        sta     $cd76
+        inc     $cd74
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c15e3b:
+@5e3b:  phx
+        lda     #$ff
+        jsr     $5f6b
+        lda     #$ff
+        jsr     $5f6b
+        lda     $db4f
+        beq     @5e54
+        lda     $2b34,x
+        and     #$40
+        beq     @5e7a
+        bra     @5e76
+@5e54:  lda     $db4e
+        beq     @5e6f
+        cmp     #$01
+        beq     @5e66
+        lda     $2b34,x
+        and     #$02
+        beq     @5e7a
+        bra     @5e76
+@5e66:  lda     $2b34,x
+        and     #$10
+        beq     @5e7a
+        bra     @5e76
+@5e6f:  lda     $2c34,x
+        and     $92
+        beq     @5e7a
+@5e76:  lda     #$04
+        bra     @5e7c
+@5e7a:  lda     #$00
+@5e7c:  sta     $c3
+        lda     $2734,x
+        sta     $98
+        lda     #$09
+        sta     $9a
+        jsr     $fe4b
+        phx
+        ldx     $9c
+        lda     #$09
+        sta     $88
+@5e91:  lda     $d11380,x   ; item names
+        jsr     $5f67
+        inx
+        dec     $88
+        bne     @5e91
+        plx
+        lda     $2734,x
+        beq     @5ea7
+        lda     #$cf
+        bra     @5ea9
+@5ea7:  lda     #$ff
+@5ea9:  jsr     $5f6b
+        stz     $88
+        lda     $2834,x
+@5eb1:  sec
+        sbc     #$0a
+        bcc     @5ebb
+        inc     $88
+        jmp     $5eb1
+@5ebb:  clc
+        adc     #$0a
+        sta     $89
+        lda     $88
+        bne     @5ec6
+        lda     #$ac
+@5ec6:  clc
+        adc     #$53
+        jsr     $5f6b
+        lda     $89
+        ora     $88
+        bne     @5ed6
+        lda     #$ff
+        bra     @5edb
+@5ed6:  lda     $89
+        clc
+        adc     #$53
+@5edb:  jsr     $5f6b
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c15ee0:
+@5ee0:  lda     $0449,x
+        cmp     #$03
+        beq     @5ef4
+        jsr     $fbad       ; play system sound effect $10
+        inc     $0441,x
+        inc     $0441,x
+        inc     $0449,x
+        rts
+@5ef4:  lda     $044d,x
+        cmp     #$7c
+        beq     @5f16
+        jsr     $fbad       ; play system sound effect $10
+        inc     $0441,x
+        inc     $0441,x
+        jsr     $5dea
+        lda     #$03
+        sta     $cd37
+        lda     #$03
+        sta     $cd3a
+        lda     #$07
+        sta     $cd3b
+@5f16:  rts
+
+; ---------------------------------------------------------------------------
+
+; menu for each battle command
+_c15f17:
+        .byte   $00,$0a,$0c,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$0f,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$0d
+        .byte   $0e,$00,$00,$00,$00,$00,$00,$00,$09,$00,$00,$00,$01,$01,$01,$01
+        .byte   $01,$01,$02,$02,$02,$02,$02,$02,$03,$03,$03,$03,$03,$03,$04,$04
+        .byte   $04,$04,$04,$04,$05,$05,$05,$05,$05,$07,$07,$07,$08,$06,$00,$00
+
+; 00: none
+; 01: spellblade
+; 02: white
+; 03: black
+; 04: time
+; 05: summon
+; 06: blue
+; 07: red
+; 08: x-magic
+; 09: sing
+; 0a: other ???
+; 0b: ???
+; 0c: item
+; 0d: combine
+; 0e: drink
+; 0f: throw
+
+; ---------------------------------------------------------------------------
+
+_c15f67:
+@5f67:  cmp     #$53
+        bcc     @5f7a
+@5f6b:  sta     ($c1),y
+        lda     #$ff
+@5f6f:  sta     ($bf),y
+        iny
+        lda     $c3
+        sta     ($c1),y
+        sta     ($bf),y
+        iny
+        rts
+@5f7a:  cmp     #$49
+        bcc     @5f88
+        clc
+        adc     #$17
+        sta     ($c1),y
+        lda     #$52
+        jmp     $5f6f
+@5f88:  clc
+        adc     #$40
+        sta     ($c1),y
+        lda     #$51
+        jmp     $5f6f
+
+; ---------------------------------------------------------------------------
+
+_c15f92:
+        clr_ax
+@5f94:  lda     $cd6c,x
+        bne     @5fa1
+        lda     #$f0
+        sta     $02f9,x
+        jmp     $5fb8
+@5fa1:  lda     $cd6d,x
+        sta     $02f8,x
+        lda     $cd6e,x
+        sta     $02f9,x
+        lda     #$e2
+        sta     $02fa,x
+        lda     $cd6f,x
+        sta     $02fb,x
+@5fb8:  inx4
+        cpx     #$0008
+        bne     @5f94
+        lda     $040f
+        and     #$0f
+        ora     #$a0
+        sta     $040f
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c15fcc:
+        lda     $cd68
+        beq     @5fef
+        lda     $cd69
+        eor     $f6
+        sec
+        sbc     $f9
+        sta     $0220
+        lda     $cd6a
+        sta     $0221
+        lda     #$d0
+        sta     $0222
+        lda     $cd6b
+        eor     $f7
+        sta     $0223
+@5fef:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c15ff0:
+        clr_ax
+@5ff2:  lda     $cd48,x
+        bne     @5fff
+        lda     #$f0
+        sta     $0201,x
+        jmp     $6016
+@5fff:  lda     $cd49,x
+        sta     $0200,x
+        lda     $cd4a,x
+        sta     $0201,x
+        lda     #$d0
+        sta     $0202,x
+        lda     $cd4b,x
+        sta     $0203,x
+@6016:  inx4
+        cpx     #$0010
+        bne     @5ff2
+@601f:  lda     $cd48,x
+        bne     @602c
+        lda     #$f0
+        sta     $0201,x
+        jmp     $604a
+@602c:  lda     $cd49,x
+        eor     $f6
+        sec
+        sbc     $f9
+        sta     $0200,x
+        lda     $cd4a,x
+        sta     $0201,x
+        lda     #$d0
+        sta     $0202,x
+        lda     $cd4b,x
+        eor     $f7
+        sta     $0203,x
+@604a:  inx4
+        cpx     #$0020
+        bne     @601f
+        lda     #$aa
+        sta     $0400
+        sta     $0401
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1605c:
+        lda     $cfd3
+        tax
+        lda     $cfd4
+        tay
+        lda     #$06
+        sta     $70
+@6068:  lda     $2734,x
+        pha
+        lda     $2734,y
+        sta     $2734,x
+        pla
+        sta     $2734,y
+        longa
+        txa
+        clc
+        adc     #$0100
+        tax
+        tya
+        clc
+        adc     #$0100
+        tay
+        shorta0
+        dec     $70
+        bne     @6068
+        jmp     $61b6
+
+; ---------------------------------------------------------------------------
+
+_c1608e:
+@608e:  lda     $cd42
+        sta     $7e
+        lda     #$0c
+        sta     $80
+        jsr     $feba       ; +$82 = $7e * $80
+        ldx     $82
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1609d:
+        jsr     $608e
+        lda     #$06
+        sta     $70
+@60a4:  lda     $37ac,x
+        pha
+        lda     $37ad,x
+        sta     $37ac,x
+        pla
+        sta     $37ad,x
+        inx2
+        dec     $70
+        bne     @60a4
+        jmp     $61b6
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c160bb:
+        jsr     $608e
+        lda     $82
+        clc
+        adc     $cfd4
+        tax
+        lda     $cfd3
+        tay
+        jmp     $60da
+
+; ---------------------------------------------------------------------------
+
+_c160cc:
+        jsr     $608e
+        lda     $82
+        clc
+        adc     $cfd3
+        tax
+        lda     $cfd4
+        tay
+@60da:  lda     $2734,y
+        bne     @60e2
+        jmp     $6166
+@60e2:  cmp     $37ac,x
+        bne     @610c
+        lda     $2834,y
+        clc
+        adc     $37ae,x
+        sta     $2834,y
+        cmp     #$64
+        bcc     @60fa
+        lda     #$63
+        sta     $2834,y
+@60fa:  clr_a
+        sta     $37ac,x
+        sta     $37ae,x
+        lda     #$ff
+        sta     $37b4,x
+        sta     $37b6,x
+        jmp     $61b6
+@610c:  lda     $2834,y
+        beq     @6166
+        cmp     #$01
+        beq     @6166
+        lda     $37ac,x
+        bne     @6124
+        lda     $2834,y
+        dec
+        sta     $2834,y
+        jmp     $6169
+@6124:  phx
+        clr_ax
+@6127:  lda     $2734,x
+        beq     @6139
+        inx
+        cpx     #$0100
+        bne     @6127
+        lda     #$01
+        sta     $cfd5
+        plx
+        rts
+@6139:  lda     $2834,y
+        dec
+        sta     $2834,y
+        lda     $2734,y
+        sta     $2734,x
+        lda     #$01
+        sta     $2834,x
+        lda     $2934,y
+        sta     $2934,x
+        lda     $2a34,y
+        sta     $2a34,x
+        lda     $2b34,y
+        sta     $2b34,x
+        lda     $2c34,y
+        sta     $2c34,x
+        txa
+        tay
+        plx
+@6166:  jmp     $618f
+@6169:  lda     $2734,y
+        sta     $37ac,x
+        lda     $2934,y
+        sta     $37b0,x
+        lda     $2a34,y
+        sta     $37b2,x
+        lda     $2b34,y
+        sta     $37b4,x
+        lda     $2c34,y
+        sta     $37b6,x
+        lda     #$01
+        sta     $37ae,x
+        jmp     $61b6
+@618f:  lda     #$06
+        sta     $70
+@6193:  lda     $2734,y
+        pha
+        lda     $37ac,x
+        sta     $2734,y
+        pla
+        sta     $37ac,x
+        longa
+        tya
+        clc
+        adc     #$0100
+        tay
+        txa
+        clc
+        adc     #$0002
+        tax
+        shorta0
+        dec     $70
+        bne     @6193
+@61b6:  jsr     $39e2
+        jsr     $3ccd
+        stz     $cd38
+        inc     $7b7d
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c161c3:
+        lda     $db74
+        bne     @61c9
+        rts
+@61c9:  clr_ax
+        ldy     #$00e8
+        lda     $db75
+        and     #$80
+        beq     @61f5
+        lda     $db78
+        beq     @61df
+        dec     $db78
+        bra     @61f5
+@61df:  dec     $db7c
+        bne     @61ef
+        lda     $db75
+        and     #$7f
+        sta     $db74
+        sta     $db75
+@61ef:  lda     $dbed
+        jsr     $6268
+@61f5:  inx
+        lda     $db75
+        and     #$40
+        beq     @621b
+        lda     $db79
+        beq     @6205
+        dec     $db79
+@6205:  dec     $db7d
+        bne     @6215
+        lda     $db75
+        and     #$bf
+        sta     $db74
+        sta     $db75
+@6215:  lda     $dbee
+        jsr     $6268
+@621b:  inx
+        lda     $db75
+        and     #$20
+        beq     @6241
+        lda     $db7b
+        beq     @622b
+        dec     $db7b
+@622b:  dec     $db7e
+        bne     @623b
+        lda     $db75
+        and     #$df
+        sta     $db75
+        sta     $db74
+@623b:  lda     $dbef
+        jsr     $6268
+@6241:  inx
+        lda     $db75
+        and     #$10
+        beq     @6267
+        lda     $db7c
+        beq     @6251
+        dec     $db7c
+@6251:  dec     $db7f
+        bne     @6261
+        lda     $db75
+        and     #$ef
+        sta     $db75
+        sta     $db74
+@6261:  lda     $dbf0
+        jsr     $6268
+@6267:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c16268:
+@6268:  sta     $88
+        lda     $d03e,x
+        sec
+        sbc     #$10
+        eor     $f6
+        sec
+        sbc     $f9
+        sta     $0200,y
+        lda     $d04a,x
+        sec
+        sbc     #$08
+        clc
+        adc     $88
+        sta     $0201,y
+        lda     #$ec
+        sta     $0202,y
+        lda     #$33
+        eor     $f7
+        sta     $0203,y
+        iny4
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c16295:
+@6295:  longa
+        ldx     #$0070
+        stx     $88
+        clr_ax
+        stx     $8a
+@62a0:  lda     $98
+        clc
+        adc     $88
+        sta     $f588,x
+        lda     $9a
+        clc
+        adc     $8a
+        sta     $f58a,x
+        inx4
+        lda     $88
+        sec
+        sbc     #$0010
+        sta     $88
+        cmp     #$fff0
+        bne     @62a0
+        lda     #$0070
+        sta     $88
+        lda     $8a
+        clc
+        adc     #$0010
+        sta     $8a
+        cmp     #$0080
+        bne     @62a0
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c162d7:
+        lda     $db60
+        bpl     @62df
+        jmp     _c1703a
+@62df:  lda     $db61
+        bne     @62e5
+@62e4:  rts
+@62e5:  longa
+        clr_ax
+        longa
+        lda     #$f0f0
+@62ee:  sta     $0300,x
+        inx4
+        cpx     #$0100
+        bne     @62ee
+        clr_ax
+        lda     #$aaaa
+@62ff:  sta     $0410,x
+        inx2
+        cpx     #$0010
+        bne     @62ff
+        lda     $db62
+        sta     $98
+        lda     $db64
+        sta     $9a
+        shorta
+        jsr     $6295
+        lda     #$40
+        sta     $92
+        ldy     #$0100
+        jsr     _c163aa
+        lda     $db72
+        beq     @62e4
+        longa
+        clr_ax
+        lda     #$f0f0
+@632e:  sta     $0220,x
+        inx4
+        cpx     #$00d8
+        bne     @632e
+        shorta0
+        inc     $db73
+        lda     $db73
+        and     #$01
+        beq     @62e4
+        asl
+        tax
+        longa
+        lda     $d4b900,x
+        sta     $9c
+        lda     $d4b922,x
+        sta     $9e
+        lda     $db62
+        clc
+        adc     $9c
+        sta     $98
+        lda     $db64
+        clc
+        adc     $9e
+        sta     $9a
+        shorta
+        jsr     $6295
+        lda     #$28
+        sta     $92
+        ldy     #$0020
+        jsr     _c163aa
+        lda     $db73
+        and     #$01
+        asl
+        tax
+        longa
+        lda     $d4b902,x
+        sta     $9c
+        lda     $d4b924,x
+        sta     $9e
+        lda     $db62
+        clc
+        adc     $9c
+        sta     $98
+        lda     $db64
+        clc
+        adc     $9e
+        sta     $9a
+        shorta
+        jsr     $6295
+        lda     #$28
+        sta     $92
+        ldy     #$0084
+        jmp     _c163aa
+
+; ---------------------------------------------------------------------------
+
+_c163aa:
+@63aa:  lda     $dbd3
+        beq     @63b3
+        lda     #$c0
+        bra     @63b5
+@63b3:  lda     #$a0
+@63b5:  sta     $8e
+        clr_ax
+        lda     $db66
+        sta     $88
+        stz     $8a
+        stz     $8c
+@63c2:  lda     $7f7700,x
+        beq     @63e1
+        lda     $f589,x
+        bne     @63e1
+        lda     $f588,x
+        cmp     #$f8
+        bcs     @63e1
+        eor     $f6
+        sec
+        sbc     $f9
+        sta     $0200,y
+        lda     $f58b,x
+        beq     @63e5
+@63e1:  lda     #$f0
+        bra     @6407
+@63e5:  lda     $f58a,x
+        cmp     $8e
+        bcc     @63ee
+        bra     @63e1
+@63ee:  lda     $f58a,x
+        sta     $0201,y
+        lda     $8a
+        clc
+        adc     $8c
+        sta     $0202,y
+        lda     $88
+        eor     $f7
+        sta     $0203,y
+        iny4
+@6407:  inc     $8a
+        inc     $8a
+        lda     $8a
+        and     #$0f
+        sta     $8a
+        bne     @641a
+        lda     $8c
+        clc
+        adc     #$20
+        sta     $8c
+@641a:  inx4
+        dec     $92
+        bne     @63c2
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c16423:
+@6423:  lda     $db39
+        and     #$01
+        beq     @642d
+        jmp     @644c
+@642d:  inc     $ef
+        lda     #$08
+        sta     $92
+        sta     $db3a
+        ldy     #$0000
+@6439:  jsr     $649a
+        cpy     #$0100
+        bne     @6439
+        lda     $92
+        sta     $db3a
+        inc     $db39
+        stz     $ef
+        rts
+@644c:  inc     $ef
+        lda     $db3a
+        sta     $92
+        ldy     #$0100
+@6456:  jsr     $649a
+        cpy     #$0200
+        bne     @6456
+        inc     $db39
+        lda     $92
+        sta     $db3a
+        cmp     #$3e
+        beq     @6480
+        longa
+        asl2
+        tax
+        shorta0
+        lda     #$f0
+@6474:  sta     $7d0a,x
+        inx4
+        cpx     #$00f8
+        bne     @6474
+@6480:  jsr     $6486
+        stz     $ef
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c16486:
+@6486:  ldx     #$7d29      ; copy from sprite data buffer
+        ldy     #$0220
+        phb
+        longa
+        lda     #$00d7
+        mvn     #$7e,#$00
+        shorta0
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1649a:
+@649a:  lda     $92
+        sta     $d1d9,y
+        phy
+        jsr     $65d7
+        ply
+        longa
+        tya
+        clc
+        adc     #$0010
+        tay
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c164b0:
+        lda     $db38
+        bne     @64b6
+        rts
+@64b6:  cmp     #$02
+        bne     @64bd
+        jmp     _c16423
+@64bd:  lda     $db3b
+        beq     @64c8
+        jsr     $64cf
+        jmp     @64f4
+@64c8:  lda     $db39
+        and     #$01
+        bne     @64f4
+@64cf:  inc     $ef
+        ldy     #$0070
+        lda     #$08
+        sta     $92
+@64d8:  lda     $92
+        sta     $d1d9,y
+        phy
+        jsr     $65d7
+        ply
+        tya
+        sec
+        sbc     #$10
+        tay
+        cmp     #$30
+        bne     @64d8
+        lda     $92
+        sta     $db3a
+        inc     $db39
+        rts
+@64f4:  ldy     #$0030
+        lda     $db3a
+        sta     $92
+@64fc:  lda     $92
+        sta     $d1d9,y
+        phy
+        jsr     $65d7
+        ply
+        tya
+        sec
+        sbc     #$10
+        tay
+        cmp     #$f0
+        bne     @64fc
+        lda     $92
+        sta     $db3a
+        longa
+        asl2
+        tax
+        shorta0
+        lda     #$f0
+@651e:  sta     $7d0a,x
+        inx4
+        cpx     #$0100
+        bne     @651e
+        stz     $ef
+        inc     $db39
+        jsr     $6486
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c16533:
+        lda     $db69
+        bne     @6539
+        rts
+@6539:  clr_ax
+        stz     $88
+@653d:  lda     $dad8,x
+        beq     @6549
+        lda     $88
+        clc
+        adc     #$07
+        sta     $88
+@6549:  txa
+        clc
+        adc     #$08
+        tax
+        cmp     #$40
+        bne     @653d
+        lda     $88
+        bne     @6559
+        jmp     @65d3
+@6559:  lda     #$3e
+        sec
+        sbc     $88
+        longa
+        asl2
+        tay
+        shorta0
+        clr_ax
+@6568:  lda     $dad8,x
+        beq     @65c9
+        lda     $dadc,x
+        beq     @6578
+        dec     $dadc,x
+        jmp     @65c9
+@6578:  dec     $dadd,x
+        bne     @6580
+        stz     $dad8,x
+@6580:  phx
+        lda     $dad9,x
+        sta     $88
+        lda     $dada,x
+        sta     $89
+        lda     $dadb,x
+        tax
+        lda     #$07
+        sta     $8c
+@6593:  lda     $d0e1e8,x
+        clc
+        adc     $88
+        eor     $f6
+        sec
+        sbc     $f9
+        sta     $0200,y
+        lda     $d0e1e9,x
+        clc
+        adc     $89
+        sta     $0201,y
+        lda     $d0e1ea,x
+        sta     $0202,y
+        lda     $d0e1eb,x
+        eor     $f7
+        sta     $0203,y
+        inx4
+        iny4
+        dec     $8c
+        bne     @6593
+        plx
+@65c9:  txa
+        clc
+        adc     #$08
+        tax
+        cmp     #$40
+        bne     @6568
+        rts
+@65d3:  stz     $db69
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c165d7:
+@65d7:  lda     $d1d8,y
+        bne     @65dd
+@65dc:  rts
+@65dd:  lda     $db5f
+        bne     @65dc
+        lda     $db3c
+        beq     @6600
+        phy
+        clr_ax
+@65ea:  lda     $d9d8,y
+        sta     $db18,x
+        lda     $da58,y
+        sta     $db28,x
+        inx
+        iny
+        cpx     #$0010
+        bne     @65ea
+        ply
+        bra     @6603
+@6600:  jsr     $697d
+@6603:  lda     $d1e3,y     ; frame offset ???
+        longa
+        clc
+        adc     $d1da,y     ; frame index
+        asl
+        tax
+        lda     $d9b35e,x   ; pointer to animation frame data
+        sta     $88
+        shorta0
+        lda     #$d9
+        sta     $8a
+        lda     $d1e5,y     ; width
+        sta     $8c
+        lda     $d1e6,y     ; height
+        sta     $8d
+        lda     $d1de,y     ; tile count
+        sta     $9c
+        lda     $d1df,y
+        sta     $d1c5
+        lda     $d1e0,y
+        sta     $d1c6
+        lda     $d1e1,y
+        sta     $d1c7
+        lda     $d1e2,y
+        sta     $d1c8
+        lda     $d1dc,y
+        sta     $8e
+        lda     $d1dd,y
+        sta     $90
+        lda     $d1d9,y
+        sta     $92
+        lda     $d1e7,y
+        and     #$80
+        sta     $96
+        stz     $97
+        stz     $94
+        lda     $d1e7,y
+        and     #$40
+        beq     @6667
+        lda     #$35
+        bra     @6669
+@6667:  lda     #$37
+@6669:  sta     $95
+        lda     $d1e7,y
+        and     #$20
+        beq     @6678
+        lda     $95
+        and     #$ef
+        sta     $95
+@6678:  jsr     $698c
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1667c:
+        lda     $dbd3
+        bne     @66d4
+        clr_ax
+@6683:  stz     $8e
+        lda     $d1cb,x
+        bne     @66ce
+        lda     $d1cf,x
+        beq     @66ce
+        cmp     #$08
+        bne     @6698
+        jsr     $66d5
+        bra     @66ce
+@6698:  pha
+        txa
+        asl5
+        tay
+        pla
+        cmp     #$02
+        bne     @66b0
+        lda     $cf4d,y
+        cmp     #$03
+        bne     @66b0
+        lda     #$05
+        sta     $8e
+@66b0:  lda     $cf4e,y
+        bne     @66ce
+        stz     $8a
+        lda     $d1cf,x
+        cmp     #$06
+        beq     @66c9
+        lda     $dbed,x
+        clc
+        adc     $8e
+        sta     $8a
+        lda     $d1cf,x
+@66c9:  phx
+        jsr     $673a
+        plx
+@66ce:  inx
+        cpx     #$0004
+        bne     @6683
+@66d4:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c166d5:
+@66d5:  phx
+        txa
+        sta     $8c
+        asl5
+        tay
+        lda     $cf45,y
+        clc
+        adc     $cf49,y
+        eor     $f6
+        sec
+        sbc     $f9
+        sta     $88
+        lda     $cf46,y
+        clc
+        adc     $cf4a,y
+        clc
+        adc     $dbed,x
+        sta     $89
+        lda     $cf44,y
+        longa
+        asl2
+        tay
+        shorta0
+        lda     $8c
+        asl
+        tax
+        lda     #$02
+        sta     $8a
+@670d:  lda     $88
+        sta     $0200,y
+        lda     $89
+        sec
+        sbc     #$08
+        sta     $0201,y
+        lda     $f874,x
+        clc
+        adc     #$c6
+        sta     $0202,y
+        lda     #$31
+        sta     $0203,y
+        lda     $88
+        clc
+        adc     #$08
+        sta     $88
+        iny4
+        inx
+        dec     $8a
+        bne     @670d
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1673a:
+@673a:  pha
+        dec
+        asl3
+        sta     $88
+        pla
+        cmp     #$07
+        bne     @674a
+        lda     #$04        ; 4 sprites
+        bra     @674c
+@674a:  lda     #$02        ; 2 sprites
+@674c:  sta     $8c
+        stz     $89
+        txa
+        asl5
+        tay
+        lda     $cf56,y
+        bpl     @6763
+        lda     $88
+        clc
+        adc     #$38
+        sta     $88
+@6763:  lda     $cf50,y
+        and     #$38
+        lsr3
+        clc
+        adc     $88
+        tax
+        lda     $d833e2,x
+        longa
+        asl4
+        tax
+        shorta0
+        lda     $cf45,y
+        clc
+        adc     $cf49,y
+        sta     $88         ; x offset
+        lda     $cf46,y
+        clc
+        adc     $cf4a,y
+        clc
+        adc     $8a
+        sta     $8a
+        lda     $cf44,y
+        longa
+        asl2
+        tay
+        shorta0
+@679d:  lda     $d83452,x
+        clc
+        adc     $88         ; x offset
+        eor     $f6
+        sec
+        sbc     $f8         ; x offset (for back attack)
+        sta     $0200,y
+        iny
+        inx
+        lda     $d83452,x
+        clc
+        adc     $8a         ; y offset
+        sta     $0200,y
+        iny
+        inx
+        lda     $d83452,x
+        sta     $0200,y     ; tile index
+        iny
+        inx
+        lda     $d83452,x
+        eor     $f7
+        sta     $0200,y     ; tile flags
+        iny
+        inx
+        dec     $8c
+        bne     @679d
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c167d3:
+@67d3:  clr_ax
+        lda     #$f0
+@67d7:  sta     $0220,x
+        sta     $7d29,x
+        inx
+        cpx     #$00d8
+        bne     @67d7
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c167e4:
+        lda     $d1ae
+        bne     @67ec
+        jmp     @68f0
+@67ec:  stz     $ef
+        jsr     $697d
+        clr_ax
+        lda     #$aa
+@67f5:  sta     $0402,x
+        inx
+        cpx     #$000c
+        bne     @67f5
+        lda     $d1bb
+        bne     @6808
+        jsr     $67d3
+        bra     @6857
+@6808:  lda     $d1bb
+        cmp     #$ff
+        bne     @6818
+        jsr     $67d3
+        stz     $d1ae
+        jmp     @68f0
+@6818:  lda     $d1bb
+        bpl     @6857
+        lda     #$01
+        sta     $d1bb
+        ldx     #$003b
+@6825:  lda     $021c,x
+        eor     #$40
+        sta     $0220,x
+        and     #$40
+        beq     @683c
+        lda     $0219,x
+        sec
+        sbc     #$08
+        sta     $021d,x
+        bra     @6845
+@683c:  lda     $0219,x
+        clc
+        adc     #$08
+        sta     $021d,x
+@6845:  lda     $021b,x
+        sta     $021f,x
+        lda     $021a,x
+        sta     $021e,x
+        dex4
+        bpl     @6825
+@6857:  lda     $d1b9
+        longa
+        clc
+        adc     $d1b0
+        asl
+        tax
+        lda     $d9a486,x
+        sta     $88
+        shorta0
+        lda     #$d9
+        sta     $8a
+        ldx     $d192
+        stx     $8c
+        lda     $8c
+        sta     $98
+        lda     $8d
+        sta     $9a
+        jsr     $fe4b
+        lda     $d1b7
+        sta     $d1c5
+        lda     $d1b8
+        sta     $d1c7
+        stz     $d1c6
+        stz     $d1c8
+        lda     $d1b2
+        sta     $8e
+        lda     $d1b3
+        sta     $90
+        lda     $d1b6
+        bpl     @68ad
+        phx
+        and     #$03
+        tax
+        lda     $90
+        clc
+        adc     $dbed,x
+        sta     $90
+        plx
+@68ad:  lda     $d1af
+        sta     $92
+        stz     $97
+        lda     $d1b6
+        and     #$40
+        sta     $96
+        beq     @68c4
+        lda     $8e
+        sec
+        sbc     #$08
+        sta     $8e
+@68c4:  stz     $94
+        lda     #$37
+        sta     $95
+        jsr     $698c
+        lda     $d1af
+        sta     $88
+        lda     #$10
+        sta     $8c
+@68d6:  lda     $88
+        lsr2
+        tay
+        lda     $88
+        and     #$03
+        tax
+        lda     $c16979,x
+        ora     $0400,y
+        sta     $0400,y
+        inc     $88
+        dec     $8c
+        bne     @68d6
+@68f0:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c168f1:
+        lda     $d1a0
+        bne     @68f7
+        rts
+@68f7:  stz     $ef
+        jsr     $697d
+        lda     $d1ab
+        longa
+        clc
+        adc     $d1a2
+        asl
+        tax
+        lda     $d9a486,x   ; pointers to ??? (+$d90000)
+        sta     $88
+        shorta0
+        lda     #$d9
+        sta     $8a
+        ldx     $d184
+        stx     $8c
+        lda     $8c
+        sta     $98
+        lda     $8d
+        sta     $9a
+        jsr     $fe4b
+        lda     $d1a9
+        sta     $d1c5
+        lda     $d1aa
+        sta     $d1c7
+        stz     $d1c6
+        stz     $d1c8
+        lda     $d1a4
+        sta     $8e
+        lda     $d1a5
+        sta     $90
+        lda     $d1a1
+        sta     $92
+        lda     $d1a8
+        sta     $96
+        stz     $97
+        stz     $94
+        lda     #$35
+        sta     $95
+        jsr     $698c       ;
+        lda     $d1a1
+        sta     $88
+        lda     #$04
+        sta     $8c
+@695e:  lda     $88
+        lsr2
+        tay
+        lda     $88
+        and     #$03
+        tax
+        lda     $c16979,x
+        ora     $0400,y     ; 16x16 sprite
+        sta     $0400,y
+        inc     $88
+        dec     $8c
+        bne     @695e
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c16979:
+        .byte   $02,$08,$20,$80
+
+; ---------------------------------------------------------------------------
+
+_c1697d:
+@697d:  clr_ax
+@697f:  stz     $db18,x
+        stz     $db28,x
+        inx
+        cpx     #$0010
+        bne     @697f
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1698c:
+@698c:  ldx     $9c         ; tile count
+        phx
+        lda     $db6b
+        beq     @69a3
+        lda     $dbd3
+        beq     @699e
+        ldy     #$00b0
+        bra     @69a6
+@699e:  ldy     #$0090
+        bra     @69a6
+@69a3:  ldy     #$00e0
+@69a6:  sty     $db6c
+        stz     $8f
+        stz     $91
+        lda     $96
+        beq     @69bb
+        lda     $8e
+        eor     #$ff
+        inc
+        sec
+        sbc     #$08
+        sta     $8e
+@69bb:  lda     $8e
+        bpl     @69c3
+        lda     #$ff
+        sta     $8f
+@69c3:  lda     $90
+        bpl     @69cb
+        lda     #$ff
+        sta     $91
+@69cb:  lda     $8c
+        asl3
+        sta     $98
+        stz     $99
+        lda     $8d
+        asl3
+        sta     $9a
+        stz     $9b
+        longa
+        lda     $96
+        beq     @69e7
+        lsr     $98
+        bra     @69ed
+@69e7:  clr_a
+        sec
+        sbc     $98
+        sta     $98
+@69ed:  clr_a
+        sec
+        sbc     $9a
+        sta     $9a
+        clr_ax
+        shorta
+        lda     $8d
+        longa
+        sta     $9e
+@69fd:  lda     $98
+        sta     $9c
+        lda     $8c
+        and     #$00ff
+        tay
+@6a07:  lda     $db3c
+        beq     @6a14
+        lda     $9c
+        clc
+        adc     $db18,x
+        bra     @6a16
+@6a14:  lda     $9c
+@6a16:  clc
+        adc     $d1c5
+        clc
+        adc     $8e
+        cmp     #$00f8
+        bcc     @6a27
+        lda     #$00f0
+        bra     @6a4d
+@6a27:  sta     $f588,x
+        lda     $db3c
+        beq     @6a37
+        lda     $9a
+        clc
+        adc     $db28,x
+        bra     @6a39
+@6a37:  lda     $9a
+@6a39:  clc
+        adc     $d1c7
+        clc
+        adc     $90
+        cmp     $db6c
+        bcc     @6a4d
+        cmp     #$fff0
+        bcs     @6a4d
+        lda     #$00f0
+@6a4d:  sta     $f589,x
+        lda     $96
+        beq     @6a5e
+        lda     $9c
+        sec
+        sbc     #$0010
+        sta     $9c
+        bra     @6a66
+@6a5e:  lda     $9c
+        clc
+        adc     #$0010
+        sta     $9c
+@6a66:  inx2
+        dey
+        bne     @6a07
+        lda     $9a
+        clc
+        adc     #$0010
+        sta     $9a
+        dec     $9e
+        bne     @69fd
+        shorta0
+        plx
+        stx     $9c
+        lda     $92
+        longa
+        asl2
+        tax
+        clr_a
+        sta     $8c
+        shorta
+@6a89:  lda     [$88]
+        sta     $98
+        bmi     @6a9b       ; branch if string of tiles
+        jsr     $6b6c       ; decode single animation frame tile
+        bcs     @6ab0
+        ldy     $88
+        iny
+        sty     $88
+        bra     @6a89
+@6a9b:  ldy     $88
+        iny
+        sty     $88
+        lda     [$88]
+        sta     $9e
+        jsr     $6ab1       ; decode string of animation frame tiles
+        bcs     @6ab0
+        ldy     $88
+        iny
+        sty     $88
+        bra     @6a89
+@6ab0:  rts
+
+; ---------------------------------------------------------------------------
+
+; [ decode string of animation frame tiles ]
+
+; $98: 1vhttttt
+;      v = v-flip
+;      h = h-flip
+;      t = tile index
+; $9e: tile count
+
+_c16ab1:
+@6ab1:  lda     $98
+        and     #$1f
+        cmp     #$1f
+        bne     @6ad3
+        lda     $9e         ; skip n tiles ???
+        longa
+        asl
+        clc
+        adc     $8c
+        sta     $8c
+        shorta0
+        lda     $9c
+        sec
+        sbc     $9e
+        sta     $9c
+        beq     @6ad1
+        clc
+        rts
+@6ad1:  sec
+        rts
+@6ad3:  ldy     $8c
+        and     #$07
+        asl
+        sta     $8b
+        lda     $98
+        and     #$18
+        asl2
+        clc
+        adc     $8b
+        clc
+        adc     $94
+        sta     $9a
+        lda     $98
+        asl
+        and     #$c0        ; vh flip
+        ora     $95
+        eor     $96
+        sta     $9b
+        lda     $92
+        clc
+        adc     $9e
+        sta     $92
+        lda     $9e
+        pha
+        lda     $ef
+        beq     @6b2f       ; branch if sprite
+@6b01:  lda     $f588,y
+        eor     $f6
+        sec
+        sbc     $f9
+        sta     $7d09,x
+        lda     $f589,y
+        sta     $7d0a,x
+        lda     $9a
+        sta     $7d0b,x
+        lda     $9b
+        eor     $f7
+        sta     $7d0c,x
+        inx4
+        iny
+        iny
+        dec     $9e
+        bne     @6b01
+        dec     $9f
+        bpl     @6b01
+        jmp     @6b5a
+@6b2f:  lda     $f588,y
+        eor     $f6
+        sec
+        sbc     $f9
+        sta     $0200,x     ; x position
+        lda     $f589,y
+        sta     $0201,x     ; y position
+        lda     $9a
+        sta     $0202,x     ; tile index
+        lda     $9b
+        eor     $f7
+        sta     $0203,x     ; vhoopppm
+        inx4
+        iny
+        iny
+        dec     $9e
+        bne     @6b2f
+        dec     $9f
+        bpl     @6b2f
+@6b5a:  sty     $8c
+        pla
+        sta     $9e
+        lda     $9c
+        sec
+        sbc     $9e
+        sta     $9c
+        beq     @6b6a
+        clc
+        rts
+@6b6a:  sec
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ decode single animation frame tile ]
+
+; $98: 0vhttttt
+;      c = tile count
+;      v = v-flip
+;      h = h-flip
+;      t = tile index
+
+_c16b6c:
+@6b6c:  ldy     $8c
+        lda     $98
+        and     #$1f
+        cmp     #$1f
+        beq     @6be4       ; skip one tile
+        and     #$07
+        asl
+        sta     $8b
+        lda     $ef
+        beq     @6bb0       ; branch if sprite
+        lda     $98
+        and     #$18
+        asl2
+        clc
+        adc     $8b
+        clc
+        adc     $94
+        sta     $7d0b,x
+        lda     $98
+        asl
+        and     #$c0        ; vh flip
+        ora     $95
+        eor     $96
+        eor     $f7
+        sta     $7d0c,x
+        lda     $f588,y
+        eor     $f6
+        sec
+        sbc     $f9
+        sta     $7d09,x
+        lda     $f589,y
+        sta     $7d0a,x
+        jmp     @6bde
+@6bb0:  lda     $98
+        and     #$18
+        asl2
+        clc
+        adc     $8b
+        clc
+        adc     $94
+        sta     $0202,x     ; tile index
+        lda     $98
+        asl
+        and     #$c0
+        ora     $95
+        eor     $96
+        eor     $f7
+        sta     $0203,x     ; vhoopppm
+        lda     $f588,y
+        eor     $f6
+        sec
+        sbc     $f9
+        sta     $0200,x     ; x position
+        lda     $f589,y
+        sta     $0201,x     ; y position
+@6bde:  inc     $92
+        inx4
+@6be4:  iny2
+        sty     $8c
+        dec     $9c
+        beq     @6bee
+        clc
+        rts
+@6bee:  sec
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ hide damage numeral sprites ]
+
+_c16bef:
+@6bf0:  clr_ax
+        lda     #$f8
+@6bf4:  sta     $0220,x
+        inx
+        cpx     #$00c0      ; 48 sprites (4 digits per character/monster)
+        bne     @6bf4
+        clr_ax
+@6bff:  sta     $0402,x     ; clear hi-sprite data
+        inx
+        cpx     #$000c
+        bne     @6bff
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c16c08:
+@6c09:  clr_ax
+        lda     #$f8
+@6c0d:  sta     $02e0,x
+        inx
+        cpx     #$0018
+        bne     @6c0d
+        stz     $040e
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ get damage numeral vertical offset ]
+
+_c16c1a:
+@6c1a:  phx
+        lda     $d178,x     ; frame counter
+        cmp     #$24
+        bcc     @6c24
+        lda     #$24
+@6c24:  tax
+        lda     $d4b972,x   ; first digit
+        clc
+        adc     $8b
+        sta     $8c
+        lda     $d4b96f,x   ; second digit
+        clc
+        adc     $8b
+        sta     $8d
+        lda     $d4b96c,x   ; third digit
+        clc
+        adc     $8b
+        sta     $8e
+        lda     $d4b969,x   ; fourth digit
+        clc
+        adc     $8b
+        sta     $8f
+        plx
+        lda     $d118,x
+        bpl     @6c57       ; branch if not miss
+        lda     $8c         ; digits move in unison
+        sta     $8d
+        sta     $8e
+        sta     $8f
+@6c57:  rts
+
+; ---------------------------------------------------------------------------
+
+; [ update damage numeral sprites (golem ???) ]
+
+_c16c58:
+        lda     $d116
+        bne     @6c60
+        jmp     @6cd3
+@6c60:  jsr     $6c09
+        ldy     #$00e0
+        clr_ax
+        lda     $d118,x
+        beq     @6cc6       ; branch if disabled for this object
+        lda     $d124,x
+        sta     $88
+        lda     $d160,x
+        sta     $8a
+        lda     $d16c,x
+        sta     $8b
+        jsr     $6c1a
+        phx
+        txa
+        asl2
+        tax
+        stz     $90
+@6c86:  phx
+        lda     $90
+        tax
+        lda     $8c,x
+        sta     $8b
+        plx
+        lda     $8a
+        sta     $0200,y
+        lda     $8b
+        sta     $0201,y
+        lda     $d130,x
+        sta     $0202,y
+        lda     $88
+        sta     $0203,y
+        lda     $8a
+        clc
+        adc     #$08
+        sta     $8a
+        inx
+        iny4
+        inc     $90
+        lda     $90
+        cmp     #$04
+        bne     @6c86
+        plx
+        inc     $d178,x
+        lda     $d178,x
+        cmp     #$20
+        bne     @6cc6
+        stz     $d118,x     ; disable damage numerals
+@6cc6:  clr_ax
+        lda     $d118,x
+        bne     @6cd3
+        jsr     $6c09
+        stz     $d116
+@6cd3:  rts
+
+; ---------------------------------------------------------------------------
+
+; [ update damage numeral sprites ]
+
+_c16cd4:
+        lda     $d114
+        bne     @6cdc       ; branch if damage numerals pending
+        jmp     @6d5b
+@6cdc:  jsr     $6bf0       ; hide damage numeral sprites
+        ldy     #$0020
+        clr_ax
+@6ce4:  lda     $d118,x
+        beq     @6d42       ; branch if disabled for this object
+        lda     $d124,x     ; tile flags
+        sta     $88
+        lda     $d160,x
+        sta     $8a
+        lda     $d16c,x
+        sta     $8b
+        jsr     $6c1a       ; get damage numeral vertical offset
+        phx
+        txa
+        asl2
+        tax
+        stz     $90
+@6d02:  phx
+        lda     $90
+        tax
+        lda     $8c,x
+        sta     $8b
+        plx
+        lda     $8a
+        sta     $0200,y     ; x
+        lda     $8b
+        sta     $0201,y     ; y
+        lda     $d130,x
+        sta     $0202,y     ; tile index
+        lda     $88
+        sta     $0203,y     ; tile flags
+        lda     $8a         ; next digit
+        clc
+        adc     #$08
+        sta     $8a
+        inx
+        iny4
+        inc     $90
+        lda     $90
+        cmp     #$04
+        bne     @6d02
+        plx
+        inc     $d178,x     ; increment frame counter
+        lda     $d178,x
+        cmp     #$30        ; 36 frames moving, 48 frames total
+        bne     @6d42
+        stz     $d118,x     ; disable damage numerals for this object
+@6d42:  inx
+        cpx     #$000c
+        bne     @6ce4
+        clr_ax
+@6d4a:  lda     $d118,x
+        bne     @6d5b       ; return if damage numerals enabled
+        inx
+        cpx     #$000c
+        bne     @6d4a
+        jsr     $6bf0       ; hide damage numeral sprites
+        stz     $d114
+@6d5b:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c16d5c:
+        clr_axy
+        lda     #$5e
+        sta     $70
+        stz     $72
+@6d65:  lda     $d01e,y
+        sta     $cf45,x
+        lda     $d022,y
+        sta     $cf46,x
+        lda     #$00
+        sta     $cf47,x
+        sta     $cf49,x
+        sta     $cf4a,x
+        sta     $cf4e,x
+        sta     $cf51,x
+        sta     $cf43,x
+        sta     $cf4d,x
+        sta     $cf53,x
+        sta     $cf56,x
+        sta     $cf57,x
+        sta     $cf58,x
+        sta     $cf59,x
+        sta     $cf5a,x
+        sta     $cf5d,x
+        sta     $cf5e,x
+        sta     $cf5f,x
+        sta     $cf60,x
+        sta     $cf61,x
+        sta     $cf62,x
+        lda     #$07
+        sta     $cf4f,x
+        lda     #$01
+        sta     $cf52,x
+        lda     $72
+        sta     $cf4c,x
+        lda     $7a
+        clc
+        adc     #$09
+        sta     $7a
+        sta     $cf50,x
+        lda     #$04
+        sta     $cf48,x
+        tya
+        asl
+        ora     #$38
+        sta     $cf4b,x
+        lda     $70
+        sta     $cf44,x
+        sec
+        sbc     #$0a
+        sta     $70
+        lda     $cfc6,y
+        cmp     #$ff
+        bne     @6de5
+        inc     $cf43,x
+@6de5:  lda     $72
+        clc
+        adc     #$40
+        sta     $72
+        iny
+        txa
+        clc
+        adc     #$20
+        tax
+        cpx     #$0080
+        beq     @6dfa
+        jmp     @6d65
+@6dfa:  jmp     @6dfd
+@6dfd:  clr_ax
+        stz     $df
+        lda     #$80
+        sta     $88
+@6e05:  lda     $cf43,x
+        bne     @6e10
+        lda     $df
+        ora     $88
+        sta     $df
+@6e10:  lsr     $88
+        txa
+        clc
+        adc     #$20
+        tax
+        cpx     #$0080
+        bne     @6e05
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c16e1c:
+@6e1d:  sta     $88
+        sta     $8a
+        lda     $cf54,x
+        bmi     @6e37
+        lda     $cf56,x
+        and     #$7f
+        sta     $cf56,x
+        lda     $88
+        eor     #$ff
+        inc
+        sta     $8a
+        bra     @6e3f
+@6e37:  lda     $cf56,x
+        ora     #$80
+        sta     $cf56,x
+@6e3f:  lda     $cf45,x
+        clc
+        adc     $8a
+        sta     $cf45,x
+        lda     $cf54,x
+        sec
+        sbc     $88
+        sta     $cf54,x
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c16e52:
+        lda     $cf53,x
+        beq     @6eaa
+        phx
+        lda     $cf47,x
+        asl3
+        sta     $88
+        lda     $cf55,x
+        and     #$07
+        clc
+        adc     $88
+        tax
+        lda     $d4b93a,x
+        sta     $88
+        lda     $d4b922,x
+        plx
+        sta     $cf4a,x
+        lda     $88
+        sta     $cf51,x
+        inc     $cf55,x
+        lda     $cf47,x
+        beq     @6e90
+        cmp     #$01
+        bne     @6e8c
+        lda     #$02
+        bra     @6e92
+@6e8c:  lda     #$01
+        bra     @6e92
+@6e90:  lda     #$02
+@6e92:  jsr     $6e1d
+        and     #$7f
+        bne     @6ea9
+        stz     $cf4d,x
+        stz     $cf53,x
+        lda     $cf56,x
+        and     #$7f
+        sta     $cf56,x
+        bra     @6eaa
+@6ea9:  rts
+@6eaa:  phy
+        txa
+        lsr5
+        tay
+        lda     $d1c1,y
+        beq     @6ec5
+        cmp     #$01
+        beq     @6eca
+        lda     $cf56,x
+        and     #$7f
+        sta     $cf56,x
+        bra     @6ed2
+@6ec5:  lda     $d1bd,y
+        beq     @6ed2
+@6eca:  lda     $cf56,x
+        ora     #$80
+        sta     $cf56,x
+@6ed2:  ply
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c16ed4:
+@6ed4:  lda     $cf45,x
+        cmp     $cf5b,x
+        beq     @6ee6
+        sta     $cf5b,x
+        lda     #$08
+        sta     $cf5c,x
+        bra     @6ef3
+@6ee6:  dec     $cf5c,x
+        bne     @6ef3
+        inc     $cf5c,x
+        lda     #$06
+        sta     $88
+        rts
+@6ef3:  stz     $88
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c16ef6:
+        phx
+        phy
+        txa
+        lsr5
+        tay
+        lda     $d1cb,y
+        bne     @6f74
+        jsr     $6ed4
+        lda     $cf5a,x
+        beq     @6f74
+        cmp     #$01
+        bne     @6f1d
+        lda     $cf50,x
+        and     #$01
+        beq     @6f74
+        clr_ax
+        stx     $94
+        bra     @6f2f
+@6f1d:  lda     $cf50,x
+        and     #$01
+        beq     @6f2b
+        asl     $88
+        ldx     #$0060
+        bra     @6f2d
+@6f2b:  clr_ax
+@6f2d:  stx     $94
+@6f2f:  lda     $96
+        asl
+        tax
+        longa
+        lda     $d0e1d8,x
+        tay
+        lda     $d0e1e0,x
+        clc
+        adc     $94
+        tax
+        shorta0
+        lda     $f6
+        beq     @6f76
+        lda     #$06
+        sta     $89
+@6f4d:  lda     $f789,x
+        sec
+        sbc     $88
+        sta     $0200,y
+        inx
+        iny
+        lda     $f789,x
+        sta     $0200,y
+        inx
+        iny
+        lda     $f789,x
+        sta     $0200,y
+        inx
+        iny
+        lda     $f789,x
+        sta     $0200,y
+        inx
+        iny
+        dec     $89
+        bne     @6f4d
+@6f74:  bra     @6fa1
+@6f76:  lda     #$06
+        sta     $89
+@6f7a:  lda     $f789,x
+        clc
+        adc     $88
+        sta     $0200,y
+        inx
+        iny
+        lda     $f789,x
+        sta     $0200,y
+        inx
+        iny
+        lda     $f789,x
+        sta     $0200,y
+        inx
+        iny
+        lda     $f789,x
+        sta     $0200,y
+        inx
+        iny
+        dec     $89
+        bne     @6f7a
+@6fa1:  ply
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c16fa4:
+        phy
+        phx
+        txa
+        lsr5
+        tay
+        lda     $d1cb,y
+        bne     @6fce
+        lda     $cf59,x
+        beq     @6fce
+        lda     $cf50,x
+        and     #$38
+        lsr3
+        tax
+        lda     $d4b908,x
+        sta     $dbed,y
+        clc
+        adc     $99
+        sta     $99
+        bra     @6fd2
+@6fce:  clr_a
+        sta     $dbed,y
+@6fd2:  plx
+        ply
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c16fd5:
+        lda     $db3e
+        bne     @6fdb
+        rts
+@6fdb:  clr_ax
+@6fdd:  sta     $0402,x
+        inx
+        cpx     #$000c
+        bne     @6fdd
+        lda     $db3f
+        asl5
+        tax
+        lda     $cf44,x
+        clc
+        adc     $cf48,x
+        longa
+        asl2
+        tax
+        phx
+        phb
+        ldx     #$f8c9
+        ldy     #$0238
+        lda     #$00a7
+        mvn     #$7e,#$00
+        plb
+        plx
+        clr_ay
+@700d:  lda     $0200,x
+        sta     $0220,y
+        inx2
+        iny2
+        cpy     #$0018
+        bne     @700d
+        shorta0
+        tax
+@7020:  lda     $0220,x
+        sta     $f8c9,x
+        inx
+        cpx     #$00c0
+        bne     @7020
+        inc     $db40
+        lda     $db40
+        and     #$01
+        beq     @7039
+        jsr     $67d3
+@7039:  rts
+
+; ---------------------------------------------------------------------------
+
+_c1703a:
+@703a:  clr_ax
+        longa
+        lda     #$f0f0
+@7041:  sta     $0300,x
+        inx
+        inx
+        inx
+        inx
+        cpx     #$0100
+        bne     @7041
+        clr_ax
+@704f:  sta     $0410,x
+        inx
+        inx
+        cpx     #$0010
+        bne     @704f
+        shorta
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1705c:
+        clr_ax
+@705e:  stz     $cf4e,x
+        txa
+        clc
+        adc     #$20
+        tax
+        cmp     #$80
+        bne     @705e
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1706b:
+        clr_axy
+        lda     $db75
+        sta     $88
+        lda     $db74
+        bne     @707a
+        stz     $88
+@707a:  asl     $88
+        bcs     @70ba
+        lda     $7b7e,y
+        bmi     @7085
+        bra     @708c
+@7085:  lda     $7b8e,y
+        bmi     @70bd
+        bra     @70ba
+@708c:  lda     $7b8e,y
+        bmi     @70bd
+        lda     $cf61,x
+        bne     @70ba
+        lda     $7b7e,y
+        and     #$c0
+        bne     @70bd
+        lda     $cf56,x
+        and     #$01
+        bne     @70a9
+        lda     $cf58,x
+        bne     @70ba
+@70a9:  lda     $cf45,x
+        clc
+        adc     $cf49,x
+        cmp     #$c8
+        beq     @70cb
+        cmp     #$d8
+        beq     @70cb
+        bra     @70ba
+@70ba:  stz     $cf4e,x
+@70bd:  iny
+        iny
+        iny
+        iny
+        txa
+        clc
+        adc     #$20
+        tax
+        cmp     #$80
+        bne     @707a
+        rts
+@70cb:  lda     #$02
+        sta     $cf4e,x
+        jmp     $70bd
+
+; ---------------------------------------------------------------------------
+
+_c170d3:
+        jsr     $6dfd
+        jsr     $703a
+        clr_ax
+        sta     $96
+@70dd:  lda     $cf44,x
+        clc
+        adc     $cf48,x
+        longa
+        asl2
+        tay
+        shorta0
+        lda     $cf47,x
+        beq     @7103
+        phx
+        asl
+        tax
+        lda     $d4b91c,x
+        sta     $9e
+        lda     $d4b91d,x
+        sta     $9f
+        plx
+        bra     @710a
+@7103:  lda     $cf4c,x
+        sta     $9e
+        stz     $9f
+@710a:  lda     $cf62,x
+        and     #$80
+        bne     @7116
+        lda     $cf43,x
+        beq     @712a
+@7116:  lda     #$06
+        sta     $88
+        lda     #$f8
+@711c:  sta     $0201,y
+        iny
+        iny
+        iny
+        iny
+        dec     $88
+        bne     @711c
+        jmp     $72ae
+@712a:  lda     $cf61,x
+        beq     @7135
+        lda     $a2
+        and     #$02
+        beq     @7116
+@7135:  jsr     $6e52
+        lda     $cf4e,x
+        beq     @7143
+        phx
+        phy
+        txy
+        jmp     $714e
+@7143:  phx
+        phy
+        txy
+        lda     $cf58,x
+        bne     @714e
+        lda     $cf4d,x
+@714e:  pha
+        tax
+        lda     $d8de5a,x
+        tax
+        stx     $8a
+        tyx
+        lda     $cf57,x
+        beq     @7160
+        dec
+        bra     @7163
+@7160:  lda     $cf51,x
+@7163:  sta     $98
+        pla
+        asl3
+        clc
+        adc     $98
+        sta     $98
+        lda     $cf47,x
+        asl
+        tax
+        lda     $d4b916,x
+        clc
+        adc     $98
+        sta     $98
+        lda     $d4b917,x
+        adc     #$00
+        sta     $99
+        ldx     $98
+        lda     $d8de7a,x
+        pha
+        sta     $98
+        lda     #$06
+        sta     $9a
+        jsr     $fe4b
+        tyx
+        lda     $cf45,x
+        clc
+        adc     $cf49,x
+        sta     $98
+        stz     $99
+        longa
+        lda     $cf5d,x
+        clc
+        adc     $98
+        sta     $98
+        shorta0
+        pla
+        cmp     #$07
+        bne     @71b8
+        lda     $cf46,x
+        dec
+        bra     @71bb
+@71b8:  lda     $cf46,x
+@71bb:  clc
+        adc     $cf4a,x
+        sta     $99
+        stz     $9a
+        longa
+        lda     $cf5f,x
+        clc
+        adc     $99
+        sta     $99
+        shorta0
+        lda     $cf4b,x
+        sta     $9a
+        lda     $bc9a
+        beq     @71e0
+        lda     $9a
+        and     #$ef
+        sta     $9a
+@71e0:  jsr     $6ef6
+        jsr     $6fa4
+        stz     $89
+        lda     $cf4e,x
+        bne     @71f2
+        lda     $cf56,x
+        bpl     @71fa
+@71f2:  lda     #$40
+        sta     $94
+        lda     #$0c
+        bra     @71fd
+@71fa:  stz     $94
+        clr_a
+@71fd:  sta     $88
+        longa
+        lda     $8a
+        clc
+        adc     #$de4e
+        sta     $90
+        lda     $8a
+        clc
+        adc     #$de36
+        adc     $88
+        sta     $8c
+        lda     $9c
+        clc
+        adc     #$b997      ; d4/b997 (battle character tilemaps)
+        sta     $88
+        shorta0
+        lda     #$d4
+        sta     $8a
+        lda     #$d8
+        sta     $8e
+        lda     #$d8
+        sta     $92
+        lda     $dbd3
+        beq     @7233
+        lda     #$c0
+        bra     @7235
+@7233:  lda     #$a0
+@7235:  sta     $a0
+        ply
+        tyx
+        phx
+        clr_ay
+@723c:  lda     [$8c],y
+        clc
+        adc     $98
+        eor     $f6
+        sec
+        sbc     $f8
+        sta     $0200,x
+        inx
+        lda     [$90],y
+        clc
+        adc     $99
+        cmp     $a0
+        bcc     @7255
+        lda     #$f0
+@7255:  sta     $0200,x
+        inx
+        lda     [$88],y
+        cmp     #$ff
+        bne     @7267
+        sta     $0200,x
+        lda     #$01
+        inx
+        bra     @7273
+@7267:  clc
+        adc     $9e
+        sta     $0200,x
+        inx
+        lda     $9a
+        clc
+        adc     $9f
+@7273:  eor     $94
+        eor     $f7
+        sta     $0200,x
+        inx
+        iny
+        cpy     #$0006
+        bne     @723c
+        plx
+        lda     $a2
+        and     #$01
+        bne     @72ad
+        txy
+        lda     $96
+        asl
+        tax
+        longa
+        lda     $d0e1e0,x
+        tax
+        shorta0
+        lda     #$18
+        sta     $88
+@729b:  lda     $f789,x
+        sta     $f7e9,x
+        lda     $0200,y
+        sta     $f789,x
+        inx
+        iny
+        dec     $88
+        bne     @729b
+@72ad:  plx
+@72ae:  jsr     $72c1
+        inc     $96
+        txa
+        clc
+        adc     #$20
+        tax
+        cpx     #$0080
+        beq     @72c0
+        jmp     $70dd
+@72c0:  rts
+
+; ---------------------------------------------------------------------------
+
+_c172c1:
+@72c1:  lda     $cf52,x
+        beq     @72da
+        inc     $cf50,x
+        lda     $cf50,x
+        and     $cf4f,x
+        bne     @72da
+        lda     $cf51,x
+        inc
+        and     #$07
+        sta     $cf51,x
+@72da:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c172db:
+@72db:  pha
+        lda     #$88
+        sta     $dbb6
+        jsr     $fc96       ; generate random number
+        and     #$03
+        beq     @72ec
+        lda     #$56
+        bra     @72ee
+@72ec:  lda     #$0e
+@72ee:  jsr     $fbd9       ; play sound effect
+        jsr     $78f5       ; flash screen
+        pla
+        beq     @72fa
+        jsr     $8141       ; wait
+@72fa:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c172fb:
+@72fb:  lda     #$78
+        jsr     $72db
+        lda     #$78
+        jsr     $72db
+        jsr     $7539
+        lda     #$13
+        sta     $f9e9
+        lda     #$84
+        jsr     $fbd9       ; play sound effect
+        clr_ax
+@7314:  lda     $ee58,x
+        and     #$03
+        bne     @7321
+        stz     $ee57,x
+        stz     $ee58,x
+@7321:  inx
+        inx
+        cpx     #$0500
+        bne     @7314
+@7328:  lda     $ff2f
+        beq     @7337
+        ldx     $bc79
+        dex
+        stx     $bc79
+        jsr     $1cc2
+@7337:  jsr     $7529
+        stz     $86
+        lda     $f9e9
+        jsr     $7375
+        inc     $86
+        lda     $f9e9
+        clc
+        adc     #$04
+        jsr     $7375
+        lda     #$10
+        sta     $86
+        lda     $f9e9
+        clc
+        adc     #$08
+        jsr     $7375
+        inc     $86
+        lda     $f9e9
+        clc
+        adc     #$0c
+        jsr     $7375
+        dec     $f9e9
+        lda     $f9e9
+        cmp     #$f0
+        bne     @7328
+        lda     #$02
+        sta     $ff2e
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c17374:
+@7375:  sta     $81
+        sta     $80
+        stz     $82
+        stz     $87
+@737d:  clr_ay
+        lda     $82
+        and     #$07
+        tax
+@7384:  lda     $d97c7a,x
+        sta     $0070,y
+        sta     $0071,y
+        inx
+        iny
+        iny
+        cpy     #$0010
+        bne     @7384
+        phb
+        lda     #$7f
+        pha
+        plb
+        lda     $80
+        bmi     @73d6
+        cmp     #$14
+        bcs     @73d6
+        longa
+        asl6
+        tax
+        lda     #$0016
+        sta     $84
+@73b1:  lda     $7eee57,x
+        beq     @73cd
+        and     #$01ff
+        asl5
+        clc
+        adc     $86
+        tay
+        jsr     _c178ab
+        lda     #$0001
+        sta     $7eff2f
+@73cd:  inx
+        inx
+        dec     $84
+        bne     @73b1
+        shorta0
+@73d6:  plb
+        inc     $80
+        inc     $81
+        lda     $81
+        bmi     @73e3
+        cmp     #$14
+        bcs     @73eb
+@73e3:  inc     $82
+        lda     $82
+        cmp     #$08
+        bne     @737d
+@73eb:  rts
+
+; ---------------------------------------------------------------------------
+
+_c173ec:
+        inc     $ff2e
+        lda     #$78
+        jsr     $72db
+        lda     #$47
+        sta     $ff04
+        lda     #$03
+        sta     $dbec
+        stz     $ff2c
+        inc     $dbeb
+        lda     #$3c
+        jsr     $72db
+        lda     #$f0
+        jsr     $72db
+        lda     #$03
+        sta     $bc9e
+        lda     #$02
+        sta     $bc8b
+        sta     $bc8c
+        lda     #$80
+        sta     $ff2d
+        lda     #$1c
+        sta     $f9e9
+        ldx     #$01e0
+@7428:  phx
+        jsr     $02f2       ; wait one frame
+        jsr     $fc96       ; generate random number
+        and     #$3f
+        bne     @7436
+        jsr     $72db
+@7436:  plx
+        dex
+        bne     @7428
+        jsr     $7539
+@743d:  jsr     $7529
+        jsr     $fc96       ; generate random number
+        and     #$3f
+        bne     @744a
+        jsr     $72db
+@744a:  clr_ax
+        stx     $86
+        lda     $f9e9
+        jsr     $7471
+        ldx     #$0010
+        stx     $86
+        lda     $f9e9
+        clc
+        adc     #$04
+        jsr     $7471
+        dec     $f9e9
+        lda     $f9e9
+        cmp     #$f4
+        bne     @743d
+        lda     #$f0
+        jmp     $8141       ; wait
+
+; ---------------------------------------------------------------------------
+
+_c17471:
+@7471:  sta     $81
+        and     #$1f
+        sta     $80
+        stz     $82
+@7479:  clr_ay
+        lda     $82
+        and     #$07
+        tax
+@7480:  lda     $d97c7a,x
+        sta     $0070,y
+        sta     $0071,y
+        inx
+        iny
+        iny
+        cpy     #$0010
+        bne     @7480
+        phb
+        lda     #$7f
+        pha
+        plb
+        lda     $80
+        longa
+        asl
+        tax
+        lda     #$0014
+        sta     $84
+@74a2:  lda     $7eee57,x
+        and     #$01ff
+        asl5
+        clc
+        adc     $86
+        tay
+        jsr     $7864
+        txa
+        clc
+        adc     #$0040
+        tax
+        dec     $84
+        bne     @74a2
+        shorta0
+        plb
+        inc     $80
+        inc     $81
+        lda     $81
+        bmi     @74cf
+        cmp     #$20
+        bcs     @74d7
+@74cf:  inc     $82
+        lda     $82
+        cmp     #$08
+        bne     @7479
+@74d7:  rts
+
+; ---------------------------------------------------------------------------
+
+_c174d8:
+@74d8:  jsr     $7539
+        lda     $e4
+        sta     $70
+        clr_axy
+@74e2:  asl     $70
+        bcc     @7503
+        lda     $d0e6,y
+        beq     @7519
+        longa
+        asl4
+        sta     $72
+        clr_a
+@74f4:  sta     $7fc000,x
+        inx
+        inx
+        dec     $72
+        bne     @74f4
+        shorta0
+        bra     @7519
+@7503:  lda     $d0e6,y
+        beq     @7519
+        longa
+        asl5
+        sta     $72
+        txa
+        clc
+        adc     $72
+        tax
+        shorta0
+@7519:  iny
+        cpy     #$0008
+        bne     @74e2
+        jsr     $7529
+        lda     $e4
+        sta     $70
+        jmp     $2068       ; load monster palettes
+
+; ---------------------------------------------------------------------------
+
+_c17529:
+@7529:  ldx     #$4000
+        stx     $70
+        ldx     #$c000
+        lda     #$7f
+        ldy     #$2000
+        jmp     $fd27
+
+; ---------------------------------------------------------------------------
+
+_c17539:
+@7539:  phb
+        longa
+        ldx     #$8000
+        ldy     #$c000
+        lda     #$3fff
+        mvn     #$7f,#$7f
+        shorta0
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1754d:
+@754d:  lda     $70
+        pha
+        ldx     #$0010
+@7553:  phx
+        jsr     $02f2       ; wait one frame
+        clr_ax
+        longa
+@755b:  lda     $7e69,x
+        jsr     $7576
+        sta     $7e69,x
+        inx
+        inx
+        cpx     #$0020
+        bne     @755b
+        shorta0
+        plx
+        dex
+        bne     @7553
+        pla
+        sta     $70
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c17576:
+        .a16
+@7576:  sta     $72
+        and     #$001f
+        cmp     #$001f
+        beq     @7585
+        lda     $72
+        inc
+        sta     $72
+@7585:  lda     $72
+        and     #$03e0
+        cmp     #$03e0
+        beq     @7597
+        lda     $72
+        clc
+        adc     #$0020
+        sta     $72
+@7597:  lda     $72
+        and     #$7c00
+        cmp     #$7c00
+        beq     @75a9
+        lda     $72
+        clc
+        adc     #$0400
+        sta     $72
+@75a9:  lda     $72
+        rts
+        .a8
+
+; ---------------------------------------------------------------------------
+
+_c175ac:
+@75ac:  lda     $70
+        eor     #$ff
+        sta     $74
+        lda     $de
+        and     $74
+        sta     $de
+        jmp     $1cb8
+
+; ---------------------------------------------------------------------------
+
+_c175bb:
+        cmp     #$0a
+        beq     @75c6
+        ora     #$80
+        sta     $e5
+        jmp     $75db
+@75c6:  lda     $70
+        pha
+        jsr     $7539
+        jsr     $7529
+        pla
+        ora     $de
+        sta     $de
+        jmp     $1cb8
+
+; ---------------------------------------------------------------------------
+
+; [ battle graphics function $08:  ]
+
+_c175d7:
+        lda     #$81
+        sta     $e5
+@75db:  lda     $70
+        sta     $e4
+        lda     $de
+        ora     $e4
+        sta     $de
+        jsr     $74d8
+        jsr     $1cb8
+        lda     $e4
+        eor     #$ff
+        sta     $74
+        clr_ax
+@75f3:  sta     $f52c,x
+        inx
+        cpx     #$0010
+        bne     @75f3
+        jsr     $772c
+        jmp     $1cb8
+
+; ---------------------------------------------------------------------------
+
+_c17602:
+        cmp     #$0a
+        beq     @760b
+        sta     $e5
+        jmp     $7695
+@760b:  sta     $e5
+        jsr     $75ac
+        jmp     $8b2a
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c17613:
+        cmp     #$0a
+        beq     @761c
+        sta     $e5
+        jmp     $765e
+@761c:  sta     $e5
+        jsr     $75ac
+        jmp     $8b2a
+
+; ---------------------------------------------------------------------------
+
+_c17624:
+@7624:  clr_ax
+@7626:  lda     $d99655,x
+        sta     $7e69,x
+        inx
+        cpx     #$0020
+        bne     @7626
+        lda     $70
+        pha
+        jsr     $1cb1       ; load black and white monster palette
+        pla
+        sta     $70
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1763d:
+@763d:  clr_ax
+        lda     #$80
+        sta     $72
+        stz     $73
+@7645:  lda     $7b9e,x
+        and     #$30
+        beq     @7652
+        lda     $73
+        ora     $72
+        sta     $73
+@7652:  lsr     $72
+        inx
+        inx
+        inx
+        inx
+        cpx     #$0020
+        bne     @7645
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1765e:
+@765e:  lda     $de
+        and     $70
+        beq     @766a
+        jsr     $76bc
+        jmp     $8b2a
+@766a:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1766b:
+@766b:  lda     $de
+        and     $70
+        beq     @768b
+        lda     $70
+        eor     #$ff
+        sta     $72
+        lda     $de
+        and     $72
+        bne     @768b
+        lda     $3efe
+        and     #$01
+        beq     @768b
+        jsr     $72fb
+        stz     $de
+        sec
+        rts
+@768b:  clc
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ battle graphics function $07: condemn death animation ]
+
+_c1768d:
+        jsr     $766b
+        bcc     @7693
+        rts
+@7693:  stz     $e5
+@7695:  lda     $de
+        and     $70
+        beq     @76ab
+        lda     #$33
+        sta     $dbb6       ; sound effect volume
+        lda     #$3b
+        jsr     $fbd9       ; play sound effect
+        jsr     $76bc
+        jsr     $8b2a
+@76ab:  lda     $ff2c
+        and     $de
+        sta     $ff2c
+        lda     $ff2d
+        and     $de
+        sta     $ff2d
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c176bc:
+@76bc:  lda     #$01
+        sta     $bc8b
+        lda     #$42
+        sta     $bc85
+        lda     #$02
+        sta     $bc8c
+        jsr     $35e1       ; set priority bit for battle bg tiles
+        jsr     $7624
+        jsr     $754d
+        jsr     $763d
+        lda     $70
+        and     $73
+        eor     #$ff
+        sta     $73
+        lda     $de
+        and     $73
+        sta     $de
+        lda     $70
+        pha
+        jsr     $1cb1       ; load black and white monster palette
+        pla
+        sta     $70
+        jsr     $76fe
+        jsr     $35fe       ; clear priority bit for battle bg tiles
+        stz     $bc8c
+        stz     $bc8b
+        stz     $bc85
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c176fe:
+@76fe:  lda     $70
+        sta     $e3
+        eor     #$ff
+        sta     $74
+        lda     $de
+        and     $e3
+        beq     @772b
+        lda     $de
+        and     $74
+        sta     $de
+        phb
+        longa
+        ldx     #$8000
+        ldy     #$c000
+        lda     #$3fff
+        mvn     #$7f,#$7f
+        shorta0
+        plb
+        jsr     $772c
+        jmp     $1cb8
+@772b:  rts
+
+; ---------------------------------------------------------------------------
+
+; [ something with boss dissolve death ??? ]
+
+_c1772c:
+@772c:  clr_axy
+@772f:  lda     $d0e6,y
+        beq     @7744
+        sta     $76
+        asl     $74
+        rol
+        and     #$01
+@773b:  sta     $7f7500,x
+        inx
+        dec     $76
+        bne     @773b
+@7744:  iny
+        cpy     #$0008
+        bne     @772f
+        ldx     #$0000
+@774d:  ldy     #$c000
+        sty     $d0e2
+        ldy     #$2000
+        sty     $d0e4
+        ldy     #$0000
+@775c:  jsr     $778a
+        longa
+        lda     $d0e2
+        clc
+        adc     #$0800
+        sta     $d0e2
+        lda     $d0e4
+        clc
+        adc     #$0400
+        sta     $d0e4
+        tya
+        clc
+        adc     #$0800
+        tay
+        shorta0
+        cpy     #$4000
+        bne     @775c
+        inx
+        cpx     #$0008
+        bne     @774d
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1778a:
+@778a:  phx
+        phy
+        phy
+        ldy     #$0000
+        txa
+        sta     $86
+        lda     $e5
+        and     #$7f
+        asl4
+        clc
+        adc     $86
+        tax
+@779f:  lda     $e5
+        bmi     @77a9
+        lda     $d97c7a,x
+        bra     @77b5
+@77a9:  lda     $d97c7a,x
+        eor     #$ff
+        ora     $f52c,y
+        sta     $f52c,y
+@77b5:  sta     $0070,y
+        sta     $0071,y
+        lda     $e5
+        sta     $85
+        stz     $84
+        inx
+        iny
+        iny
+        cpy     #$0010
+        bne     @779f
+        ply
+        lda     #$40
+        sta     $86
+        stz     $87
+        phb
+        lda     #$7f
+        pha
+        plb
+        longa
+        tya
+        lsr5
+        tax
+@77de:  lda     $7f7500,x
+        and     #$0001
+        beq     @77ef
+        tya
+        clc
+        adc     #$0020
+        tay
+        bra     @7801
+@77ef:  lda     $84
+        bmi     @77fb
+        jsr     $7864
+        jsr     $7864
+        bra     @7801
+@77fb:  jsr     $781d
+        jsr     $781d
+@7801:  inx
+        dec     $86
+        bne     @77de
+        shorta0
+        plb
+        ldx     #$0800
+        stx     $70
+        ldx     $d0e2
+        lda     #$7f
+        ldy     $d0e4
+        jsr     $fd27
+        ply
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1781d:
+        .a16
+@781d:  lda     $8000,y
+        and     $70
+        sta     $c000,y
+        lda     $8002,y
+        and     $72
+        sta     $c002,y
+        lda     $8004,y
+        and     $74
+        sta     $c004,y
+        lda     $8006,y
+        and     $76
+        sta     $c006,y
+        lda     $8008,y
+        and     $78
+        sta     $c008,y
+        lda     $800a,y
+        and     $7a
+        sta     $c00a,y
+        lda     $800c,y
+        and     $7c
+        sta     $c00c,y
+        lda     $800e,y
+        and     $7e
+        sta     $c00e,y
+        tya
+        clc
+        adc     #$0010
+        tay
+        rts
+        .a8
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c17864:
+        .a16
+@7864:  lda     $c000,y
+        and     $70
+        sta     $c000,y
+        lda     $c002,y
+        and     $72
+        sta     $c002,y
+        lda     $c004,y
+        and     $74
+        sta     $c004,y
+        lda     $c006,y
+        and     $76
+        sta     $c006,y
+        lda     $c008,y
+        and     $78
+        sta     $c008,y
+        lda     $c00a,y
+        and     $7a
+        sta     $c00a,y
+        lda     $c00c,y
+        and     $7c
+        sta     $c00c,y
+        lda     $c00e,y
+        and     $7e
+        sta     $c00e,y
+        tya
+        clc
+        adc     #$0010
+        tay
+        rts
+        .a8
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c178ab:
+@78ab:  longa
+        lda     $c000,y
+        and     $70
+        sta     $c000,y
+        lda     $c002,y
+        and     $72
+        sta     $c002,y
+        lda     $c004,y
+        and     $74
+        sta     $c004,y
+        lda     $c006,y
+        and     $76
+        sta     $c006,y
+        lda     $c008,y
+        and     $78
+        sta     $c008,y
+        lda     $c00a,y
+        and     $7a
+        sta     $c00a,y
+        lda     $c00c,y
+        and     $7c
+        sta     $c00c,y
+        lda     $c00e,y
+        and     $7e
+        sta     $c00e,y
+        tya
+        clc
+
+; *** bug ***
+; this instruction has an 8-bit parameter in the original ROM, but
+; the accumulator is 16-bit here
+        .a8
+        adc     #$10
+        tay
+        longa
+        rts
+        .a8
+
+; ---------------------------------------------------------------------------
+
+; [ misc effect $03: flash screen ]
+
+_c178f5:
+@78f5:  lda     #$1e
+        sta     $f8c8
+        inc     $f8c7
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ update screen flash ]
+
+_c178fe:
+        lda     $f8c7
+        beq     @792f
+        lda     #$02        ; color math affect bg2
+        sta     $bc85
+        lda     $f8c8
+        ora     #$e0        ; flash white
+        sta     $bc88
+        sta     $bc89
+        sta     $bc8a
+        dec     $f8c8
+        dec     $f8c8
+        bne     @792f
+        lda     #$e0        ; clear screen flash intensity
+        sta     $bc88
+        sta     $bc89
+        sta     $bc8a
+        stz     $f8c7
+        stz     $bc85       ; color math affect none
+@792f:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c17930:
+@7930:  lda     $db56
+        beq     @7978
+        lda     $a2
+        and     #$03
+        bne     @7978
+        lda     #$01
+        sta     $98
+        lda     #$07
+        sta     $9a
+        asl     $98
+        lda     $9a
+        asl
+        clc
+        adc     $98
+        tax
+        stz     $9b
+        longa
+        lda     $f849,x
+        pha
+@7954:  lda     $f847,x
+        sta     $f849,x
+        dex2
+        dec     $9a
+        bne     @7954
+        pla
+        sta     $f849,x
+        shorta0
+        clr_ax
+@7969:  lda     $f849,x
+        sta     $7e69,x
+        sta     $7e79,x
+        inx
+        cpx     #$0010
+        bne     @7969
+@7978:  rts
+
+; ---------------------------------------------------------------------------
+
+_c17979:
+        jsr     $7930
+        lda     $d0ee
+        beq     @7984
+        jsr     $7eb4
+@7984:  lda     $d0f0
+        beq     @798c
+        jsr     $7d5f
+@798c:  lda     $d0f2
+        beq     @7994
+        jsr     $7ba0
+@7994:  lda     $d0f4
+        beq     @799c
+        jsr     $7cb5
+@799c:  lda     $d0f6
+        beq     @79a4
+        jsr     $7c49
+@79a4:  rts
+
+; ---------------------------------------------------------------------------
+
+_c179a5:
+        phx
+        phy
+        tax
+        lda     $d97d25,x
+        sta     $80
+        lda     $d0f7
+        bne     @79c3
+        lda     #$0a        ; mode 2
+        sta     $bc81
+        lda     $7e
+        sta     $d10d
+        stz     $d10e
+        stz     $d10f
+@79c3:  lda     $7e
+        bpl     @79f5
+        lda     $80
+        eor     #$ff
+        sta     $80
+        lda     $d0f7
+        and     $80
+        sta     $d0f7
+        bne     @7a02
+        stz     $d0f6
+        stz     $d0f7
+        stz     $d10d
+        clr_ax
+@79e2:  sta     $b404,x
+        inx
+        cpx     #$0040
+        bne     @79e2
+        inc     $b3c0
+        lda     #$09        ; mode 1
+        sta     $bc81
+        bra     @7a02
+@79f5:  lda     #$01
+        sta     $d0f6
+        lda     $d0f7
+        ora     $80
+        sta     $d0f7
+@7a02:  longa
+        clr_ay
+@7a06:  lda     $0070,y
+        pha
+        iny
+        iny
+        cpy     #$000c
+        bne     @7a06
+        shorta0
+        jsr     $3cbb
+        longa
+        ldy     #$000c
+@7a1c:  pla
+        sta     $006e,y
+        dey2
+        bne     @7a1c
+        shorta0
+        ply
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c17a2a:
+        phx
+        phy
+        tax
+        lda     $d97d25,x
+        sta     $80
+        lda     $d0f5
+        bne     @7a4b
+        lda     $bc84
+        ora     #$01
+        sta     $bc84
+        lda     $7e
+        sta     $d10a
+        stz     $d10b
+        stz     $d10c
+@7a4b:  lda     $7e
+        bpl     @7a83
+        lda     $80
+        eor     #$ff
+        sta     $80
+        lda     $d0f5
+        and     $80
+        sta     $d0f5
+        bne     @7a90
+        stz     $d0f4
+        stz     $d0f5
+        stz     $d10a
+        clr_ax
+@7a6a:  sta     $a937,x
+        sta     $a9b7,x
+        sta     $acb7,x
+        inx
+        cpx     #$0080
+        bne     @7a6a
+        lda     $bc84
+        and     #$fe
+        sta     $bc84
+        bra     @7a90
+@7a83:  lda     #$01
+        sta     $d0f4
+        lda     $d0f5
+        ora     $80
+        sta     $d0f5
+@7a90:  ply
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c17a93:
+        phx
+        phy
+        tax
+        lda     $d97d25,x
+        sta     $80
+        lda     $d0f3
+        bne     @7aac
+        lda     $7e
+        sta     $d106
+        stz     $d108
+        stz     $d109
+@7aac:  lda     $7e
+        bpl     @7af2
+        lda     $80
+        eor     #$ff
+        sta     $80
+        lda     $d0f3
+        and     $80
+        sta     $d0f3
+        bne     @7aff
+        stz     $d0f2
+        stz     $d0f3
+        stz     $d106
+        stz     $bc77
+        stz     $bc79
+        clr_ax
+@7ad1:  sta     $a937,x
+        sta     $a9b7,x
+        sta     $acb7,x
+        inx
+        cpx     #$0080
+        bne     @7ad1
+        lda     $f8c5
+        bne     @7af0
+        clr_ax
+@7ae7:  sta     $acb7,x
+        inx
+        cpx     #$0080
+        bne     @7ae7
+@7af0:  bra     @7aff
+@7af2:  lda     #$01
+        sta     $d0f2
+        lda     $d0f3
+        ora     $80
+        sta     $d0f3
+@7aff:  ply
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c17b02:
+        phx
+        phy
+        tax
+        lda     $d97d25,x
+        sta     $80
+        lda     $d0f1
+        bne     @7b18
+        jsr     $7d52
+        lda     $7e
+        sta     $d102
+@7b18:  lda     $7e
+        and     #$07
+        bne     @7b33
+        lda     $80
+        eor     #$ff
+        sta     $80
+        lda     $d0f1
+        and     $80
+        sta     $d0f1
+        bne     @7b40
+        jsr     $7d8c
+        bra     @7b40
+@7b33:  lda     #$01
+        sta     $d0f0
+        lda     $d0f1
+        ora     $80
+        sta     $d0f1
+@7b40:  ply
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c17b43:
+        phx
+        phy
+        tax
+        lda     $f8bd
+        cmp     #$ff
+        bne     @7b91
+        lda     $d97d25,x
+        sta     $80
+        lda     $d0ef
+        bne     @7b63
+        stz     $d100
+        jsr     $7eab
+        lda     $7e
+        sta     $d0fe
+@7b63:  lda     $7e
+        and     #$07
+        bne     @7b84
+        lda     $80
+        eor     #$ff
+        sta     $80
+        lda     $d0ef
+        and     $80
+        sta     $d0ef
+        bne     @7b91
+        stz     $d0ee
+        stz     $d0fe
+        jsr     $7ee2
+        bra     @7b91
+@7b84:  lda     #$01
+        sta     $d0ee
+        lda     $d0ef
+        ora     $80
+        sta     $d0ef
+@7b91:  ply
+        plx
+        rts
+        clr_ax
+@7b96:  sta     $d0ee,x
+        inx
+        cpx     #$000a
+        bne     @7b96
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c17ba0:
+@7ba0:  lda     $d107
+        and     #$01
+        bne     @7bd5
+        lda     $d106
+        and     #$1c
+        lsr2
+        sta     $8c
+        stz     $88
+        stz     $8a
+        lda     $d106
+        and     #$40
+        beq     @7bc3
+        jsr     $fc96       ; generate random number
+        and     $8c
+        sta     $d108
+@7bc3:  lda     $d106
+        and     #$20
+        beq     @7bd5
+        jsr     $fc96       ; generate random number
+        and     $8c
+        eor     #$ff
+        inc
+        sta     $d109
+@7bd5:  lda     $d108
+        sta     $88
+        lda     $d109
+        sta     $8a
+        lda     $d107
+        and     #$01
+        bne     @7c14
+        lda     $d106
+        and     #$01
+        beq     @7c14
+        clr_ax
+@7bef:  lda     $88
+        sta     $a937,x
+        sta     $a9b7,x
+        lda     $8a
+        sta     $a939,x
+        sta     $a9b9,x
+        inx
+        inx
+        inx
+        inx
+        cpx     #$0080
+        bne     @7bef
+        lda     $88
+        sta     $bc77
+        lda     $8a
+        sta     $bc79
+        bra     @7c45
+@7c14:  lda     $d106
+        and     #$02
+        beq     @7c45
+        lda     $f8c5
+        bne     @7c30
+        clr_ax
+@7c22:  lda     $88
+        sta     $acb7,x
+        inx
+        inx
+        inx
+        inx
+        cpx     #$0080
+        bne     @7c22
+@7c30:  lda     $f8c6
+        bne     @7c45
+        clr_ax
+@7c37:  lda     $88
+        sta     $acb9,x
+        inx
+        inx
+        inx
+        inx
+        cpx     #$0080
+        bne     @7c37
+@7c45:  inc     $d107
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c17c49:
+@7c49:  lda     $d10d
+        and     #$1c
+        lsr2
+        sta     $8e
+        lda     $d10d
+        and     #$03
+        asl5
+        sta     $8c
+        clr_ay
+        lda     $d10f
+        sta     $88
+@7c65:  lda     $d10d
+        and     #$1c
+        lsr
+        sta     $9a
+        lda     $88
+        jsr     $0a32
+        stz     $98
+        sec
+        sbc     $8e
+        bpl     @7c7f
+        pha
+        lda     #$03
+        sta     $98
+        pla
+@7c7f:  sta     $b404,y
+        lda     $8c
+        ora     $98
+        sta     $b405,y
+        lda     $88
+        clc
+        adc     #$08
+        sta     $88
+        iny
+        iny
+        cpy     #$0040
+        bne     @7c65
+        lda     $d10d
+        and     #$60
+        lsr5
+        tax
+        lda     $d10f
+        clc
+        adc     $c17cb1,x
+        sta     $d10f
+        inc     $b3c0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c17cb1:
+        tsb     $08
+        bpl     @7cd5
+@7cb5:  lda     $d10a
+        and     #$60
+        lsr5
+        tax
+        lda     $c17d4e,x
+        sta     $92
+        lda     $d10a
+        and     #$1c
+        lsr
+        sta     $9a
+        lda     $d10c
+        sta     $88
+        clr_ax
+@7cd5:  phx
+        lda     $d10a
+        and     #$1c
+        lsr
+        sta     $9a
+        lda     $88
+        jsr     $0a32
+        plx
+        sta     $f9cc,x
+        lda     $88
+        clc
+        adc     #$10
+        sta     $88
+        inx
+        cpx     #$0010
+        bne     @7cd5
+        lda     $d10b
+        and     #$01
+        bne     @7d1e
+        lda     $d10a
+        and     #$01
+        beq     @7d1e
+        clr_axy
+@7d05:  lda     $f9cc,y
+        sta     $a937,x
+        sta     $a9b7,x
+        iny
+        tya
+        and     #$0f
+        tay
+        inx
+        inx
+        inx
+        inx
+        cpx     #$0080
+        bne     @7d05
+        bra     @7d4a
+@7d1e:  lda     $d10c
+        clc
+        adc     $92
+        sta     $d10c
+        lda     $d10a
+        and     #$02
+        beq     @7d4a
+        clr_axy
+        lda     $f8c5
+        bne     @7d4a
+@7d36:  lda     $f9cc,y
+        sta     $acb7,x
+        iny
+        tya
+        and     #$0f
+        tay
+        inx
+        inx
+        inx
+        inx
+        cpx     #$0080
+        bne     @7d36
+@7d4a:  inc     $d10b
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c17d4e:
+        .byte   $02,$06,$0e,$1e
+
+; ---------------------------------------------------------------------------
+
+_c17d52:
+@7d52:  stz     $d104
+        stz     $d111
+        stz     $d112
+        stz     $d113
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c17d5f:
+@7d5f:  lda     $d102
+        and     #$07
+        asl
+        tax
+        lda     $c17d7c,x
+        sta     $88
+        lda     $c17d7d,x
+        sta     $89
+        jsr     $7d79
+        inc     $d104
+        rts
+
+_c17d79:
+@7d79:  jmp     ($0088)
+
+; ---------------------------------------------------------------------------
+
+_c17d7c:
+        .addr   $7d8c,$7db0,$7e1f,$7e48,$7e6b,$7e1b,$7e44,$7e8b
+
+; ---------------------------------------------------------------------------
+
+_c17d8c:
+        lda     #$e0
+        sta     $bc88
+        sta     $bc89
+        sta     $bc8a
+        stz     $d102
+        stz     $d103
+        stz     $d104
+        stz     $d0f0
+        stz     $bc85
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c17da7:
+@7da7:  lda     $d102
+        bmi     @7daf
+        stz     $d102
+@7daf:  rts
+
+; ---------------------------------------------------------------------------
+
+_c17db0:
+        lda     #$42
+        sta     $bc85
+        lda     $d102
+        and     #$08
+        bne     @7dc0
+        lda     #$04
+        bra     @7dc2
+@7dc0:  lda     #$02
+@7dc2:  sta     $88
+        lda     $d104
+        and     $88
+        beq     @7dd9
+        lda     #$e0
+        sta     $bc88
+        sta     $bc89
+        sta     $bc8a
+        jmp     $7da7
+@7dd9:  lda     #$1f
+        sta     $d111
+        sta     $d112
+        sta     $d113
+        jmp     $7de7
+
+; ---------------------------------------------------------------------------
+
+_c17de7:
+@7de7:  stz     $bc88
+        stz     $bc89
+        stz     $bc8a
+        lda     $d102
+        and     #$40
+        beq     @7dfe
+        asl
+        ora     $d113
+        sta     $bc88
+@7dfe:  lda     $d102
+        and     #$20
+        beq     @7e0c
+        asl
+        ora     $d112
+        sta     $bc89
+@7e0c:  lda     $d102
+        and     #$10
+        beq     @7e1a
+        asl
+        ora     $d111
+        sta     $bc8a
+@7e1a:  rts
+@7e1b:  lda     #$82
+        bra     @7e21
+@7e1f:  lda     #$02
+@7e21:  sta     $bc85
+        jsr     $7ee5
+        lsr     $88
+        lda     $d104
+        and     $88
+        bne     @7e43
+        lda     $d111
+        cmp     #$1f
+        beq     @7e43
+        inc     $d111
+        inc     $d112
+        inc     $d113
+        jsr     $7de7
+@7e43:  rts
+
+; ---------------------------------------------------------------------------
+
+_c17e44:
+@7e44:  lda     #$82
+        bra     @7e4a
+@7e48:  lda     #$02
+@7e4a:  sta     $bc85
+        jsr     $7ee5
+        lsr     $88
+        lda     $d104
+        and     $88
+        bne     @7e6a
+        lda     $d111
+        beq     @7e6a
+        dec     $d111
+        dec     $d112
+        dec     $d113
+        jsr     $7de7
+@7e6a:  rts
+
+; ---------------------------------------------------------------------------
+
+_c17e6b:
+        lda     $d103
+        beq     @7e7a
+        lda     $d111
+        cmp     #$1f
+        beq     @7e82
+        jmp     $7e1f
+@7e7a:  lda     $d111
+        beq     @7e82
+        jmp     $7e48
+@7e82:  lda     $d103
+        eor     #$01
+        sta     $d103
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c17e8b:
+        lda     $d103
+        beq     @7e9a
+        lda     $d111
+        cmp     #$1f
+        beq     @7ea2
+        jmp     $7e1b
+@7e9a:  lda     $d111
+        beq     @7ea2
+        jmp     $7e44
+@7ea2:  lda     $d103
+        eor     #$01
+        sta     $d103
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c17eab:
+@7eab:  stz     $d101
+        lda     #$20
+        sta     $d0ff
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c17eb4:
+@7eb4:  lda     $d0fe
+        and     #$07
+        asl
+        tax
+        lda     $c17ed2,x
+        sta     $88
+        lda     $c17ed3,x
+        sta     $89
+        jsr     $7ece
+        inc     $d101
+        rts
+
+_c17ece:
+@7ece:  jmp     ($0088)
+
+; ---------------------------------------------------------------------------
+
+_c17ed1:
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c17ed2:
+        .addr   $7ee2,$7f43,$7ef5,$7f9a,$7fc7,$7f70,$7ed1,$7ed1
+
+; ---------------------------------------------------------------------------
+
+_c17ee1:
+        jmp     $7f34
+
+; ---------------------------------------------------------------------------
+
+_c17ee4:
+        lda     $d0fe
+        and     #$08
+        beq     @7ef0
+        lda     #$01
+        bra     @7ef2
+@7ef0:  lda     #$03
+@7ef2:  sta     $88
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c17ef5:
+        jsr     $7ee5
+        lda     $d101
+        and     $88
+        bne     @7f2a
+        longa
+        lda     $7e2b
+        pha
+        lda     $7e4b
+        pha
+        ldx     #$0002
+@7f0c:  lda     $7e2b,x
+        sta     $7e29,x
+        lda     $7e4b,x
+        sta     $7e49,x
+        inx
+        inx
+        cpx     #$001e
+        bne     @7f0c
+        pla
+        sta     $7e67
+        pla
+        sta     $7e47
+        shorta0
+@7f2a:  rts
+
+; ---------------------------------------------------------------------------
+
+_c17f2b:
+@7f2b:  lda     $d0fe
+        bmi     @7f33
+        stz     $d0fe
+@7f33:  rts
+
+; ---------------------------------------------------------------------------
+
+_c17f34:
+@7f34:  clr_ax
+@7f36:  lda     $f540,x
+        sta     $7e29,x
+        inx
+        cpx     #$0040
+        bne     @7f36
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c17f43:
+        lda     $d0fe
+        and     #$08
+        bne     @7f4e
+        lda     #$04
+        bra     @7f50
+@7f4e:  lda     #$02
+@7f50:  sta     $88
+        clr_ax
+        lda     $d101
+        and     $88
+        beq     @7f61
+        jsr     $7f34
+        jmp     $7f2b
+@7f61:  ldx     #$0002
+        lda     #$ff
+@7f66:  sta     $7e29,x
+        inx
+        cpx     #$0040
+        bne     @7f66
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c17f70:
+        lda     $d0ff
+        cmp     #$1a
+        bne     @7f84
+        lda     $d100
+        eor     #$01
+        sta     $d100
+        lda     #$06
+        sta     $d0ff
+@7f84:  lda     $d100
+        beq     @7f91
+        lda     $f8b4
+        bne     @7f99
+        jmp     $7f9a
+@7f91:  jsr     $7fc7
+        lda     #$01
+        sta     $f8b4
+@7f99:  rts
+
+; ---------------------------------------------------------------------------
+
+_c17f9a:
+@7f9a:  jsr     $7ee5
+        lda     $d101
+        and     $88
+        bne     @7fc6
+        lda     $d0ff
+        beq     @7fc6
+        tax
+        stx     $98
+        clr_ay
+        longa
+@7fb0:  lda     $f540,y
+        jsr     $7ffe
+        sta     $7e29,y
+        iny
+        iny
+        cpy     #$0040
+        bne     @7fb0
+        shorta0
+        dec     $d0ff
+@7fc6:  rts
+
+; ---------------------------------------------------------------------------
+
+_c17fc7:
+@7fc7:  jsr     $7ee5
+        lda     $d101
+        and     $88
+        bne     @7ffd
+        lda     $d0ff
+        cmp     #$1a
+        beq     @7ffd
+        tax
+        stx     $98
+        clr_ay
+        longa
+        lda     #$0020
+        sec
+        sbc     $98
+        sta     $98
+@7fe7:  lda     $f540,y
+        jsr     $7ffe
+        sta     $7e29,y
+        iny
+        iny
+        cpy     #$0040
+        bne     @7fe7
+        shorta0
+        dec     $d0ff
+@7ffd:  rts
+
+; ---------------------------------------------------------------------------
+
+_c17ffe:
+        .a16
+@7ffe:  sta     $88
+        lda     $98
+        asl5
+        sta     $9a
+        asl5
+        sta     $9c
+        lda     $88
+        and     #$001f
+        beq     @802b
+        cmp     $98
+        bcc     @8024
+        lda     $88
+        sec
+        sbc     $98
+        sta     $88
+        bra     @802b
+@8024:  lda     $88
+        and     #$7fe0
+        sta     $88
+@802b:  lda     $88
+        and     #$03e0
+        beq     @8046
+        cmp     $9a
+        bcc     @803f
+        lda     $88
+        sec
+        sbc     $9a
+        sta     $88
+        bra     @8046
+@803f:  lda     $88
+        and     #$7c1f
+        sta     $88
+@8046:  lda     $88
+        and     #$7c00
+        beq     @805f
+        cmp     $9c
+        bcc     @8058
+        lda     $88
+        sec
+        sbc     $9c
+        bra     @805f
+@8058:  lda     $88
+        and     #$03ff
+        sta     $88
+@805f:  lda     $88
+        rts
+        .a8
 
 ; ---------------------------------------------------------------------------
