@@ -36,12 +36,12 @@ _0003:
 
 
 .proc UnknownRoutine1_ext
-_0006
+_0006:
         jmp $E999 ; unknown routine
 .endproc
 
 .proc DAphx_ext
-_0009
+_0009:
         jmp $003F
 .endproc
 
@@ -49,7 +49,7 @@ _0009
 .proc JumpTable_ext
 _000C:
         asl A
-        tax 
+        tax
         lda $C10021,X ; jump table
         sta $7A
         lda $C10022,X
