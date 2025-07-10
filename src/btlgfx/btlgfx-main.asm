@@ -69,7 +69,7 @@ _0009:  jmp     _c1003f
 
 ExecBtlGfxTbl:
 @0021:  .addr   _c139f9, _c13a55, _c10348, _c102e0, _c102df, _c1422b, _c101e4, _c1768d
-        .addr   _c175d7, _c10208, $8189, _c1010b, _c100f2, _c100c6, _c10092
+        .addr   _c175d7, _c10208, _c18189, _c1010b, _c100f2, _c100c6, _c10092
 
 ; ---------------------------------------------------------------------------
 
@@ -131,7 +131,7 @@ _c10092:
         ldx     $04f0
         cpx     #$01ef
         bne     @00a7       ; branch if battle $01ef
-        jsr     $73ec       ;
+        jsr     _c173ec       ;
 @00a7:  jsr     _c102f2       ; wait one frame
         jsr     _c102f2       ; wait one frame
         lda     $bc7f
@@ -186,7 +186,7 @@ _c100f2:
         ldy     #$0003
         lda     #$09
         sta     ($e7),y
-        jmp     $979e
+        jmp     _c1979e
 
 ; ---------------------------------------------------------------------------
 
@@ -336,7 +336,7 @@ _c101e4:
 _c101f6:
 @01f6:  lda     #$05
         ldy     #$0140
-        jmp     $aa1d       ; load attack palette (8-colors)
+        jmp     _c1aa1d       ; load attack palette (8-colors)
 
 ; ---------------------------------------------------------------------------
 
@@ -431,7 +431,7 @@ _c10276:
         inx
         cpx     #$0003
         bne     @027d
-@028b:  lda     $c10272,x
+@028b:  lda     f:_c10272,x
         sta     $70
         plx
         rts
@@ -1781,7 +1781,7 @@ _c10c5f:
         beq     @0d77
         tax
         dec     $dbc6
-        lda     $c10c36,x
+        lda     f:_c10c36,x
         bpl     @0d70
 
 ; $ff
@@ -1986,7 +1986,7 @@ _c10f51:
         beq     @0f82
         lda     $dbd1
         tax
-        lda     $c10f11,x
+        lda     f:_c10f11,x
         inc     $dbd1
         inc     $dbd2
         longa
@@ -2250,9 +2250,9 @@ _c11186:
 @1186:  lda     $cd3a
         asl
         tax
-        lda     $c1119b,x
+        lda     f:_c1119b,x
         sta     $88
-        lda     $c1119c,x
+        lda     f:_c1119b+1,x
         sta     $89
         jmp     ($0088)
         rts
@@ -2428,13 +2428,13 @@ _c1133d:
         and     #$07        ; copy $0100 bytes per frame, 8 frames to update
         asl
         tax
-        lda     $c1136e,x
+        lda     f:_c1136e,x
         sta     $8a
-        lda     $c1136f,x
+        lda     f:_c1136e+1,x
         sta     $8b
-        lda     $c1137e,x
+        lda     f:_c1137e,x
         sta     $8c
-        lda     $c1137f,x
+        lda     f:_c1137e+1,x
         sta     $8d
         ldx     #$0100
         stx     $88
@@ -2528,11 +2528,11 @@ _c113da:
         and     #$c0
         lsr5
         tax
-        lda     $c1142c,x
+        lda     f:_c1142c,x
         clc
         adc     $8a
         sta     $8a
-        lda     $c1142d,x
+        lda     f:_c1142c+1,x
         adc     $8b
         sta     $8b
         ldy     #$0000
@@ -2555,7 +2555,7 @@ _c1142c:
 _c11434:
 @1434:  ldy     #$0000
 @1437:  tyx
-        lda     $c1b126,x
+        lda     f:_c1b126,x
         tax
         lda     $cf45,x
         clc
@@ -2598,16 +2598,16 @@ _c11482:
         lda     $b3ba
         asl
         tax
-        lda     $c114ed,x
+        lda     f:_c114ed,x
         sta     $88
-        lda     $c114ee,x
+        lda     f:_c114ed+1,x
         sta     $89
         lda     $b3bb
         asl
         tax
-        lda     $c114ed,x
+        lda     f:_c114ed,x
         sta     $8c
-        lda     $c114ee,x
+        lda     f:_c114ed+1,x
         sta     $8d
         lda     #$c1
         sta     $8a
@@ -2822,7 +2822,7 @@ _c1162c:
         sta     f:$002116
         lda     #$0007
         sta     $8a
-@1679:  lda     $c115bc,x
+@1679:  lda     f:_c115bc,x
         and     #$00ff
         ora     #$2000
         sta     f:$002118
@@ -3318,7 +3318,7 @@ _c11a57:
         bne     @1a7f
         shorta0
         jsr     $1ceb
-        jsr     $8b2a
+        jsr     _c18b2a
         longa
         ldy     #$000c
 @1a98:  pla
@@ -4692,13 +4692,13 @@ _c124e2:
 @2505:  asl3
         tax
         longa
-        lda     $c124a3,x   ; pointer to character graphics
+        lda     f:_c124a3,x   ; pointer to character graphics
         sta     $70
-        lda     $c124a5,x
+        lda     f:_c124a3+2,x
         sta     $72
-        lda     $c124a7,x   ; pointer to character graphics (dead)
+        lda     f:_c124a3+4,x   ; pointer to character graphics (dead)
         sta     $76
-        lda     $c124a9,x
+        lda     f:_c124a3+6,x
         sta     $78
         shorta0
         lda     $cfca,y
@@ -4833,10 +4833,10 @@ _c12607:
         beq     @2682
         asl
         tax
-        lda     $c124cb,x   ; pointers to character palettes
+        lda     f:_c124cb,x   ; pointers to character palettes
         sta     $70
         sta     $74
-        lda     $c124cc,x
+        lda     f:_c124cb+1,x
         sta     $71
         sta     $75
         lda     $cfca,y     ; job
@@ -5290,9 +5290,9 @@ _c1299a:
 _c129a0:
 @29a0:  asl
         tax
-        lda     $c129b1,x
+        lda     f:_c129b1,x
         sta     $70
-        lda     $c129b2,x
+        lda     f:_c129b1+1,x
         sta     $71
         jmp     ($0070)
 
@@ -5300,10 +5300,10 @@ _c129a0:
 
 ; jump table for escape codes $00-$1f
 _c129b1:
-        .addr   $2f0f,$2f0f,$2f0f,$2f0f,$2f0f,$2c9a,$2f0f,$2f0f ; $00
-        .addr   $2f0f,$2f0f,$2f0f,$2f0f,$2f0f,$2f0f,$2c81,$2c15
-        .addr   $2b35,$2b13,$2af9,$2a90,$2a6e,$2a2f,$29f1,$2f0f ; $10
-        .addr   $2bdb,$2b9d,$2bb6,$2f0f,$2f0f,$2f0f,$2cab,$2cb2
+        .addr   _c12f0f,_c12f0f,_c12f0f,_c12f0f,_c12f0f,_c12c9a,_c12f0f,_c12f0f ; $00
+        .addr   _c12f0f,_c12f0f,_c12f0f,_c12f0f,_c12f0f,_c12f0f,_c12c81,_c12c15
+        .addr   _c12b35,_c12b13,_c12af9,_c12a90,_c12a6e,_c12a2f,_c129f1,_c12f0f ; $10
+        .addr   _c12bdb,_c12b9d,_c12bb6,_c12f0f,_c12f0f,_c12f0f,_c12cab,_c12cb2
 
 ; ---------------------------------------------------------------------------
 
@@ -5326,7 +5326,7 @@ _c129f1:
         stz     $7e
 @2a0e:  lda     $7e
         tax
-        lda     $c12a2a,x
+        lda     f:_c12a2a,x
         tax
         lda     #$06        ; copy 6 letters
         sta     $70
@@ -6231,9 +6231,9 @@ _c12f55:
 _c12f5d:
 @2f5d:  asl
         tax
-        lda     $c12e15,x
+        lda     f:_c12e15,x
         sta     $70
-        lda     $c12e16,x
+        lda     f:_c12e15+1,x
         sta     $71
         jmp     ($0070)
 
@@ -11265,7 +11265,7 @@ _c15270:
 
 _c152a7:
 @52a7:  tax
-        lda     $c15f17,x
+        lda     f:_c15f17,x
         rts
 
 ; ---------------------------------------------------------------------------
@@ -11404,9 +11404,9 @@ _c1531f:
 @53a9:  txa
         asl
         tax
-        lda     $c15253,x
+        lda     f:_c15253,x
         sta     $cd49
-        lda     $c15254,x
+        lda     f:_c15253+1,x
         sta     $cd4a
         lda     #$01
         sta     $cd48
@@ -11542,9 +11542,9 @@ _c154a1:
         jsr     $52a7       ; get menu id for battle command
         asl
         tax
-        lda     $c154f1,x
+        lda     f:_c154f1,x
         sta     $88
-        lda     $c154f2,x
+        lda     f:_c154f1+1,x
         sta     $89
         jmp     ($0088)
 
@@ -11563,11 +11563,11 @@ _c15511:
         tay
         lda     $0445,y
         tax
-        lda     $c1526a,x
+        lda     f:_c1526a,x
         sta     $cd49
         lda     $0449,y
         tax
-        lda     $c1526c,x
+        lda     f:_c1526c,x
         sta     $cd4a
         lda     #$01
         sta     $cd48
@@ -11586,11 +11586,11 @@ _c15536:
         clc
         adc     $d0
         tax
-        lda     $c15265,x
+        lda     f:_c15265,x
         sta     $cd49
         lda     ($d7),y
         tax
-        lda     $c1526c,x
+        lda     f:_c1526c,x
         sta     $cd4a
         lda     #$01
         sta     $cd48
@@ -14367,8 +14367,7 @@ _c16ab1:
         eor     $f7
         sta     $7d0c,x
         inx4
-        iny
-        iny
+        iny2
         dec     $9e
         bne     @6b01
         dec     $9f
@@ -14387,8 +14386,7 @@ _c16ab1:
         eor     $f7
         sta     $0203,x     ; vhoopppm
         inx4
-        iny
-        iny
+        iny2
         dec     $9e
         bne     @6b2f
         dec     $9f
@@ -15060,16 +15058,12 @@ _c1703a:
         longa
         lda     #$f0f0
 @7041:  sta     $0300,x
-        inx
-        inx
-        inx
-        inx
+        inx4
         cpx     #$0100
         bne     @7041
         clr_ax
 @704f:  sta     $0410,x
-        inx
-        inx
+        inx2
         cpx     #$0010
         bne     @704f
         shorta
@@ -15126,10 +15120,7 @@ _c1706b:
         beq     @70cb
         bra     @70ba
 @70ba:  stz     $cf4e,x
-@70bd:  iny
-        iny
-        iny
-        iny
+@70bd:  iny4
         txa
         clc
         adc     #$20
@@ -15178,10 +15169,7 @@ _c170d3:
         sta     $88
         lda     #$f8
 @711c:  sta     $0201,y
-        iny
-        iny
-        iny
-        iny
+        iny4
         dec     $88
         bne     @711c
         jmp     $72ae
@@ -15445,8 +15433,7 @@ _c172fb:
         bne     @7321
         stz     $ee57,x
         stz     $ee58,x
-@7321:  inx
-        inx
+@7321:  inx2
         cpx     #$0500
         bne     @7314
 @7328:  lda     $ff2f
@@ -15498,8 +15485,7 @@ _c17374:
         sta     $0070,y
         sta     $0071,y
         inx
-        iny
-        iny
+        iny2
         cpy     #$0010
         bne     @7384
         phb
@@ -15525,8 +15511,7 @@ _c17374:
         jsr     _c178ab
         lda     #$0001
         sta     $7eff2f
-@73cd:  inx
-        inx
+@73cd:  inx2
         dec     $84
         bne     @73b1
         shorta0
@@ -15616,8 +15601,7 @@ _c17471:
         sta     $0070,y
         sta     $0071,y
         inx
-        iny
-        iny
+        iny2
         cpy     #$0010
         bne     @7480
         phb
@@ -15673,8 +15657,7 @@ _c174d8:
         sta     $72
         clr_a
 @74f4:  sta     $7fc000,x
-        inx
-        inx
+        inx2
         dec     $72
         bne     @74f4
         shorta0
@@ -15733,8 +15716,7 @@ _c1754d:
 @755b:  lda     $7e69,x
         jsr     $7576
         sta     $7e69,x
-        inx
-        inx
+        inx2
         cpx     #$0020
         bne     @755b
         shorta0
@@ -15838,7 +15820,7 @@ _c17602:
         jmp     $7695
 @760b:  sta     $e5
         jsr     $75ac
-        jmp     $8b2a
+        jmp     _c18b2a
 
 ; ---------------------------------------------------------------------------
 
@@ -15851,7 +15833,7 @@ _c17613:
         jmp     $765e
 @761c:  sta     $e5
         jsr     $75ac
-        jmp     $8b2a
+        jmp     _c18b2a
 
 ; ---------------------------------------------------------------------------
 
@@ -15885,10 +15867,7 @@ _c1763d:
         ora     $72
         sta     $73
 @7652:  lsr     $72
-        inx
-        inx
-        inx
-        inx
+        inx4
         cpx     #$0020
         bne     @7645
         rts
@@ -15902,7 +15881,7 @@ _c1765e:
         and     $70
         beq     @766a
         jsr     $76bc
-        jmp     $8b2a
+        jmp     _c18b2a
 @766a:  rts
 
 ; ---------------------------------------------------------------------------
@@ -15946,7 +15925,7 @@ _c1768d:
         lda     #$3b
         jsr     $fbd9       ; play sound effect
         jsr     $76bc
-        jsr     $8b2a
+        jsr     _c18b2a
 @76ab:  lda     $ff2c
         and     $de
         sta     $ff2c
@@ -16094,8 +16073,7 @@ _c1778a:
         sta     $85
         stz     $84
         inx
-        iny
-        iny
+        iny2
         cpy     #$0010
         bne     @779f
         ply
@@ -16398,8 +16376,7 @@ _c179a5:
         clr_ay
 @7a06:  lda     $0070,y
         pha
-        iny
-        iny
+        iny2
         cpy     #$000c
         bne     @7a06
         shorta0
@@ -16645,10 +16622,7 @@ _c17ba0:
         lda     $8a
         sta     $a939,x
         sta     $a9b9,x
-        inx
-        inx
-        inx
-        inx
+        inx4
         cpx     #$0080
         bne     @7bef
         lda     $88
@@ -16664,10 +16638,7 @@ _c17ba0:
         clr_ax
 @7c22:  lda     $88
         sta     $acb7,x
-        inx
-        inx
-        inx
-        inx
+        inx4
         cpx     #$0080
         bne     @7c22
 @7c30:  lda     $f8c6
@@ -16675,10 +16646,7 @@ _c17ba0:
         clr_ax
 @7c37:  lda     $88
         sta     $acb9,x
-        inx
-        inx
-        inx
-        inx
+        inx4
         cpx     #$0080
         bne     @7c37
 @7c45:  inc     $d107
@@ -16720,8 +16688,7 @@ _c17c49:
         clc
         adc     #$08
         sta     $88
-        iny
-        iny
+        iny2
         cpy     #$0040
         bne     @7c65
         lda     $d10d
@@ -16783,10 +16750,7 @@ _c17cb1:
         tya
         and     #$0f
         tay
-        inx
-        inx
-        inx
-        inx
+        inx4
         cpx     #$0080
         bne     @7d05
         bra     @7d4a
@@ -16806,10 +16770,7 @@ _c17cb1:
         tya
         and     #$0f
         tay
-        inx
-        inx
-        inx
-        inx
+        inx4
         cpx     #$0080
         bne     @7d36
 @7d4a:  inc     $d10b
@@ -16836,9 +16797,9 @@ _c17d5f:
         and     #$07
         asl
         tax
-        lda     $c17d7c,x
+        lda     f:_c17d7c,x
         sta     $88
-        lda     $c17d7d,x
+        lda     f:_c17d7c+1,x
         sta     $89
         jsr     $7d79
         inc     $d104
@@ -16973,8 +16934,7 @@ _c17e6b:
         beq     @7e82
         jmp     $7e1f
 @7e7a:  lda     $d111
-        beq     @7e82
-        jmp     $7e48
+        jne     $7e48
 @7e82:  lda     $d103
         eor     #$01
         sta     $d103
@@ -16990,8 +16950,7 @@ _c17e8b:
         beq     @7ea2
         jmp     $7e1b
 @7e9a:  lda     $d111
-        beq     @7ea2
-        jmp     $7e44
+        jne     $7e44
 @7ea2:  lda     $d103
         eor     #$01
         sta     $d103
@@ -17012,15 +16971,13 @@ _c17eb4:
         and     #$07
         asl
         tax
-        lda     $c17ed2,x
+        lda     f:_c17ed2,x
         sta     $88
-        lda     $c17ed3,x
+        lda     f:_c17ed2+1,x
         sta     $89
-        jsr     $7ece
+        jsr     @7ece
         inc     $d101
         rts
-
-_c17ece:
 @7ece:  jmp     ($0088)
 
 ; ---------------------------------------------------------------------------
@@ -17067,8 +17024,7 @@ _c17ef5:
         sta     $7e29,x
         lda     $7e4b,x
         sta     $7e49,x
-        inx
-        inx
+        inx2
         cpx     #$001e
         bne     @7f0c
         pla
@@ -17158,8 +17114,7 @@ _c17f9a:
 @7fb0:  lda     $f540,y
         jsr     $7ffe
         sta     $7e29,y
-        iny
-        iny
+        iny2
         cpy     #$0040
         bne     @7fb0
         shorta0
@@ -17187,8 +17142,7 @@ _c17fc7:
 @7fe7:  lda     $f540,y
         jsr     $7ffe
         sta     $7e29,y
-        iny
-        iny
+        iny2
         cpy     #$0040
         bne     @7fe7
         shorta0
@@ -17246,5 +17200,8864 @@ _c17ffe:
 @805f:  lda     $88
         rts
         .a8
+
+; ---------------------------------------------------------------------------
+
+; [ move character back after attack ??? ]
+
+_c18062:
+@8062:  lda     $3bcd
+        and     #$03
+        pha
+        asl5
+        tax
+        jsr     $8103
+        pla
+        pha
+        tax
+        lda     #$80
+        sta     $72
+        lda     $d1bd,x
+        beq     @8083
+        stz     $72
+        lda     #$10
+        bra     @808e
+@8083:  lda     $db4a,x
+        beq     @808c
+        lda     #$20
+        bra     @808e
+@808c:  lda     #$10
+@808e:  sta     $70
+        pla
+        asl5
+        tax
+        lda     $70
+        ora     $72
+        sta     $cf54,x
+        lda     #$02
+        sta     $cf4d,x
+        lda     #$01
+        sta     $cf53,x
+        stz     $cf55,x
+        jsr     $8103
+        lda     $3bcd
+        and     #$03
+        tax
+        stz     $d1cb,x
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ move character forward to attack ]
+
+_c180b8:
+@80b8:  jsr     _c18d2f       ; get attacker id
+        and     #$03
+        pha
+        asl5
+        tax
+        jsr     $8103
+        pla
+        pha
+        tax
+        stz     $72
+        lda     #$01
+        sta     $d1cb,x
+        lda     $d1bd,x
+        beq     @80de
+        lda     #$80        ; move left
+        sta     $72
+        lda     #$10
+        bra     @80e9
+@80de:  lda     $db4a,x     ; character row
+        beq     @80e7
+        lda     #$20        ; move forward 32 pixels if in back row
+        bra     @80e9
+@80e7:  lda     #$10        ; move forward 16 pixels if in front row
+@80e9:  sta     $70
+        pla
+        asl5
+        tax
+        lda     $70
+        ora     $72
+        sta     $cf54,x     ; set movement counter
+        lda     #$02        ; walking animation
+        sta     $cf4d,x
+        lda     #$01
+        sta     $cf53,x
+; fallthrough
+
+; ---------------------------------------------------------------------------
+
+; [ wait for character to move forward ]
+
+_c18103:
+@8103:  phx
+        jsr     $02f2       ; wait one frame
+        plx
+        lda     $cf53,x
+        bne     @8103
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ flash active monster ]
+
+_c1810e:
+@810e:  clr_ax
+@8110:  sta     $7e69,x
+        inx
+        cpx     #$0020
+        bne     @8110
+        ldx     #$ffff
+        stx     $7e6b
+        jsr     $8125       ; flash monster (twice)
+        jmp     $8125
+
+; ---------------------------------------------------------------------------
+
+; [ flash monster ]
+
+_c18125:
+@8125:  lda     $dbe4
+        beq     @812e
+        lda     #$c0
+        bra     @8134
+@812e:  jsr     _c18d2f       ; get attacker id
+        jsr     $fc74       ; get monster mask
+@8134:  jsr     $1cb1       ; load black and white monster palette
+        lda     #$03
+        jsr     $8141       ; wait
+        jsr     $1cb8
+        lda     #$03
+; fallthrough
+
+; ---------------------------------------------------------------------------
+
+; [ wait ]
+
+; a = number of frames to wait
+
+_c18141:
+@8141:  pha
+        jsr     $02f2       ; wait one frame
+        pla
+        dec
+        bne     @8141
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1814a:
+@814a:  lda     ($eb)
+        bmi     @816f
+        jsr     _c18d2f       ; get attacker id
+        and     #$03
+        asl5
+        tax
+        stz     $cf58,x
+        lda     $cf56,x
+        and     #$fe
+        sta     $cf56,x
+        lda     ($eb)
+        and     #$20
+        bne     @8178
+        jsr     $80b8       ; move character forward to attack
+        bra     @8178
+@816f:  lda     ($eb)
+        and     #$20
+        bne     @8178
+        jsr     $810e       ; flash active monster
+@8178:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c18179:
+@8179:  lda     $3bcc
+        and     #$20
+        bne     @8188
+        lda     $3bcc
+        bmi     @8188
+        jsr     $8062
+@8188:  rts
+
+; ---------------------------------------------------------------------------
+
+; [ battle graphics function $0a: execute graphics script ]
+
+; $f2: show monster
+; $f6: show battle dialogue
+; $f8: do misc effect
+; $fc: do graphics commands
+
+_c18189:
+        ldx     #$3bcc      ; pointer to attack parameters
+        stx     $eb
+        ldx     #$3a4c      ; pointer to damage values
+        stx     $e9
+        ldx     #$384c      ; pointer to graphics commands
+        stx     $e7
+        ldx     #$7b49      ;
+        stx     $ed
+        ldx     #$3c3c      ; pointer to block type
+        stx     $f0
+        ldx     #$3cbf      ; pointer to message variables
+        stx     $f4
+        ldx     #$3c5f      ; pointer to message ids
+        stx     $f2
+        stz     $db76
+        jsr     $814a
+@81b2:  lda     ($e7)       ; script command
+        cmp     #$ff
+        beq     @820c       ; branch if terminator
+        jsr     $8d59       ; get graphics script parameter 1
+        cmp     #$f2        ; opcodes less than $f2 have no effect
+        bcc     @81f9
+        sec
+        sbc     #$f2
+        asl
+        tax
+        lda     f:_c18218,x
+        sta     $70
+        lda     f:_c18218+1,x
+        sta     $71
+        jsr     $8209
+        jsr     $8d59       ; get graphics script parameter 1
+        cmp     #$fc
+        bne     @81f9       ; branch if not a graphics command
+        iny
+        lda     ($e7),y
+        cmp     #$03
+        bcc     @81e5
+        cmp     #$07
+        bne     @81f9
+@81e5:  longa
+        lda     $eb
+        clc
+        adc     #$0007
+        sta     $eb
+        shorta0
+        lda     $ed
+        clc
+        adc     #$08
+        sta     $ed
+@81f9:  longa
+        lda     $e7
+        clc
+        adc     #$0005
+        sta     $e7
+        shorta0
+        jmp     $81b2
+@8209:  jmp     ($0070)
+@820c:  jsr     $9d93       ; wait for damage numerals
+        jsr     $8179
+        jsr     $3cbb
+        jmp     $9d3c
+
+; ---------------------------------------------------------------------------
+
+; jump table for graphics script parameter 1 ($f2-$ff)
+_c18218:
+        .addr               $8b46,$82a4,$82a4,$82a4,$8cbd,$82a4
+        .addr   $8234,$82a4,$82a4,$82a4,$8b69,$82a4,$82a4,$82a4
+
+; ---------------------------------------------------------------------------
+
+; [ graphics script command $f8: execute misc effect ]
+
+_c18234:
+        jsr     $8d4d       ; get graphics script parameter 2
+        asl
+        tax
+        lda     f:_c18248,x
+        sta     $70
+        lda     f:_c18248+1,x
+        sta     $71
+        jmp     ($0070)
+
+; ---------------------------------------------------------------------------
+
+; misc effect jump table
+_c18248:
+        .addr   $833d,$8332,$830e,$78f5,$82ab,$8317,$8329,$82a5
+        .addr   $8320,$825e,$8281
+
+; ---------------------------------------------------------------------------
+
+; [ misc effect $09:  ]
+
+_c1825e:
+        jsr     _c18d47       ; get graphics script parameter 3
+        bpl     @8273
+        and     #$07
+        tax
+        lda     $d97d25,x
+        eor     #$ff
+        and     $ff2c
+        sta     $ff2c
+        rts
+@8273:  and     #$07
+        tax
+        lda     $d97d25,x
+        ora     $ff2c
+        sta     $ff2c
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ misc effect $0a:  ]
+
+_c18281:
+        jsr     _c18d47       ; get graphics script parameter 3
+        bpl     @8296
+        and     #$07
+        tax
+        lda     $d97d25,x
+        eor     #$ff
+        and     $ff2d
+        sta     $ff2d
+        rts
+@8296:  and     #$07
+        tax
+        lda     $d97d25,x
+        ora     $ff2d
+        sta     $ff2d
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ unused graphics script commands ]
+
+_c182a4:
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ misc effect $07: wait ]
+
+_c182a5:
+        jsr     _c18d47       ; get graphics script parameter 3
+        jmp     $8141       ; wait
+
+; ---------------------------------------------------------------------------
+
+; [ misc effect $04:  ]
+
+_c1821b:
+        jsr     _c18d47       ; get graphics script parameter 3
+        sta     $7e
+        and     #$03
+        sta     $bc80
+        lda     $7e
+        and     #$3c
+        asl2
+        sta     $ff29
+        lda     $7e
+        and     #$40
+        sta     $ff2a
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c182c6:
+@82c6:  lda     $ff2a
+        beq     @82d1
+        jsr     $02f2       ; wait one frame
+        jsr     $02f2       ; wait one frame
+@82d1:  jsr     $02f2       ; wait one frame
+        jsr     $02f2       ; wait one frame
+        lda     $bc80
+        cmp     $ff29
+        beq     @82ea
+        lda     $bc80
+        clc
+        adc     #$10
+        sta     $bc80
+        bra     @82c6
+@82ea:  lda     $ff2a
+        beq     @82f5
+        jsr     $02f2       ; wait one frame
+        jsr     $02f2       ; wait one frame
+@82f5:  jsr     $02f2       ; wait one frame
+        jsr     $02f2       ; wait one frame
+        lda     $bc80
+        and     #$f0
+        beq     @830d
+        lda     $bc80
+        sec
+        sbc     #$10
+        sta     $bc80
+        bra     @82ea
+@830d:  rts
+
+; ---------------------------------------------------------------------------
+
+; [ misc effect $02: shake screen ]
+
+_c1830e:
+        jsr     _c18d47       ; get graphics script parameter 3
+        sta     $7e
+        clr_a
+        jmp     $7a93
+
+; ---------------------------------------------------------------------------
+
+; [ misc effect $05:  ]
+
+_c18317:
+        jsr     _c18d47       ; get graphics script parameter 3
+        sta     $7e
+        clr_a
+        jmp     $7b43
+
+; ---------------------------------------------------------------------------
+
+; [ misc effect $08:  ]
+
+_c18320:
+        jsr     _c18d47       ; get graphics script parameter 3
+        sta     $7e
+        clr_a
+        jmp     $7b02
+
+; ---------------------------------------------------------------------------
+
+; [ misc effect $06:  ]
+
+_c18329:
+        jsr     _c18d47       ; get graphics script parameter 3
+        sta     $7e
+        clr_a
+        jmp     $7a2a
+
+; ---------------------------------------------------------------------------
+
+; [ misc effect $01: play sound effect ]
+
+_c18332:
+        lda     #$88
+        sta     $dbb6
+        jsr     _c18d47       ; get graphics script parameter 3
+        jmp     $fbd9       ; play sound effect
+
+; ---------------------------------------------------------------------------
+
+; [ misc effect $00: play song ]
+
+_c1833d:
+        jsr     _c18d47       ; get graphics script parameter 3
+        sta     $ff04
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c18344:
+@8344:  jsr     _c18d47       ; get graphics script parameter 3
+        eor     #$ff
+        sta     $70
+        lda     $de
+        and     $70
+        sta     $70
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c18352:
+@8352:  lda     $de
+        eor     #$ff
+        sta     $71
+        jsr     _c18d47       ; get graphics script parameter 3
+        and     $71
+        sta     $70
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c18360:
+@8360:  lda     #$5a        ; bg1 screen size 32x64
+        sta     f:$002107
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c18367:
+@8367:  lda     #$59        ; bg1 screen size 64x32 (default)
+        sta     f:$002107
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1836e:
+@836e:  clr_ax
+        longa
+@8372:  sta     $acb7,x
+        inx4
+        cpx     #$0280
+        bne     @8372
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c18382:
+@8382:  clr_ax
+        longa
+        lda     $70
+@8388:  sta     $a939,x
+        sta     $a9b9,x
+        inx4
+        cpx     #$0080
+        bne     @8388
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1839b:
+@839b:  clr_ax
+        longa
+        lda     $70
+@83a1:  sta     $a937,x
+        sta     $a9b7,x
+        inx4
+        cpx     #$0080
+        bne     @83a1
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c18eb4:
+@83b4:  clr_ax
+        longa
+        lda     $70
+@83ba:  sta     $acb7,x
+        inx4
+        cpx     #$0080
+        bne     @83ba
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c183ca:
+@83ca:  ldx     #$0015
+@83cd:  phx
+        jsr     $02f2       ; wait one frame
+        jsr     $875c
+        longa
+        lda     $bc79
+        sec
+        sbc     #$000c
+        sta     $bc79
+        sta     $70
+        shorta0
+        jsr     $8382
+        plx
+        dex
+        bne     @83cd
+        longa
+        lda     $bc79
+        sec
+        sbc     #$0004
+        sta     $bc79
+        sta     $70
+        shorta0
+        jmp     $8382
+
+; ---------------------------------------------------------------------------
+
+_c18400:
+@8400:  ldx     #$0015
+@8403:  phx
+        jsr     $02f2       ; wait one frame
+        jsr     $875c
+        longa
+        lda     $bc79
+        clc
+        adc     #$000c
+        sta     $bc79
+        sta     $70
+        shorta0
+        jsr     $8382
+        plx
+        dex
+        bne     @8403
+        longa
+        lda     $bc79
+        clc
+        adc     #$0004
+        sta     $bc79
+        sta     $70
+        shorta0
+        jmp     $8382
+
+; ---------------------------------------------------------------------------
+
+_c18436:
+@8436:  lda     $f6
+        bne     _846b
+_843a:  ldx     #$0015
+@843d:  phx
+        jsr     $02f2       ; wait one frame
+        jsr     $875c
+        longa
+        lda     $bc77
+        sec
+        sbc     #$000c
+        sta     $bc77
+        shorta0
+        plx
+        dex
+        bne     @843d
+        longa
+        lda     $bc77
+        sec
+        sbc     #$0004
+        sta     $bc77
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c18467:
+@8467:  lda     $f6
+        bne     _843a
+_846b:  ldx     #$0015
+@846e:  phx
+        jsr     $02f2       ; wait one frame
+        jsr     $875c
+        longa
+        lda     $bc77
+        clc
+        adc     #$000c
+        sta     $bc77
+        shorta0
+        plx
+        dex
+        bne     @846e
+        longa
+        lda     $bc77
+        clc
+        adc     #$0004
+        sta     $bc77
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c18498:
+@8498:  longa
+        lda     $bc77
+        eor     #$0100
+        sta     $bc77
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ show monster $00: fade in ]
+
+_c184a7:
+        jsr     $8344
+        clr_a
+        jsr     $7602
+        jsr     $8352
+        clr_a
+        jmp     $75bb
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c184b5:
+@84b5:  jsr     _c18d47       ; get graphics script parameter 3
+        sta     $70
+        lda     $de
+        and     $70
+        sta     $de
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ show monster $01: iron claw ]
+
+_c184c1:
+        jsr     $8360
+        jsr     $8400
+        jsr     $84b5
+        jsr     $8352
+        lda     #$0a
+        jsr     $75bb
+        jsr     $83ca
+        jmp     $8367
+
+; ---------------------------------------------------------------------------
+
+; [ show monster $0b: merugene 3 ]
+
+_c184d8:
+        jsr     $8360
+        lda     $bc84
+        ora     #$01
+        sta     $bc84
+        jsr     $8400
+        jsr     $84b5
+        jsr     $8352
+        lda     #$0a
+        jsr     $75bb
+        jsr     $8400
+        jsr     $8367
+        lda     $bc84
+        and     #$fe
+        sta     $bc84
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ show monster $0c: merugene 4 ]
+
+_c18500:
+        jsr     $8360
+        lda     $bc84
+        ora     #$01
+        sta     $bc84
+        jsr     $83ca
+        jsr     $84b5
+        jsr     $8352
+        lda     #$0a
+        jsr     $75bb
+        jsr     $83ca
+        jsr     $8367
+        lda     $bc84
+        and     #$fe
+        sta     $bc84
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ show monster $02: discreet ??? ]
+
+_c18528:
+        jsr     $84b5
+        jsr     $8352
+        lda     #$0a
+        jmp     $75bb
+
+; ---------------------------------------------------------------------------
+
+; [ show monster $03: motor trap ]
+
+_c18533:
+        jsr     $8344
+        clr_a
+        jsr     $7602
+        jsr     $8360
+        jsr     $8400
+        jsr     $8352
+        lda     #$0a
+        jsr     $75bb
+        jsr     $83ca
+        jmp     $8367
+
+; ---------------------------------------------------------------------------
+
+; [ show monster $06: fade and drop ]
+
+_c1854e:
+        jsr     $8344
+        lda     #$02
+        jsr     $7602
+        jsr     $8360
+        jsr     $8400
+        jsr     $8352
+        lda     #$0a
+        jsr     $75bb
+        jsr     $83ca
+        jmp     $8367
+
+; ---------------------------------------------------------------------------
+
+; [ show monster $09: merugene 1 ]
+
+_c1856a:
+        jsr     $8367
+        jsr     $8467
+        jsr     $84b5
+        jsr     $8352
+        lda     #$0a
+        jsr     $75bb
+        jmp     $8467
+
+; ---------------------------------------------------------------------------
+
+; [ show monster $0a: merugene 2 ]
+
+_c1857e:
+        jsr     $8367
+        jsr     $8436
+        jsr     $84b5
+        jsr     $8352
+        lda     #$0a
+        jsr     $75bb
+        jmp     $8436
+
+; ---------------------------------------------------------------------------
+
+; [ show monster $04: switch ??? ]
+
+_c18592:
+        jsr     $8367
+        jsr     $8467
+        jsr     $84b5
+        jsr     $8352
+        lda     #$0a
+        jsr     $75bb
+        jmp     $8436
+
+; ---------------------------------------------------------------------------
+
+_c185a6:
+@85a6:  lda     $bc84
+        and     #$fe
+        sta     $bc84
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c185af:
+@85af:  lda     $bc84
+        ora     #$01
+        sta     $bc84
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ show monster $05: transform ]
+
+_c185b8:
+        jsr     $84b5
+        jsr     $7539
+        jsr     $7529
+        jsr     $8352
+        lda     $70
+        ora     $de
+        sta     $de
+        jsr     $1c8a
+        clr_ax
+@85cf:  phx
+        lda     $c18606,x
+        phx
+        jsr     $8141       ; wait
+        jsr     $8498
+        plx
+        lda     $c18607,x
+        jsr     $8141       ; wait
+        jsr     $8498
+        plx
+        inx2
+        cpx     #$0020
+        bne     @85cf
+        jsr     $8498
+        jsr     $84b5
+        jsr     $8352
+        lda     $70
+        ora     $de
+        sta     $de
+        jsr     $1cb8
+        jsr     $8498
+        jmp     $1c84
+
+; ---------------------------------------------------------------------------
+
+_c18606:
+        .byte   8,1
+        .byte   8,1
+        .byte   5,1
+        .byte   5,1
+        .byte   3,1
+        .byte   3,1
+        .byte   1,1
+        .byte   1,1
+        .byte   1,1
+        .byte   1,1
+        .byte   1,3
+        .byte   1,3
+        .byte   1,5
+        .byte   1,5
+        .byte   1,8
+        .byte   1,8
+
+; ---------------------------------------------------------------------------
+
+; [ show monster $07: pages ]
+
+_c18626:
+@8626:  jsr     $02f2       ; wait one frame
+        jsr     $1cb8
+        stz     $70
+        clr_ax
+@8630:  lda     $d006,x
+        beq     @863f
+        cmp     $d026,x
+        beq     @863f
+        inc     $d026,x
+        bra     @8641
+@863f:  inc     $70
+@8641:  inx
+        cpx     #$0008
+        bne     @8630
+        lda     $70
+        cmp     #$08
+        bne     @8626
+        jsr     $84b5
+        jsr     $7539
+        jsr     $7529
+        jsr     $8352
+        lda     $70
+        ora     $de
+        sta     $de
+        clr_ax
+@8661:  lda     $d006,x
+        sta     $d026,x
+        inx
+        cpx     #$0008
+        bne     @8661
+@866d:  jsr     $02f2
+        jsr     $1cb8
+        stz     $70
+        clr_ax
+@8677:  lda     $d006,x
+        beq     @8686
+        lda     $d026,x
+        beq     @8686
+        dec     $d026,x
+        bra     @8688
+@8686:  inc     $70
+@8688:  inx
+        cpx     #$0008
+        bne     @8677
+        lda     $70
+        cmp     #$08
+        bne     @866d
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c18695:
+@8695:  lda     #$88
+        sta     $dbb6
+        lda     #$8f
+        jmp     $fbd9       ; play sound effect
+
+; ---------------------------------------------------------------------------
+
+; [ show monster $08: sandworm ]
+
+_c1869f:
+        lda     $de
+        and     #$1f
+        beq     @86a8
+        jsr     $8695
+@86a8:  jsr     $02f2       ; wait one frame
+        jsr     $1cb8
+        stz     $70
+        clr_ax
+@86b2:  lda     #$01
+        sta     $d02e,x
+        lda     $d006,x
+        beq     @86c6
+        cmp     $d026,x
+        beq     @86c6
+        inc     $d026,x
+        bra     @86cb
+@86c6:  stz     $d02e,x
+        inc     $70
+@86cb:  inx
+        cpx     #$0008
+        bne     @86b2
+        lda     $70
+        cmp     #$08
+        bne     @86a8
+        jsr     $84b5
+        jsr     $7539
+        jsr     $7529
+        jsr     $8352
+        lda     $70
+        ora     $de
+        sta     $de
+        clr_ax
+@86eb:  lda     $d006,x
+        sta     $d026,x
+        inx
+        cpx     #$0008
+        bne     @86eb
+        jsr     $8695
+@86fa:  jsr     $02f2
+        jsr     $1cb8
+        stz     $70
+        clr_ax
+@8704:  lda     #$01
+        sta     $d02e,x
+        lda     $d006,x
+        beq     @871c
+        lda     $d026,x
+        beq     @871c
+        cmp     #$01
+        beq     @871c
+        dec     $d026,x
+        bra     @8724
+@871c:  stz     $d02e,x
+        stz     $d026,x
+        inc     $70
+@8724:  inx
+        cpx     #$0008
+        bne     @8704
+        lda     $70
+        cmp     #$08
+        bne     @86fa
+        jsr     $02f2       ; wait one frame
+        jmp     $1cb8
+
+; ---------------------------------------------------------------------------
+
+; [ do monster entry ]
+
+_c18736:
+        lda     $3eef       ; monster entry
+        and     #$07
+        asl
+        tax
+        lda     f:_c1874c,x
+        sta     $70
+        lda     f:_c1874c+1,x
+        sta     $71
+        jmp     ($0070)
+
+; ---------------------------------------------------------------------------
+
+; monster entry jump table
+_c1874c:
+        .addr   $8962,$897c,$87e3,$890c,$8826,$8926,$8962,$8962
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1875c:
+@875c:  jsr     $875f
+@875f:  lda     $dbbc
+        beq     @879c
+        lda     $dbbd
+        beq     @8799
+        tay
+        lda     $dbbe
+        tax
+        lda     #$0f
+        sta     $70
+        sta     $72
+@8774:  lda     $70
+        sta     $b455,y
+        sta     $b456,y
+        sta     $b453,x
+        sta     $b454,x
+        inx2
+        dey2
+        bmi     @878c
+        dec     $70
+        bne     @8774
+@878c:  dec     $dbbd
+        dec     $dbbd
+        inc     $dbbe
+        inc     $dbbe
+        rts
+@8799:  stz     $dbbc
+@879c:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1879d:
+@879d:  lda     $dbbd
+        cmp     #$3f
+        beq     @87ce
+        tay
+        lda     $dbbe
+        tax
+        lda     #$e0
+        sta     $70
+@87ad:  cpy     #$0071
+        bcc     @87b4
+        bra     @87bc
+@87b4:  lda     $70
+        sta     $b455,y
+        sta     $b455,x
+@87bc:  inx
+        dey
+        bmi     @87c8
+        inc     $70
+        lda     $70
+        cmp     #$ff
+        bne     @87ad
+@87c8:  dec     $dbbd
+        inc     $dbbe
+@87ce:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c187cf:
+@87cf:  lda     $dbbc
+        beq     @87dd
+        jsr     $02f2       ; wait one frame
+        jsr     $875c
+        jmp     $87cf
+@87dd:  lda     #$01
+        sta     $f9a1
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ monster entry $02:  ]
+
+_c187e3:
+        clr_ax
+        stx     $bc79
+@87e8:  lda     $d006,x
+        sta     $d026,x
+        inx
+        cpx     #$0008
+        bne     @87e8
+@87f4:  jsr     $1c8a
+        jsr     $875c
+        stz     $70
+        clr_ax
+@87fe:  lda     $d006,x
+        beq     @880d
+        lda     $d026,x
+        beq     @880d
+        dec     $d026,x
+        bra     @880f
+@880d:  inc     $70
+@880f:  inx
+        cpx     #$0008
+        bne     @87fe
+        lda     $70
+        cmp     #$08
+        bne     @87f4
+        jsr     $87cf
+        clr_ax
+        stx     $bc77
+        jmp     $1c84
+
+; ---------------------------------------------------------------------------
+
+; [ monster entry $04:  ]
+
+_c18826:
+        lda     #$8e
+        sta     $dbbd
+        lda     #$52
+        sta     $dbbe
+        jsr     $8836
+        jmp     $0491
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c18836:
+@8836:  clr_ax
+        stx     $dbd9
+@883b:  jsr     $02f2       ; wait one frame
+        jsr     $879d
+        jsr     $88a8
+        ldx     $dbd9
+        inx2
+        stx     $dbd9
+        cpx     #$00a0
+        bne     @883b
+        longa
+        clr_ax
+@8855:  sta     $a00b,x
+        sta     $a40b,x
+        inx4
+        cpx     #$0380
+        bne     @8855
+        shorta0
+        inc     $dbd4
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1886b:
+        longa
+        clr_ay
+        lda     #$00ff
+@8872:  sta     $b037,y     ; clear bg3 scroll hdma data
+        dec
+        iny2
+        cpy     #$01c0
+        bne     @8872
+        clr_ax
+        lda     #$00ff
+@8882:  stz     $a00b,x
+        stz     $a40b,x
+        stz     $a009,x
+        stz     $a409,x
+        stz     $a937,x
+        sta     $a939,x
+        stz     $acb7,x
+        sta     $acb9,x
+        dec
+        inx4
+        cpx     #$0380
+        bne     @8882
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c188a8:
+@88a8:  longa
+        lda     #$00a0
+        sec
+        sbc     $dbd9
+        lsr
+        asl
+        clc
+        adc     #$0040
+        tay
+        lda     $dbd9
+        inc
+        sta     $70
+        clr_ax
+        lda     #$0050
+        sta     $74
+@88c5:  lda     $74
+        clc
+        adc     $70
+        sta     $74
+        cmp     #$00a0
+        bcc     @88e8
+        sec
+        sbc     #$00a0
+        sta     $74
+        txa
+        clc
+        adc     #$0020
+        sta     $76
+        tya
+        lsr
+        sec
+        sbc     $76
+        sta     $b037,y
+        iny2
+@88e8:  inx
+        cpx     #$00a0
+        bne     @88c5
+        clr_axy
+@88f1:  lda     $b037,y
+        sta     $a00b,x
+        sta     $a40b,x
+        inx4
+        iny2
+        cpx     #$0380
+        bne     @88f1
+        shorta0
+        inc     $dbd4
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ monster entry $03:  ]
+
+_c1890c:
+        lda     $de
+        pha
+        stz     $de
+        jsr     $1cb8
+        clr_ax
+        stx     $bc77
+        stx     $bc79
+        jsr     $87cf
+        pla
+        sta     $70
+        clr_a
+        jmp     $75bb
+
+; ---------------------------------------------------------------------------
+
+; [ monster entry $05:  ]
+
+_c18926:
+        ldx     #$0080
+        stx     $bc77
+        clr_ax
+        stx     $bc79
+        lda     #$0f
+        sta     $b3b7
+        jsr     $1cb8
+@8939:  jsr     $02f2       ; wait one frame
+        jsr     $87cf
+        jsr     $1ceb
+        jsr     $1d65
+        lda     $bc77
+        sec
+        sbc     #$08
+        sta     $bc77
+        inc     $db42
+        dec     $b3b7
+        bpl     @8939
+        stz     $bc77
+        stz     $b3b7
+        jsr     $1cb8
+        jmp     $87cf
+
+; ---------------------------------------------------------------------------
+
+; [ monster entry $00: enter from side ]
+
+_c18962:
+        lda     $f6
+        beq     @896b
+        ldx     #$ff00
+        bra     @896e
+@896b:  ldx     #$0100
+@896e:  stx     $bc77
+        clr_ax
+        stx     $bc79
+        jsr     $8436
+        jmp     $87cf
+
+; ---------------------------------------------------------------------------
+
+; [ monster entry $01: enter from top ]
+
+_c1897c:
+        jsr     $8360
+        ldx     #$0100
+        stx     $bc79
+        clr_ax
+        stx     $bc77
+        jsr     $83ca
+        jsr     $8367
+        jmp     $87cf
+
+; ---------------------------------------------------------------------------
+
+; show monster jump table
+;   0: fade
+;   1: iron claw
+;   2: discreet
+;   3: motor trap
+;   4: switch ???
+;   5: transform
+;   6: fade and drop
+;   7: pages
+;   8: sandworm
+;   9: merugene 1
+;   a: merugene 2
+;   b: merugene 3
+;   c: merugene 4
+;   d: neo-exdeath
+_c18993:
+        .addr   $84a7,$84c1,$8528,$8533,$8592,$85b8,$854e,$8626
+        .addr   $869f,$856a,$857e,$84d8,$8500,$89d0
+
+; ---------------------------------------------------------------------------
+
+_c189af:
+@89af:  lda     #$e0
+        sta     $bc8a
+@89b4:  jsr     $02f2       ; wait one frame
+        inc     $bc8a
+        lda     $bc8a
+        cmp     #$ff
+        bne     @89b4
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c189c2:
+@89c2:  jsr     $02f2       ; wait one frame
+        dec     $bc8a
+        lda     $bc8a
+        cmp     #$e0
+        bne     @89c2
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ show monster $0d: neo-exdeath ]
+
+_c189d0:
+        stz     $ee56
+        lda     #$20
+        jsr     $72db
+        lda     #$40
+        jsr     $72db
+        lda     #$00
+        jsr     $72db
+        clr_ax
+@89e4:  phx
+        jsr     $02f2       ; wait one frame
+        jsr     $fc96       ; generate random number
+        and     #$3f
+        bne     @89f2
+        jsr     $72db
+@89f2:  jsr     $fc96       ; generate random number
+        and     #$03
+        tax
+        stx     $bc77
+        stx     $70
+        jsr     $83b4
+        plx
+        inx
+        cpx     #$0180
+        bne     @89e4
+        jsr     $85af
+        clr_ax
+        stx     $dbe5
+        stx     $dbe7
+        stz     $dbea
+        lda     #$fe
+        sta     $04f2
+@8a1a:  jsr     $02f2       ; wait one frame
+        inc     $dbea
+        lda     $dbea
+        and     #$1f
+        bne     @8a2d
+        inc     $dbe7
+        inc     $dbe5
+@8a2d:  lda     $dbe5
+        cmp     #$08
+        bne     @8a1a
+        lda     #$38
+        jsr     $8141       ; wait
+        stz     $ee56
+@8a3c:  jsr     $02f2       ; wait one frame
+        jsr     $02f2       ; wait one frame
+        jsr     $cb78
+        lda     $ee56
+        cmp     #$20
+        bne     @8a3c
+        inc     $ff2e
+        stz     $ee56
+        lda     #$02
+        sta     $bc85
+        jsr     $89af
+        lda     #$1e
+        sta     f:$00212c
+        lda     #$1c
+        sta     $04f2
+        jsr     $02f2       ; wait one frame
+        ldx     #$00f0
+        stx     $bc77
+        jsr     $85a6
+        inc     $dbe4
+        lda     #$f0
+        jsr     $8141       ; wait
+        lda     #$f0
+        jsr     $8141       ; wait
+        lda     #$09
+        sta     $ff04
+        lda     #$1f
+        jsr     $335d
+        jsr     $02f2       ; wait one frame
+        jsr     $836e
+        jsr     $0401
+        inc     $dbe9
+        lda     #$02
+        sta     $b3bb
+        inc     $b3b8
+        lda     #$1f
+        sta     $04f2
+        jsr     $02f2       ; wait one frame
+        ldx     #$00f0
+        stx     $dbe5
+        stx     $bc77
+        clr_ax
+        stx     $dbe7
+        stx     $bc79
+        stz     $dbe9
+        jsr     $8ca8       ; show neo-exdeath intro dialogue
+        jsr     $89c2
+        stz     $bc85
+        jsr     $84b5
+        jsr     $8352
+        lda     #$0a
+        jsr     $75bb
+        ldx     #$00f0
+@8acf:  phx
+        jsr     $02f2       ; wait one frame
+        jsr     $02f2       ; wait one frame
+        jsr     $02f2       ; wait one frame
+        plx
+        cpx     #$0080
+        bne     @8ae2
+        jsr     $78f5       ; flash screen
+@8ae2:  cpx     #$0040
+        bne     @8aea
+        jsr     $78f5       ; flash screen
+@8aea:  stx     $dbe5
+        dex
+        bne     @8acf
+        lda     #$07
+        sta     $dbec
+        inc     $dbeb
+        stz     $dbea
+        lda     #$02
+        sta     $dbe9
+        jsr     $78f5       ; flash screen
+        jsr     $9d46
+        lda     #$03
+        sta     $dbec
+        jsr     $9d46
+        lda     #$01
+        sta     $dbec
+        jsr     $9d46
+        stz     $dbeb
+        jsr     $02f2       ; wait one frame
+        clr_ax
+        stx     $70
+        jsr     $8382
+        clr_ax
+        stx     $70
+        jmp     $839b
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c18b2a:
+@8b2a:  lda     $de
+        sta     $70
+        clr_ax
+@8b30:  asl     $70
+        bcs     @8b3c
+        lda     $7b9e,x
+        and     #$cf
+        sta     $7b9e,x
+@8b3c:  inx4
+        cpx     #$0020
+        bne     @8b30
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ graphics script command $f2: show monster ]
+
+_c18b46:
+        inc     $d110
+        jsr     $8d4d       ; get graphics script parameter 2
+        and     #$3f
+        asl
+        tax
+        lda     f:_c18993,x
+        sta     $70
+        lda     f:_c18993+1,x
+        sta     $71
+        jsr     @8b66
+        jsr     _c18b2a
+        stz     $d110
+        rts
+@8b66:  jmp     ($0070)
+
+; ---------------------------------------------------------------------------
+
+; [ graphics script command $fc: execute graphics commands ]
+
+_c18b69:
+        jsr     $8d4d       ; get graphics script parameter 2
+        asl
+        tax
+        lda     f:_c18b7d,x
+        sta     $70
+        lda     f:_c18b7d+1,x
+        sta     $71
+        jmp     ($0070)
+
+; ---------------------------------------------------------------------------
+
+; graphics command jump table
+;   0: attack animation
+;   1: ability/command animation
+;   2: special ability animation (animals/conjure/combine/terrain)
+;   3: monster special attack animation ???
+;   4: show attack name
+;   5: display battle messages
+;   6: show damage numerals
+;   7:
+;   8: no effect
+;   9: show item name ???
+;   10: item ???
+
+_c18b7d:
+        .addr   $b677,$8d5f,$8cf1,$8cf1,$8be4,$8c37,$01fe,$b68c
+        .addr   $8ba9,$8baa,$8b93
+
+; ---------------------------------------------------------------------------
+
+_c18b93:
+        jsr     $9d93       ; wait for damage numerals
+        lda     #$0b
+        jsr     $9d80       ; get pointer to character graphics properties
+        sta     $cf58,y
+        jsr     $b68c
+        clr_a
+        jsr     $9d80       ; get pointer to character graphics properties
+        sta     $cf58,y
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c18ba9:
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c18baa:
+        jsr     $9d93       ; wait for damage numerals
+        lda     #$0b
+        jsr     $9d80       ; get pointer to character graphics properties
+        sta     $cf58,y
+        jsr     _c18d47       ; get graphics script parameter 3
+        sec
+        sbc     #$e0
+        longa
+        clc
+        adc     #$018a
+        tax
+        shorta0
+        jsr     $b69c
+        clr_a
+        jsr     $9d80       ; get pointer to character graphics properties
+        sta     $cf58,y
+        rts
+
+; ---------------------------------------------------------------------------
+
+; string table data
+_c18bd0:
+        .byte   $0f,$00,$05,$01 ; attack name
+        .byte   $18,$00,$05,$00 ; ability/command name
+        .byte   $19,$00,$09,$00 ; special ability name (animals/conjure/combine/terrain)
+        .byte   $1a,$00,$09,$00 ; monster special attack name
+        .byte   $0e,$00,$09,$00 ; item name
+
+; ---------------------------------------------------------------------------
+
+; [ show attack name ]
+
+_c18be4:
+        jsr     $9d93       ; wait for damage numerals
+        jsr     _c18d47       ; get graphics script parameter 3 (string table)
+        asl2
+        tax
+        jsr     $8d53       ; get graphics script parameter 4 (string id)
+        sta     $70
+        lda     $c18bd2,x
+        sta     $bca3       ; string length (5 or 9)
+        lda     $c18bd3,x
+        beq     @8c0c
+        lda     $70
+        cmp     #$57
+        bcc     @8c0c
+        lda     #$09
+        sta     $bca3
+        bra     @8c15
+@8c0c:  cmp     #$48
+        bcc     @8c15
+        lda     #$06
+        sta     $bca3
+@8c15:  lda     $c18bd0,x   ; escape code
+        sta     $dbf6
+        lda     $c18bd1,x   ; string table offset (always zero)
+        clc
+        adc     $70
+        sta     $dbf7       ; string id
+        stz     $dbf8       ; null-terminator
+        ldx     #$dbf6
+        stx     $bca0
+        lda     #$7e        ; source address = $7edbf6
+        sta     $bca2
+        jmp     $3b1f       ;
+
+; ---------------------------------------------------------------------------
+
+; [ animation command $05: display queued battle messages ]
+
+_c18c37:
+        clr_ay
+@8c39:  lda     ($f2),y     ; battle message queue
+        beq     @8c4d
+        cmp     #$ff
+        beq     @8c53       ; branch if end of queue
+        longa
+        asl
+        tax
+        shorta0
+        phy
+        jsr     $8c6d       ; display battle message
+        ply
+@8c4d:  iny
+        cpy     #$0018
+        bne     @8c39
+@8c53:  longa
+        lda     a:$00f2       ; increment message queue pointer
+        clc
+        adc     #$0018
+        sta     a:$00f2
+        lda     a:$00f4       ; increment variable queue pointer
+        clc
+        adc     #$000c
+        sta     a:$00f4
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ display battle message ]
+
+_c18c6d:
+@8c6d:  lda     $d139a9,x   ; pointers to battle messages
+        sta     $bca0
+        lda     $d139aa,x
+        sta     $bca1
+.if LANG_EN
+        lda     #$e7
+.else
+        lda     #$d1
+.endif
+        sta     $bca2
+        jsr     $3c88       ; draw battle message
+        jsr     _c18d47       ; get graphics script parameter 3
+        beq     @8c8d
+        jsr     $fc8c       ; wait for keypress
+        bra     @8c90
+@8c8d:  jsr     $8c93       ; wait for message
+@8c90:  jmp     $3cbb
+
+; ---------------------------------------------------------------------------
+
+; [ wait for message ]
+
+_c18c93:
+@8c93:  lda     $0424       ; message speed
+@8c96:  and     #$07
+        tax
+        lda     $c18ca0,x
+        jmp     $8141       ; wait
+
+; ---------------------------------------------------------------------------
+
+; number of frames to wait for each message speed
+_c18ca0:
+        .byte   $20,$40,$60,$80,$a0,$c0,$e0,$00
+
+; ---------------------------------------------------------------------------
+
+; [ show neo-exdeath intro dialogue ]
+
+; i am neo-exdeath!
+; i shall erase all memory...
+; all existence...all dimensions...
+; and then i too shall disappear...
+; for eternity!!!
+
+; わたしは　ネオエクスデス
+; すべての記憶　すべてのそんざい (存在)
+; すべての次元を消し
+; そして　わたしも消えよう
+; 永遠に！！
+
+_c18ca8:
+@8ca8:  lda     #$cb
+@8caa:  pha
+        jsr     $8cd4       ; display battle dialogue
+        lda     #$04
+        jsr     $8c96
+        jsr     $3cbb       ;
+        pla
+        inc
+        cmp     #$d0
+        bne     @8caa
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ graphics script command $f6: show battle dialogue ]
+
+_c18cbd:
+        jsr     _c18d47       ; get graphics script parameter 3
+        jsr     $8cd4       ; display battle dialogue
+        jsr     $8d4d       ; get graphics script parameter 2
+        jsr     $8c96
+        jsr     $8d4d       ; get graphics script parameter 2
+        bpl     @8cd1
+        jsr     $fc8c       ; wait for keypress
+@8cd1:  jmp     $3cbb
+
+; ---------------------------------------------------------------------------
+
+; [ display battle dialogue ]
+
+_c18cd4:
+@8cd4:  longa
+        asl
+        tax
+        shorta0
+        lda     $d0f000,x   ; pointers to battle dialogue
+        sta     $bca0
+        lda     $d0f001,x
+        sta     $bca1
+.if LANG_EN
+        lda     #$e7
+.else
+        lda     #$d0
+.endif
+        sta     $bca2
+        jmp     $3c88       ; draw battle message/dialogue
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c18cf1:
+@8cf1:  jsr     $9d93       ; wait for damage numerals
+        lda     #$0b
+        jsr     $9d80       ; get pointer to character graphics properties
+        sta     $cf58,y
+        jsr     _c18d47       ; get graphics script parameter 3
+        longa
+        clc
+        adc     #$011e
+        tax
+        shorta0
+        jsr     $b69c
+        clr_a
+        jsr     $9d80       ; get pointer to character graphics properties
+        sta     $cf58,y
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ show character in ready stance ]
+
+_c18d14:
+        phy
+        jsr     _c18d2f       ; get attacker id
+        and     #$03
+        tay
+        lda     #$01
+        sta     $d1cb,y
+        ply
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ show character in normal stance ]
+
+_c18d22:
+        phy
+        jsr     _c18d2f       ; get attacker id
+        and     #$03
+        tay
+        clr_a
+        sta     $d1cb,y
+        ply
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ get attacker id ]
+
+_c18d2f:
+@8d2f:  ldy     #$0001      ; attacker id
+        lda     ($eb),y
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ get target id ]
+
+_c18d35:
+        ldy     #$0002      ; target id
+        lda     ($eb),y
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c18d3b:
+        ldy     #$0003      ;
+        lda     ($eb),y
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c18d41:
+        ldy     #$0004
+        lda     ($eb),y
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ get graphics script parameter 3 ]
+
+_c18d47:
+@8d47:  ldy     #$0003
+        lda     ($e7),y
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ get graphics script parameter 2 ]
+
+_c18d4d:
+@8d4d:  ldy     #$0002
+        lda     ($e7),y
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ get graphics script parameter 4 ]
+
+_c18d53:
+@8d53:  ldy     #$0004
+        lda     ($e7),y
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ get graphics script parameter 1 ]
+
+_c18d59:
+@8d59:  ldy     #$0001
+        lda     ($e7),y
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation ]
+
+_c18d5f:
+        jsr     _c18d47       ; get graphics script parameter 3
+        asl
+        tax
+        lda     f:_c18d88,x
+        sta     $70
+        lda     f:_c18d88+1,x
+        sta     $71
+        jmp     ($0070)
+
+; ---------------------------------------------------------------------------
+
+_c18d73:
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c18d74:
+        phy
+        phx
+        jsr     _c18d47       ; get graphics script parameter 3
+        tax
+        lda     $d0dbe3,x
+        cmp     #$ff
+        beq     @8d85
+        jsr     $fbe4       ; play animation sound effect
+@8d85:  plx
+        ply
+        rts
+
+; ---------------------------------------------------------------------------
+
+; ability animation pointers
+_c18d88:
+        .addr   $8d73,$98d3,$9e4d,$9986,$9f44,$9815,$9c7c,$998b ; $00
+        .addr   $9966,$8d73,$9951,$9951,$9b74,$98df,$992d,$9977
+        .addr   $9ef6,$8d73,$98c1,$9be3,$8d73,$8d73,$8d73,$8d73 ; $10
+        .addr   $8d73,$8d73,$98f7,$8d73,$98a9,$8d73,$8d73,$8d73
+        .addr   $9909,$991b,$8d73,$8d73,$972e,$974a,$8d73,$9897 ; $20
+        .addr   $987d,$981d,$8d73,$8d73,$8d73,$99e0,$99ad,$8d73
+        .addr   $8e14,$8e20,$8e29,$8e32,$8e3b,$8e44,$8e4a,$8e53 ; $30
+        .addr   $8e62,$8e72,$8e82,$8e92,$8ea2,$8eb2,$8ec2,$8ed2
+        .addr   $8eea,$8f01,$8f11,$8f21,$8f2a,$8f33             ; $40
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $30: knight (credits) ]
+
+_c18e14:
+        jsr     $80b8
+        jsr     $9f44
+@8e1a:  jsr     $8062       ; move character back after attack
+        jmp     $906f
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $31: monk (credits) ]
+
+_c18e20:
+        jsr     $80b8
+        jsr     $9f44
+        jmp     $8e1a
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $32: thief (credits) ]
+
+_c18e29:
+        jsr     $80b8
+        jsr     $9951
+        jmp     $8e1a
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $33: dragoon (credits) ]
+
+_c18e32:
+        jsr     $9b74
+        jsr     $99e0
+        jmp     $906f
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $34: ninja (credits) ]
+
+_c18e3b:
+        jsr     $80b8
+        jsr     $9ef6
+        jmp     $8e1a
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $35: samurai (credits) ]
+
+_c18e44:
+        jsr     $9be3
+        jmp     $906f
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $36: berserker (credits) ]
+
+_c18e4a:
+        jsr     $80b8
+        jsr     $9f44
+        jmp     $8e1a
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $37: hunter (credits) ]
+
+_c18e53:
+        jsr     $80b8
+        ldy     #$0003
+        clr_a
+        sta     ($e7),y
+        jsr     $8cf1
+        jmp     $8e1a
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $38: mystic knight (credits) ]
+
+_c18e62:
+        jsr     $80b8
+        ldy     #$0004
+        lda     #$01
+        sta     ($e7),y
+        jsr     $9f44
+        jmp     $8e1a
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $39: white mage (credits) ]
+
+_c18e72:
+        jsr     $80b8       ; move character forward to attack
+        ldy     #$0003
+        lda     #$1e        ; spell animation $1e
+        sta     ($e7),y
+        jsr     $b677
+        jmp     $8e1a
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $3a: black mage (credits) ]
+
+_c18e82:
+        jsr     $80b8
+        ldy     #$0003
+        lda     #$2b
+        sta     ($e7),y
+        jsr     $b677
+        jmp     $8e1a
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $3b: time mage (credits) ]
+
+_c18e92:
+        jsr     $80b8
+        ldy     #$0003
+        lda     #$42
+        sta     ($e7),y
+        jsr     $b677
+        jmp     $8e1a
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $3c: summoner (credits) ]
+
+_c18ea2:
+        jsr     $80b8
+        ldy     #$0003
+        lda     #$69
+        sta     ($e7),y
+        jsr     $b677
+        jmp     $8e1a
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $3d: blue mage (credits) ]
+
+_c18eb2:
+        jsr     $80b8
+        ldy     #$0003
+        lda     #$9f
+        sta     ($e7),y
+        jsr     $b677
+        jmp     $8e1a
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $3e: red mage (credits) ]
+
+_c18ec2:
+        jsr     $80b8
+        ldy     #$0003
+        lda     #$30
+        sta     ($e7),y
+        jsr     $b677
+        jmp     $8e1a
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $3f: mediator (credits) ]
+
+_c18ed2:
+        jsr     $80b8
+        lda     #$c9
+        sta     $7c4b
+        ldy     #$0003
+        lda     #$e1
+        sta     ($e7),y
+        jsr     $b677
+        stz     $7c4b
+        jmp     $8e1a
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $40: chemist (credits) ]
+
+_c18eea:
+        jsr     $80b8
+        stz     $3bcc
+        ldx     #$012a
+        jsr     $b58b
+        lda     #$01
+        jsr     $96ec
+        jsr     $9d3c
+        jmp     $8e1a
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $41: geomancer (credits) ]
+
+_c18f01:
+        jsr     $80b8
+        ldy     #$0003
+        lda     #$51
+        sta     ($e7),y
+        jsr     $8cf1
+        jmp     $8e1a
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $42: bard (credits) ]
+
+_c18f11:
+        jsr     $80b8
+        ldy     #$0003
+        lda     #$57
+        sta     ($e7),y
+        jsr     $b677
+        jmp     $8e1a
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $43: dancer (credits) ]
+
+_c18f21:
+        jsr     $80b8
+        jsr     $981d
+        jmp     $8e1a
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $44: mimic (credits) ]
+
+_c18f2a:
+        jsr     $80b8
+        jsr     $98df
+        jmp     $8e1a
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $45: freelancer (credits) ]
+
+_c18f33:
+        jsr     $80b8
+        jsr     $9f44
+        jmp     $8e1a
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c18f3c:
+        lda     $f9ed
+        and     #$7f
+        bne     @8f44
+        rts
+@8f44:  sta     $70
+        stz     $71
+        lda     $f9ee
+        sta     $76
+        lda     $f9ef
+        tax
+        stx     $78
+        longa
+        clr_axy
+        lda     $70
+        pha
+        sta     $72
+        asl     $70
+        lda     #$0003
+        sec
+        sbc     $70
+        sta     $74
+@8f67:  lda     $72
+        sta     $fdf0,y
+        lda     $74
+        bmi     @8f83
+        txa
+        sec
+        sbc     $72
+        asl2
+        clc
+        adc     #$000a
+        clc
+        adc     $74
+        sta     $74
+        dec     $72
+        bra     @8f8f
+@8f83:  txa
+        asl2
+        clc
+        adc     #$0006
+        clc
+        adc     $74
+        sta     $74
+@8f8f:  inx
+        iny2
+        cpx     $72
+        bcc     @8f67
+        tyx
+        dex2
+@8f99:  lda     $fdf0,x
+        cmp     $fdee,x
+        beq     @8fa8
+        txa
+        lsr
+        sta     $fdf0,y
+        iny2
+@8fa8:  dex2
+        bne     @8f99
+        pla
+        asl
+        eor     #$ffff
+        inc
+        clc
+        adc     #$0102
+        sta     $70
+        tax
+        beq     @8fca
+        clr_ax
+        lda     #$00ff
+@8fc0:  sta     $7efbf0,x
+        inx2
+        cpx     $70
+        bne     @8fc0
+@8fca:  shorta0
+        dey2
+@8fcf:  lda     $fdf0,y
+        clc
+        adc     $76
+        bcs     @8fdb
+        cmp     #$f7
+        bcc     @8fdd
+@8fdb:  lda     #$f7
+@8fdd:  sta     $7efbf1,x
+        lda     $76
+        sec
+        sbc     $fdf0,y
+        bcc     @8fed
+        cmp     #$08
+        bcs     @8fef
+@8fed:  lda     #$08
+@8fef:  sta     $7efbf0,x
+        inx2
+        dey2
+        bpl     @8fcf
+        phb
+        lda     #$7e
+        pha
+        plb
+        txy
+        dex2
+        ldx     #$00fe
+        ldy     #$0100
+        longa
+@9009:  lda     $fbf0,x
+        sta     $fbf0,y
+        iny2
+        dex2
+        bpl     @9009
+        clr_ay
+        asl     $78
+        lda     $78
+        cmp     #$0100
+        bcc     @9044
+        sec
+        sbc     $78
+        sta     $70
+        lda     #$00ff
+@9028:  sta     $f9f0,y
+        iny2
+        cpy     $70
+        bne     @9028
+        clr_ax
+@9033:  lda     $fbf0,x
+        sta     $f9f0,y
+        inx2
+        iny2
+        cpy     #$0200
+        bne     @9033
+        bra     @906a
+@9044:  lda     #$0100
+        sec
+        sbc     $78
+        tax
+@904b:  lda     $fbf0,x
+        sta     $f9f0,y
+        inx2
+        iny2
+        cpx     #$0200
+        bne     @904b
+        lda     #$00ff
+@905d:  cpy     #$0200
+        beq     @906a
+        sta     $f9f0,y
+        iny2
+        jmp     $905d
+@906a:  shorta0
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ show character stats (credits) ]
+
+_c1906f:
+        lda     #$bf
+        sta     $bc86
+        lda     #$7e
+        sta     $f9ed
+        lda     #$80
+        sta     $f9ee
+        lda     $d04b
+        sta     $f9ef
+        jsr     $8f3c
+        jsr     $fd1d       ; wait for vblank
+        lda     #$02
+        sta     $f9a1
+@908f:  jsr     $fd1d       ; wait for vblank
+        jsr     $8f3c
+        lda     $f9ee
+        cmp     $d03f
+        beq     @90a3
+        inc     $f9ee
+        inc     $f9ee
+@90a3:  dec     $f9ed
+        lda     $f9ed
+        cmp     #$18
+        bne     @908f
+        jsr     $36eb       ; decompress battle bg graphics
+        ldx     #$1000
+        stx     $70
+        ldx     $72
+        ldy     #$7800
+        lda     $74
+        jsr     $fd27
+        jsr     $fc64
+        clr_ax
+@90c4:  lda     $7e29,x
+        sta     $7f29,x
+        inx
+        cpx     #$0040
+        bne     @90c4
+        jsr     $9481
+        lda     #$02
+        sta     $dbf5
+        jsr     $24e2       ; load character graphics
+        jsr     $962c
+        lda     #$01
+        sta     $cf63
+        inc     $fefa
+        jsr     $3725       ; load battle bg graphics
+        ldy     #$1080
+        ldx     #$0500
+        stx     $70
+        ldx     #$7000
+        lda     #$7f
+        jsr     $fd27
+        lda     #$30
+        sta     f:$002123
+        jsr     $fd1d       ; wait for vblank
+        clr_ax
+@9104:  lda     $7f7703,x
+        and     #$cf
+        sta     $7f7703,x
+        inx4
+        cpx     #$0100
+        bne     @9104
+        lda     #$03
+        sta     $dbf5
+@911c:  jsr     $fd1d       ; wait for vblank
+        jsr     $946b
+        bcc     @911c
+        jsr     $fd1d       ; wait for vblank
+        jsr     $94ea
+        ldx     #$1800
+        stx     $70
+        ldx     #$8000
+        ldy     #$6000
+        lda     #$7f
+        jsr     $fd27
+        jsr     $fd1d       ; wait for vblank
+        clr_ax
+        lda     #$aa
+@9141:  sta     $0400,x
+        inx
+        cpx     #$0020
+        bne     @9141
+        clr_ax
+@914c:  lda     $d0e42b,x
+        sta     $0200,x
+        inx
+        cpx     #$0060
+        bne     @914c
+        lda     #$f0
+@915b:  sta     $0200,x
+        inx
+        cpx     #$0200
+        bne     @915b
+        lda     #$12
+        sta     $fefb
+        clr_ax
+        stx     $bc77
+        stx     $fefc
+        stx     $fefe
+        stz     $ff00
+        lda     #$01
+        sta     $dbf5
+@917c:  jsr     $fd1d       ; wait for vblank
+        jsr     $8f3c
+        lda     $f9ee
+        cmp     #$80
+        beq     @9192
+        lda     $f9ee
+        sec
+        sbc     #$04
+        sta     $f9ee
+@9192:  inc     $f9ed
+        lda     $f9ed
+        cmp     #$7f
+        beq     @91a6
+        inc     $f9ed
+        lda     $f9ed
+        cmp     #$7f
+        bne     @917c
+@91a6:  lda     #$c4
+        sta     $bc84
+        ldy     #$8000
+        sty     $70
+        lda     #$7f
+        sta     $72
+        ldy     #$8010
+        sty     $74
+        lda     #$7f
+        sta     $76
+        clr_ax
+        longa
+@91c1:  clr_ay
+@91c3:  lda     $d1f000,x
+        and     #$ff00
+        sta     $7e
+        xba
+        lsr
+        ora     $7e
+        sta     [$70],y
+        clr_a
+        sta     [$74],y
+        iny2
+        inx2
+        cpy     #$0010
+        bne     @91c3
+        tya
+        clc
+        adc     #$0010
+        tay
+        lda     $70
+        clc
+        adc     #$0020
+        sta     $70
+        lda     $74
+        clc
+        adc     #$0020
+        sta     $74
+        cpx     #$1000
+        bne     @91c1
+        clr_ax
+@91fb:  lda     $d1f000,x
+        and     #$ff00
+        sta     $7e
+        xba
+        lsr
+        ora     $7e
+        sta     $7fc000,x
+        inx2
+        cpx     #$1000
+        bne     @91fb
+        shorta0
+        ldx     #$2000
+        stx     $70
+        ldx     #$8000
+        ldy     #$7000
+        lda     #$7f
+        jsr     $fd27
+        ldx     #$1000
+        stx     $70
+        ldx     #$c000
+        ldy     #$4000
+        lda     #$7f
+        jsr     $fd27
+        clr_ax
+@9238:  sta     $7e09,x
+        inx
+        cpx     #$0020
+        bne     @9238
+        ldx     #$7fff
+        stx     $7e0d
+        stx     $7e0f
+        jsr     $933e
+        ldx     #$1000
+        stx     $70
+        ldx     #$bcb1
+        ldy     #$5800
+        lda     #$7e
+        jsr     $fd27
+        ldx     #$1000
+        stx     $70
+        ldx     #$bcb1
+        ldy     #$4800
+        lda     #$7e
+        jsr     $fd27
+        lda     #$07
+        sta     f:$00210b
+        clr_ax
+@9275:  lda     $d0e169,x
+        sta     $dbf6,x
+        inx
+        cpx     #$0080
+        bne     @9275
+        jsr     $933e
+        jsr     $2dac
+        ldx     #$0500
+        stx     $70
+        ldx     #$bcb1
+        ldy     #$5800
+        lda     #$7e
+        jsr     $fd27
+        jsr     $fd1d       ; wait for vblank
+        ldx     #$0100
+        stx     $bc79
+        clr_ax
+        stx     $fefe
+        lda     #$17
+        sta     $fefb
+        jsr     $9360
+        jsr     $2dac
+        jsr     $93af
+        stz     $ff32
+        stz     $cdfa
+        stz     $ff03
+@92bd:  jsr     $02f2       ; wait one frame
+        lda     $fefe
+        and     #$0f
+        bne     @92cf
+        lda     $ff32
+        bne     @92cf
+        jsr     $931a
+@92cf:  ldx     $bc79
+        beq     @92d8
+        dex
+        stx     $bc79
+@92d8:  lda     $ff32
+        bne     @92e4
+        ldx     $fefe
+        inx
+        stx     $fefe
+@92e4:  ldx     $a2
+        cpx     #$0ac4
+        bcc     @92bd
+        ldx     $04f0
+        cpx     #$01b1
+        bne     @9319
+@92f3:  jsr     $02f2       ; wait one frame
+        ldx     $fefe
+        inx
+        stx     $fefe
+        txa
+        and     #$0f
+        bne     @9305
+        jsr     $931a
+@9305:  ldx     $bc79
+        dex
+        stx     $bc79
+        cpx     #$ff00
+        bne     @92f3
+        lda     #$16
+        sta     $fefb
+        jmp     $ee2a
+@9319:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1931a:
+@931a:  jsr     $9360
+        jsr     $2dac
+        lda     $ff03
+        and     #$1f
+        longa
+        asl6
+        clc
+        adc     #$4800
+        sta     $ff01
+        shorta0
+        inc     $ff00
+        inc     $ff03
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1933e:
+@933e:  clr_ax
+@9340:  sta     $bcb1,x
+        inx
+        cpx     #$1000
+        bne     @9340
+@9349:  ldx     #$dbf6
+        stx     $bca0
+        ldx     #$bcb1
+        stx     $bca2
+        lda     #$20
+        sta     $bca4
+        lda     #$20
+        sta     $bca5
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c19360:
+@9360:  clr_ax
+@9362:  sta     $bcb1,x
+        inx
+        cpx     #$0080
+        bne     @9362
+        jsr     $9349
+        clr_ax
+        lda     $cdfa
+        tay
+        lda     $b535,y
+        cmp     #$ff
+        bne     @938a
+@937b:  lda     $d0dbd4,x
+        sta     $dbf6,x
+        inx
+        cpx     #$0010
+        bne     @937b
+        bra     @93ab
+@938a:  cmp     #$fe
+        bne     @9396
+        inc     $ff32
+        stz     $dbf6
+        bra     @93ab
+@9396:  lda     $d0e163,x
+        sta     $dbf6,x
+        inx
+        cpx     #$0008
+        bne     @9396
+        clr_ax
+        lda     $cdfa
+        sta     $dbfa,x
+@93ab:  inc     $cdfa
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c193af:
+@93af:  clr_ax
+@93b1:  sta     $dbf6,x
+        sta     $b535,x
+        inx
+        cpx     #$0200
+        bne     @93b1
+        ldx     #$090b
+        stx     $70
+        ldx     #$0006
+@93c5:  txa
+        jsr     $9443
+        inx
+        cpx     #$006f
+        bne     @93c5
+        ldx     #$002c
+        lda     #$05
+        jsr     $942f
+        ldx     #$0032
+        lda     #$05
+        jsr     $942f
+        ldx     #$0038
+        lda     #$05
+        jsr     $942f
+        ldx     #$003e
+        lda     #$05
+        jsr     $942f
+        ldx     #$0044
+        lda     #$04
+        jsr     $942f
+        ldx     #$0049
+        lda     #$02
+        jsr     $942f
+        clr_axy
+@9402:  lda     $b535,x
+        beq     @940c
+        txa
+        sta     $dbf6,y
+        iny
+@940c:  stz     $b535,x
+        inx
+        cpx     #$0200
+        bne     @9402
+        clr_ax
+@9417:  lda     $dbf6,x
+        beq     @9425
+        sta     $b535,x
+        inx
+        cpx     #$0200
+        bne     @9417
+@9425:  lda     #$ff
+        sta     $b53d,x
+        dec
+        sta     $b557,x
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1942f:
+@942f:  tay
+@9430:  lda     $b536,x
+        beq     @943c
+        stz     $b535,x
+        inx
+        dey
+        bne     @9430
+@943c:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1943d:
+@943d:  phx
+        jsr     $fc74
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c19443:
+@9443:  phx
+        sta     $75
+        asl
+        tax
+        lda     $d0ec01,x
+        jsr     $943d
+        sta     $74
+        lda     $d0ec00,x
+        tay
+        lda     ($70),y
+        and     $74
+        beq     @9469
+        lda     $75
+        cmp     #$4e
+        bcc     @9465
+        clc
+        adc     #$32
+@9465:  tax
+        inc     $b535,x
+@9469:  plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1946b:
+@946b:  ldx     $bc8e
+        cpx     #$0040
+        beq     @947f
+        dex4
+        stx     $bc8e
+        stx     $bc94
+        clc
+        rts
+@947f:  sec
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c19481:
+@9481:  ldx     #$71ec
+        stx     $70
+        lda     #$7f
+        sta     $72
+        clr_ax
+        lda     #$b0
+        sta     $7e
+        lda     #$57
+        sta     $80
+@9494:  clr_ay
+        lda     $7e
+        sta     $82
+@949a:  lda     $82
+        sta     $7f7700,x
+        lda     $80
+        sta     $7f7701,x
+        lda     [$70],y
+        sta     $7f7702,x
+        iny
+        lda     [$70],y
+        and     #$c0
+        ora     #$31
+        sta     $74
+        lda     [$70],y
+        and     #$1c
+        lsr
+        ora     $74
+        sta     $7f7703,x
+        iny
+        inx4
+        lda     $82
+        clc
+        adc     #$08
+        sta     $82
+        cpy     #$0010
+        bne     @949a
+        longa
+        lda     $70
+        clc
+        adc     #$0040
+        sta     $70
+        shorta0
+        lda     $80
+        clc
+        adc     #$08
+        sta     $80
+        cmp     #$97
+        bne     @9494
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c194ea:
+@94ea:  jsr     $24e2       ; load character graphics
+        clr_ax
+@94ef:  longa
+        lda     $d97ce1,x
+        sta     $b8
+        lda     $d97ced,x
+        sta     $82
+        shorta0
+        phx
+        lda     #$7f
+        sta     $84
+        lda     #$7f
+        sta     $80
+        clr_ax
+@950b:  phx
+        longa
+        txa
+        asl
+        tax
+        lda     $d97cf9,x
+        clc
+        adc     $b8
+        sta     $7e
+        shorta0
+        plx
+        clr_ay
+        lda     [$82],y
+        jsr     $9559
+        ldy     #$0001
+        lda     [$82],y
+        jsr     $9559
+        ldy     #$0010
+        lda     [$82],y
+        jsr     $9559
+        ldy     #$0011
+        lda     [$82],y
+        jsr     $9559
+        longa
+        lda     $82
+        clc
+        adc     #$0002
+        sta     $82
+        shorta0
+        inx
+        cpx     #$0008
+        bne     @950b
+        plx
+        inx2
+        cpx     #$000c
+        bne     @94ef
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c19559:
+@9559:  sty     $86
+        sta     $70
+        ldy     #$0000
+        jsr     $9581
+        jsr     $95a6
+        ldy     #$0020
+        jsr     $9581
+        jsr     $95a6
+        ldy     #$0040
+        jsr     $9581
+        jsr     $95a6
+        ldy     #$0060
+        jsr     $9581
+        jmp     $95a6
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c19581:
+@9581:  longa
+        tya
+        clc
+        adc     $86
+        tay
+        shorta0
+        phx
+        asl     $70
+        rol
+        and     #$01
+        tax
+        lda     $c195b7,x
+        sta     $72
+        asl     $70
+        rol
+        and     #$01
+        tax
+        lda     $c195b9,x
+        ora     $72
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c195a6:
+@95a6:  phy
+        sta     [$7e],y
+        iny2
+        sta     [$7e],y
+        iny2
+        sta     [$7e],y
+        iny2
+        sta     [$7e],y
+        ply
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c185b7:
+        .byte   $00,$f0
+        .byte   $00,$0f
+        .byte   $00,$f0
+        .byte   $00,$0f
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c195bf:
+@95bf:  clr_axy
+@95c2:  lda     #$08
+        sta     $78
+@95c6:  phx
+        tyx
+        lda     $7fd800,x
+        sta     $70
+        lda     $7fd801,x
+        sta     $71
+        lda     $7fd810,x
+        sta     $72
+        lda     $7fd811,x
+        sta     $73
+        lda     #$08
+        sta     $76
+        plx
+@95e5:  clr_a
+        asl     $73
+        rol
+        asl     $72
+        rol
+        asl     $71
+        rol
+        asl     $70
+        rol
+        sta     $7fe081,x
+        inx2
+        dec     $76
+        bne     @95e5
+        iny2
+        dec     $78
+        bne     @95c6
+        longa
+        tya
+        clc
+        adc     #$0010
+        tay
+        shorta0
+        cpy     $7e
+        bne     @95c2
+        clr_ax
+@9613:  sta     $7fe001,x
+        inx2
+        cpx     #$0080
+        bne     @9613
+        clr_ax
+@9620:  sta     $7fe000,x
+        inx2
+        cpx     #$2000
+        bne     @9620
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1962c:
+@962c:  ldx     #$00c0
+        stx     $7e
+        jsr     $95bf
+        lda     #$c0
+        sta     f:$00211a
+        ldx     #$2000
+        stx     $70
+        ldx     #$e000
+        ldy     #$1000
+        lda     #$7f
+        jsr     $fd27
+        ldx     #$2000
+        stx     $70
+        ldx     #$e000
+        ldy     #$2000
+        lda     #$7f
+        jsr     $fd27
+        ldx     #$2000
+        stx     $70
+        ldx     #$e000
+        ldy     #$3000
+        lda     #$7f
+        jsr     $fd27
+        lda     #$01
+        sta     $7fe000
+        inc
+        sta     $7fe002
+        inc
+        sta     $7fe100
+        inc
+        sta     $7fe102
+        inc
+        sta     $7fe200
+        inc
+        sta     $7fe202
+        ldx     #$2000
+        stx     $70
+        ldx     #$e000
+        clr_ay
+        lda     #$7f
+        jsr     $fd27
+        clr_ax
+@969a:  lda     $ed96,x
+        sta     $7e09,x
+        inx
+        cpx     #$0020
+        bne     @969a
+        stz     $7e09
+        stz     $7e0a
+        lda     #$cc
+        sta     $7ebc84
+        ldx     #$0024
+        stx     $bc96
+        ldx     #$0010
+        stx     $bc98
+        ldx     #$ff38
+        stx     $bc77
+        ldx     #$ff92
+        stx     $bc79
+        clr_ax
+        stx     $bc90
+        stx     $bc92
+        ldx     #$0100
+        stx     $bc8e
+        stx     $bc94
+        stz     $bc8c
+        stz     $bc85
+        lda     #$07        ; mode 7
+        sta     $bc81
+        inc     $bc8d
+        jmp     $02f2       ; wait one frame
+
+; ---------------------------------------------------------------------------
+
+; [ set attacker animation frame ]
+
+_c196ec:
+@96ec:  jsr     $9d80       ; get pointer to character graphics properties
+        sta     $cf58,y
+        phy
+        phx
+        jsr     $8d47       ; get graphics script parameter 3
+        tax
+        lda     $d0dfbc,x   ; 0 or 1
+        plx
+        ply
+        sta     $70
+        lda     $cf56,y
+        ora     $70
+        sta     $cf56,y
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c19709:
+@9709:  jsr     $02f2       ; wait one frame
+        lda     $cf53
+        ora     $cf73
+        ora     $cf93
+        ora     $cfb3
+        bne     @9709
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1971b:
+@971b:  jsr     _c18d2f       ; get attacker id
+        tay
+        lda     #$01
+        sta     $d1d4,y
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c19725:
+@9725:  jsr     _c18d2f       ; get attacker id
+        tay
+        clr_a
+        sta     $d1d4,y
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $24: hide ]
+
+_c1972e:
+        jsr     _c18d2f       ; get attacker id
+        tax
+        asl2
+        tay
+        lda     #$80
+        sta     $72
+        jsr     $9763
+        jsr     $9da1
+        jsr     $9d80       ; get pointer to character graphics properties
+        lda     #$01
+        sta     $cf43,y
+        jmp     $971b
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $25: show ]
+
+_c1974a:
+        jsr     $9d80       ; get pointer to character graphics properties
+        clr_a
+        sta     $cf43,y
+        jsr     _c18d2f       ; get attacker id
+        tax
+        asl2
+        tay
+        stz     $72
+        jsr     $9763
+        jsr     $9da1
+        jmp     $9725
+
+; ---------------------------------------------------------------------------
+
+; [ run on/off screen ??? ]
+
+_c19763:
+@9763:  lda     $7b7e,y
+        and     #$c0
+        bne     @979d       ; branch if dead or stone
+        lda     $d1bd,x
+        beq     @9773
+        lda     #$50
+        bra     @977e
+@9773:  lda     $db4a,x
+        beq     @977c
+        lda     #$20
+        bra     @977e
+@977c:  lda     #$30
+@977e:  sta     $70
+        phx
+        txa
+        asl5
+        tax
+        lda     $70
+        ora     $72
+        sta     $cf54,x
+        lda     #$02
+        sta     $cf4d,x
+        lda     #$01
+        sta     $cf53,x
+        stz     $cf55,x
+        plx
+@979d:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1979e:
+        inc     $dbbb
+        jsr     $9709
+        jsr     $9d93       ; wait for damage numerals
+        jsr     $8d3b
+        beq     @9814
+        jsr     $8d74
+        stz     $d1cf
+        stz     $d1d0
+        stz     $d1d1
+        stz     $d1d2
+        lda     $df
+        sta     $74
+        clr_ayx
+@97c2:  asl     $74
+        bcc     @97d7
+        lda     $7b81,y
+        bmi     @97d7
+        lda     $d1d4,x
+        bne     @97d7
+        lda     #$80
+        sta     $72
+        jsr     $9763
+@97d7:  inx
+        iny4
+        cpy     #$0010
+        bne     @97c2
+@97e1:  jsr     $02f2       ; wait one frame
+        lda     #$04
+        sta     $70
+        clr_axy
+@97eb:  lda     $cf53,x
+        bne     @9803
+        lda     $7b81,y
+        bmi     @9801
+        lda     $7b7e,y
+        and     #$c0
+        bne     @9801
+        lda     #$01
+        sta     $cf43,x
+@9801:  dec     $70
+@9803:  iny4
+        txa
+        clc
+        adc     #$20
+        tax
+        cmp     #$80
+        bne     @97eb
+        lda     $70
+        bne     @97e1
+@9814:  rts
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $05: guard ]
+
+_c19815:
+        jsr     $8d74
+        lda     #$01
+        jmp     $96ec
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $29: dance ]
+
+_c1981d:
+        jsr     $8d74
+        lda     #$0e
+        jsr     $96ec
+        ldx     #$0040
+@9828:  phx
+        jsr     $02f2       ; wait one frame
+        plx
+        txa
+        and     #$07
+        bne     @9862
+        jsr     $9d80       ; get pointer to character graphics properties
+        phx
+        txa
+        lsr3
+        and     #$03
+        tax
+        lda     $c19871,x
+        sta     $cf57,y
+        lda     $c19875,x
+        sta     $70
+        lda     $cf49,y
+        clc
+        adc     $70
+        sta     $cf49,y
+        lda     $c19879,x
+        sta     $70
+        lda     $cf56,y
+        eor     $70
+        sta     $cf56,y
+        plx
+@9862:  dex
+        bne     @9828
+        clr_a
+        jsr     $96ec
+        clr_a
+        sta     $cf57,y
+        sta     $cf49,y
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c19871:
+        .byte   $04,$05
+        .byte   $06,$07
+        .byte   $00,$fe
+        .byte   $00,$02
+        .byte   $80,$00
+        .byte   $80,$00
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $28: flirt ]
+
+_c1987d:
+        jsr     $9d93       ; wait for damage numerals
+        lda     #$0e
+        jsr     $96ec
+        jsr     $9d3c
+        lda     #$0b
+        jsr     $96ec
+        ldx     #$0108
+        jsr     $b69c
+        clr_a
+        jmp     $96ec
+
+; ---------------------------------------------------------------------------
+
+_c19897:
+        jsr     $9d93       ; wait for damage numerals
+        lda     #$0b
+        jsr     $96ec
+        ldx     #$010e
+        jsr     $b69c
+        clr_a
+        jmp     $96ec
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $1c: catch ]
+
+_c198a9:
+        jsr     $9d93       ; wait for damage numerals
+        lda     #$0b
+        jsr     $96ec
+        ldx     #$010b
+        jsr     $b69c
+        ldx     #$0110
+        jsr     $b69c
+        clr_a
+        jmp     $96ec
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $12: gil toss ]
+
+_c198c1:
+        jsr     $9d93       ; wait for damage numerals
+        lda     #$0b
+        jsr     $96ec
+        ldx     #$010a
+        jsr     $b69c
+        clr_a
+        jmp     $96ec
+
+; ---------------------------------------------------------------------------
+
+_c198d3:
+        lda     #$0b
+        jsr     $96ec
+        jsr     $9d41
+        clr_a
+        jmp     $96ec
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $0d: dragon sword ]
+
+_c198df:
+        jsr     $9d93       ; wait for damage numerals
+        lda     #$0b
+        jsr     $96ec
+        ldx     #$0109
+        jsr     $b69c
+        ldx     #$010c
+        jsr     $b69c
+        clr_a
+        jmp     $96ec
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $1a: tame ]
+
+_c198f7:
+        jsr     $9d93       ; wait for damage numerals
+        lda     #$0b
+        jsr     $96ec
+        ldx     #$00bf
+        jsr     $b69c
+        clr_a
+        jmp     $96ec
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $20: pray ]
+
+_c19909:
+        jsr     $9d93       ; wait for damage numerals
+        lda     #$0b
+        jsr     $96ec
+        ldx     #$00d8
+        jsr     $b69c
+        clr_a
+        jmp     $96ec
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $21: revive ]
+
+_c1991b:
+        jsr     $9d93       ; wait for damage numerals
+        lda     #$0b
+        jsr     $96ec
+        ldx     #$0019
+        jsr     $b69c
+        clr_a
+        jmp     $96ec
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $0e: smoke ]
+
+_c1992d:
+        jsr     $9d93       ; wait for damage numerals
+        lda     #$0b
+        jsr     $96ec
+        jsr     $8d3b
+        beq     @993e
+        lda     $df
+        sta     ($eb),y
+@993e:  jsr     $8d4d       ; get graphics script parameter 2
+        iny
+        sta     ($e7),y
+        ldx     #$010b
+        jsr     $b69c
+        jsr     $9d41
+        clr_a
+        jmp     $96ec
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $0a: steal/capture ]
+
+_c19951:
+        jsr     $8d74
+        jsr     $9d37
+        jsr     $9d41
+        lda     #$0b
+        jsr     $96ec
+        jsr     $9d41
+        clr_a
+        jmp     $96ec
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $08: mantra ]
+
+_c19966:
+        jsr     $9d93       ; wait for damage numerals
+        ldx     #$0111
+        jsr     $b58b
+        lda     #$01
+        jsr     $96ec
+        jmp     $9d3c
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $0f: image ]
+
+_c19977:
+        jsr     $8d74
+        lda     #$0b
+        jsr     $96ec
+        jsr     $9d41
+        clr_a
+        jmp     $96ec
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $03: def ]
+
+_c19986:
+        lda     #$01
+        jmp     $96ec
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $07: buildup ]
+
+_c1998b:
+        jsr     $9d93       ; wait for damage numerals
+        ldx     #$0107
+        jsr     $b58b
+        lda     #$01
+        jsr     $96ec
+        jmp     $9d3c
+
+; ---------------------------------------------------------------------------
+
+_c1999c:
+@999c:  clr_ax
+        lda     #$f0
+@99a0:  sta     $f8c9,x
+        inx
+        cpx     #$00d8
+        bne     @99a0
+        stz     $db40
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $2e: interceptor rocket ]
+
+_c199ad:
+        jsr     $9d93       ; wait for damage numerals
+        jsr     $999c
+        jsr     _c18d2f       ; get attacker id
+        sta     $db3f
+        inc     $db3e
+        lda     #$0b
+        jsr     $9d8c
+        jsr     $9d80       ; get pointer to character graphics properties
+        clr_a
+        sta     $cf5d,y
+        sta     $cf5e,y
+        sta     $cf5f,y
+        sta     $cf60,y
+        sta     $cf46,y
+        phy
+        jsr     _c18d2f       ; get attacker id
+        clc
+        adc     #$08
+        tax
+        ply
+        jmp     $9a16
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $2d: jump attack ]
+
+_c199e0:
+        jsr     $9d93       ; wait for damage numerals
+        jsr     $999c
+        jsr     $fc64
+        jsr     _c18d2f       ; get attacker id
+        sta     $db3f
+        inc     $db3e
+        lda     #$0b
+        jsr     $9d8c
+        jsr     $9d80       ; get pointer to character graphics properties
+        clr_a
+        sta     $cf5d,y
+        sta     $cf5e,y
+        sta     $cf5f,y
+        sta     $cf60,y
+        sta     $cf46,y
+        phy
+        jsr     $8d74
+        jsr     $8d35       ; get target id
+        jsr     $fc7a
+        tax
+        ply
+@9a16:  phx
+        lda     $d072,x
+        sec
+        sbc     #$18
+        lsr4
+        sta     $70
+        clc
+        adc     $d066,x
+        sta     $cf45,y
+        clr_a
+        sta     $cf43,y
+        lda     $70
+        beq     @9a4e
+        tax
+@9a33:  phx
+        jsr     $02f2       ; wait one frame
+        jsr     $9d80       ; get pointer to character graphics properties
+        lda     $cf45,y
+        dec
+        sta     $cf45,y
+        lda     $cf46,y
+        clc
+        adc     #$10
+        sta     $cf46,y
+        plx
+        dex
+        bne     @9a33
+@9a4e:  plx
+        jsr     $9d80       ; get pointer to character graphics properties
+        lda     $d072,x
+        sec
+        sbc     #$18
+        sta     $cf46,y
+        lda     $d066,x
+        sta     $cf45,y
+        jsr     $8d74
+        jsr     $9d37
+        jsr     $9d80       ; get pointer to character graphics properties
+        lda     $cf56,y
+        ora     #$80
+        sta     $cf56,y
+        lda     #$0b
+        jsr     $9d8c
+        jsr     $9d80       ; get pointer to character graphics properties
+        lda     $cf45,y
+        sta     $a6
+        lda     $cf46,y
+        sta     $a7
+        jsr     $9a8a
+        jmp     $9725
+@9a8a:  jsr     _c18d2f       ; get attacker id
+        tax
+        lda     $f8b9,x
+        sta     $a9
+        lda     $f8b5,x
+        sta     $a8
+        jsr     $0a6e
+        jsr     $09a7
+        clr_ax
+        lda     $ae
+        jsr     $0996
+        stz     $cdfb
+        stz     $ce3b
+        longa
+        lda     $af
+        lsr
+        sta     $b1
+        lsr3
+        sta     $b3
+        stz     $b5
+        shorta0
+@9abc:  jsr     $02f2       ; wait one frame
+        jsr     $9d4b
+        clr_ax
+        lda     #$0c
+        jsr     $09b9
+        longa
+        lda     $af
+        sec
+        sbc     #$000c
+        sta     $af
+        clc
+        adc     #$000c
+        cmp     $b1
+        bcc     @9af4
+        lda     $b5
+        clc
+        adc     $b3
+        sta     $b5
+        lda     $b3
+        beq     @9b18
+        dec
+        sta     $b3
+        lda     $cf5f,y
+        sec
+        sbc     $b5
+        sta     $cf5f,y
+        bra     @9b18
+@9af4:  lda     $b1
+        lsr3
+        cmp     $b3
+        bne     @9b03
+        stz     $b3
+        stz     $b5
+        bra     @9b0f
+@9b03:  lda     $b3
+        inc
+        sta     $b3
+        lda     $b5
+        sec
+        sbc     $b3
+        sta     $b5
+@9b0f:  lda     $cf5f,y
+        sec
+        sbc     $b5
+        sta     $cf5f,y
+@9b18:  shorta0
+        lda     $b0
+        bpl     @9abc
+        lda     $a8
+        sta     $cf45,y
+        lda     $a9
+        sta     $cf46,y
+        clr_a
+        sta     $cf5d,y
+        sta     $cf5e,y
+        sta     $cf5f,y
+        sta     $cf60,y
+        jsr     $9d37
+        jsr     $9d80       ; get pointer to character graphics properties
+        lda     $cf56,y
+        and     #$7f
+        sta     $cf56,y
+        clr_a
+        jsr     $9d8c
+        jsr     $9d41
+        stz     $db3e
+        jsr     $67d3
+        jsr     _c18d2f       ; get attacker id
+        tax
+        stz     $d1cb,x
+        jmp     $fc6d
+
+; ---------------------------------------------------------------------------
+
+_c19b5b:
+        iny
+        cld
+@9b5d:  jsr     $9d80       ; get pointer to character graphics properties
+        tya
+        lsr5
+        tax
+        lda     $cf45,y
+        sta     $f8b5,x
+        lda     $cf46,y
+        sta     $f8b9,x
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $0c: jump (part 1) ]
+
+_c19b74:
+        jsr     $9d93       ; wait for damage numerals
+        jsr     $999c
+        stz     $db41
+        jsr     $fc64
+        jsr     _c18d2f       ; get attacker id
+        pha
+        tay
+        lda     #$01
+        sta     $d1d4,y
+        pla
+        sta     $db3f
+        lda     #$01
+        sta     $db3e
+        jsr     $8d74
+        jsr     $9b5d
+        jsr     $80b8
+        jsr     $9d37
+        lda     #$0b
+        jsr     $9d8c
+@9ba4:  jsr     $02f2       ; wait one frame
+        jsr     $9d80       ; get pointer to character graphics properties
+        longa
+        lda     $cf5d,y
+        dec
+        sta     $cf5d,y
+        shorta0
+        inc     $db41
+        inc     $db41
+        lda     $cf46,y
+        sec
+        sbc     $db41
+        sta     $cf46,y
+        cmp     #$a0
+        bcc     @9ba4
+        jsr     $02f2       ; wait one frame
+        jsr     $9d80       ; get pointer to character graphics properties
+        lda     #$01
+        sta     $cf43,y
+        lda     #$20
+        jsr     $8141       ; wait
+        stz     $db3e
+        jsr     $67d3
+        jmp     $fc6d
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $13: slash ]
+
+_c19be3:
+        jsr     $8d14
+        jsr     $9d93       ; wait for damage numerals
+        lda     #$01
+        jsr     $9d8c
+        lda     $cf45,y
+        sta     $a6
+        lda     $cf46,y
+        sta     $a7
+        jsr     $9b5d
+        lda     #$00
+        sta     $a8
+        lda     $dbd3
+        beq     @9c08
+        lda     #$70
+        bra     @9c0a
+@9c08:  lda     #$50
+@9c0a:  sta     $a9
+        jsr     $0a6e
+        jsr     $09a7
+        clr_ax
+        lda     $ae
+        jsr     $0996
+        stz     $cdfb
+        stz     $ce3b
+        jsr     $8d74
+@9c22:  jsr     $02f2       ; wait one frame
+        jsr     $9d4b
+        clr_ax
+        lda     #$0c
+        jsr     $09b9
+        longa
+        lda     $af
+        sec
+        sbc     #$000c
+        sta     $af
+        shorta0
+        lda     $b0
+        bpl     @9c22
+        ldx     #$010d
+        jsr     $b69c
+        jsr     $9d80       ; get pointer to character graphics properties
+        lda     #$08
+        sta     $a6
+        sta     $cf45,y
+        lda     #$50
+        sta     $a7
+        sta     $cf46,y
+        longa
+        clr_a
+        sta     $cf5d,y
+        sta     $cf5f,y
+        shorta
+        lda     $cf56,y
+        ora     #$80
+        sta     $cf56,y
+        lda     #$0b
+        jsr     $96ec
+        jsr     $8d74
+        jsr     $9a8a
+        clr_a
+        jsr     $96ec
+        jmp     _c18d22
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $06: kick ]
+
+_c19c7c:
+        jsr     $8d14       ; show character in ready stance
+        jsr     $9d93       ; wait for damage numerals
+        jsr     $9d37       ;
+        lda     #$0f
+        jsr     $9d8c
+        jsr     $8d74
+        lda     $cf45,y
+        sta     $a6
+        lda     $cf46,y
+        sta     $a7
+        lda     #$08
+        sta     $a8
+        lda     #$50
+        sta     $a9
+        jsr     $0a6e
+        jsr     $09a7
+        clr_ax
+        lda     $ae
+        jsr     $0996
+        stz     $cdfb
+        stz     $ce3b
+        ldx     $af
+        phx
+@9cb5:  jsr     $02f2       ; wait one frame
+        jsr     $9d4b
+        clr_ax
+        lda     #$0c
+        jsr     $09b9
+        longa
+        lda     $af
+        sec
+        sbc     #$000c
+        sta     $af
+        shorta0
+        lda     $b0
+        bpl     @9cb5
+        jsr     $9d37
+        jsr     $9d80       ; get pointer to character graphics properties
+        lda     $cf56,y
+        ora     #$80
+        sta     $cf56,y
+        jsr     $9d37
+        lda     #$0f
+        jsr     $9d8c
+        plx
+        stx     $b1
+@9cec:  jsr     $02f2       ; wait one frame
+        jsr     $9d4b
+        clr_ax
+        lda     #$f4
+        jsr     $09b9
+        longa
+        lda     $af
+        clc
+        adc     #$000c
+        sta     $af
+        cmp     $b1
+        beq     @9d0c
+        shorta0
+        bra     @9cec
+@9d0c:  shorta0
+        jsr     $02f2       ; wait one frame
+        jsr     $9d4b
+        jsr     $9d80       ; get pointer to character graphics properties
+        clr_a
+        sta     $cf5d,y
+        sta     $cf5e,y
+        sta     $cf5f,y
+        sta     $cf60,y
+        lda     $cf56,y
+        and     #$7f
+        sta     $cf56,y
+        jsr     $9d37
+        clr_a
+        jsr     $9d8c
+        jmp     _c18d22
+
+; ---------------------------------------------------------------------------
+
+_c19d37:
+@9d37:  lda     #$03
+        jsr     $9d8c
+@9d3c:  lda     #$08
+        jmp     $8141       ; wait
+
+; ---------------------------------------------------------------------------
+
+_c19d41:
+@9d41:  lda     #$10
+        jmp     $8141       ; wait
+
+; ---------------------------------------------------------------------------
+
+_c19d46:
+        lda     #$3c
+        jmp     $8141       ; wait
+
+; ---------------------------------------------------------------------------
+
+_c19d4b:
+@9d4b:  lda     $ce3b
+        sta     $80
+        stz     $81
+        lda     $cebb
+        jsr     $0b59
+        jsr     $9d80       ; get pointer to character graphics properties
+        longa
+        lda     $84
+        sta     $cf5d,y
+        shorta0
+        lda     $cdfb
+        sta     $80
+        stz     $81
+        lda     $ce7b
+        jsr     $0b59
+        jsr     $9d80       ; get pointer to character graphics properties
+        longa
+        lda     $84
+        sta     $cf5f,y
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ get pointer to character graphics properties ]
+
+_c19d80:
+@9d80:  pha
+        jsr     _c18d2f       ; get attacker id
+        asl5
+        tay
+        pla
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c19d8c:
+@9d8c:  jsr     $9d80       ; get pointer to character graphics properties
+        sta     $cf58,y
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ wait for damage numerals ]
+
+_c19d93:
+@9d93:  lda     $d114
+        ora     $d116
+        beq     @9da0
+        jsr     $02f2       ; wait one frame
+        bra     @9d93
+@9da0:  rts
+
+; ---------------------------------------------------------------------------
+
+_c19da1:
+@9da1:  jsr     $02f2       ; wait one frame
+        jsr     _c18d2f       ; get attacker id
+        asl5
+        tay
+        lda     $cf53,y
+        bne     @9da1
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c19db3:
+@9db3:  phx
+        lda     $7e
+        pha
+        jsr     $02f2       ; wait one frame
+        pla
+        sta     $7e
+        plx
+        txa
+        asl5
+        tay
+        lda     $cf53,y
+        bne     @9db3
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c19dcb:
+        jsr     $8d3b
+        sta     $7e
+        clr_ax
+@9dd2:  asl     $7e
+        bcc     @9e01
+        lda     $d1d4,x
+        bne     @9df9
+        jsr     $9db3
+        lda     $d1bd,x
+        ora     $d1cb,x
+        bne     @9df9
+        lda     $db4a,x
+        beq     @9e01
+        lda     #$10
+        sta     $cf54,y
+        lda     #$02
+        sta     $cf4d,y
+        dec
+        sta     $cf53,y
+@9df9:  lda     $db4a,x
+        beq     @9e01
+        stz     $db4a,x
+@9e01:  inx
+        cpx     #$0004
+        bne     @9dd2
+        jmp     $9709
+        jsr     $8d3b
+        sta     $7e
+        clr_ax
+@9e11:  asl     $7e
+        bcc     @9e44
+        lda     $d1d4,x
+        bne     @9e3c
+        jsr     $9db3
+        lda     $d1bd,x
+        ora     $d1cb,x
+        bne     @9e3c
+        lda     $db4a,x
+        beq     @9e2e
+        lda     #$10
+        bra     @9e30
+@9e2e:  lda     #$90
+@9e30:  sta     $cf54,y
+        lda     #$02
+        sta     $cf4d,y
+        dec
+        sta     $cf53,y
+@9e3c:  lda     $db4a,x
+        eor     #$01
+        sta     $db4a,x
+@9e44:  inx
+        cpx     #$0004
+        bne     @9e11
+        jmp     $9709
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $02: row ]
+
+_c19e4d:
+        jsr     _c18d2f       ; get attacker id
+        tax
+        lda     $d1d4,x
+        bne     @9e7e
+        jsr     $9da1
+        phy
+        jsr     _c18d2f       ; get attacker id
+        tax
+        ply
+        lda     $d1bd,x
+        ora     $d1cb,x
+        bne     @9e7e
+        lda     $db4a,x
+        beq     @9e70
+        lda     #$10
+        bra     @9e72
+@9e70:  lda     #$90
+@9e72:  sta     $cf54,y
+        lda     #$02
+        sta     $cf4d,y
+        dec
+        sta     $cf53,y
+@9e7e:  lda     $db4a,x
+        eor     #$01
+        sta     $db4a,x
+        jmp     $9da1
+
+; ---------------------------------------------------------------------------
+
+_c19e89:
+        phx
+        phy
+        lda     ($eb)
+        and     #$40
+        bne     @9ed5
+        jsr     $8d35       ; get target id
+        jsr     $fc7a
+        asl5
+        tax
+        lda     ($eb)
+        and     #$10
+        beq     @9ea7       ; branch if no crit flash
+        lda     #$10
+        bra     @9ea9
+@9ea7:  lda     #$08
+@9ea9:  sta     $70
+        lda     $cf58,x
+        pha
+        lda     $70
+        pha
+        lda     $cf49,x
+        clc
+        adc     $70
+        sta     $cf49,x
+        lda     #$07
+        sta     $cf58,x
+        phx
+        jsr     $9d41
+        plx
+        pla
+        sta     $70
+        lda     $cf49,x
+        sec
+        sbc     $70
+        sta     $cf49,x
+        pla
+        sta     $cf58,x
+@9ed5:  ply
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c19ed8:
+@9ed8:  cmp     #$09
+        beq     @9ee1
+        cmp     #$11
+        beq     @9ee1
+        rts
+@9ee1:  ldx     #$0119
+        jmp     $b69c
+@9ee7:  asl
+        tax
+        longa
+        lda     $d0df44,x
+        tax
+        shorta0
+        jmp     $b58b
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $10: throw ]
+
+_c19ef6:
+        jsr     $9d93       ; wait for damage numerals
+        lda     $7c63
+        cmp     #$5a
+        beq     @9f13
+        cmp     #$5b
+        beq     @9f13
+        lda     #$0b
+        jsr     $96ec
+        ldx     #$010f
+        jsr     $b69c
+        clr_a
+        jmp     $96ec
+@9f13:  jsr     $8d14
+        stz     $d1d3
+        stz     $71
+        stz     $70
+        jsr     _c18d2f       ; get attacker id
+        asl2
+        tay
+        lda     $7b7e,y
+        and     #$30
+        beq     @9f32
+        lda     #$02
+        sta     $d1d3
+        clr_a
+        bra     @9f35
+@9f32:  lda     $7c63
+@9f35:  jsr     $a8fc
+        lda     $f582
+        sta     $d1bc
+        jsr     $a112
+        jmp     _c18d22
+
+; ---------------------------------------------------------------------------
+
+; [ ability animation $04: fight ]
+
+_c19f44:
+        jsr     $9d93       ; wait for damage numerals
+        lda     ($eb)
+        bmi     @9f5a       ; branch if attacker is a monster
+        jsr     $8d14
+        jsr     $8d53       ; get graphics script parameter 4
+        and     #$7f
+        beq     @9f5a
+        dec
+        tax
+        jsr     $9ee7
+@9f5a:  lda     ($eb)
+        bpl     @9f87
+        jsr     _c18d2f       ; get attacker id
+        and     #$07
+        asl
+        tax
+        longa
+        lda     $d97cd1,x
+        sta     $7e
+        shorta0
+        jsr     $8d53       ; get graphics script parameter 4
+        bmi     @9f7a
+        ldy     #$0013
+        bra     @9f7d
+@9f7a:  ldy     #$0014
+@9f7d:  lda     #$01
+        sta     $d1d3
+        lda     ($7e),y
+        jmp     $9fba
+@9f87:  stz     $d1d3
+        stz     $71
+        jsr     _c18d2f       ; get attacker id
+        asl2
+        tay
+        lda     $7b7e,y
+        and     #$30
+        beq     @9fa2
+        lda     #$02
+        sta     $d1d3
+        clr_a
+        jmp     $9fba
+@9fa2:  jsr     _c18d2f       ; get attacker id
+        tax
+        lda     $ceff84,x
+        tax
+        jsr     $8d53       ; get graphics script parameter 4
+        bmi     @9fb5
+        lda     $37ac,x
+        bra     @9fba
+@9fb5:  inc     $71
+        lda     $37ad,x
+@9fba:  pha
+        lda     ($eb)
+        and     #$10
+        sta     $70         ; crit flash
+        pla
+        jsr     $a8fc
+        lda     $f582
+        sta     $d1bc
+        jsr     $a112
+        lda     ($eb)
+        bmi     @9fde
+        jsr     $8d53       ; get graphics script parameter 4
+        and     #$7f
+        beq     @9fde
+        dec
+        tax
+        jsr     $9ed8
+@9fde:  lda     ($eb)
+        bmi     @9fe5
+        jsr     _c18d22
+@9fe5:  phx
+        ldx     $f0
+        inx
+        stx     $f0
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c19fed:
+        phy
+        lda     $70
+        pha
+        lda     ($eb)
+        bpl     @9ff8
+        clr_a
+        bra     @9ffa
+@9ff8:  lda     #$08
+@9ffa:  sta     $70
+        jsr     _c18d2f       ; get attacker id
+        clc
+        adc     $70
+        tay
+        lda     $d036,y
+        sta     $d1a9
+        lda     $d042,y
+        sta     $d1aa
+        stz     $d1a4
+        stz     $d1a5
+        pla
+        sta     $70
+        jsr     _c18d2f       ; get attacker id
+        ply
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a01d:
+@a01d:  phy
+        phx
+        ldx     $70
+        phx
+        lda     ($eb)
+        and     #$40
+        beq     @a02b
+        clr_a
+        bra     @a02d
+@a02b:  lda     #$08
+@a02d:  sta     $70
+        stz     $71
+        ldy     #$0006
+        lda     ($eb),y
+        beq     @a040
+        pha
+        lda     #$10
+        sta     $71
+        pla
+        bra     @a043
+@a040:  jsr     $8d35       ; get target id
+@a043:  jsr     $fc7a
+        clc
+        adc     $70
+        tay
+        lda     $d036,y
+        sec
+        sbc     $71
+        sta     $d1b7
+        lda     $d042,y
+        sta     $d1b8
+        stz     $d1b2
+        stz     $d1b3
+        plx
+        stx     $70
+        plx
+        ply
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a065:
+@a065:  phy
+        jsr     $8d3b
+        ora     ($f0)       ; block type
+        beq     @a070
+        ply
+        sec
+        rts
+@a070:  ply
+        clc
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a073:
+@a073:  phx
+        ldy     #$0006
+        lda     ($eb),y
+        beq     @a08a
+        jsr     $a0a4
+        lda     $f870
+        sta     $cf45,x
+        lda     $f871
+        sta     $cf46,x
+@a08a:  plx
+        lda     $d1bc
+        and     #$0f
+        cmp     #$01
+        beq     @a0a3
+        lda     ($eb)
+        and     #$40
+        bne     @a0a3
+        jsr     $a0a4
+        lda     $f872
+        sta     $cf58,x
+@a0a3:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a0a4:
+@a0a4:  jsr     $8d35       ; get target id
+        jsr     $fc7a
+        asl5
+        tax
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1a0b1:
+@a0b1:  phx
+        lda     $d1bc
+        and     #$0f
+        cmp     #$01
+        beq     @a0d4
+        lda     ($eb)
+        and     #$40
+        bne     @a0d4
+        jsr     $a0a4
+        lda     $cf58,x
+        sta     $f872
+        jsr     $8d3b
+        beq     @a0d4
+        lda     #$07
+        sta     $cf58,x
+@a0d4:  plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1a0d6:
+@a0d6:  phx
+        ldy     #$0006
+        lda     ($eb),y
+        beq     @a110
+        jsr     $fc7a
+        asl5
+        tax
+        lda     $cf45,x
+        sta     $70
+        lda     $cf46,x
+        sta     $71
+        jsr     $a0a4
+        lda     $cf45,x
+        sta     $f870
+        lda     $cf46,x
+        sta     $f871
+        lda     $70
+        sec
+        sbc     #$10
+        sta     $cf45,x
+        lda     $71
+        sta     $cf46,x
+        jsr     $9d41
+@a110:  plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a112:
+        lda     #$02
+        sta     $d184
+        sta     $d185
+        lda     #$d9
+        sta     $d188
+        lda     $f586
+        asl
+        tax
+        lda     $d99e34,x
+        sta     $d186
+        lda     $d99e35,x
+        sta     $d187
+        lda     #$04
+        sta     $d192
+        sta     $d193
+        lda     #$d9        ; animation graphics bank
+        sta     $d196
+        lda     $f585
+        asl
+        tax
+        lda     $d99e94,x
+        sta     $d194
+        lda     $d99e95,x
+        sta     $d195
+        stz     $d1ab
+        stz     $d1ac
+        stz     $d1b9
+        stz     $d1ba
+        stz     $d1a8
+        stz     $d1b6
+        stz     $d1bb
+        stz     $d1c9
+        stz     $d1ca
+        lda     ($eb)
+        and     #$10
+        beq     @a176       ; branch if no crit flash
+        jsr     $78f5       ; flash screen
+@a176:  jsr     $a0b1
+        jsr     $a065
+        bcs     @a182
+        lda     #$49
+        bra     @a185
+@a182:  lda     $f583       ; animation sound effect
+@a185:  jsr     $fbe4       ; play animation sound effect
+        lda     ($eb)
+        bpl     @a1a2
+        jsr     $a0d6
+        lda     #$40
+        sta     $d1a8
+        sta     $d1b6
+        lda     ($eb)
+        and     #$40
+        beq     @a1ed
+        inc     $d1c9
+        bra     @a1ed
+@a1a2:  jsr     $a0d6
+        jsr     $8d2f       ; get attacker id
+        and     #$03
+        sta     $70
+        tay
+        lda     #$02
+        sta     $d1c1,y
+        jsr     $8d35       ; get target id
+        jsr     $fc7a
+        sta     $72
+        lda     ($eb)
+        and     #$40
+        beq     @a1c5
+@a1c0:  inc     $d1c9
+        bra     @a1ed
+@a1c5:  lda     $70
+        cmp     $72
+        bne     @a1d5
+        lda     $70
+        tay
+        lda     $d1bd,y
+        bne     @a1dd
+        bra     @a1c0
+@a1d5:  lda     $72
+        tay
+        lda     $d1bd,y
+        bne     @a1c0
+@a1dd:  lda     #$40
+        sta     $d1a8
+        sta     $d1b6
+        lda     $70
+        tay
+        lda     #$01
+        sta     $d1c1,y
+@a1ed:  jsr     $9fed
+        pha
+        lda     $d1bc
+        bmi     @a1fb
+        jsr     $8d53       ; get graphics script parameter 4
+        bpl     @a207
+@a1fb:  lda     #$05
+        sta     $73
+        stz     $70
+        lda     #$04
+        sta     $72
+        bra     @a211
+@a207:  lda     #$04
+        sta     $73
+        lda     #$06
+        sta     $70
+        stz     $72
+@a211:  pla
+        tax
+        lda     $c1a843,x
+        clc
+        adc     $70
+        sta     $d1a1
+        txa
+        asl5
+        tax
+        phx
+        lda     $d1d3
+        cmp     #$01
+        beq     @a236
+        lda     $72
+        sta     $cf48,x
+        lda     $73
+        sta     $cf58,x
+@a236:  jsr     $a01d
+        lda     #$08
+        sta     $d1af
+        stz     $d1a2
+        stz     $d1b0
+        lda     #$02
+        sta     $d18b
+        sta     $d199
+        ldx     $d186
+        stx     $70
+        lda     $d188
+        sta     $72
+        ldx     $d194
+        stx     $74
+        lda     $d196
+        sta     $76
+        lda     [$70]       ; bg1 width ???
+        lsr4
+        inc
+        sta     $d189
+        lda     [$74]       ; bg3 width ???
+        lsr4
+        inc
+        sta     $d197
+        lda     [$70]       ; bg1 height ???
+        and     #$0f
+        inc
+        sta     $d18c
+        lda     [$74]       ; bg3 height ???
+        and     #$0f
+        inc
+        sta     $d19a
+        lda     #$01
+        sta     $d18a
+        sta     $d198
+@a28c:  ldx     $d186
+        stx     $70
+        lda     $d188
+        sta     $72
+        ldx     $d194
+        stx     $74
+        lda     $d196
+        sta     $76
+        ldy     #$0001
+        lda     [$70],y
+        longa
+        asl7
+        sta     $78
+        lda     [$74],y
+        and     #$00ff
+        asl7
+        sta     $7a
+        shorta0
+        stz     $7c
+        lda     $d18b
+        tay
+        dec     $d18a
+        bne     @a327
+        lda     $d189
+        sta     $d18a
+        inc     $d1ac
+@a2d5:  stz     $7e
+        ldx     $70
+        stx     $84
+        lda     $72
+        sta     $86
+        lda     $d1d3
+        bne     @a307
+        lda     [$84],y
+        cmp     #$ff
+        beq     @a307       ; branch if end of frame
+        lda     [$84],y
+        bmi     @a301
+        longa
+        clc
+        adc     $78
+        sta     $d1a2
+        shorta0
+        iny
+        lda     #$01
+        sta     $d1a0
+        bra     @a327
+@a301:  jsr     $a3d3
+        iny
+        bra     @a2d5
+@a307:  lda     $d18c
+        beq     @a31d
+        dec     $d18c
+        beq     @a31d
+        jsr     $9fed
+        ldy     #$0002
+        tya
+        sta     $d18b
+        bra     @a2d5
+@a31d:  lda     #$01
+        sta     $d189
+        sta     $d18a
+        inc     $7c
+@a327:  tya
+        sta     $d18b
+        lda     $d199
+        tay
+        lda     $d1bc
+        and     #$40
+        beq     @a33a
+        lda     $7c
+        beq     @a39c
+@a33a:  dec     $d198
+        bne     @a39c
+        lda     $d197
+        sta     $d198
+        inc     $d1ba
+@a348:  jsr     $a065
+        bcc     @a392
+        lda     #$0e
+        sta     $7e
+        ldx     $74
+        stx     $84
+        lda     $76
+        sta     $86
+        lda     [$84],y
+        cmp     #$ff
+        beq     @a37c
+        lda     [$84],y
+        bmi     @a376
+        longa
+        clc
+        adc     $7a
+        sta     $d1b0
+        shorta0
+        iny
+        lda     #$01
+        sta     $d1ae
+        bra     @a39c
+@a376:  jsr     $a3d3
+        iny
+        bra     @a348
+@a37c:  lda     $d19a
+        beq     @a392
+        dec     $d19a
+        beq     @a392
+        jsr     $a01d
+        ldy     #$0002
+        tya
+        sta     $d199
+        bra     @a348
+@a392:  lda     #$ff
+        sta     $d1bb
+        sta     $d1ae
+        inc     $7c
+@a39c:  tya
+        sta     $d199
+        lda     $7c
+        cmp     #$02
+        beq     @a3ac
+        jsr     $02f2       ; wait one frame
+        jmp     $a28c
+@a3ac:  plx
+        clr_a
+        sta     $d1c1
+        sta     $d1c2
+        sta     $d1c3
+        sta     $d1c4
+        sta     $d1a0
+        lda     ($eb)
+        bmi     @a3cd
+        clr_a
+        sta     $cf57,x
+        sta     $cf58,x
+        lda     #$04
+        sta     $cf48,x
+@a3cd:  jsr     $a073
+        jmp     $02f2       ; wait one frame
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a3d3:
+@a3d3:  and     #$7f
+        asl
+        tax
+        lda     $c1a3e6,x
+        sta     $80
+        lda     $c1a3e7,x
+        sta     $81
+        jmp     ($0080)
+
+; ---------------------------------------------------------------------------
+
+_c1a3e6:
+        .addr   $a7a5,$a7b3,$a7c4,$a7ac,$a4e7,$a6ad,$a67b,$a4de
+        .addr   $a70f,$a7bd,$a6df,$a4d1,$a01d,$a737,$a4cb,$a4be
+        .addr   $a4b5,$a4ae,$a497,$a480,$a442,$a461,$a431,$a416
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a416:
+        phy
+        lda     $d1b6
+        and     #$40
+        sta     $d1b6
+        jsr     $8d35       ; get target id
+        jsr     $fc7a
+        and     #$03
+        ora     #$80
+        ora     $d1b6
+        sta     $d1b6
+        ply
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a431:
+        lda     ($eb)
+        and     #$40
+        beq     @a441
+@a437:  lda     [$84],y
+        cmp     #$ff
+        beq     @a440
+        iny
+        bra     @a437
+@a440:  dey
+@a441:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a442:
+        phy
+        jsr     $8d35       ; get target id
+        phx
+        jsr     $fc7a
+        plx
+        ply
+        asl5
+        tax
+        iny
+        lda     [$84],y
+        sta     $80
+        lda     $cf49,x
+        clc
+        adc     $80
+        sta     $cf49,x
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a461:
+        phy
+        jsr     $8d35       ; get target id
+        phx
+        jsr     $fc7a
+        plx
+        ply
+        asl5
+        tax
+        iny
+        lda     [$84],y
+        sta     $80
+        lda     $cf49,x
+        sec
+        sbc     $80
+        sta     $cf49,x
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a480:
+        phy
+        jsr     $8d35       ; get target id
+        phx
+        jsr     $fc7a
+        plx
+        ply
+        asl5
+        tax
+        iny
+        lda     [$84],y
+        sta     $cf57,x
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a497:
+        phy
+        jsr     $8d35       ; get target id
+        phx
+        jsr     $fc7a
+        plx
+        ply
+        asl5
+        tax
+        iny
+        lda     [$84],y
+        sta     $cf58,x
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a4ae:
+        iny
+        lda     [$84],y
+        sta     $d1ca
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a4b5:
+        dec     $d1ca
+        beq     @a4bd
+        dey3
+@a4bd:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a4be:
+@a4be:  lda     $d1ba
+        and     #$03
+        bne     @a4ca
+        lda     #$81
+        sta     $d1bb
+@a4ca:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a4cb:
+        lda     #$ff
+        sta     $d1bb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a4d1:
+        ldx     $d1a9
+        stx     $d1b7
+        ldx     $d1a4
+        stx     $d1b2
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a4de:
+        lda     $d1bc
+        and     #$bf
+        sta     $d1bc
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a4e7:
+        iny
+        lda     [$84],y
+        asl
+        tax
+        lda     $c1a4fb,x
+        sta     $80
+        lda     $c1a4fc,x
+        sta     $81
+        jmp     ($0080)
+
+; ---------------------------------------------------------------------------
+
+_c1a4fb:
+        .addr   $a57e,$a519,$a513,$a503
+
+; ---------------------------------------------------------------------------
+
+_c1a503:
+        lda     #$0e
+        sta     $af
+        lda     #$08
+        jsr     $a51d
+        ldx     $af
+        dex2
+        stx     $af
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1a513:
+        stz     $af
+        lda     #$10
+        bra     _a51d
+
+_c1a519:
+        stz     $af
+        lda     #$08
+_a51d:  sta     $ae
+        lda     $d1a9
+        clc
+        adc     $d1b2
+        sta     $a6
+        lda     $d1aa
+        clc
+        adc     $d1b3
+        sta     $a7
+        lda     $d1b7
+        clc
+        adc     $d1b2
+        sec
+        sbc     $ae
+        sta     $a8
+        lda     $d1c9
+        beq     @a54b
+        asl     $ae
+        lda     $a8
+        clc
+        adc     $ae
+        sta     $a8
+@a54b:  lda     $d1b8
+        clc
+        adc     $d1b3
+        clc
+        adc     $af
+        sta     $a9
+        stz     $d1a6
+        stz     $d1a7
+        stz     $d1b4
+        stz     $d1b5
+        jsr     $0a6e
+        jsr     $a570
+        ldx     $d1a9
+        stx     $d1b7
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a570:
+@a570:  longa
+        lda     $af
+        clc
+        adc     #$0009
+        sta     $af
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1a57e:
+        lda     $d1a9
+        clc
+        adc     $d1a4
+        sta     $a6
+        lda     $d1aa
+        clc
+        adc     $d1a5
+        sta     $a7
+        lda     $d1b7
+        clc
+        adc     $d1a4
+        sta     $a8
+        lda     $d1b8
+        clc
+        adc     $d1a5
+        adc     #$0c
+        sta     $a9
+        stz     $d1a6
+        stz     $d1a7
+        stz     $d1b4
+        stz     $d1b5
+        jsr     $0a6e
+        jmp     $a570
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a5b6:
+@a5b6:  lda     $af
+        cmp     #$08
+        bcc     @a5e8
+        cmp     #$10
+        bcc     @a5e4
+        cmp     #$20
+        bcc     @a5e0
+        cmp     #$30
+        bcc     @a5dc
+        cmp     #$40
+        bcc     @a5d8
+        cmp     #$50
+        bcc     @a5d4
+        lda     #$08
+        bra     @a5ea
+@a5d4:  lda     #$07
+        bra     @a5ea
+@a5d8:  lda     #$06
+        bra     @a5ea
+@a5dc:  lda     #$05
+        bra     @a5ea
+@a5e0:  lda     #$04
+        bra     @a5ea
+@a5e4:  lda     #$03
+        bra     @a5ea
+@a5e8:  lda     #$02
+@a5ea:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a5eb:
+@a5eb:  lda     $d1b4
+        tax
+        stx     $80
+        lda     $ae
+        clc
+        adc     #$40
+        jsr     $0b59
+        lda     a:$00a6
+        longa
+        clc
+        adc     $84
+        and     #$00ff
+        tax
+        shorta0
+        txa
+        sec
+        sbc     $d1b2
+        sta     $d1b7
+        lda     $d1b4
+        tax
+        stx     $80
+        lda     $ae
+        jsr     $0b59
+        lda     a:$00a7
+        longa
+        clc
+        adc     $84
+        and     #$00ff
+        tax
+        shorta0
+        txa
+        sec
+        sbc     $d1b3
+        sta     $d1b8
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a633:
+@a633:  lda     $d1a6
+        tax
+        stx     $80
+        lda     $ae
+        clc
+        adc     #$40
+        jsr     $0b59
+        lda     a:$00a6
+        longa
+        clc
+        adc     $84
+        and     #$00ff
+        tax
+        shorta0
+        txa
+        sec
+        sbc     $d1a4
+        sta     $d1a9
+        lda     $d1a6
+        tax
+        stx     $80
+        lda     $ae
+        jsr     $0b59
+        lda     a:$00a7
+        longa
+        clc
+        adc     $84
+        and     #$00ff
+        tax
+        shorta0
+        txa
+        sec
+        sbc     $d1a5
+        sta     $d1aa
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1a67b:
+        ldx     $7e
+        phx
+        ldx     $84
+        phx
+        lda     $d1ac
+        lsr
+        and     #$03
+        sta     $d1ab
+        jsr     $a633
+        jsr     $a5b6
+        sta     $80
+        lda     $af
+        clc
+        adc     $80
+        sta     $af
+        lda     $d1a6
+        sec
+        sbc     $80
+        sta     $d1a6
+        bcc     @a6a6
+        dey2
+@a6a6:  plx
+        stx     $84
+        plx
+        stx     $7e
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1a6ad:
+        ldx     $7e
+        phx
+        ldx     $84
+        phx
+        lda     $d1ac
+        lsr
+        and     #$03
+        sta     $d1ab
+        jsr     $a633
+        jsr     $a5b6
+        sta     $80
+        lda     $af
+        sec
+        sbc     $80
+        sta     $af
+        bcc     @a6cf
+        dey2
+@a6cf:  lda     $d1a6
+        clc
+        adc     $80
+        sta     $d1a6
+        plx
+        stx     $84
+        plx
+        stx     $7e
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1a6df:
+        ldx     $7e
+        phx
+        ldx     $84
+        phx
+        lda     $d1ac
+        and     #$01
+        sta     $d1ab
+        jsr     $a633
+        lda     #$0a
+        sta     $80
+        lda     $af
+        sec
+        sbc     $80
+        sta     $af
+        bcc     @a6ff
+        dey2
+@a6ff:  lda     $d1a6
+        clc
+        adc     $80
+        sta     $d1a6
+        plx
+        stx     $84
+        plx
+        stx     $7e
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1a70f:
+        ldx     $7e
+        phx
+        ldx     $84
+        phx
+        jsr     $a5eb
+        lda     #$0a
+        sta     $80
+        lda     $af
+        sec
+        sbc     $80
+        sta     $af
+        bcc     @a727
+        dey2
+@a727:  lda     $d1b4
+        clc
+        adc     $80
+        sta     $d1b4
+        plx
+        stx     $84
+        plx
+        stx     $7e
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1a737:
+        ldx     $7e
+        phx
+        ldx     $84
+        phx
+        lda     $d1ba
+        and     #$04
+        lsr2
+        sta     $d1b9
+        jsr     $a4be
+        jsr     $a5eb
+        lda     #$04
+        sta     $80
+        lda     $af
+        sec
+        sbc     $80
+        sta     $af
+        bcc     @a75c
+        dey2
+@a75c:  lda     $d1b4
+        clc
+        adc     $80
+        sta     $d1b4
+        lda     #$10
+        sta     $80
+        lda     $d1ba
+        asl4
+        jsr     $0a00
+        clc
+        adc     $d1b8
+        sta     $d1b8
+        lda     #$10
+        sta     $80
+        lda     $d1ba
+        clc
+        adc     #$40
+        asl4
+        jsr     $0a00
+        clc
+        adc     $d1b7
+        plx
+        stx     $84
+        plx
+        stx     $7e
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1a796:
+@a796:  phy
+        jsr     $8d2f       ; get attacker id
+        ply
+        asl5
+        tax
+        iny
+        lda     [$84],y
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1a7a5:
+        jsr     $a796
+        sta     $cf58,x
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1a7ac:
+        jsr     $a796
+        sta     $cf57,x
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1a7b3:
+        iny
+        lda     $7e
+        tax
+        lda     [$84],y
+        sta     $d189,x
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1a7bd:
+        lda     $7e
+        tax
+        stz     $d1a0,x
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a7c4:
+        iny
+        lda     [$84],y
+        lsr4
+        and     #$fe
+        tax
+        lda     $c1a7e7,x
+        sta     $80
+        lda     $c1a7e8,x
+        sta     $81
+        lda     [$84],y
+        and     #$1f
+        inc
+        sta     $82
+        lda     $7e
+        tax
+        jmp     ($0080)
+
+; ---------------------------------------------------------------------------
+
+_c1a7e7:
+        .addr   $a7f7,$a7fd,$a800,$a806,$a809,$a80c,$a812,$a815
+
+; ---------------------------------------------------------------------------
+
+_c1a7f7:
+        jsr     $a825
+        jmp     $a82f
+
+; ---------------------------------------------------------------------------
+
+_c1a7fd:
+        jmp     $a82f
+
+; ---------------------------------------------------------------------------
+
+_c1a800:
+        jsr     $a81b
+        jmp     $a82f
+
+; ---------------------------------------------------------------------------
+
+_c1a806:
+        jmp     $a825
+
+; ---------------------------------------------------------------------------
+
+_c1a809:
+        jmp     $a81b
+
+; ---------------------------------------------------------------------------
+
+_c1a80c:
+        jsr     $a825
+        jmp     $a839
+
+; ---------------------------------------------------------------------------
+
+_c1a812:
+        jmp     $a839
+
+; ---------------------------------------------------------------------------
+
+_c1a815:
+        jsr     $a81b
+        jmp     $a839
+
+; ---------------------------------------------------------------------------
+
+_c1a81b:
+@a81b:  lda     $d1a4,x
+        clc
+        adc     $82
+        sta     $d1a4,x
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1a827:
+@a825:  lda     $d1a4,x
+        sec
+        sbc     $82
+        sta     $d1a4,x
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1a82f:
+@a82f:  lda     $d1a5,x
+        clc
+        adc     $82
+        sta     $d1a5,x
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1a839:
+@a839:  lda     $d1a5,x
+        sec
+        sbc     $82
+        sta     $d1a5,x
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1a843:
+        .byte   $5e,$54,$4a,$40
+
+; ---------------------------------------------------------------------------
+
+; [ load attack animation properties ]
+
+_c1a847:
+@a847:  stx     $7e
+        ldx     #$0005      ; get pointer to animation properties
+        stx     $80
+        jsr     $fe67       ; ++$82 = +$7e * +$80
+        ldx     $82
+        lda     $d838ec,x   ; graphics type
+
+; type 0: spell 1
+        and     #$e0
+        bne     @a866
+        and     #$1f
+        lda     $d838ec,x   ; graphics index
+        jsr     $aabe       ; load spell 1 graphics
+        bra     @a8ba
+
+; type 1: spell 2
+@a866:  cmp     #$20
+        bne     @a875
+        lda     $d838ec,x
+        and     #$1f
+        jsr     $aace       ; load spell 2 graphics
+        bra     @a8ba
+
+; type 2: spell 3
+@a875:  cmp     #$40
+        bne     @a884
+        lda     $d838ec,x
+        and     #$1f
+        jsr     $aade       ; load spell 3 graphics
+        bra     @a8ba
+
+; type 3: weapon hit
+@a884:  cmp     #$60
+        bne     @a893
+        lda     $d838ec,x
+        and     #$1f
+        jsr     $aa9e       ; load weapon hit graphics
+        bra     @a8ba
+
+; type 4: animals
+@a893:  cmp     #$80
+        bne     @a8ba
+        lda     $d838ec,x
+        and     #$1f
+        jsr     $aaee       ; load animals graphics
+        lda     $d838ed,x   ; palette index
+        and     #$7f
+        ldy     #$0140
+        jsr     $aa3e       ; load attack palette (16-colors)
+        lda     $d838ed,x   ; palette index
+        and     #$7f
+        ldy     #$0160
+        jsr     $aa3e       ; load attack palette (16-colors)
+        bra     @a8d2
+
+; type 5, 6, 7: no graphics
+@a8ba:  lda     $d838ed,x   ; palette index
+        and     #$7f
+        ldy     #$0140
+        jsr     _c1aa1d       ; load attack palette (8-colors)
+        lda     $d838ed,x   ; palette index
+        and     #$7f
+        ldy     #$0160
+        jsr     _c1aa1d       ; load attack palette (8-colors)
+@a8d2:  lda     $d838ee,x   ; script
+        sta     $f586
+        lda     $d838ed,x   ; msb of byte 1
+        lsr7
+        sta     $f587
+        lda     $d838ef,x   ; init function
+        sta     $f582
+        lda     $d838f0,x   ; sound effect
+        sta     $f583
+        stz     $db3c
+        stz     $db3d
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1a8fc:
+@a8fc:  phx
+        sta     $7e
+        lda     #$09
+        sta     $80
+        jsr     $feba       ; +$82 = $7e * $80
+        ldx     $82
+        lda     $d9985b,x
+        and     #$20
+        beq     @a91d
+        lda     $71
+        beq     @a915
+        inx
+@a915:  lda     $d9985c,x
+        plx
+        jmp     $a8fc
+@a91d:  lda     ($eb)
+        and     #$01
+        beq     @a93f       ; branch if not a monster special attack
+        lda     ($eb)
+        and     #$fe
+        sta     ($eb)
+        jsr     $8d53       ; get graphics script parameter 4
+        and     #$80
+        sta     ($e7),y
+        lda     ($eb)
+        and     #$40
+        beq     @a939
+        clr_a
+        bra     @a93b
+@a939:  lda     #$a6
+@a93b:  plx
+        jmp     $a8fc
+@a93f:  lda     $70
+        beq     @a94f
+        stz     $70
+        lda     $d9985d,x
+        beq     @a94f
+        plx
+        jmp     $a8fc
+@a94f:  jsr     $8d53       ; get graphics script parameter 4
+        and     #$7f
+        beq     @a96b
+        clc
+        adc     #$8d
+        sta     $7e
+        lda     #$09
+        sta     $80
+        phx
+        jsr     $feba       ; +$82 = $7e * $80
+        ldx     $82
+        jsr     $a9d5
+        plx
+        bra     @a987
+@a96b:  lda     ($f0)       ; block type
+        beq     @a984
+        clc
+        adc     #$9f
+        sta     $7e
+        lda     #$09
+        sta     $80
+        phx
+        jsr     $feba       ; +$82 = $7e * $80
+        ldx     $82
+        jsr     $a9b5       ; load alt. weapon graphics
+        plx
+        bra     @a987
+@a984:  jsr     $a9d5
+@a987:  jsr     $a992       ; load weapon graphics
+        plx
+        stz     $db3c
+        stz     $db3d
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ load weapon graphics ]
+
+_c1a992:
+@a992:  lda     $d99855,x
+        jsr     $aa8e       ; load weapon graphics
+        lda     $d99856,x
+        ldy     #$0140
+        jsr     _c1aa1d       ; load attack palette (8-colors)
+        lda     $d9985b,x
+        sta     $f582
+        lda     $d99857,x   ; animation script
+        sta     $f586
+        stz     $f587
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ load alt. weapon graphics ]
+
+_c1a9b5:
+@a9b5:  lda     $d99858,x
+        jsr     $aaae       ; load alt. weapon graphics
+        lda     $d99859,x
+        ldy     #$0160
+        jsr     _c1aa1d       ; load attack palette (8-colors)
+        lda     $d9985a,x
+        sta     $f585
+        lda     $d9985c,x   ; sound effect
+        sta     $f583
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ load weapon hit graphics ]
+
+_c1a9d5:
+@a9d5:  lda     $7bfd
+        beq     @a9fd       ; branch if no sword slap
+        lda     $d99858
+        jsr     $aa9e       ; load weapon hit graphics
+        lda     $d99859
+        ldy     #$0160
+        jsr     _c1aa1d       ; load attack palette (8-colors)
+        lda     $d9985a
+        sta     $f585
+        lda     $d9985c     ; sound effect
+        sta     $f583
+        stz     $7bfd
+        rts
+@a9fd:  lda     $d99858,x
+        jsr     $aa9e       ; load weapon hit graphics
+        lda     $d99859,x
+        ldy     #$0160
+        jsr     _c1aa1d       ; load attack palette (8-colors)
+        lda     $d9985a,x
+        sta     $f585
+        lda     $d9985c,x   ; sound effect
+        sta     $f583
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ load attack palette (8-colors) ]
+
+_c1aa1d:
+@aa1d:  phx
+        longa
+        asl4
+        tax
+        shorta0
+        lda     #$10
+        sta     $70
+@aa2c:  lda     $d1a3a0,x   ; load 8-color palette
+        sta     $7e09,y
+        sta     $7e19,y
+        inx
+        iny
+        dec     $70
+        bne     @aa2c
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ load attack palette (16-colors) ]
+
+_c1aa3e:
+@aa3e:  phx
+        longa
+        asl4
+        tax
+        shorta0
+        lda     #$20
+        sta     $70
+@aa4d:  lda     $d1a3a0,x   ; load 16-color palette
+        sta     $7e09,y
+        inx
+        iny
+        dec     $70
+        bne     @aa4d
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ init tile pointers (3bpp) ]
+
+_c1aa5c:
+@aa5c:  pha
+        clr_ax
+        longa
+@aa61:  sta     $7fc000,x
+        clc
+        adc     #$0018
+        inx2
+        cpx     #$0800
+        bne     @aa61
+        shorta0
+        pla
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ init tile pointers (4bpp) ]
+
+_c1aa75:
+@aa75:  pha
+        clr_ax
+        longa
+@aa7a:  sta     $7fc000,x
+        clc
+        adc     #$0020
+        inx2
+        cpx     #$0800
+        bne     @aa7a
+        shorta0
+        pla
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ load weapon graphics ]
+
+_c1aa8e:
+@aa8e:  phx
+        pha
+        lda     #$01
+        jsr     $aafe       ; load attack graphics pointers (weapons)
+        jsr     $aa5c       ; init tile pointers (3bpp)
+        pla
+        jsr     $ab1a
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ load weapon hit graphics ]
+
+_c1aa9e:
+@aa9e:  phx
+        pha
+        lda     #$02
+        jsr     $aafe       ; load attack graphics pointers (weapon hits)
+        jsr     $aa5c       ; init tile pointers (3bpp)
+        pla
+        jsr     $ab1a
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ load alt. weapon graphics ]
+
+_c1aaae:
+@aaae:  phx
+        pha
+        lda     #$06
+        jsr     $aafe       ; load attack graphics pointers (weapons alt.)
+        jsr     $aa5c       ; init tile pointers (3bpp)
+        pla
+        jsr     $ab1a
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ load spell 1 graphics ]
+
+_c1aabe:
+@aabe:  phx
+        pha
+        lda     #$00
+        jsr     $aafe       ; load attack graphics pointers (spells 1)
+        jsr     $aa5c       ; init tile pointers (3bpp)
+        pla
+        jsr     $ab1a
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ load spell 2 graphics ]
+
+_c1aace:
+@aace:  phx
+        pha
+        lda     #$03
+        jsr     $aafe       ; load attack graphics pointers (spells 2)
+        jsr     $aa5c       ; init tile pointers (3bpp)
+        pla
+        jsr     $ab1a
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ load spell 3 graphics ]
+
+_c1aade:
+@aade:  phx
+        pha
+        lda     #$04
+        jsr     $aafe       ; load attack graphics pointers (spells 3)
+        jsr     $aa5c       ; init tile pointers (3bpp)
+        pla
+        jsr     $ab1a
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ load animals graphics ]
+
+_c1aaee:
+@aaee:  phx
+        pha
+        lda     #$05
+        jsr     $aafe       ; load attack graphics pointers (animals)
+        jsr     $aa75       ; init tile pointers (4bpp)
+        pla
+        jsr     $abd7
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ load attack graphics pointers ]
+
+; a: 0 = spells 1, 1 = weapon, 2 = weapon hits,
+;    3 = spells 2, 4 = spells 3, 5 = animals, 6 = weapons alt.
+
+_c1aafe:
+@aafe:  sta     $7e
+        lda     #$0c
+        sta     $80
+        jsr     $feba       ; +$82 = $7e * $80
+        ldx     $82
+        clr_ay
+@ab0b:  lda     $d0df68,x   ; copy 12 bytes
+        sta     a:$0070,y
+        inx
+        iny
+        cpy     #$000c
+        bne     @ab0b
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ load attack graphics (3bpp) ]
+
+_c1ab1a:
+@ab1a:  longa
+        asl6
+        clc
+        adc     $70
+        sta     $70
+        lda     $7a
+        pha
+        lda     $76
+        sta     $80         ; graphics bank
+        lda     #$d000
+        sta     $82
+        lda     #$007f
+        sta     $84
+@ab38:  lda     [$70]       ; tilemap value (vhtttttt)
+        xba
+        pha
+        pha
+        and     #$3fff      ; tile index
+        asl
+        tax
+        and     #$07ff
+        lda     $7fc000,x   ; tile pointer
+        clc
+        adc     $74
+        sta     $7e         ; graphics address
+        pla
+        and     #$4000      ; h-flip
+        sta     $86
+        pla
+        and     #$8000      ; v-flip
+        bne     @ab84
+
+; no v-flip
+        clr_ay
+@ab5c:  lda     [$7e]       ; get word (first 2 bitplanes)
+        jsr     $ac91       ; flip horizontally
+        sta     [$82],y     ; copy to ram buffer
+        inc     $7e
+        inc     $7e
+        iny2
+        cpy     #$0010
+        bne     @ab5c
+@ab6e:  lda     [$7e]       ; get byte (3rd bitplane)
+        jsr     $ac91       ; flip horizontally
+        and     #$00ff
+        sta     [$82],y
+        inc     $7e
+        iny2
+        cpy     #$0020
+        bne     @ab6e
+        jmp     $abaf
+
+; v-flip
+@ab84:  ldy     #$000e
+@ab87:  lda     [$7e]
+        jsr     $ac91       ; flip horizontally
+        sta     [$82],y
+        inc     $7e
+        inc     $7e
+        dey2
+        cpy     #$fffe
+        bne     @ab87
+        ldy     #$001e
+@ab9c:  lda     [$7e]
+        jsr     $ac91       ; flip horizontally
+        and     #$00ff
+        sta     [$82],y
+        inc     $7e
+        dey2
+        cpy     #$000e
+        bne     @ab9c
+@abaf:  lda     $82         ; next tile
+        clc
+        adc     #$0020
+        sta     $82
+        inc     $70
+        inc     $70
+        dec     $7a
+        beq     @abc2
+        jmp     $ab38
+@abc2:  pla                 ; copy tile to vram
+        asl5
+        sta     $70
+        shorta0
+        ldx     #$d000
+        lda     #$7f
+        ldy     $78
+        jmp     $fd27
+
+; ---------------------------------------------------------------------------
+
+; [ [ load attack graphics (4bpp) ]
+
+_c1abd7:
+@abd7:  longa
+        asl6
+        clc
+        adc     $70
+        sta     $70
+        lda     $7a
+        pha
+        lda     $76         ; tile graphics bank
+        sta     $80
+        lda     #$d000      ; graphics buffer address
+        sta     $82
+        lda     #$007f      ; graphics buffer bank
+        sta     $84
+@abf5:  lda     [$70]       ; tilemap value (vhtttttt)
+        xba
+        pha
+        pha
+        and     #$3fff      ; tile index
+        asl
+        and     #$07ff
+        tax
+        lda     $7fc000,x   ; tile pointer
+        clc
+        adc     $74         ; tile offset
+        sta     $7e
+        pla
+        and     #$4000      ; h-flip
+        sta     $86
+        pla
+        and     #$8000      ; v-flip
+        bne     @ac3f
+        tay
+@ac18:  lda     [$7e]
+        jsr     $ac91       ; flip horizontally
+        sta     [$82],y
+        inc     $7e
+        inc     $7e
+        iny2
+        cpy     #$0010
+        bne     @ac18
+@ac2a:  lda     [$7e]
+        jsr     $ac91       ; flip horizontally
+        sta     [$82],y
+        inc     $7e
+        inc     $7e
+        iny2
+        cpy     #$0020
+        bne     @ac2a
+        jmp     $ac69
+@ac3f:  ldy     #$000e
+@ac42:  lda     [$7e]
+        jsr     $ac91       ; flip horizontally
+        sta     [$82],y
+        inc     $7e
+        inc     $7e
+        dey2
+        cpy     #$fffe
+        bne     @ac42
+        ldy     #$001e
+@ac57:  lda     [$7e]
+        jsr     $ac91       ; flip horizontally
+        sta     [$82],y
+        inc     $7e
+        inc     $7e
+        dey2
+        cpy     #$000e
+        bne     @ac57
+@ac69:  lda     $82
+        clc
+        adc     #$0020
+        sta     $82
+        inc     $70
+        inc     $70
+        dec     $7a
+        beq     @ac7c
+        jmp     $abf5
+@ac7c:  pla
+        asl5
+        sta     $70
+        shorta0
+        ldx     #$d000
+        lda     #$7f
+        ldy     $78
+        jmp     $fd27
+
+; ---------------------------------------------------------------------------
+
+; [ flip horizontally ]
+
+_c1ac91:
+@ac91:  pha
+        lda     $86         ; return if no horizontal flip
+        beq     @aca6
+        pla
+        xba
+        sta     $7c
+        phx
+        ldx     #$0010
+@ac9e:  asl     $7c
+        ror
+        dex
+        bne     @ac9e
+        plx
+        rts
+@aca6:  pla
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1aca8:
+        clr_ax
+@acaa:  lda     $db80,x
+        beq     @ace1
+        txa
+        asl
+        tay
+        longa
+        lda     $db88,y
+        sta     f:$002116
+        lda     $f87c,y
+        bne     @acc2
+        bra     @acde
+@acc2:  lda     $f87c,y
+        and     #$00ff
+        inc
+        ora     #$3c00
+        sta     f:$002118
+        lda     $f87d,y
+        and     #$00ff
+        inc
+        ora     #$3c00
+        sta     f:$002118
+@acde:  shorta0
+@ace1:  inx
+        cpx     #$0008
+        bne     @acaa
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1ace8:
+@ace8:  phx
+        phy
+        sty     $72
+        tyx
+        lda     $72
+        asl
+        tay
+        lda     $d016,x
+        clc
+        adc     $d006,x
+        dec
+        sta     $72
+        stz     $73
+        lda     $cffe,x
+        lsr
+        dec
+        clc
+        adc     $d00e,x
+        sta     $74
+        lda     $f6
+        beq     @ad13
+        lda     #$1e
+        sec
+        sbc     $74
+        sta     $74
+@ad13:  stz     $75
+        longa
+        lda     $72
+        asl5
+        clc
+        adc     $74
+        adc     #$5800
+        sta     $db88,y
+        shorta0
+        ply
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1ad2d:
+@ad2d:  clr_axy
+        stz     $70
+        lda     $de
+        sta     $71
+@ad36:  asl     $71
+        bcc     @ad55
+        lda     $7b9e,x
+        and     #$c0
+        bne     @ad55
+        lda     $7ba1,x
+        and     #$10
+        beq     @ad55
+        jsr     $afe0
+        jsr     $ace8
+        lda     #$01
+        sta     $db80,y
+        bra     @ad59
+@ad55:  clr_a
+        sta     $db80,y
+@ad59:  iny
+        inx4
+        cpx     #$0020
+        bne     @ad36
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1ad64:
+        clr_axy
+        stz     $70
+        stz     $72
+@ad6b:  lda     $7b9e,x
+        asl
+        rol     $70
+        lda     $7ba1,x
+        asl
+        rol     $72
+        iny
+        inx4
+        cpx     #$0020
+        bne     @ad6b
+        lda     $70
+        ora     $72
+        sta     $70
+        lda     $70
+        pha
+        and     $de
+        beq     @ad93
+        sta     $70
+        jsr     $768d
+@ad93:  pla
+        eor     #$ff
+        sta     $70
+        lda     $de
+        eor     #$ff
+        and     $70
+        beq     @ada5
+        sta     $70
+        jsr     $75d7
+@ada5:  clr_ax
+@ada7:  lda     $7b9e,x
+        and     #$30
+        sta     $70
+        lda     $7bbe,x
+        and     #$30
+        cmp     $70
+        bne     @ade2
+        lda     $7b9f,x
+        and     #$10
+        sta     $70
+        lda     $7bbf,x
+        and     #$10
+        cmp     $70
+        bne     @ade2
+        lda     $7ba1,x
+        and     #$20
+        sta     $70
+        lda     $7bc1,x
+        and     #$20
+        cmp     $70
+        bne     @ade2
+        inx4
+        cpx     #$0020
+        bne     @ada7
+        bra     @ae22
+@ade2:  clr_ayx
+@ade5:  lda     $7b9f,y
+        and     #$10
+        lsr4
+        sta     $70
+        lda     $7ba1,y
+        and     #$20
+        lsr5
+        ora     $70
+        sta     $70
+        lda     $db9c,x
+        and     #$02
+        beq     @ae0b
+        lda     $70
+        eor     #$01
+        sta     $70
+@ae0b:  lda     $db9c,x
+        and     #$fe
+        ora     $70
+        sta     $db9c,x
+        inx
+        iny4
+        cpx     #$0008
+        bne     @ade5
+        jsr     $1cb8
+@ae22:  clr_axy
+@ae25:  lda     $7b9e,y
+        and     #$30
+        beq     @ae39
+        lda     $cffe,x
+        asl2
+        sec
+        sbc     #$0c
+        sta     $d096,x
+        bra     @ae3c
+@ae39:  stz     $d096,x
+@ae3c:  iny4
+        inx
+        cpx     #$0008
+        bne     @ae25
+        jmp     $ae49
+@ae49:  clr_ax
+@ae4b:  lda     $7b9e,x
+        sta     $7bbe,x
+        inx
+        cpx     #$0020
+        bne     @ae4b
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1ae58:
+@ae58:  phy
+        phx
+@ae5a:  phx
+        jsr     $02f2       ; wait one frame
+        plx
+        dex
+        bne     @ae5a
+        plx
+        ply
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1ae65:
+@ae65:  phx
+        phy
+        phx
+        txa
+        asl5
+        tay
+        lda     #$01
+        sta     $cf61,y
+        ldx     #$0010
+        jsr     $ae58
+        clr_a
+        sta     $cf58,y
+        sta     $cf57,y
+        plx
+        txa
+        sta     $7a
+        jsr     $b09f
+        txa
+        jsr     $af05
+        jsr     $aed7
+        ldx     #$0010
+        jsr     $ae58
+        clr_a
+        sta     $cf61,y
+        ply
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1ae9c:
+@ae9c:  clr_ax
+@ae9e:  stz     $d1cf,x
+        lda     $d1cb,x
+        bne     @aecd
+        txa
+        asl2
+        tay
+        lda     $7b7e,y
+        bmi     @aeb9
+        lda     $7b8e,y
+        bpl     @aec3
+        jsr     $ae65
+        bra     @aecd
+@aeb9:  lda     $7b8e,y
+        bmi     @aec3
+        jsr     $ae65
+        bra     @aecd
+@aec3:  txa
+        sta     $7a
+        jsr     $b09f
+        txa
+        jsr     $af05
+@aecd:  jsr     $aed7
+        inx
+        cpx     #$0004
+        bne     @ae9e
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1aed7:
+@aed7:  phy
+        txa
+        asl2
+        tay
+        lda     $7b7e,y
+        sta     $7b8e,y
+        lda     $7b7f,y
+        sta     $7b8f,y
+        lda     $7b80,y
+        sta     $7b90,y
+        lda     $7b81,y
+        sta     $7b91,y
+        ply
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1aef6:
+        jmp     $ae9c
+
+; ---------------------------------------------------------------------------
+
+_c1aef9:
+@aef9:  tax
+        asl5
+        tay
+        sta     $74
+        stz     $75
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1af05:
+@af05:  phx
+        phy
+        jsr     $aef9
+        lda     $cf43,y
+        bne     @af1e
+        lda     $cf53,y
+        bne     @af1e
+        txa
+        asl2
+        tax
+        jsr     $af21       ; update character status animation
+        jsr     $b01a       ; update character status sprite
+@af1e:  ply
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ update character status animation ]
+
+_c1af21:
+@af21:  lda     $7b7e,x
+        and     #$80
+        beq     @af2c       ; branch if not dead
+        lda     #$08
+        bra     @af72
+@af2c:  lda     $7b7e,x
+        and     #$40
+        beq     @af37       ; branch if not stone
+        lda     #$03
+        bra     @af72
+@af37:  lda     $7b7e,x
+        and     #$02
+        beq     @af40       ; branch if not zombie
+        bra     @af6c
+@af40:  lda     $7b7e,x
+        and     #$44
+        beq     @af4b       ; branch if not poison ???
+        lda     #$03
+        bra     @af72
+@af4b:  lda     $7b7f,x
+        and     #$60
+        beq     @af56       ; branch if not paralyzed or sleeping
+        lda     #$03
+        bra     @af72
+@af56:  lda     $7b81,x
+        and     #$02
+        beq     @af61       ; branch if not low hp
+        lda     #$03
+        bra     @af72
+@af61:  lda     $7b81,x
+        and     #$04
+        beq     @af6c       ; branch if not singing
+        lda     #$09
+        bra     @af72
+@af6c:  clr_a
+        sta     $cf4d,y
+        bra     @af83
+@af72:  pha
+        jsr     $b087       ; check if character is selected
+        bcc     @af7b
+        pla
+        bra     @af6c
+@af7b:  pla
+        sta     $cf4d,y
+        clr_a
+        sta     $cf58,y
+@af83:  lda     $7b7e,x
+        and     #$20
+        beq     @af8e       ; branch if not toad
+        lda     #$01
+        bra     @af9a
+@af8e:  lda     $7b7e,x
+        and     #$10
+        beq     @af99       ; branch if not mini
+        lda     #$02
+        bra     @af9a
+@af99:  clr_a
+@af9a:  sta     $cf47,y     ; graphics
+        lda     $7b7f,x
+        and     #$03
+        sta     $cf5a,y     ; image charges
+        lda     $7b7e,x
+        and     #$08
+        sta     $cf59,y     ; float
+        lda     $7b81,x
+        bpl     @afc3       ; branch if not erased
+        lda     $cf62,y
+        ora     #$80
+        sta     $cf62,y
+        lda     $cf43,y
+        ora     #$80
+        sta     $cf43,y
+        rts
+@afc3:  lda     $cf62,y
+        and     #$7f
+        sta     $cf62,y
+        lda     $cf43,y
+        and     #$7f
+        sta     $cf43,y
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1afd4:
+        .byte   $00,$0b,$16,$21,$2c,$37,$42,$4d,$58,$63,$6e,$79
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1afe0:
+@afe0:  phx
+        txa
+        clc
+        adc     #$10
+        tax
+        jsr     $afeb
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1afeb:
+@afeb:  phx
+        txa
+        lsr
+        sta     $74
+        lsr
+        tax
+        lda     $c1afd4,x
+        tax
+        stz     $72
+        lda     $3d78,x
+@affc:  sec
+        sbc     #$0a
+        bcc     @b006
+        inc     $72
+        jmp     $affc
+@b006:  clc
+        adc     #$0a
+        sta     $73
+        lda     $74
+        tax
+        lda     $72
+        sta     $f874,x
+        lda     $73
+        sta     $f875,x
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ update character status sprite ]
+
+_c1b01a:
+@b01a:  phy
+        phx
+        lda     $7a
+        tay
+        lda     $7b7e,x     ; character status
+        and     #$80
+        bne     @b076       ; branch if dead
+        lda     $7b81,x
+        and     #$10
+        beq     @b034       ; branch if not condemned
+        jsr     $afeb       ;
+        lda     #$08
+        bra     @b077
+@b034:  lda     $7b7e,x
+        and     #$08
+        beq     @b03f       ; branch if not float
+        lda     #$06
+        bra     @b077
+@b03f:  lda     $7b7e,x
+        and     #$01
+        beq     @b04a       ; branch if not blind
+        lda     #$02
+        bra     @b077
+@b04a:  lda     $7b7f,x
+        and     #$40
+        beq     @b055       ; branch if not sleeping
+        lda     #$03
+        bra     @b077
+@b055:  lda     $7b7f,x
+        and     #$20
+        beq     @b060       ; branch if not paralyzed
+        lda     #$04
+        bra     @b077
+@b060:  lda     $7b7f,x
+        and     #$10
+        beq     @b06b       ; branch if not charmed
+        lda     #$05
+        bra     @b077
+@b06b:  lda     $7b7f,x
+        and     #$04
+        beq     @b076       ; branch if not mute
+        lda     #$01
+        bra     @b077
+@b076:  clr_a
+@b077:  sta     $d1cf,y
+        jsr     $b087       ; check if character is selected
+        bcc     @b084
+        lda     #$07        ; show selected indicator
+        sta     $d1cf,y
+@b084:  plx
+        ply
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ check if character is selected ]
+
+_c1b087:
+@b087:  lda     $cd40
+        bne     @b09d
+        lda     $41b0
+        and     #$01
+        beq     @b09d
+        txa
+        lsr2
+        cmp     $cd42
+        bne     @b09d
+        sec
+        rts
+@b09d:  clc
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1b09f:
+@b09f:  phx
+        phy
+        tax
+        longa
+        asl5
+        tay
+        sta     $74
+        shorta0
+        lda     $cf43,y
+        bne     @b103
+        lda     $cf53,y
+        bne     @b103
+        txa
+        sta     $70
+        asl2
+        tay
+        lda     $7b7e,y
+        and     #$c0
+        bne     @b103
+        lda     $d1bd,x
+        beq     @b0e9
+        lda     $7b7f,y
+        and     #$10
+        bne     @b103
+        stz     $d1bd,x
+        jsr     $b106
+        ora     #$80
+        sta     $cf54,y
+        lda     #$02
+        sta     $cf4d,y
+        lda     #$01
+        sta     $cf53,y
+        bra     @b103
+@b0e9:  lda     $7b7f,y
+        and     #$10
+        beq     @b103
+        inc     $d1bd,x
+        jsr     $b106
+        sta     $cf54,y
+        lda     #$02
+        sta     $cf4d,y
+        lda     #$01
+        sta     $cf53,y
+@b103:  ply
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1b106:
+@b106:  ldy     $74
+        lda     $70
+        tax
+        lda     $db4a,x
+        beq     @b114
+        lda     #$30
+        bra     @b116
+@b114:  lda     #$20
+@b116:  rts
+
+; ---------------------------------------------------------------------------
+
+_c1b117:
+        clr_ax
+@b119:  lda     $7b7e,x
+        sta     $7b8e,x
+        inx
+        cpx     #$0010
+        bne     @b119
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1b126:
+        .byte   $00,$20,$40,$60
+
+; ---------------------------------------------------------------------------
+
+_c1b12a:
+        clr_ax
+@b12c:  phx
+        lda     $c1b126,x
+        tay
+        sty     $8c
+        lda     $cf43,y
+        bne     @b140
+        txa
+        asl2
+        tax
+        jsr     $b1ac
+@b140:  plx
+        inx
+        cpx     #$0004
+        bne     @b12c
+        jsr     $b181
+        lda     $f8c3
+        and     #$01
+        beq     @b169
+        longa
+        lda     $7f37
+        sec
+        sbc     #$0421
+        sta     $7f37
+        cmp     #$2108
+        bne     @b165
+        inc     $f8c3
+@b165:  shorta0
+        rts
+@b169:  longa
+        lda     $7f37
+        clc
+        adc     #$0421
+        sta     $7f37
+        cmp     #$7fff
+        bne     @b17d
+        inc     $f8c3
+@b17d:  shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1b181:
+@b181:  clr_ax
+@b183:  lda     $db43,x
+        beq     @b1a5
+        lda     $c1b126,x
+        tay
+        phx
+        clr_ax
+        longa
+@b192:  lda     $f849,x
+        sta     $7f89,y
+        inx2
+        iny2
+        cpx     #$0020
+        bne     @b192
+        shorta0
+        plx
+@b1a5:  inx
+        cpx     #$0004
+        bne     @b183
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1b1ac:
+@b1ac:  phy
+        lda     #$20
+        sta     $88
+        lda     $7b8e,x
+        sta     $8a
+        lda     $7b8f,x
+        sta     $8b
+        lda     $7b90,x
+        sta     $8c
+        lda     $8a
+        bpl     @b1d1
+@b1c4:  lda     $ecf6,y
+        sta     $7f89,y
+        iny
+        dec     $88
+        bne     @b1c4
+        bra     @b1dc
+@b1d1:  lda     $ed76,y
+        sta     $7f89,y
+        iny
+        dec     $88
+        bne     @b1d1
+@b1dc:  ply
+        lda     $8a
+        beq     @b1f5
+        and     #$40
+        beq     @b1ea
+        jsr     $b266
+        bra     @b216
+@b1ea:  lda     $8a
+        and     #$02
+        beq     @b1f5
+        jsr     $b2c1
+        bra     @b216
+@b1f5:  lda     $8a
+        and     #$04
+        beq     @b200
+        jsr     $b282
+        bra     @b216
+@b200:  lda     $8b
+        beq     @b216
+        and     #$80
+        beq     @b20d
+        jsr     $b294
+        bra     @b216
+@b20d:  lda     $8b
+        and     #$08
+        beq     @b216
+        jsr     $b2af
+@b216:  lda     $8c
+        beq     @b265
+        and     #$80
+        beq     @b224
+        clr_a
+        jsr     $b2d9
+        bra     @b265
+@b224:  lda     $8c
+        and     #$40
+        beq     @b231
+        lda     #$01
+        jsr     $b2d9
+        bra     @b265
+@b231:  lda     $8c
+        and     #$20
+        beq     @b23e
+        lda     #$02
+        jsr     $b2d9
+        bra     @b265
+@b23e:  lda     $8c
+        and     #$10
+        beq     @b24b
+        lda     #$03
+        jsr     $b2d9
+        bra     @b265
+@b24b:  lda     $8c
+        and     #$08
+        beq     @b258
+        lda     #$04
+        jsr     $b2d9
+        bra     @b265
+@b258:  lda     $8c
+        and     #$04
+        beq     @b265
+        lda     #$05
+        jsr     $b2d9
+        bra     @b265
+@b265:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1b266:
+@b266:  phy
+        phx
+        longa
+        clr_ax
+@b26c:  lda     $d99835,x
+        sta     $7f89,y
+        iny2
+        inx2
+        cpx     #$0020
+        bne     @b26c
+        shorta0
+        plx
+        ply
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1b282:
+@b282:  longa
+        lda     #$7edb
+        sta     $7f91,y
+        lda     #$4dd3
+        sta     $7f99,y
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1b294:
+@b294:  longa
+        lda     #$00ff
+        lda     #$5294
+        sta     $7f93,y
+        lda     #$4210
+        sta     $7f9b,y
+        lda     #$7fff
+        sta     $7f9d,y
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1b2af:
+@b2af:  longa
+        lda     #$013f
+        sta     $7f91,y
+        lda     #$001f
+        sta     $7f99,y
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1b2c1:
+@b2c1:  longa
+        lda     #$3af5
+        sta     $7f91,y
+        lda     #$3210
+        sta     $7f99,y
+        lda     #$7fff
+        sta     $7f8f,y
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1b2d9:
+@b2d9:  phx
+        sta     $88
+        lda     $a2
+        and     #$02
+        bne     @b2f2
+        lda     $88
+        longa
+        asl
+        tax
+        lda     $c1b2f4,x
+        sta     $7f8b,y
+        shorta0
+@b2f2:  plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1b2f4:
+        .word   $6a60,$031f,$0b64,$001a,$017f,$7fff
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1b300:
+@b300:  jsr     $1cb8
+        stz     $db55
+        stz     $db56
+        stz     $db57
+        stz     $db43
+        stz     $db44
+        stz     $db45
+        stz     $db46
+        stz     $db5d
+        rts
+
+; ---------------------------------------------------------------------------
+
+; animation frame sizes (width then height)
+_c1b31c:
+        .byte   $03,$03 ; $00
+        .byte   $02,$04
+        .byte   $07,$03
+        .byte   $02,$02
+        .byte   $01,$01
+        .byte   $06,$06
+        .byte   $10,$0a
+        .byte   $05,$05
+        .byte   $05,$06
+        .byte   $01,$02
+        .byte   $05,$03
+        .byte   $01,$0a
+        .byte   $0a,$0a
+        .byte   $04,$0a
+        .byte   $02,$0b
+        .byte   $04,$04
+        .byte   $03,$04 ; $10
+        .byte   $03,$05
+        .byte   $01,$0b
+        .byte   $06,$03
+        .byte   $06,$05
+        .byte   $04,$07
+        .byte   $04,$02
+        .byte   $01,$03
+        .byte   $06,$0a
+        .byte   $02,$03
+        .byte   $04,$08
+        .byte   $04,$03
+        .byte   $02,$01
+        .byte   $05,$02
+        .byte   $04,$05
+        .byte   $09,$01
+        .byte   $03,$09 ; $20
+        .byte   $02,$02
+        .byte   $05,$04
+        .byte   $0b,$07
+        .byte   $03,$01
+        .byte   $03,$08
+        .byte   $0c,$07
+        .byte   $06,$02
+        .byte   $08,$02
+        .byte   $0a,$03
+        .byte   $0c,$05
+        .byte   $0e,$05
+        .byte   $10,$05
+        .byte   $08,$05
+        .byte   $08,$03
+        .byte   $0a,$05
+        .byte   $09,$01 ; $30
+        .byte   $04,$08
+        .byte   $0c,$01
+        .byte   $02,$0a
+        .byte   $0b,$0a
+        .byte   $02,$09
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1b388:
+        sta     $cf61
+        sta     $cf81
+        sta     $cfa1
+        sta     $cfc1
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1b395:
+        .word   $0060,$0050
+        .word   $0060,$0050
+        .word   $0060,$0050
+        .word   $0068,$ffb0
+        .word   $0070,$ffc0
+        .word   $0000,$00a0
+        .word   $0070,$ffb8
+        .word   $0070,$ffb0
+        .word   $0070,$0050
+        .word   $0060,$0040
+        .word   $0078,$0050
+        .word   $0078,$0040
+        .word   $00f8,$0020
+        .word   $0078,$0038
+        .word   $0078,$0018
+        .word   $0070,$ffb8
+        .word   $0078,$0040
+        .word   $00f8,$0020
+        .word   $0000,$0000
+        .word   $0000,$0000
+        .word   $0060,$0050
+
+; ---------------------------------------------------------------------------
+
+_c1b3e9:
+        .byte   0,0,0,1,1,1,1,1,0,0,0,0,1,0,0,1,0,0,0,0,0
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1b3fe:
+@b3fe:  ora     #$e0
+        sta     $bc88
+        sta     $bc89
+        sta     $bc8a
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1b40a:
+@b40a:  lda     #$10
+        sta     $bc85
+        lda     #$1f
+        sta     $f86c
+        jsr     $b3fe
+@b417:  jsr     $02f2       ; wait one frame
+        lda     $f86c
+        jsr     $b3fe
+        dec     $f86c
+        bpl     @b417
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1b426:
+@b426:  lda     #$10
+        sta     $bc85
+        stz     $f86c
+@b42e:  jsr     $02f2       ; wait one frame
+        lda     $f86c
+        jsr     $b3fe
+        inc     $f86c
+        lda     $f86c
+        cmp     #$20
+        bne     @b42e
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1b442:
+@b442:  phx
+        lda     #$dd
+        sta     $dbb6
+        lda     #$93
+        jsr     $fbd9       ; play sound effect
+        jsr     $b426
+        lda     #$80
+        sta     $db60
+        jsr     $02f2       ; wait one frame
+        lda     $7c4b
+        tax
+        jsr     $2736
+        jsr     $26fb
+        clr_ax
+        stx     $78
+        lda     $dbd3
+        beq     @b46f
+        lda     #$20
+        sta     $78
+@b46f:  longa
+        lda     $74
+        asl2
+        clc
+        adc     #$0048
+        sta     $db62
+        lda     $76
+        asl2
+        sta     $76
+        lda     #$0060
+        sec
+        sbc     $76
+        adc     $78
+        sta     $db64
+        shorta0
+        lda     #$38
+        sta     $db66
+        lda     #$01
+        sta     $db60
+        sta     $db61
+        jsr     $b40a
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1b4a2:
+@b4a2:  phx
+        jsr     $8d47       ; get graphics script parameter 3
+        cmp     #$60
+        beq     @b4b1
+        cmp     #$61
+        beq     @b4b1
+        jmp     $b4b4
+@b4b1:  jmp     $b534
+@b4b4:  jsr     $8d3b
+        beq     @b4b1
+        jsr     $b426
+        lda     #$05
+        sta     $7e
+        clr_a
+        jsr     $7b43
+        lda     #$80
+        sta     $db60
+        jsr     $02f2       ; wait one frame
+        jsr     $8d47       ; get graphics script parameter 3
+        longa
+        sec
+        sbc     #$005f
+        sta     $70
+        asl
+        tax
+        lda     $d97c50,x
+        tax
+        shorta0
+        lda     $70
+        pha
+        jsr     $2736
+        jsr     $26fb
+        pla
+        pha
+        asl2
+        tax
+        longa
+        lda     $c1b395,x
+        sta     $db62
+        lda     $c1b397,x
+        sta     $db64
+        shorta0
+        lda     $dbd3
+        beq     @b516
+        longa
+        lda     $db64
+        clc
+        adc     #$0020
+        sta     $db64
+        shorta0
+@b516:  lda     #$38
+        sta     $db66
+        lda     #$01
+        sta     $db60
+        sta     $db61
+        pla
+        tax
+        lda     $c1b3e9,x
+        bne     @b530
+        jsr     $b40a
+        bra     @b534
+@b530:  clr_a
+        jsr     $b3fe
+@b534:  plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1b536:
+@b536:  lda     $7c4b
+        cmp     #$ff
+        beq     @b540
+        jmp     $b442
+@b540:  lda     ($eb)
+        bpl     @b547
+        jmp     $b573
+@b547:  jsr     $8d47       ; get graphics script parameter 3
+        ldx     #$0100
+        cmp     #$12
+        bcc     @b574
+        inx
+        cmp     #$24
+        bcc     @b574
+        inx
+        cmp     #$36
+        bcc     @b574
+        inx
+        cmp     #$57
+        bcc     @b574
+        inx
+        cmp     #$5f
+        bcc     @b574
+        inx
+        cmp     #$71
+        bcc     @b574
+        inx
+        cmp     #$82
+        bcc     @b573
+        cmp     #$a2
+        bcc     @b574
+@b573:  rts
+@b574:  cmp     #$73
+        beq     @b57d
+        cpx     #$0105
+        bne     _c1b58b
+@b57d:  ldx     #$0105
+        jsr     _c1b58b
+        lda     #$01
+        sta     $dbdf
+        jmp     $b4a2
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1b58b:
+@b58b:  stz     $f86d
+        jsr     $a847       ; load attack animation properties
+        lda     $f582
+        sta     $d1bc
+        jsr     $8d2f       ; get attacker id
+        asl5
+        tax
+        phx
+        lda     #$0b
+        sta     $cf58,x
+        jsr     $8d2f       ; get attacker id
+        jsr     $fc74
+        sta     $db53
+        sta     $db52
+        stz     $db50
+        stz     $db51
+        stz     $db54
+        jsr     $c0d5
+        lda     $d1bc
+        and     #$3f
+        beq     @b5c8
+        jsr     $b633
+@b5c8:  lda     $d1bc
+        and     #$3f
+        cmp     #$02
+        bne     @b5ea
+        lda     #$02
+        sta     $70
+        clr_ax
+@b5d7:  lda     $70
+        sta     $d3de,x
+        clc
+        adc     #$02
+        sta     $70
+        txa
+        clc
+        adc     #$10
+        tax
+        cmp     #$80
+        bne     @b5d7
+@b5ea:  cmp     #$08
+        bne     @b602
+        clr_axy
+@b5f1:  lda     $c1e3e4,x
+        sta     $d3de,y
+        inx
+        tya
+        clc
+        adc     #$10
+        tay
+        cmp     #$80
+        bne     @b5f1
+@b602:  jsr     $e810
+        jsr     $e81e
+        inc     $d110
+@b60b:  lda     #$01
+        sta     $db38
+        jsr     $02f2       ; wait one frame
+        clr_ax
+        lda     #$08
+        jsr     $c409
+        lda     $74
+        cmp     #$08
+        bne     @b60b
+        stz     $d110
+        stz     $db38
+        jsr     $67d3
+        jsr     $02f2       ; wait one frame
+        plx
+        stz     $cf58,x
+        jmp     $fc6d
+
+; ---------------------------------------------------------------------------
+
+_c1b633:
+@b633:  jsr     $8d2f       ; get attacker id
+        asl4
+        tax
+        stx     $70
+        lda     #$08
+        sta     $74
+        clr_ay
+@b643:  lda     #$10
+        sta     $72
+        ldx     $70
+@b649:  lda     $d1d8,x
+        sta     $d1d8,y
+        lda     $d3d8,x
+        sta     $d3d8,y
+        iny
+        inx
+        dec     $72
+        bne     @b649
+        dec     $74
+        bne     @b643
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1b660:
+@b660:  clr_ax
+@b662:  sta     $d1d8,x
+        inx
+        cpx     #$0800
+        bne     @b662
+        clr_ax
+@b66d:  sta     $d9d8,x
+        inx
+        cpx     #$0160
+        bne     @b66d
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1b677:
+        jsr     $b660
+        stz     $db6b
+        stz     $db77
+        stz     $dbdf
+        jsr     $9d93       ; wait for damage numerals
+        jsr     $8d47       ; get graphics script parameter 3
+        jsr     $b536
+        stz     $db6b
+        stz     $db77
+        jsr     $9d93       ; wait for damage numerals
+        jsr     $8d47       ; get graphics script parameter 3
+        tax
+        stz     $db6a
+@b69c:  stx     $f86e
+        stz     $f86d
+        stz     $db6b
+        stz     $db77
+@b6a8:  inc     $db77
+        stz     $f86a
+        stz     $f86b
+        jsr     $a847       ; load attack animation properties
+        jsr     $b300
+        lda     $f582
+        sta     $d1bc
+        and     #$3f
+        asl
+        tax
+        lda     $c1b746,x
+        sta     $70
+        lda     $c1b747,x
+        sta     $71
+        jsr     $b742
+        ldx     $f86a
+        bne     @b69c
+        lda     $db61
+        beq     @b71d
+        stz     $f8b4
+        lda     #$80
+        sta     $db60
+        jsr     $02f2       ; wait one frame
+        lda     #$10
+        sta     $bc85
+        lda     #$1f
+        sta     $f86c
+        jsr     $b3fe
+        jsr     $24d5
+        jsr     $b40a
+        clr_a
+        stz     $7e
+        jsr     $7b43
+@b6fe:  jsr     $02f2       ; wait one frame
+        lda     $d0ee
+        bne     @b6fe
+        stz     $db60
+        ldx     $f86e
+        cpx     #$0068
+        bne     @b71d
+        ldx     #$0000
+        stx     $f86e
+        ldx     #$001f
+        jmp     $b6a8
+@b71d:  stz     $db56
+        lda     $f86d
+        bne     @b733
+        inc     $f86d
+        ldx     $f86e
+        jsr     $8d41
+        beq     @b733
+        jmp     $b6a8
+@b733:  stz     $dbdf
+        stz     $bc85
+        jsr     $ad2d
+        jsr     $1cb8
+        jmp     $3cbb
+@b742:  jmp     ($0070)
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1b746:
+        .addr   $e82f,$e82f,$e82f,$e82f,$e82f,$e82f,$e82f,$e82f ; $00
+        .addr   $e82f,$e82f,$e82f,$e82f,$e82f,$e92c,$e82f,$e92c
+        .addr   $e82f,$e82f,$e82f,$e82f,$e82f,$e82f,$e82f,$e82f ; $10
+        .addr   $e962,$e82f,$e82f,$e92c,$e82f,$e82f,$e82f,$e92c
+        .addr   $e92c,$e92c,$e92c,$d2d0,$e82f,$e92c,$e92c,$e82f ; $20
+        .addr   $e82f,$e82f,$e82f,$e82f,$e92c,$e92c,$e82f,$e82f
+        .addr   $e92c,$e82f,$e82f,$e82f,$e82f,$e82f,$e82f,$e92c ; $30
+        .addr   $e82f,$b745,$b745
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1b7bc:
+        stz     $db6b
+        stz     $d111
+        stz     $d112
+        stz     $d113
+        clr_ax
+@b7ca:  stz     $d7d8,x
+        inx
+        cpx     #$0200
+        bne     @b7ca
+        tay
+@b7d4:  lda     ($eb),y
+        sta     $db50,y
+        iny
+        cpy     #$0005
+        bne     @b7d4
+        lda     $f86d
+        beq     @b801
+        lda     $db50
+        asl
+        and     #$80
+        sta     $70
+        lda     $db50
+        eor     #$40
+        and     #$7f
+        ora     $70
+        sta     $db50
+        jsr     $8d41
+        sta     $db53
+        stz     $db54
+@b801:  lda     $d1bc
+        and     #$3f
+        cmp     #$0c
+        bne     @b819
+        lda     $df
+        sta     $db53
+        lda     $db50
+        and     #$3f
+        sta     $db50
+        bra     @b82a
+@b819:  lda     $d1bc
+        and     #$40
+        beq     @b82a
+        lda     $db53
+        beq     @b827
+        lda     #$80
+@b827:  sta     $db53
+@b82a:  jsr     $c0d5
+        jmp     $b830
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1b830:
+@b830:  lda     $d1bc
+        and     #$3f
+        asl
+        tax
+        lda     $c1b847,x
+        sta     $70
+        lda     $c1b848,x
+        sta     $71
+        jmp     ($0070)
+
+; ---------------------------------------------------------------------------
+
+_c1b846:
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1b847:
+        .addr   $b846,$bf29,$bf3f,$bf5b,$bf85,$c035,$c050,$c031 ; $00
+        .addr   $bf3f,$bee8,$bebd,$bea7,$be5a,$bdec,$c02c,$bdbc
+        .addr   $be42,$bcde,$bcdb,$bf39,$bfa2,$bec9,$bf1d,$bcbd ; $10
+        .addr   $bd23,$bc97,$bc75,$bc2d,$bcbd,$bbef,$bc0f,$bbda
+        .addr   $bbb8,$bb8e,$bb59,$d2d0,$bb2b,$baf6,$ba65,$ba3d ; $20
+        .addr   $ba22,$ba12,$b846,$b846,$b9f6,$b9cb,$b9af,$b961
+        .addr   $b9f0,$b989,$bfcb,$bfe1,$c019,$bff7,$c008,$b8bc ; $30
+        .addr   $b8b9
+
+; ---------------------------------------------------------------------------
+
+_c1b8b9:
+        jmp     $bbe6
+
+; ---------------------------------------------------------------------------
+
+_c1b8bc:
+        jsr     $c099
+        jsr     _c1bf0d
+        jsr     $bdbf
+        clr_ax
+@b8c7:  jsr     $fc96       ; generate random number
+        sta     $ce7b,x
+        inx
+        cpx     #$0040
+        bne     @b8c7
+        ldx     #$0030
+        stx     $76
+        clr_axy
+@b8db:  lda     #$10
+        sta     $d3de,x
+        sta     $d45e,x
+        sta     $d4de,x
+        sta     $d55e,x
+        lda     $ce7b,y
+        clc
+        adc     #$40
+        sta     $cebb,y
+        lda     $ce83,y
+        clc
+        adc     #$40
+        sta     $cec3,y
+        lda     $ce8b,y
+        clc
+        adc     #$40
+        sta     $cecb,y
+        lda     $ce93,y
+        clc
+        adc     #$40
+        sta     $ced3,y
+        lda     #$38
+        sta     $cdfb,y
+        sta     $ce03,y
+        sta     $ce0b,y
+        sta     $ce13,y
+        sta     $ce3b,y
+        sta     $ce43,y
+        sta     $ce4b,y
+        sta     $ce53,y
+        longa
+        lda     #$0050
+        sta     $d1e1,x
+        sta     $d261,x
+        sta     $d2e1,x
+        sta     $d361,x
+        lda     $76
+        sta     $d1df,x
+        adc     #$0038
+        sta     $d25f,x
+        adc     #$0038
+        sta     $d2df,x
+        adc     #$0038
+        sta     $d35f,x
+        shorta0
+        iny
+        txa
+        clc
+        adc     #$10
+        tax
+        cpx     #$0030
+        beq     @b960
+        jmp     $b8db
+@b960:  rts
+
+; ---------------------------------------------------------------------------
+
+; [ load spirit/paraclete animation ??? ]
+
+_c1b961:
+        lda     ($eb)
+        and     #$02
+        beq     @b988       ; return if not spirit/paraclete
+        lda     #$ef        ; animation script $ef
+        longa
+        asl
+        tax
+        lda     $d97d42,x   ; pointer to attack animation scripts
+        sta     $70
+        clr_ax
+@b975:  lda     $70
+        sta     $d3da,x
+        txa
+        clc
+        adc     #$0010
+        tax
+        cpx     #$0080      ; load 8 copies ???
+        bne     @b975
+        shorta0
+@b988:  rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c1b989:
+        lda     $f6
+        beq     @b9ae
+        lda     #$fd
+        longa
+        asl
+        tax
+        lda     $d97d42,x   ; pointer to attack animation scripts
+        sta     $70
+        clr_ax
+@b99b:  lda     $70
+        sta     $d3da,x
+        txa
+        clc
+        adc     #$0010
+        tax
+        cpx     #$0080
+        bne     @b99b
+        shorta0
+@b9ae:  rts
+
+; ---------------------------------------------------------------------------
+
+_c1b9af:
+        jsr     $c099
+        ldy     #$0040
+        jsr     $c077
+        lda     #$21
+        sta     $d3de
+        lda     #$01
+        sta     $d3ee
+        sta     $d3fe
+        sta     $d40e
+        jmp     _c1bf10
+
+; ---------------------------------------------------------------------------
+
+_c1b9cb:
+        jsr     $c099
+        jsr     _c1bf10
+        jsr     $bdbf
+@b9d4:  clr_ax
+@b9d6:  jsr     $fc96       ; generate random number
+        and     #$07
+        inc
+        sta     $d3de,x
+        longa
+        txa
+        clc
+        adc     #$0010
+        tax
+        shorta0
+        cpx     #$0200
+        bne     @b9d6
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1b9f0:
+        jsr     $b9f6
+        jmp     $b9d4
+
+; ---------------------------------------------------------------------------
+
+_c1b9f6:
+@b9f6:  jsr     $bdbf
+        clr_ax
+@b9fb:  stz     $d467,x
+        stz     $d567,x
+        longa
+        txa
+        clc
+        adc     #$0010
+        tax
+        shorta0
+        cpx     #$0080
+        bne     @b9fb
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1ba12:
+        jsr     $c099
+        jsr     _c1bf0a
+        lda     $d3de
+        clc
+        adc     #$02
+        sta     $d3ee
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1ba22:
+        lda     ($eb)
+        bmi     @ba3c
+        jsr     $c099
+        jsr     _c1bf07
+        lda     #$f8
+        longa
+        asl
+        tax
+        lda     $d97d42,x   ; pointer to attack animation scripts
+        sta     $d3da
+        shorta0
+@ba3c:  rts
+
+; ---------------------------------------------------------------------------
+
+_c1ba3d:
+        jsr     $c099
+        jsr     _c1bf0d
+        lda     #$00
+        sta     $ce8b
+        clc
+        adc     #$40
+        sta     $cecb
+        lda     #$55
+        sta     $ce8c
+        clc
+        adc     #$40
+        sta     $cecc
+        lda     #$aa
+        sta     $ce8d
+        clc
+        adc     #$40
+        sta     $cecd
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1ba65:
+        jsr     $c099
+        jsr     $bdbf
+        clr_ax
+        stz     $70
+@ba6f:  lda     $70
+        inc
+        sta     $70
+        sta     $d3de,x
+        stz     $d7df,x
+        clc
+        adc     #$08
+        sta     $d4de,x
+        stz     $d8df,x
+        stz     $d467,x
+        stz     $d567,x
+        longa
+        txa
+        clc
+        adc     #$0010
+        tax
+        shorta0
+        cpx     #$0080
+        bne     @ba6f
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1ba9a:
+@ba9a:  clr_ax
+@ba9c:  lda     ($eb)
+        bmi     @baab
+        lda     $d5d8,x
+        sec
+        sbc     #$10
+        sta     $d5d8,x
+        bra     @bab4
+@baab:  lda     $d5d8,x
+        clc
+        adc     #$18
+        sta     $d5d8,x
+@bab4:  lda     $d5da,x
+        sec
+        sbc     #$08
+        sta     $d5da,x
+        lda     $d5d8,x
+        sta     $a6
+        lda     $d5da,x
+        sta     $a7
+        lda     $d5dc,x
+        sta     $a8
+        lda     $d5de,x
+        sta     $a9
+        phx
+        jsr     $0a6e
+        plx
+        lda     $ae
+        sta     $d3e3,x
+        lda     $af
+        sta     $d3e4,x
+        lda     $b0
+        sta     $d3e5,x
+        longa
+        txa
+        clc
+        adc     #$0010
+        tax
+        shorta0
+        cpx     #$0080
+        bne     @ba9c
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1baf6:
+        jsr     $c099
+        jsr     $ba9a
+        jsr     $bdbf
+        clr_ax
+        stz     $70
+@bb03:  lda     $70
+        inc
+        sta     $70
+        sta     $d7df,x
+        clc
+        adc     #$08
+        sta     $d8df,x
+        stz     $d467,x
+        stz     $d567,x
+        longa
+        txa
+        clc
+        adc     #$0010
+        tax
+        shorta0
+        cpx     #$0080
+        bne     @bb03
+        inc     $db6b
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1bb2b:
+        jsr     $c099
+        ldy     #$0080
+        jsr     $c077
+        clr_ax
+        stz     $70
+@bb38:  lda     $70
+        clc
+        adc     #$02
+        sta     $d3de,x
+        sta     $70
+        jsr     $fc96       ; generate random number
+        sta     $d5e1,x
+        longa
+        txa
+        clc
+        adc     #$0010
+        tax
+        shorta0
+        cpx     #$0080
+        bne     @bb38
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1bb59:
+        jsr     $c099
+        jsr     $bdbf
+        clr_ax
+@bb61:  stz     $d467,x
+        stz     $d567,x
+        txa
+        clc
+        adc     #$10
+        tax
+        cpx     #$0080
+        bne     @bb61
+        clr_ax
+        stz     $70
+@bb75:  lda     $70
+        sta     $ce7b,x
+        clc
+        adc     #$40
+        sta     $cebb,x
+        lda     $70
+        clc
+        adc     #$20
+        sta     $70
+        inx
+        cpx     #$0020
+        bne     @bb75
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1bb8e:
+        jsr     $bdbf
+        clr_ax
+@bb93:  lda     #$02
+        sta     $d3de,x
+        clc
+        adc     #$02
+        sta     $d45e,x
+        clc
+        adc     #$02
+        sta     $d4de,x
+        stz     $d567,x
+        longa
+        txa
+        clc
+        adc     #$0010
+        tax
+        shorta0
+        cpx     #$0080
+        bne     @bb93
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1bbb8:
+        jsr     $c099
+        jsr     $bdbf
+        clr_ax
+@bbc0:  jsr     $fc96       ; generate random number
+        and     #$07
+        inc
+        sta     $d3de,x
+        longa
+        txa
+        clc
+        adc     #$0010
+        tax
+        shorta0
+        cpx     #$0200
+        bne     @bbc0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1bbda:
+        jsr     $c099
+        jsr     $bbe6
+        jsr     _c1bf10
+        jmp     $bdbf
+
+; ---------------------------------------------------------------------------
+
+_c1bbe6:
+@bbe6:  jsr     $8d3b
+        bne     @bbee
+        jsr     _c1bf04
+@bbee:  rts
+
+; ---------------------------------------------------------------------------
+
+_c1bbef:
+        jsr     $bf39
+        longa
+        lda     $f586
+        inc
+        asl
+        tax
+        lda     $d97d42,x   ; pointer to attack animation scripts
+        sta     $d43a
+        shorta0
+        lda     #$01
+        sta     $d43e
+        inc     $d447
+        jmp     $bbe6
+
+; ---------------------------------------------------------------------------
+
+_c1bc0f:
+        jsr     _c1bf3f
+        longa
+        lda     $f586
+        inc
+        asl
+        tax
+        lda     $d97d42,x   ; pointer to attack animation scripts
+        sta     $d43a
+        shorta0
+        stz     $d440
+        jsr     $bbe6
+        jmp     _c1bf19
+
+; ---------------------------------------------------------------------------
+
+_c1bc2d:
+        jsr     $c099
+        jsr     _c1bf04
+        jsr     $8d3b
+        beq     @bc74
+        jsr     $bdbf
+        inc     $d3e7
+        lda     #$01
+        sta     $d3de
+        longa
+        lda     $f586
+        inc
+        asl
+        tax
+        lda     $d97d42,x   ; pointer to attack animation scripts
+        sta     $d3da
+        shorta0
+        ldx     #$0080
+@bc58:  inc     $d3e7,x
+        jsr     $fc96       ; generate random number
+        and     #$0f
+        inc
+        sta     $d3de,x
+        longa
+        txa
+        clc
+        adc     #$0010
+        tax
+        shorta0
+        cpx     #$0180
+        bne     @bc58
+@bc74:  rts
+
+; ---------------------------------------------------------------------------
+
+_c1bc75:
+        jsr     $bf29
+        jsr     $c035
+        jsr     $bbe6
+        longa
+        lda     $f586
+        inc
+        asl
+        tax
+        lda     $d97d42,x   ; pointer to attack animation scripts
+        sta     $d40a
+        sta     $d42a
+        sta     $d44a
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1bc97:
+        jsr     $c099
+        longa
+        lda     $f586
+        inc
+        asl
+        tax
+        clr_ay
+@bca4:  lda     $d97d42,x   ; pointer to attack animation scripts
+        sta     $d41a,y
+        tya
+        clc
+        adc     #$0010
+        tay
+        cmp     #$0040
+        bne     @bca4
+        shorta0
+        inc     $db6b
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1bcbd:
+        jsr     $c099
+        longa
+        lda     $f586
+        inc
+        asl
+        tax
+        lda     $d97d42,x   ; pointer to attack animation scripts
+        sta     $d41a
+        shorta0
+        jsr     _c1bf07
+        inc     $d427
+        jmp     $bbe6
+
+; ---------------------------------------------------------------------------
+
+_c1bcdb:
+        jmp     $bd5f
+
+; ---------------------------------------------------------------------------
+
+_c1bcde:
+        jsr     $bd5f
+        jsr     $014c
+        ldx     $e9
+        stx     $70
+        clr_axy
+@bceb:  jsr     $bda1
+        cmp     #$08
+        bcc     @bcf7
+        sec
+        sbc     #$08
+        bra     @bcf9
+@bcf7:  ora     #$80
+@bcf9:  sta     $d3e2,y
+        longa
+        tya
+        clc
+        adc     #$0010
+        tay
+        lda     $70
+        clc
+        adc     #$0018
+        sta     $70
+        shorta0
+        inx
+        cpx     #$0008
+        bne     @bceb
+        jsr     $8d3b
+        beq     @bd22
+        lda     #$ef
+        sta     $7e
+        clr_a
+        jsr     $7b02
+@bd22:  rts
+
+; ---------------------------------------------------------------------------
+
+_c1bd23:
+        jsr     $c02c
+        jsr     _c1bf04
+        jsr     $8d3b
+        beq     @bd5e
+        jsr     $bdbf
+        inc     $d3e7
+        inc     $d3f7
+        longa
+        lda     $f586
+        inc
+        asl
+        tax
+        lda     $d97d42,x   ; pointer to attack animation scripts
+        sta     $d3ea
+        ldy     #$0020
+@bd49:  lda     $d97d44,x
+        sta     $d3da,y
+        tya
+        clc
+        adc     #$0010
+        tay
+        cpy     #$0200
+        bne     @bd49
+        shorta0
+@bd5e:  rts
+
+; ---------------------------------------------------------------------------
+
+_c1bd5f:
+@bd5f:  jsr     _c1bf3f
+        jsr     _c1bf19
+        lda     $db50
+        and     #$40
+        bne     @bd90
+        longa
+        lda     $f586
+        inc
+        asl
+        tax
+        clr_ay
+@bd76:  lda     $d97d42,x   ; pointer to attack animation scripts
+        sta     $d3da,y
+        tya
+        clc
+        adc     #$0010
+        tay
+        cpy     #$0080
+        bne     @bd76
+        shorta0
+        lda     #$10
+        jsr     $fc57
+@bd90:  lda     $d1e7
+        ora     #$20
+        sta     $d1e7
+        lda     $d1f7
+        ora     #$20
+        sta     $d1f7
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1bda1:
+@bda1:  phx
+        phy
+        clr_axy
+        iny
+@bda7:  lda     ($70),y
+        cmp     #$ff
+        bne     @bdb8
+        iny2
+        inx
+        cpx     #$000c
+        bne     @bda7
+        clr_a
+        bra     @bdb9
+@bdb8:  txa
+@bdb9:  ply
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1bdbc:
+        jmp     $bdbf
+
+; ---------------------------------------------------------------------------
+
+_c1bdbf:
+@bdbf:  clr_ax
+@bdc1:  lda     $d1d8,x
+        sta     $d258,x
+        sta     $d2d8,x
+        sta     $d358,x
+        lda     $d3d8,x
+        sta     $d458,x
+        sta     $d4d8,x
+        sta     $d558,x
+        lda     $d5d8,x
+        sta     $d658,x
+        sta     $d6d8,x
+        sta     $d758,x
+        inx
+        cpx     #$0080
+        bne     @bdc1
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1bdec:
+        jsr     $bdbf
+        clr_ax
+@bdf1:  lda     $d3de,x
+        inc2
+        sta     $d45e,x
+        inc2
+        sta     $d4de,x
+        inc2
+        sta     $d55e,x
+        txa
+        clc
+        adc     #$10
+        tax
+        cpx     #$0080
+        bne     @bdf1
+        ldx     $f586
+        stx     $70
+        clr_axy
+        longa
+@be17:  lda     $70
+        asl
+        tax
+        lda     $d97d42,x   ; pointer to attack animation scripts
+        sta     $d3da,y
+        sta     $d3ea,y
+        sta     $d3fa,y
+        sta     $d40a,y
+        sta     $d41a,y
+        sta     $d42a,y
+        inc     $70
+        tya
+        clc
+        adc     #$0080
+        tay
+        cpy     #$0200
+        bne     @be17
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1be42:
+        jsr     $c099
+        longa
+        lda     $f586
+        inc
+        asl
+        tax
+        lda     $d97d42,x   ; pointer to attack animation scripts
+        sta     $d3ea
+        shorta0
+        jmp     _c1bf0a
+
+; ---------------------------------------------------------------------------
+
+_c1be5a:
+        jsr     _c1bf04
+        lda     $db53
+        sta     $70
+        clr_ax
+@be64:  asl     $70
+        bcs     @be70
+        inx
+        cpx     #$0004
+        bne     @be64
+        bra     @bea6
+@be70:  txa
+        asl4
+        tax
+        clr_ay
+@be78:  lda     $d1d8,x
+        sta     $d218,y
+        lda     $d3d8,x
+        sta     $d418,y
+        lda     $d5d8,x
+        sta     $d618,y
+        inx
+        iny
+        cpy     #$0010
+        bne     @be78
+        longa
+        lda     $f586
+        inc
+        asl
+        tax
+        lda     $d97d42,x   ; pointer to attack animation scripts
+        sta     $d41a
+        shorta0
+        inc     $d427
+@bea6:  rts
+
+; ---------------------------------------------------------------------------
+
+_c1bea7:
+        jsr     $c099
+        ldy     #$0040
+        jsr     $c077
+        lda     #$08
+        sta     $d3de
+        lda     #$10
+        sta     $d3ee
+        jmp     _c1bf0a
+
+; ---------------------------------------------------------------------------
+
+_c1bebd:
+        jsr     $c099
+        ldy     #$0020
+        jsr     $c077
+        jmp     _c1bf07
+
+; ---------------------------------------------------------------------------
+
+_c1bec9:
+        jsr     $c099
+        jsr     _c1bf04
+        lda     #$08
+        sta     $d3de
+        inc     $d3e7
+        lda     #$09
+        sta     $d3ee
+        inc     $d3f7
+        lda     #$0a
+        sta     $d41e
+        inc     $d427
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1bee8:
+        jsr     $c099
+        ldy     #$0060
+        jsr     $c077
+        jsr     _c1bf0d
+        lda     #$08
+        sta     $d3de
+        lda     #$10
+        sta     $d3ee
+        lda     #$18
+        sta     $d3fe
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1bf04:
+@bf04:  stz     $d3e7
+
+_c1bf07:
+@bf07:  stz     $d3f7
+
+_c1bf0a:
+@bf0a:  stz     $d407
+
+_c1bf0d:
+@bf0d:  stz     $d417
+
+_c1bf10:
+@bf10:  stz     $d427
+        stz     $d437
+
+_c1bf16:
+@bf16:  stz     $d447
+
+_c1bf19:
+@bf19:  stz     $d457
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1bf1d:
+        jsr     $c099
+        ldy     #$0080
+        jsr     $c077
+        jmp     $bf2c
+
+; ---------------------------------------------------------------------------
+
+_c1bf29:
+@bf29:  jsr     $c099
+@bf2c:  stz     $d3e7
+        stz     $d407
+        stz     $d427
+        stz     $d447
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1bf39:
+@bf39:  jsr     _c1bf3f
+        jmp     _c1bf16
+
+; ---------------------------------------------------------------------------
+
+_c1bf3f:
+@bf3f:  jsr     $c099
+        clr_ax
+@bf44:  phx
+        jsr     $fc96       ; generate random number
+        and     #$1f
+        bne     @bf4d
+        inc
+@bf4d:  plx
+        sta     $d3de,x
+        txa
+        clc
+        adc     #$10
+        tax
+        cmp     #$80
+        bne     @bf44
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1bf5b:
+        jsr     $bf29
+        longa
+        lda     $f586
+        asl
+        tax
+        lda     $d97d42,x   ; pointer to attack animation scripts
+        sta     $d3ea
+        lda     $d97d44,x
+        sta     $d40a
+        lda     $d97d46,x
+        sta     $d42a
+        lda     $d97d48,x
+        sta     $d44a
+        shorta0
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1bf85:
+        jsr     $c099
+        clr_ax
+        lda     #$10
+@bf8c:  sta     $d3de,x
+        dec
+        pha
+        txa
+        clc
+        adc     #$10
+        tax
+        pla
+        cpx     #$0080
+        bne     @bf8c
+        ldy     #$0080
+        jmp     $c077
+
+; ---------------------------------------------------------------------------
+
+_c1bfa2:
+        jsr     $c099
+        jsr     $bbe6
+        jmp     _c1bf10
+
+; ---------------------------------------------------------------------------
+
+_c1bfab:
+@bfab:  asl
+        tax
+        lda     $d97d42,x   ; pointer to attack animation scripts
+        sta     $d3da
+        sta     $d3ea
+        sta     $d3fa
+        sta     $d40a
+        sta     $d41a
+        sta     $d42a
+        sta     $d43a
+        sta     $d44a
+        clr_a
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c1bfcb:
+        lda     ($eb)
+        and     #$40
+        beq     @bfdb
+        longa
+        lda     #$0033
+        jsr     $bfab
+        shorta
+@bfdb:  jsr     $c099
+        jmp     _c1bf10
+
+; ---------------------------------------------------------------------------
+
+_c1bfe1:
+        lda     ($eb)
+        and     #$40
+        beq     @bff1
+        longa
+        lda     #$00fe
+        jsr     $bfab
+        shorta
+@bff1:  jsr     $c099
+        jmp     _c1bf10
+
+; ---------------------------------------------------------------------------
+
+_c1bff7:
+        lda     ($eb)
+        and     #$40
+        beq     @c007
+        longa
+        lda     #$00ff
+        jsr     $bfab
+        shorta
+@c007:  rts
 
 ; ---------------------------------------------------------------------------
