@@ -104,6 +104,90 @@ WorldPal:
 
 ; ------------------------------------------------------------------------------
 
+.export MonsterStencil
+
+.segment "monster_stencil"
+
+; not sure why ld65 needs "near" below. using .addr should force it to 16-bit.
+
+; d0/d000
+MonsterStencil:
+        .addr   near MonsterStencilSmall
+        .addr   near MonsterStencilLarge
+
+; d0/d004
+MonsterStencilSmall:
+        .incbin "monster_stencil_small.dat"
+
+; d0/d334
+MonsterStencilLarge:
+        .incbin "monster_stencil_large.dat"
+
+; ------------------------------------------------------------------------------
+
+.segment "the_end_gfx"
+
+.export TheEndGfx
+
+; d0/e4cb
+TheEndGfx:
+        .incbin "the_end.4bpp.lz"
+
+; ------------------------------------------------------------------------------
+
+.export AttackTiles1, AttackTiles2, AttackTiles3
+.export AttackGfx1, AttackGfx2, AttackGfx3
+.export AnimalsTiles, AnimalsGfx
+.export WeaponTiles, WeaponGfx
+.export WeaponHitTiles, WeaponHitGfx
+.export AttackPal
+
+.segment "attack_gfx1"
+
+; d1/7fa0
+AttackTiles1:
+        .incbin "attack1.scr"
+
+; d1/87a0
+AttackTiles2:
+        .incbin "attack2.scr"
+
+; d1/8fa0
+AttackTiles3:
+        .incbin "attack3.scr"
+
+; d1/97a0
+WeaponTiles:
+        .incbin "weapons.scr"
+
+; d1/9ba0
+WeaponHitTiles:
+        .incbin "weapon_hit.scr"
+
+; d1/a3a0
+AttackPal:
+        .repeat 128, i
+        .incbin .sprintf("attack_pal/pal_%04X.pal", i)
+        .endrep
+
+; d1/aba0
+AnimalsGfx:
+        .incbin "animals.4bpp"
+
+; d1/be00
+AnimalsTiles:
+        .incbin "animals.scr"
+
+; d1/c000
+WeaponGfx:
+        .incbin "weapons.3bpp"
+
+; d1/d800
+WeaponHitGfx:
+        .incbin "weapon_hit.3bpp"
+
+; ------------------------------------------------------------------------------
+
 .segment "small_font_gfx"
 
 .export SmallFontGfx
@@ -111,6 +195,189 @@ WorldPal:
 ; d1/f000
 SmallFontGfx:
         .incbin "small_font.2bpp"
+
+; ------------------------------------------------------------------------------
+
+.segment "battle_char_gfx"
+
+.export BattleCharGfx
+
+; d2/0000
+BattleCharGfx:
+        .repeat 110, i
+        .incbin .sprintf("battle_char_gfx/gfx_%04X.4bpp", i)
+        .endrep
+
+; ------------------------------------------------------------------------------
+
+.include "gfx/battle_bg_anim.inc"
+.include "gfx/battle_bg_pal_anim.inc"
+.include "gfx/battle_bg_flip.inc"
+.include "gfx/battle_bg_tiles.inc"
+
+.export BattleBGProp, BattleBGPal
+.export BattleBGAnim, BattleBGAnimPtrs
+.export BattleBGPalAnim, BattleBGPalAnimPtrs
+.export BattleBGFlip, BattleBGFlipPtrs
+.export BattleBGTiles, BattleBGTilesPtrs
+
+.segment "battle_bg"
+
+; d4/ba21
+BattleBGProp:
+        .incbin "battle_bg_prop.dat"
+
+; d4/bb31: battle bg palettes (84 items, 32 bytes each)
+BattleBGPal:
+        .repeat 84, i
+        .incbin .sprintf("battle_bg_pal/pal_%04X.pal", i)
+        .endrep
+
+; d4/c5b1: pointers to battle bg animation data (+$D40000)
+BattleBGAnimPtrs:
+        ptr_tbl BattleBGAnim
+
+; d4/c5c1: battle bg animation data (8 items, variable size)
+BattleBGAnim:
+        .incbin "battle_bg_anim.dat"
+
+; d4/c6cd: pointers to battle bg palette animation data (+$D4000)
+BattleBGPalAnimPtrs:
+        ptr_tbl BattleBGPalAnim
+
+; d4/c6d3: battle bg palette animation data (3 items, variable size)
+BattleBGPalAnim:
+        .incbin "battle_bg_pal_anim.dat"
+
+; d4/c736: pointers to battle bg tile flip data (+$D40000)
+BattleBGFlipPtrs:
+        ptr_tbl BattleBGFlip
+
+; d4/c748: battle bg tile flip data (9 items, variable size)
+BattleBGFlip:
+        .incbin "battle_bg_flip.dat"
+
+; d4/c86d: pointers to battle bg tile layout (+$D40000)
+BattleBGTilesPtrs:
+        ptr_tbl BattleBGTiles
+
+; d4/c8a5: battle bg tile layout (28 items, variable size)
+BattleBGTiles:
+        .incbin "battle_bg_tiles.dat"
+
+; ------------------------------------------------------------------------------
+
+.export MonsterGfx
+
+.segment "monster_gfx"
+
+; d5/0000
+MonsterGfx:
+        .incbin "monster_gfx.dat"
+
+; ------------------------------------------------------------------------------
+
+.export _d84157, BattleBGGfxPtrs
+
+.segment "battle_bg_gfx"
+
+_d84157:
+        .faraddr $7fc000
+        .faraddr $7fc600
+        .faraddr $7fcc00
+        .faraddr $7fd600
+        .faraddr $7fc000
+        .faraddr $7fc200
+        .faraddr $7fc000
+        .faraddr $7fd000
+        .faraddr $7fc000
+        .faraddr $7fcc00
+        .faraddr $7fca00
+        .faraddr $7fd200
+        .faraddr $7fc000
+        .faraddr $7fc000
+        .faraddr $7fda00
+        .faraddr $7fe000
+        .faraddr $7fc000
+        .faraddr $7fce00
+        .faraddr $7fce00
+        .faraddr $7fc000
+        .faraddr $7fc000
+
+.scope BattleBGGfx
+        ARRAY_LENGTH = 21
+.endscope
+
+; d8/4196
+BattleBGGfxPtrs:
+        ptr_tbl_far BattleBGGfx
+
+; d8/41d5
+BattleBGGfx::_6:
+BattleBGGfx::_7:
+        .incbin "battle_bg_gfx/gfx_0000.4bpp.lz"
+
+; d8/5a3d
+BattleBGGfx::_8:
+BattleBGGfx::_9:
+BattleBGGfx::_14:
+BattleBGGfx::_15:
+        .incbin "battle_bg_gfx/gfx_0001.4bpp.lz"
+
+; d8/7878
+BattleBGGfx::_16:
+BattleBGGfx::_18:
+        .incbin "battle_bg_gfx/gfx_0002.4bpp.lz"
+
+; d8/88b2
+BattleBGGfx::_0:
+BattleBGGfx::_1:
+BattleBGGfx::_2:
+BattleBGGfx::_3:
+BattleBGGfx::_5:
+        .incbin "battle_bg_gfx/gfx_0003.4bpp.lz"
+
+; d8/a517
+BattleBGGfx::_4:
+BattleBGGfx::_10:
+BattleBGGfx::_11:
+        .incbin "battle_bg_gfx/gfx_0004.4bpp.lz"
+
+; d8/b959
+BattleBGGfx::_13:
+BattleBGGfx::_17:
+        .incbin "battle_bg_gfx/gfx_0005.4bpp.lz"
+
+; d8/cdd8
+BattleBGGfx::_20:
+        .incbin "battle_bg_gfx/gfx_0006.4bpp.lz"
+
+; d8/d881
+BattleBGGfx::_19:
+        .incbin "battle_bg_gfx/gfx_0007.4bpp.lz"
+
+; d8/dc32
+BattleBGGfx::_12:
+        .incbin "battle_bg_gfx/gfx_0008.4bpp.lz"
+
+; ------------------------------------------------------------------------------
+
+.segment "attack_gfx2"
+
+.export AttackGfx1, AttackGfx2, AttackGfx3
+
+; d9/0000
+AttackGfx1:
+        .incbin "attack1.3bpp"
+
+; d9/2ec8
+AttackGfx2:
+        .incbin "attack2.3bpp"
+
+; d9/5760
+AttackGfx3:
+        .incbin "attack3.3bpp"
+
 
 ; ------------------------------------------------------------------------------
 

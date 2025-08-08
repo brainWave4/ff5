@@ -16,10 +16,12 @@
 .include "hardware.inc"
 .include "const.inc"
 
-.include "text/dlg_jp.inc"
-.include "text/item_name_jp.inc"
-.include "text/magic_name_jp.inc"
-.include "text/map_title_jp.inc"
+inc_lang "text/dlg_%s.inc"
+inc_lang "text/item_name_%s.inc"
+inc_lang "text/magic_name_%s.inc"
+inc_lang "text/summon_name_%s.inc"
+inc_lang "text/attack_name_%s.inc"
+inc_lang "text/map_title_%s.inc"
 
 .include "field/event_cond.inc"
 .include "field/event_script.inc"
@@ -22788,8 +22790,8 @@ _e02f39:
         bra     _2f68
 
 _e02f40:
-        lda     #$d1
-        ldy     #$1c80      ; spell names (short)
+        lda     #^MagicName
+        ldy     #near MagicName      ; spell names (short)
         bra     _2f68
 
 _e02f47:
