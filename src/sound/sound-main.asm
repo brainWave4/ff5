@@ -261,10 +261,144 @@ _0188:  longa
 
 ; ---------------------------------------------------------------------------
 
+_01d4:  jsr _05e0
+        lda $05
+        bmi $01e1
+        sta $09
+        ldx $06
+        stx $0a
+        lda $01
+        sta $2141
+        sta $05
+        ldx $02
+        stx $2142
+        stx $06
+        xba
+        cmp $2140
+        beq $01f0    ; infinite loop?
+        sta $2140
+        cmp $2140
+        bne $01f8    ; infinite loop?
+        lda #$02
+        sta $2141
+        ldx #$1c00
+        stx $2142
+        sta $2140
+        cmp $2140
+        bne $020b    ; infinite loop?
+        rep #$20
+        lda $05
+        and #$00ff
+        pha
+        asl a
+        sta $e8
+        pla
+        clc
+        adc $e8
+        tax
+        longa
+        lda $c43b97,x ; SPC pointer, low byte
+        sta $14
+        lda $c43b98,x ; SPC pointer, middle byte
+        sta $15
+        lda $c43b99,x ; SPC pointer, high byte
+        sta $16
+        ldy $14
+        stz $14
+        stz $15
+        lda [$14],y
+        xba
+        iny
+        bne $0242
+        inc $16
+        lda [$14],y
+        pha
+        iny
+        bne $024a
+        xba
+        pha
+        plx
+        lda #$05
+        xba
+        lda [$14],y
+        sta $2142
+        iny
+        bne $025a
+        lda [$14],y
+        sta $2143
+        iny
+        bne $0264
+        xba
+        sta $2140
+        cmp $2140
+        bne $0268
+        inc a
+        bne $0271
+        inc a
+        xba
+        dex
+        dex
+        bpl $0250
+        inc a
+        longa
+        ldx #$0000
+        stz $88,x
+        stz $c8,x
+        inx
+        inx
+        cpx #$0020
+        bne $027b
+        lda $04
+        and #$ff00
+        lsr a
+        lsr a
+        lsr a
+        tax
+        clc
+        adc #$0020
+        sta $12
+        lda #$1da8
+        sta $14
+        lda #$1dc8
+        sta $16
+        lda $c43daa,x
+        sta ($14)
+        inc $14
+        inc $14
+        ldy #$0000
+        cmp $1d28,y
+        beq $02c0
+        iny
+        iny
+        cpy #$0020
+        bne $02ac
+        sta ($16)
+        inc $16
+        inc $16
+        bra $02c3
+        inx
+        inx
+        cpx $12
+        bne $029f
+        sta $1d88,y
+        lda $c8
+        bne $02d0
+        jmp _04ac
+
+; ---------------------------------------------------------------------------
+
+_04ac:  rtl
+
+; ---------------------------------------------------------------------------
+
 _0589:  rtl
 
 ; ---------------------------------------------------------------------------
 
 _05c9:  rtl
+
+; ---------------------------------------------------------------------------
+
+_05e0:  rtl
 
 ; ---------------------------------------------------------------------------
