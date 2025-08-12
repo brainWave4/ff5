@@ -387,6 +387,61 @@ _01d4:  jsr _05e0
 
 ; ---------------------------------------------------------------------------
 
+_02d0:  stz $17
+        sep #$20
+        ldx #$0000
+        lda $c8,x
+        beq $031c
+        phx
+        dec a
+        longa
+        and #$00ff
+        pha
+        asl a
+        sta $e8
+        pla
+        clc
+        adc $e8
+        tax sep #$20
+        lda $c43c6f,x  ; pointer, low byte
+        sta $14
+        lda $c43c70,x  ; pointer, middle byte
+        sta $15
+        lda $c43c71,x  ; pointer, high byte
+        sta $16
+        ldy $14
+        stz $14
+        stz $15
+        lda [$14],y
+        clc
+        adc $17
+        sta $17
+        iny
+        bne $0311
+        inc $16
+        lda [$14],y
+        adc $18
+        sta $18
+        plx
+        inx
+        inx
+        bra $02D7
+        ldx #$0000
+        longa
+        lda $28,x
+        clc
+        adc $17
+        bcs $0338
+        cmp #$d200
+        bcs $0338
+        jmp _03ea
+
+; ---------------------------------------------------------------------------
+
+_03ea:  rtl
+
+; ---------------------------------------------------------------------------
+
 _04ac:  rtl
 
 ; ---------------------------------------------------------------------------
