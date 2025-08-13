@@ -552,15 +552,93 @@ _03ea:  sep #$20
         inc a
         sta $10
         ldx #$0000
-        sep #$20
+@0418:  sep #$20
         lda $c8,x
         bne _0421
         jmp @04ac
 
 ; ---------------------------------------------------------------------------
 
-_0421:  rtl
-@04ac:  rtl
+_0421:  ldy $24
+        sta $1d28,y
+        phx
+        dec a
+        longa
+        and #$00ff
+        pha
+        asl a
+        sta $e8
+        pla
+        clc
+        adc $e8
+        tax
+        sep #$20
+        lda $c43c6f,x  ; pointer, low byte
+        sta $14
+        lda $c43c70,x  ; pointer, middle byte
+        sta $15
+        lda $c43c71,x  ; pointer, high byte
+        sta $16
+        ldy $14
+        stz $14
+        stz $15
+        lda [$14],y
+        xba
+        iny
+        bne @0458
+@0458:  lda [$14],y
+        iny
+        bne @045f
+@045f:  xba
+        longa
+        pha
+        ldx $24
+        sta $68,x
+        clc
+        adc $48,x
+        sta $4a,x
+        inx
+        inx
+        stx $24
+        plx
+        sep #$20
+@0473:  lda [$14],y
+        sta $2141
+        iny
+        bne @047d
+@047d:  lda [$14],y
+        sta $2142
+        iny
+        bne @0487
+@0487:  lda [$14],y
+        sta $2143
+        iny
+        bne @0491
+        inc $16
+@0491:  lda $10
+        sta $2140
+@0496:  cmp $2140
+        bne @0496
+        inc $10
+        bne @04a1
+        inc $10
+@04a1:  dex
+        dex
+        dex
+        bne @0473
+        plx
+        inx
+        inx
+        bel @0418
+@04ac:  longa
+        lda $a8
+        bne _04b5
+        jmp @057c
+
+; ---------------------------------------------------------------------------
+
+_04b5:  rtl
+@057c:  rtl
 
 ; ---------------------------------------------------------------------------
 
