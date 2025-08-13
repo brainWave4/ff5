@@ -173,7 +173,7 @@ _007e:  cpx $2140
         ldx #$0800
 @013d:  dex
         bne @013d
-        sep #$20
+        shorta
         lda #$00
         sta $fa
         lda #$c4
@@ -187,14 +187,14 @@ _014c:  phb
         pha
         phx
         phy
-        sep #$20
+        shorta
         lda #$00
         pha
         plb
         ldx #$1d00
         phx
         pld
-_0161:  sep #$20
+_0161:  shorta
         lda $00
         stz $00
         beq _017d
@@ -388,7 +388,7 @@ _01d4:  jsr _05e0
 ; ---------------------------------------------------------------------------
 
 _02d0:  stz $17
-        sep #$20
+        shorta
         ldx #$0000
 @02d7:  lda $c8,x
         beq @031c
@@ -402,7 +402,7 @@ _02d0:  stz $17
         pla
         clc
         adc $e8
-        tax sep #$20
+        tax shorta
         lda $c43c6f,x  ; pointer, low byte
         sta $14
         lda $c43c70,x  ; pointer, middle byte
@@ -454,7 +454,7 @@ _0338:  ldx #$001e
         bne @0348
 @0353:  cpx $24
         bne @0363
-@0363:  sep #$20
+@0363:  shorta
         lda #$07
         sta $2141
         stz $10
@@ -489,7 +489,7 @@ _038b:  bra _03e0
         sta $1d28,y
         lda $48,x
         sta $2142
-        sep #$20
+        shorta
         lda $10
         sta $2140
 @03a0:  cmp $2140
@@ -511,7 +511,7 @@ _038b:  bra _03e0
         clc
         adc $1d48,y
         sta $1d4a,y
-        sep #$20
+        shorta
         lda $10
         sta $2140
 @03d5   cmp $2140
@@ -531,7 +531,7 @@ _03e0:  tyx
 
 ; ---------------------------------------------------------------------------
 
-_03ea:  sep #$20
+_03ea:  shorta
         lda #$03
         sta $2141
         ldx #$0000
@@ -552,7 +552,7 @@ _03ea:  sep #$20
         inc a
         sta $10
         ldx #$0000
-@0418:  sep #$20
+@0418:  shorta
         lda $c8,x
         bne _0421
         jmp @04ac
@@ -572,7 +572,7 @@ _0421:  ldy $24
         clc
         adc $e8
         tax
-        sep #$20
+        shorta
         lda $c43c6f,x  ; pointer, low byte
         sta $14
         lda $c43c70,x  ; pointer, middle byte
@@ -601,7 +601,7 @@ _0421:  ldy $24
         inx
         stx $24
         plx
-        sep #$20
+        shorta
 @0473:  lda [$14],y
         sta $2141
         iny
@@ -676,7 +676,7 @@ _04b5:  lda #$1da8
         inc $1a
         inc $1a
         bra @04c9
-@050a:  sep #$20
+@050a:  shorta
         lda #$20
         sta $2141
         ldx #$1e00
@@ -727,7 +727,7 @@ _04b5:  lda #$1da8
         bne @0567
 @0567:  ldy $c0,x
         sty $2142
-@057c:  sep #$20
+@057c:  shorta
         lda #$00
         sta $2141
         sta $2140
@@ -735,7 +735,7 @@ _04b5:  lda #$1da8
 
 ; ---------------------------------------------------------------------------
 
-_0589:  sep #$20
+_0589:  shorta
         xba
         lda $03
         sta $2143
@@ -782,7 +782,7 @@ _05c9:  longa
 ; ---------------------------------------------------------------------------
 
 _05e0:  php
-        sep #$20
+        shorta
         xba
         cmp #$03
         beq @05fe
