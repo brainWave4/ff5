@@ -637,8 +637,101 @@ _0421:  ldy $24
 
 ; ---------------------------------------------------------------------------
 
-_04b5:  rtl
-@057c:  rtl
+_04b5:  lda #$1da8
+        sta $14
+        lda #$1e00
+        sta $16
+        lda #$1e40
+        sta $18
+        lda #$1ec0
+        sta $1a
+@04c9:  lda ($14)
+        beq @050a
+        inc $14
+        inc $14
+        ldy #$0000
+@04d4:  cmp $1d28,y
+        beq @04dd
+        iny
+        iny
+        bra @04d4
+@04dd:  dec a
+        asl a
+        tax
+        lda $c43d1e,x
+        sta ($16)
+        inc $16
+        inc $16
+        lda $1d48,y
+        sta ($18)
+        inc $18
+        inc $18
+        clc
+        adc $c43cd8,x
+        sta ($18)
+        inc $18
+        inc $18
+        lda $c43d64,x  ; ADSR data?
+        sta ($1a)
+        inc $1a
+        inc $1a
+        bra @04c9
+@050a:  sep #$20
+        lda #$20
+        sta $2141
+        ldx #$1e00
+        phx
+        pld
+        ldx #$1a40
+        stx $2142
+        lda #$00
+        ldx #$fffe
+        bra @0528
+@0528:  sta $2140
+@052b:  cmp $2140
+        bne @052b
+        inc a
+        inx
+        inx
+        cpx #$0040
+        bne @0523
+@0523:  ldy $00,x
+        sty $2142
+        ldx #$1b80
+        stx $2142
+        lda #$00
+        ldx #$fffe
+        bra @054a
+@054a:  sta $2140
+@054d:  cmp $2140
+        bne @054d
+        inc a
+        inx
+        inx
+        cpx #$0080
+        bne @0545
+@0545:  ldy $40,x
+        sty $2142
+        ldx #$1ac0
+        stx $2142
+        lda #$00
+        ldx #$fffe
+        bra @056c
+@056c:  sta $2140
+@056f:  cmp $2140
+        bne @056f
+        inc a
+        inx
+        inx
+        cpx #$0040
+        bne @0567
+@0567:  ldy $c0,x
+        sty $2142
+@057c:  sep #$20
+        lda #$00
+        sta $2141
+        sta $2140
+        jmp _017d
 
 ; ---------------------------------------------------------------------------
 
