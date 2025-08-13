@@ -57,25 +57,25 @@ _002c:  phb
         pld
         ldx #$bbaa
         ldy #$0800
-        cpx $2140
-        beq $007e
+@0047:  cpx $2140
+        beq _007e
         dey
-        bne $0047
+        bne _0047
         ldy $f8
-        beq $007e
+        beq _007e
         cpy $48
-        bne $007e
+        bne _007e
         lda #$f0
         cmp $00
-        bne $007e
+        bne _007e
         lda #$08
         sta $2141
         lda #$00
         sta $2140
         ldy #$00f8
-        sta $1cff,x
+@006a:  sta $1cff,x
         dex
-        bne $006a
+        bne @006a
         ldy $f8
         sty $48
         dec a
@@ -87,7 +87,7 @@ _002c:  phb
 ; ---------------------------------------------------------------------------
 
 _007e:  cpx $2140
-        bne $007e
+        bne _007e
         ldx #$0000
         lda $c40014
         sta $2142
@@ -96,9 +96,9 @@ _007e:  cpx $2140
         lda #$cc
         sta $2141
         sta $2140
-        cmp $2140
-        bne $009c
-        lda #$00
+@009c:  cmp $2140
+        bne @009c
+@00a1:  lda #$00
         xba
         lda $C40009,x
         sta $14
@@ -116,26 +116,26 @@ _007e:  cpx $2140
         adc #$00
         sta $11
         iny
-        lda [$14],y
+@00c6:  lda [$14],y
         sta $2141
         xba
         sta $2140
-        cmp $2140
-        bne $00cf    ; infinite loop?
+@00cf:  cmp $2140
+        bne @00cf    ; infinite loop?
         inc a
         xba
         iny
         cpy $10
-        bne $00c6
+        bne @00c6
         xba
         inc a
         inc a
         inc a
-        bne $00e2
-        inx
+        bne @00e2
+@00e2:  inx
         inx
         cpx #$000c
-        beq $0106
+        beq @0106
         xba
         lda $c40014,x
         sta $2142
@@ -144,24 +144,24 @@ _007e:  cpx $2140
         xba
         sta $2141
         sta $2140
-        cmp $2140
-        bne $00ff    ; infinite loop?
-        bra $00a1
-        ldy #$0200
+@00ff:  cmp $2140
+        bne @00ff    ; infinite loop?
+        bra @00a1
+@0106:  ldy #$0200
         sty $2142
         xba
         lda #$00
         sta $2141
         xba
         sta $2140
-        cmp $2140
-        bne $0116    ; infinite loop?
+@0116:  cmp $2140
+        bne @0116    ; infinite loop?
         xba
         sta $2140
         ldx #$0100
-        sta $1cff,x
+@0122:  sta $1cff,x
         dex
-        bne $0122
+        bne @0122
         lda #$ff
         sta $05
         longa
@@ -171,14 +171,14 @@ _007e:  cpx $2140
         sta $f8
         sta $48
         ldx #$0800
-        dex
-        bne $013d
+@013d:  dex
+        bne @013d
         sep #$20
         lda #$00
         sta $fa
         lda #$c4
         sta $fb
-        bra $017d
+        bra _017d
 _014c:  phb
         phd
         php
@@ -197,13 +197,13 @@ _014c:  phb
 _0161:  sep #$20
         lda $00
         stz $00
-        beq $017d
-        bmi $0177
+        beq _017d
+        bmi @0177
         cmp #$03
-        beq $0188
+        beq _0188
         cmp #$70
-        bcs $017a
-        jmp _0589
+        bcs _017a
+@0177:  jmp _0589
 
 ; ---------------------------------------------------------------------------
 
@@ -227,18 +227,18 @@ _0188:  longa
         xba
         lda $01
         cmp $05
-        bne $01d4
+        bne _01d4
         ldx $02
         stx $06
         txa
         and #$0f
         sta $2141
         lda #$84
-        cmp $2140
-        beq $019d    ; infinite loop?
+@019d:  cmp $2140
+        beq @019d    ; infinite loop?
         sta $2140
-        cmp $2140
-        bne $01a5    ; infinite loop?
+@01a5:  cmp $2140
+        bne @01a5    ; infinite loop?
         lda #$00
         sta $2140
         xba
@@ -250,11 +250,11 @@ _0188:  longa
         ora $02
         sta $2141
         lda #$81
-        cmp $2140
-        beq $01c0    ; infinite loop?
+@01c0:  cmp $2140
+        beq @01c0    ; infinite loop?
         sta $2140
-        cmp $2140
-        bne $01c8    ; infinite loop?
+@01c8:  cmp $2140
+        bne @01c8    ; infinite loop?
         xba
         sta $2140
         jmp _017d
@@ -263,29 +263,29 @@ _0188:  longa
 
 _01d4:  jsr _05e0
         lda $05
-        bmi $01e1
+        bmi @01e1
         sta $09
         ldx $06
         stx $0a
-        lda $01
+@01e1:  lda $01
         sta $2141
         sta $05
         ldx $02
         stx $2142
         stx $06
         xba
-        cmp $2140
-        beq $01f0    ; infinite loop?
+@01f0:  cmp $2140
+        beq @01f0    ; infinite loop?
         sta $2140
-        cmp $2140
-        bne $01f8    ; infinite loop?
+@01f8:  cmp $2140
+        bne @01f8    ; infinite loop?
         lda #$02
         sta $2141
         ldx #$1c00
         stx $2142
         sta $2140
-        cmp $2140
-        bne $020b    ; infinite loop?
+@020b:  cmp $2140
+        bne @020b    ; infinite loop?
         rep #$20
         lda $05
         and #$00ff
@@ -309,45 +309,45 @@ _01d4:  jsr _05e0
         lda [$14],y
         xba
         iny
-        bne $0242
+        bne @0242
         inc $16
-        lda [$14],y
+@0242:  lda [$14],y
         pha
         iny
-        bne $024a
-        xba
+        bne @024a
+@024a:  xba
         pha
         plx
         lda #$05
         xba
-        lda [$14],y
+@0250:  lda [$14],y
         sta $2142
         iny
-        bne $025a
-        lda [$14],y
+        bne @025a
+@025a:  lda [$14],y
         sta $2143
         iny
-        bne $0264
-        xba
+        bne @0264
+@0264:  xba
         sta $2140
-        cmp $2140
-        bne $0268
+@0268:  cmp $2140
+        bne @0268
         inc a
-        bne $0271
+        bne @0271
         inc a
-        xba
+@0271:  xba
         dex
         dex
-        bpl $0250
+        bpl @0250
         inc a
         longa
         ldx #$0000
-        stz $88,x
+@027b:  stz $88,x
         stz $c8,x
         inx
         inx
         cpx #$0020
-        bne $027b
+        bne @027b
         lda $04
         and #$ff00
         lsr a
@@ -361,28 +361,28 @@ _01d4:  jsr _05e0
         sta $14
         lda #$1dc8
         sta $16
-        lda $c43daa,x
+@029f:  lda $c43daa,x
         sta ($14)
         inc $14
         inc $14
         ldy #$0000
-        cmp $1d28,y
-        beq $02c0
+@02ac:  cmp $1d28,y
+        beq @02c0
         iny
         iny
         cpy #$0020
-        bne $02ac
+        bne @02ac
         sta ($16)
         inc $16
         inc $16
-        bra $02c3
-        inx
+        bra @02c3
+@02c3:  inx
         inx
         cpx $12
-        bne $029f
-        sta $1d88,y
+        bne @029f
+@02c0:  sta $1d88,y
         lda $c8
-        bne $02d0
+        bne _02d0
         jmp _04ac
 
 ; ---------------------------------------------------------------------------
@@ -390,8 +390,8 @@ _01d4:  jsr _05e0
 _02d0:  stz $17
         sep #$20
         ldx #$0000
-        lda $c8,x
-        beq $031c
+@02d7:  lda $c8,x
+        beq @031c
         phx
         dec a
         longa
@@ -417,55 +417,55 @@ _02d0:  stz $17
         adc $17
         sta $17
         iny
-        bne $0311
+        bne @0311
         inc $16
-        lda [$14],y
+@0311:  lda [$14],y
         adc $18
         sta $18
         plx
         inx
         inx
-        bra $02D7
-        ldx #$0000
+        bra @02d7
+@031c:  ldx #$0000
         longa
         lda $28,x
         clc
         adc $17
-        bcs $0338
+        bcs _0338
         cmp #$d200
-        bcs $0338
+        bcs _0338
         jmp _03ea
 
 ; ---------------------------------------------------------------------------
 
 _0338:  ldx #$001e
-        lda $86,x
-        bne $0343
+@033b:  lda $86,x
+        bne @0343
         dex
         dex
-        bne $033b
-        stx $24
+        bne @033b
+@0343:  stx $24
         ldx #$0000
-        lda $88,x
-        beq $0353
+@0348:  lda $88,x
+        beq @0353
         inx
         inx
         cpx #$0020
-        bne $0348
-        cpx $24
-        bne $0363
-        sep #$20
+        bne @0348
+@0353:  cpx $24
+        bne @0363
+@0363:  sep #$20
         lda #$07
         sta $2141
         stz $10
         ldy #$0000
         longa
-        lda $1d88,y
-        beq $037e
+@0371:  lda $1d88,y
+        beq _037e
         iny
         iny
         cpy $24
-        bne $0371
+        bne @0371
 
 ; ---------------------------------------------------------------------------
 
@@ -477,9 +477,13 @@ _037e:  tyx
 _0385:  inx
         inx
         cpx $24
-        bne $0381
-        lda $88,x
-        bne $038d
+        bne @0381
+@0381:  lda $88,x
+        bne @038d
+
+; ---------------------------------------------------------------------------
+
+@038d:  rtl
 
 ; ---------------------------------------------------------------------------
 
