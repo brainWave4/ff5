@@ -809,3 +809,39 @@ _05e0:  php
         rts
 
 ; ---------------------------------------------------------------------------
+
+; [ interrupts $70-$7F ]
+
+        .btye $01,$0e,$08,$0f   ; $70: play song $0e (victory fanfare)
+        .btye $01,$2b,$08,$0f   ; $71: play song $2b (the battle)
+        .btye $01,$01,$08,$0f   ; $72: play song $01 (the fierce battle)
+        .btye $01,$09,$08,$0f   ; $73: play song $09 (the last battle)
+        .btye $01,$22,$08,$0f   ; $74: play song $22 (gilgamesh)
+        .btye $01,$0a,$08,$0f   ; $75: play song $0a (requiem)
+        .btye $01,$2d,$08,$0f   ; $76: play song $2d (the evil lord, exdeath)
+        .btye $01,$40,$08,$0f   ; $77: play song $40 (the decisive battle)
+        .btye $01,$07,$08,$0f   ; $78: play song $07 (critter tripper fritter!)
+        .btye $01,$3e,$08,$0f   ; $79: play song $3e (a meteor is falling)
+        .btye $01,$00,$08,$0f   ; $7a: play song $00 (ahead on our way)
+        .btye $01,$00,$08,$0f   ; $7b: play song $00
+        .btye $01,$00,$08,$0f   ; $7c: play song $00
+        .btye $01,$00,$08,$0f   ; $7d: play song $00
+        .btye $01,$00,$08,$0f   ; $7e: play song $00
+        .btye $80,$01,$00,$00   ; $7f: fade out sound
+
+; [ songs to suspend the previous song ]
+
+        .byte $2b               ; the battle
+        .byte $34               ; good night!
+        .byte $2f               ; i'm a dancer
+        .byte $35               ; piano lesson 1
+        .byte $36               ; piano lesson 2
+        .byte $37               ; piano lesson 3
+        .byte $38               ; piano lesson 4
+        .byte $39               ; piano lesson 5
+        .byte $3a               ; piano lesson 6
+        .byte $3b               ; piano lesson 7
+        .byte $3c               ; piano lesson 8
+        .byte $ff               ; end of list terminator
+
+; ---------------------------------------------------------------------------
