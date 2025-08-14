@@ -47,6 +47,8 @@ _c40020:
 
 ; ---------------------------------------------------------------------------
 
+; [ init spc ]
+
 _002c:  phb
         phd
         php
@@ -74,7 +76,7 @@ _002c:  phb
         bne @007e
         lda #$f0
         cmp $00
-        bne @007e
+        bne @007e       ; branch if full reset
         lda #$08
         sta $2141
         lda #$00
@@ -89,7 +91,7 @@ _002c:  phb
         sta $05
         lda #$f0
         sta $00
-        jmp _0161
+        jmp @0161
 @007e:  cpx $2140
         bne @007e
         ldx #$0000
@@ -150,7 +152,7 @@ _002c:  phb
         sta $2141
         sta $2140
 @00ff:  cmp $2140
-        bne @00ff    ; infinite loop?
+        bne @00ff
         bra @00a1
 @0106:  ldy #$0200
         sty $2142
@@ -160,7 +162,7 @@ _002c:  phb
         xba
         sta $2140
 @0116:  cmp $2140
-        bne @0116    ; infinite loop?
+        bne @0116
         xba
         sta $2140
         ldx #$0100
@@ -170,9 +172,9 @@ _002c:  phb
         lda #$ff
         sta $05
         longa
-        lda $c41e3f   ; $010e at that address
+        lda $c41e3f
         clc
-        adc #$4800    ; 490e is the result
+        adc #$4800
         sta $f8
         sta $48
         ldx #$0800
@@ -184,6 +186,11 @@ _002c:  phb
         lda #$c4
         sta $fb
         bra _017d
+
+; ---------------------------------------------------------------------------
+
+; [ spc command ]
+
 _014c:  phb
         phd
         php
@@ -199,21 +206,23 @@ _014c:  phb
         ldx #$1d00
         phx
         pld
-_0161:  shorta
+@0161:  shorta
         lda $00
         stz $00
-        beq _017d
+        beq _017d       ; no interrupt ($00)
         bmi @0177
         cmp #$01
-        beq _0188
+        beq _0188       ; play song ($01)
         cmp #$03
-        beq _0188
+        beq _0188       ; suspend current song and play song ($03)
         cmp #$70
-        bcs @017a
-@0177:  jmp _0589
+        bcs @017a       ; interrupts $70-$7F
+@0177:  jmp _0589       ; other interrupts
 @017a:  jmp _05c9
 
 ; ---------------------------------------------------------------------------
+
+; [ common return code ]
 
 _017d:  longa
         longi
@@ -227,6 +236,8 @@ _017d:  longa
 
 ; ---------------------------------------------------------------------------
 
+; [ play song ]
+
 _0188:  shorta
         xba
         lda $01
@@ -239,10 +250,10 @@ _0188:  shorta
         sta $2141
         lda #$84
 @019d:  cmp $2140
-        beq @019d    ; wait for spc
+        beq @019d
         sta $2140
 @01a5:  cmp $2140
-        bne @01a5    ; wait for spc
+        bne @01a5
         lda #$00
         sta $2140
         xba
@@ -255,10 +266,10 @@ _0188:  shorta
         sta $2141
         lda #$81
 @01c0:  cmp $2140
-        beq @01c0    ; wait for spc
+        beq @01c0
         sta $2140
 @01c8:  cmp $2140
-        bne @01c8    ; wait for spc
+        bne @01c8
         xba
         sta $2140
         jmp _017d
@@ -276,17 +287,17 @@ _0188:  shorta
         stx $06
         xba
 @01f0:  cmp $2140
-        beq @01f0    ; wait for spc
+        beq @01f0
         sta $2140
 @01f8:  cmp $2140
-        bne @01f8    ; wait for spc
-        lda #$02
+        bne @01f8
+        lda #$02        ; transfer mode 2 (two bytes at a time)
         sta $2141
         ldx #$1c00
         stx $2142
         sta $2140
 @020b:  cmp $2140
-        bne @020b    ; wait for spc
+        bne @020b
         longa
         lda $05
         and #$00ff
@@ -298,11 +309,11 @@ _0188:  shorta
         adc $e8
         tax
         shorta
-        lda $c43b97,x ; SPC pointer, low byte
+        lda $c43b97,x
         sta $14
-        lda $c43b98,x ; SPC pointer, middle byte
+        lda $c43b98,x
         sta $15
-        lda $c43b99,x ; SPC pointer, high byte
+        lda $c43b99,x
         sta $16
         ldy $14
         stz $14
@@ -404,11 +415,11 @@ _0188:  shorta
         adc $e8
         tax
         shorta
-        lda $c43c6f,x  ; pointer, low byte
+        lda $c43c6f,x
         sta $14
-        lda $c43c70,x  ; pointer, middle byte
+        lda $c43c70,x
         sta $15
-        lda $c43c71,x  ; pointer, high byte
+        lda $c43c71,x
         sta $16
         ldy $14
         stz $14
@@ -462,7 +473,7 @@ _0188:  shorta
         bne @0357
         jmp @03ea
 @0363:  shorta
-        lda #$07
+        lda #$07        ; transfer mode 7 (move chunk)
         sta $2141
         stz $10
         ldy #$0000
@@ -525,7 +536,7 @@ _0188:  shorta
         cpx #$0020
         bne @03e1
 @03ea:  shorta
-        lda #$03
+        lda #$03        ; transfer mode 3 (three bytes at a time)
         sta $2141
         ldx #$0000
 @03f4:  lda $28,x
@@ -563,11 +574,11 @@ _0188:  shorta
         adc $e8
         tax
         shorta
-        lda $c43c6f,x  ; pointer, low byte
+        lda $c43c6f,x
         sta $14
-        lda $c43c70,x  ; pointer, middle byte
+        lda $c43c70,x
         sta $15
-        lda $c43c71,x  ; pointer, high byte
+        lda $c43c71,x
         sta $16
         ldy $14
         stz $14
@@ -594,24 +605,24 @@ _0188:  shorta
         stx $24
         plx
         shorta
-@0473:  lda [$14],y
+@0473:  lda [$14],y     ; first byte
         sta $2141
         iny
         bne @047d
         inc $16
-@047d:  lda [$14],y
+@047d:  lda [$14],y     ; second byte
         sta $2142
         iny
         bne @0487
         inc $16
-@0487:  lda [$14],y
+@0487:  lda [$14],y     ; third byte
         sta $2143
         iny
         bne @0491
         inc $16
 @0491:  lda $10
         sta $2140
-@0496:  cmp $2140
+@0496:  cmp $2140       ; wait for spc
         bne @0496
         inc $10
         bne @04a1
@@ -649,7 +660,7 @@ _0188:  shorta
 @04dd:  dec a
         asl a
         tax
-        lda $c43d1e,x
+        lda $c43d1e,x   ; sample loop pointers ???
         sta ($16)
         inc $16
         inc $16
@@ -658,11 +669,11 @@ _0188:  shorta
         inc $18
         inc $18
         clc
-        adc $c43cd8,x  ; pitch multipliers
+        adc $c43cd8,x   ; sample pitch multipliers
         sta ($18)
         inc $18
         inc $18
-        lda $c43d64,x  ; ADSR values
+        lda $c43d64,x   ; sample adsr values
         sta ($1a)
         inc $1a
         inc $1a
@@ -726,6 +737,8 @@ _0188:  shorta
 
 ; ---------------------------------------------------------------------------
 
+; [ other interrupts ]
+
 _0589:  shorta
         xba
         lda $03
@@ -738,13 +751,13 @@ _0589:  shorta
 @059c:  cmp $2140
         beq @059c
         sta $2140
-        cmp #$f0
+        cmp #$f0        ; branch if not a "stop music" interrupt
         bcc @05bc
         cmp #$f2
         bcs @05bc
         xba
         lda $05
-        bmi @05b7
+        bmi @05b7       ; branch if no previous song
         sta $09
         ldx $06
         stx $0a
@@ -753,11 +766,13 @@ _0589:  shorta
         xba
 @05bc:  cmp $2140
         bne @05bc
-        lda #$00
+        lda #$00        ; no interrupt
         sta $2140
         jmp _017d
 
 ; ---------------------------------------------------------------------------
+
+; [ interrupts $70-$7F ]
 
 _05c9:  longa
         and #$000f
@@ -768,9 +783,11 @@ _05c9:  longa
         sta $02
         lda $c40601,x
         sta $00
-        jmp _0161
+        jmp @0161
 
 ; ---------------------------------------------------------------------------
+
+; [ check if song needs to be suspended ]
 
 _05e0:  php
         shorta
@@ -778,7 +795,7 @@ _05e0:  php
         cmp #$03
         beq @05fe
         ldx #$0000
-@05eb:  lda $c40641,x
+@05eb:  lda $c40641,x   ; songs to suspend the previous song
         bmi @05fc
         cmp $01
         beq @05f8
