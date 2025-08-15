@@ -30,10 +30,15 @@
 .import BattleBGTiles, BattleBGTilesPtrs
 .import MonsterGfx, MonsterGfxProp, MonsterPal
 .import SmallFontGfx, BigFontGfx, KanjiGfx
-.import MiscSpriteGfx
+.import MiscSpriteGfx1, MiscSpriteGfx2
 .import _d84157, BattleBGGfxPtrs
 .import AbilityBitTbl, RNGTbl
+.import _d8de36, _d8de4e, _d8de5a, _d8de7a
 
+.include "btlgfx/attack_anim_script.inc"
+.include "btlgfx/attack_anim_frames.inc"
+.include "btlgfx/unknown_d99ef2.inc"
+.include "btlgfx/unknown_d9a7b0.inc"
 .include "gfx/battle_bg_anim.inc"
 .include "gfx/battle_bg_pal_anim.inc"
 
@@ -1025,7 +1030,7 @@ _c104c9:
         stx     $7c6e
         stx     $7c70
         clr_axy
-@072a:  lda     $d97d2d,x
+@072a:  lda     f:_d97d2d,x
         sta     $f9a2,y
         lda     #$20
         sta     $f9a3,y
@@ -3335,9 +3340,9 @@ _c11a57:
         jsr     $fdca       ; copy data to vram
         ldx     #$000a
         stx     $70
-        ldx     #$9e50
+        ldx     #near MiscSpriteGfx2
         ldy     #$0010
-        lda     #$d4
+        lda     #^MiscSpriteGfx2
         jmp     _c1fca2
         phx
         phy
@@ -4608,9 +4613,9 @@ _c12306:
 _c1242a:
         ldx     #$1000
         stx     $70
-        ldx     #$f000
+        ldx     #near SmallFontGfx
         ldy     #$4000
-        lda     #$d1
+        lda     #^SmallFontGfx
         jsr     $fdca       ; copy data to vram
         longa
         lda     #$4080
@@ -4657,12 +4662,12 @@ _c12481:
         longa
         lda     $82
         clc
-        adc     #$f000
+        adc     #near SmallFontGfx
         tax
         lda     #$0010
         sta     $70
         shorta0
-        lda     #$d1
+        lda     #^SmallFontGfx
         jsr     $fdca       ; copy data to vram
         plx
         rts
@@ -4941,9 +4946,9 @@ _c12607:
 _c12689:
         ldx     #$0080
         stx     $70
-        ldx     #near MiscSpriteGfx
+        ldx     #near MiscSpriteGfx1
         ldy     #$7800
-        lda     #^MiscSpriteGfx
+        lda     #^MiscSpriteGfx1
         jsr     $fca2
         ldy     #$7e48
         ldx     #$0960
@@ -4963,11 +4968,11 @@ _c12689:
         sta     $72
         ldx     $76
         ldy     $76
-@26c7:  lda     f:MiscSpriteGfx,x
-        ora     f:MiscSpriteGfx+1,x
+@26c7:  lda     f:MiscSpriteGfx1,x
+        ora     f:MiscSpriteGfx1+1,x
         phx
         tyx
-        ora     f:MiscSpriteGfx+16,x
+        ora     f:MiscSpriteGfx1+16,x
         plx
         sta     f:$002119
         iny
@@ -7132,9 +7137,9 @@ _c133cc:
         jsr     $3599       ; flip battle bg horizontally
         lda     $dbe4
         beq     @3522
-        lda     #$d8        ; d8/35b2 (tile layout for ???)
+        lda     #^_d835b2        ; d8/35b2 (tile layout for ???)
         sta     $74
-        ldx     #$35b2
+        ldx     #near _d835b2
         stx     $72
         jsr     $fb77       ; decompress
         ldx     #$1000
@@ -9616,7 +9621,7 @@ _c14656:
         sta     $70
         lda     f:_d83008+1,x
         sta     $71
-        lda     #$d8
+        lda     #^_d83016
         sta     $72
         clr_ay
 @466a:  lda     [$70],y
@@ -13751,10 +13756,10 @@ _c165d7:
         adc     $d1da,y     ; frame index
         asl
         tax
-        lda     $d9b35e,x   ; pointer to animation frame data
+        lda     f:AttackAnimFramesPtrs,x   ; pointer to animation frame data
         sta     $88
         shorta0
-        lda     #$d9
+        lda     #^AttackAnimFrames
         sta     $8a
         lda     $d1e5,y     ; width
         sta     $8c
@@ -14051,10 +14056,10 @@ _c167e4:
         adc     $d1b0
         asl
         tax
-        lda     $d9a486,x
+        lda     f:_d9a7b0Ptrs,x
         sta     $88
         shorta0
-        lda     #$d9
+        lda     #^_d9a7b0
         sta     $8a
         ldx     $d192
         stx     $8c
@@ -14132,10 +14137,10 @@ _c168f1:
         adc     $d1a2
         asl
         tax
-        lda     $d9a486,x   ; pointers to ??? (+$d90000)
+        lda     f:_d9a7b0Ptrs,x   ; pointers to ??? (+$d90000)
         sta     $88
         shorta0
-        lda     #$d9
+        lda     #^_d9a7b0
         sta     $8a
         ldx     $d184
         stx     $8c
@@ -15242,7 +15247,7 @@ _c170d3:
         lda     $cf4d,x
 @714e:  pha
         tax
-        lda     $d8de5a,x
+        lda     f:_d8de5a,x
         tax
         stx     $8a
         tyx
@@ -15268,7 +15273,7 @@ _c170d3:
         adc     #$00
         sta     $99
         ldx     $98
-        lda     $d8de7a,x
+        lda     f:_d8de7a,x
         pha
         sta     $98
         lda     #$06
@@ -15327,11 +15332,11 @@ _c170d3:
         longa
         lda     $8a
         clc
-        adc     #$de4e
+        adc     #near _d8de4e
         sta     $90
         lda     $8a
         clc
-        adc     #$de36
+        adc     #near _d8de36
         adc     $88
         sta     $8c
         lda     $9c
@@ -15341,9 +15346,9 @@ _c170d3:
         shorta0
         lda     #^_d4b997
         sta     $8a
-        lda     #$d8
+        lda     #^_d8de36
         sta     $8e
-        lda     #$d8
+        lda     #^_d8de4e
         sta     $92
         lda     $dbd3
         beq     @7233
@@ -15529,7 +15534,7 @@ _c17374:
         lda     $82
         and     #$07
         tax
-@7384:  lda     $d97c7a,x
+@7384:  lda     f:_d97c7a,x
         sta     $0070,y
         sta     $0071,y
         inx
@@ -15645,7 +15650,7 @@ _c17471:
         lda     $82
         and     #$07
         tax
-@7480:  lda     $d97c7a,x
+@7480:  lda     f:_d97c7a,x
         sta     $0070,y
         sta     $0071,y
         inx
@@ -15887,7 +15892,7 @@ _c17613:
 
 _c17624:
 @7624:  clr_ax
-@7626:  lda     $d99655,x
+@7626:  lda     f:AttackTargetPal,x
         sta     $7e69,x
         inx
         cpx     #$0020
@@ -16111,9 +16116,9 @@ _c1778a:
         tax
 @779f:  lda     $e5
         bmi     @77a9
-        lda     $d97c7a,x
+        lda     f:_d97c7a,x
         bra     @77b5
-@77a9:  lda     $d97c7a,x
+@77a9:  lda     f:_d97c7a,x
         eor     #$ff
         ora     $f52c,y
         sta     $f52c,y
@@ -16386,7 +16391,7 @@ _c179a5:
         phx
         phy
         tax
-        lda     $d97d25,x
+        lda     f:_d97d25,x
         sta     $80
         lda     $d0f7
         bne     @79c3
@@ -16448,7 +16453,7 @@ _c17a2a:
         phx
         phy
         tax
-        lda     $d97d25,x
+        lda     f:_d97d25,x
         sta     $80
         lda     $d0f5
         bne     @7a4b
@@ -16499,7 +16504,7 @@ _c17a93:
         phx
         phy
         tax
-        lda     $d97d25,x
+        lda     f:_d97d25,x
         sta     $80
         lda     $d0f3
         bne     @7aac
@@ -16553,7 +16558,7 @@ _c17b02:
         phx
         phy
         tax
-        lda     $d97d25,x
+        lda     f:_d97d25,x
         sta     $80
         lda     $d0f1
         bne     @7b18
@@ -16592,7 +16597,7 @@ _c17b43:
         lda     $f8bd
         cmp     #$ff
         bne     @7b91
-        lda     $d97d25,x
+        lda     f:_d97d25,x
         sta     $80
         lda     $d0ef
         bne     @7b63
@@ -17551,14 +17556,14 @@ _c1825e:
         bpl     @8273
         and     #$07
         tax
-        lda     $d97d25,x
+        lda     f:_d97d25,x
         eor     #$ff
         and     $ff2c
         sta     $ff2c
         rts
 @8273:  and     #$07
         tax
-        lda     $d97d25,x
+        lda     f:_d97d25,x
         ora     $ff2c
         sta     $ff2c
         rts
@@ -17572,14 +17577,14 @@ _c18281:
         bpl     @8296
         and     #$07
         tax
-        lda     $d97d25,x
+        lda     f:_d97d25,x
         eor     #$ff
         and     $ff2d
         sta     $ff2d
         rts
 @8296:  and     #$07
         tax
-        lda     $d97d25,x
+        lda     f:_d97d25,x
         ora     $ff2d
         sta     $ff2d
         rts
@@ -19006,7 +19011,7 @@ _c18c6d:
 .if LANG_EN
         lda     #$e7
 .else
-        lda     #$d1
+        lda     #^BattleMsg
 .endif
         sta     $bca2
         jsr     $3c88       ; draw battle message
@@ -20206,9 +20211,9 @@ _c194ea:
 @94ea:  jsr     $24e2       ; load character graphics
         clr_ax
 @94ef:  longa
-        lda     $d97ce1,x
+        lda     f:_d97ce1,x
         sta     $b8
-        lda     $d97ced,x
+        lda     f:_d97ced,x
         sta     $82
         shorta0
         phx
@@ -20222,7 +20227,7 @@ _c194ea:
         txa
         asl
         tax
-        lda     $d97cf9,x
+        lda     f:_d97cf9,x
         clc
         adc     $b8
         sta     $7e
@@ -21656,7 +21661,7 @@ _c19f44:
         asl
         tax
         longa
-        lda     $d97cd1,x
+        lda     f:_d97cd1,x
         sta     $7e
         shorta0
         jsr     $8d53       ; get graphics script parameter 4
@@ -21903,26 +21908,26 @@ _c1a112:
         lda     #$02
         sta     $d184
         sta     $d185
-        lda     #$d9
+        lda     #^_d99ef2
         sta     $d188
         lda     $f586
         asl
         tax
-        lda     $d99e34,x
+        lda     f:_d99ef2Ptrs,x
         sta     $d186
-        lda     $d99e35,x
+        lda     f:_d99ef2Ptrs+1,x
         sta     $d187
         lda     #$04
         sta     $d192
         sta     $d193
-        lda     #$d9        ; animation graphics bank
+        lda     #^_d99ef2        ; animation graphics bank
         sta     $d196
         lda     $f585
         asl
         tax
-        lda     $d99e94,x
+        lda     f:_d99ef2Ptrs+$60,x
         sta     $d194
-        lda     $d99e95,x
+        lda     f:_d99ef2Ptrs+$61,x
         sta     $d195
         stz     $d1ab
         stz     $d1ac
@@ -23041,13 +23046,13 @@ _c1a8fc:
         sta     $80
         jsr     _c1feba       ; +$82 = $7e * $80
         ldx     $82
-        lda     $d9985b,x
+        lda     f:WeaponAnimProp+6,x
         and     #$20
         beq     @a91d
         lda     $71
         beq     @a915
         inx
-@a915:  lda     $d9985c,x
+@a915:  lda     f:WeaponAnimProp+7,x
         plx
         jmp     _c1a8fc
 @a91d:  lda     ($eb)
@@ -23070,7 +23075,7 @@ _c1a8fc:
 @a93f:  lda     $70
         beq     @a94f
         stz     $70
-        lda     $d9985d,x
+        lda     f:WeaponAnimProp+8,x
         beq     @a94f
         plx
         jmp     _c1a8fc
@@ -23113,14 +23118,14 @@ _c1a8fc:
 ; [ load weapon graphics ]
 
 _c1a992:
-@a992:  lda     $d99855,x
+@a992:  lda     f:WeaponAnimProp,x
         jsr     $aa8e       ; load weapon graphics
-        lda     $d99856,x
+        lda     f:WeaponAnimProp+1,x
         ldy     #$0140
         jsr     _c1aa1d       ; load attack palette (8-colors)
-        lda     $d9985b,x
+        lda     f:WeaponAnimProp+6,x
         sta     $f582
-        lda     $d99857,x   ; animation script
+        lda     f:WeaponAnimProp+2,x   ; animation script
         sta     $f586
         stz     $f587
         rts
@@ -23130,14 +23135,14 @@ _c1a992:
 ; [ load alt. weapon graphics ]
 
 _c1a9b5:
-@a9b5:  lda     $d99858,x
+@a9b5:  lda     f:WeaponAnimProp+3,x
         jsr     $aaae       ; load alt. weapon graphics
-        lda     $d99859,x
+        lda     f:WeaponAnimProp+4,x
         ldy     #$0160
         jsr     _c1aa1d       ; load attack palette (8-colors)
-        lda     $d9985a,x
+        lda     f:WeaponAnimProp+5,x
         sta     $f585
-        lda     $d9985c,x   ; sound effect
+        lda     f:WeaponAnimProp+7,x   ; sound effect
         sta     $f583
         rts
 
@@ -23148,25 +23153,25 @@ _c1a9b5:
 _c1a9d5:
 @a9d5:  lda     $7bfd
         beq     @a9fd       ; branch if no sword slap
-        lda     $d99858
+        lda     f:WeaponAnimProp+3
         jsr     $aa9e       ; load weapon hit graphics
-        lda     $d99859
+        lda     f:WeaponAnimProp+4
         ldy     #$0160
         jsr     _c1aa1d       ; load attack palette (8-colors)
-        lda     $d9985a
+        lda     f:WeaponAnimProp+5
         sta     $f585
-        lda     $d9985c     ; sound effect
+        lda     f:WeaponAnimProp+7     ; sound effect
         sta     $f583
         stz     $7bfd
         rts
-@a9fd:  lda     $d99858,x
+@a9fd:  lda     f:WeaponAnimProp+3,x
         jsr     $aa9e       ; load weapon hit graphics
-        lda     $d99859,x
+        lda     f:WeaponAnimProp+4,x
         ldy     #$0160
         jsr     _c1aa1d       ; load attack palette (8-colors)
-        lda     $d9985a,x
+        lda     f:WeaponAnimProp+5,x
         sta     $f585
-        lda     $d9985c,x   ; sound effect
+        lda     f:WeaponAnimProp+7,x   ; sound effect
         sta     $f583
         rts
 
@@ -24702,7 +24707,7 @@ _c1b4a2:
         sta     $70
         asl
         tax
-        lda     $d97c50,x
+        lda     f:_d97c50,x
         tax
         shorta0
         lda     $70
@@ -25175,7 +25180,7 @@ _c1b961:
         longa
         asl
         tax
-        lda     $d97d42,x   ; pointer to attack animation scripts
+        lda     f:AttackAnimScriptPtrs,x   ; pointer to attack animation scripts
         sta     $70
         clr_ax
 @b975:  lda     $70
@@ -25200,7 +25205,7 @@ _c1b989:
         longa
         asl
         tax
-        lda     $d97d42,x   ; pointer to attack animation scripts
+        lda     f:AttackAnimScriptPtrs,x   ; pointer to attack animation scripts
         sta     $70
         clr_ax
 @b99b:  lda     $70
@@ -25294,7 +25299,7 @@ _c1ba22:
         longa
         asl
         tax
-        lda     $d97d42,x   ; pointer to attack animation scripts
+        lda     f:AttackAnimScriptPtrs,x   ; pointer to attack animation scripts
         sta     $d3da
         shorta0
 @ba3c:  rts
@@ -25547,7 +25552,7 @@ _c1bbef:
         inc
         asl
         tax
-        lda     $d97d42,x   ; pointer to attack animation scripts
+        lda     f:AttackAnimScriptPtrs,x   ; pointer to attack animation scripts
         sta     $d43a
         shorta0
         lda     #$01
@@ -25564,7 +25569,7 @@ _c1bc0f:
         inc
         asl
         tax
-        lda     $d97d42,x   ; pointer to attack animation scripts
+        lda     f:AttackAnimScriptPtrs,x   ; pointer to attack animation scripts
         sta     $d43a
         shorta0
         stz     $d440
@@ -25587,7 +25592,7 @@ _c1bc2d:
         inc
         asl
         tax
-        lda     $d97d42,x   ; pointer to attack animation scripts
+        lda     f:AttackAnimScriptPtrs,x   ; pointer to attack animation scripts
         sta     $d3da
         shorta0
         ldx     #$0080
@@ -25617,7 +25622,7 @@ _c1bc75:
         inc
         asl
         tax
-        lda     $d97d42,x   ; pointer to attack animation scripts
+        lda     f:AttackAnimScriptPtrs,x   ; pointer to attack animation scripts
         sta     $d40a
         sta     $d42a
         sta     $d44a
@@ -25634,7 +25639,7 @@ _c1bc97:
         asl
         tax
         clr_ay
-@bca4:  lda     $d97d42,x   ; pointer to attack animation scripts
+@bca4:  lda     f:AttackAnimScriptPtrs,x   ; pointer to attack animation scripts
         sta     $d41a,y
         tya
         clc
@@ -25655,7 +25660,7 @@ _c1bcbd:
         inc
         asl
         tax
-        lda     $d97d42,x   ; pointer to attack animation scripts
+        lda     f:AttackAnimScriptPtrs,x   ; pointer to attack animation scripts
         sta     $d41a
         shorta0
         jsr     _c1bf07
@@ -25719,7 +25724,7 @@ _c1bd23:
         inc
         asl
         tax
-        lda     $d97d42,x   ; pointer to attack animation scripts
+        lda     f:AttackAnimScriptPtrs,x   ; pointer to attack animation scripts
         sta     $d3ea
         ldy     #$0020
 @bd49:  lda     $d97d44,x
@@ -25747,7 +25752,7 @@ _c1bd5f:
         asl
         tax
         clr_ay
-@bd76:  lda     $d97d42,x   ; pointer to attack animation scripts
+@bd76:  lda     f:AttackAnimScriptPtrs,x   ; pointer to attack animation scripts
         sta     $d3da,y
         tya
         clc
@@ -25838,7 +25843,7 @@ _c1bdec:
 @be17:  lda     $70
         asl
         tax
-        lda     $d97d42,x   ; pointer to attack animation scripts
+        lda     f:AttackAnimScriptPtrs,x   ; pointer to attack animation scripts
         sta     $d3da,y
         sta     $d3ea,y
         sta     $d3fa,y
@@ -25864,7 +25869,7 @@ _c1be42:
         inc
         asl
         tax
-        lda     $d97d42,x   ; pointer to attack animation scripts
+        lda     f:AttackAnimScriptPtrs,x   ; pointer to attack animation scripts
         sta     $d3ea
         shorta0
         jmp     _c1bf0a
@@ -25901,7 +25906,7 @@ _c1be5a:
         inc
         asl
         tax
-        lda     $d97d42,x   ; pointer to attack animation scripts
+        lda     f:AttackAnimScriptPtrs,x   ; pointer to attack animation scripts
         sta     $d41a
         shorta0
         inc     $d427
@@ -26035,13 +26040,13 @@ _c1bf5b:
         lda     $f586
         asl
         tax
-        lda     $d97d42,x   ; pointer to attack animation scripts
+        lda     f:AttackAnimScriptPtrs,x   ; pointer to attack animation scripts
         sta     $d3ea
-        lda     $d97d44,x
+        lda     f:AttackAnimScriptPtrs+2,x
         sta     $d40a
-        lda     $d97d46,x
+        lda     f:AttackAnimScriptPtrs+4,x
         sta     $d42a
-        lda     $d97d48,x
+        lda     f:AttackAnimScriptPtrs+6,x
         sta     $d44a
         shorta0
         rts
@@ -26077,7 +26082,7 @@ _c1bfa2:
 _c1bfab:
 @bfab:  asl
         tax
-        lda     $d97d42,x   ; pointer to attack animation scripts
+        lda     f:AttackAnimScriptPtrs,x   ; pointer to attack animation scripts
         sta     $d3da
         sta     $d3ea
         sta     $d3fa
@@ -26210,7 +26215,7 @@ _c1c077:
         asl
         tax
         clr_ay
-@c082:  lda     $d97d42,x   ; pointer to attack animation scripts
+@c082:  lda     f:AttackAnimScriptPtrs,x   ; pointer to attack animation scripts
         sta     $d3da,y
         inx2
         tya
@@ -26268,12 +26273,12 @@ _c1c0d5:
         asl
         phx
         tax
-        lda     $d97d42,x   ; pointer to attack animation scripts
+        lda     f:AttackAnimScriptPtrs,x   ; pointer to attack animation scripts
         plx
         sta     $d3da,x
         sta     $74
         shorta0
-        lda     #$d9
+        lda     #^AttackAnimScript
         sta     $d3dc,x
         sta     $76
         phx
@@ -30264,7 +30269,7 @@ _c1ded1:
         lda     $db55
         bne     @def9
         clr_ay
-@dee5:  lda     $d99655,x   ; target palette
+@dee5:  lda     f:AttackTargetPal,x   ; target palette
         sta     $7e69,y
         sta     $f849,y
         inx
@@ -32015,7 +32020,7 @@ _c1eaf3:
 
 _c1eafb:
 @eafb:  phb
-        lda     #$d1
+        lda     #^SmallFontGfx
         pha
         plb
         clr_axy
@@ -34333,7 +34338,7 @@ _c1fc6d:
 
 _c1fc74:
 @fc74:  tax
-        lda     $d97d25,x
+        lda     f:_d97d25,x
         rts
 
 ; ---------------------------------------------------------------------------
@@ -34942,11 +34947,11 @@ _c1ff88:
         txa
         asl2
         tax
-        lda     $d97d09,x   ; hex to decimal conversion constants
+        lda     f:HexToDecTbl,x   ; hex to decimal conversion constants
         sta     $74
-        lda     $d97d0a,x
+        lda     f:HexToDecTbl+1,x
         sta     $75
-        lda     $d97d0b,x
+        lda     f:HexToDecTbl+2,x
         sta     $76
         jsr     $ffc5
         plx
@@ -35003,6 +35008,299 @@ _c1fff4:
         bmi     @fffd
         jsl     _c2a006
 @fffd:  rts
+
+; ---------------------------------------------------------------------------
+
+.segment "btlgfx_data1"
+
+; ce/f400
+SineTbl16:
+        .word   $0000,$0324,$0648,$096a,$0c8c,$0fab,$12c8,$15e2
+        .word   $18f9,$1c0b,$1f1a,$2223,$2528,$2826,$2b1f,$2e11
+        .word   $30fb,$33df,$36ba,$398c,$3c56,$3f17,$41ce,$447a
+        .word   $471c,$49b3,$4c3f,$4ebf,$5133,$539b,$55f5,$5842
+        .word   $5a82,$5cb3,$5ed7,$60eb,$62f1,$64e8,$66cf,$68a6
+        .word   $6a6d,$6c23,$6dc9,$6f5e,$70e2,$7254,$73b5,$7504
+        .word   $7641,$776b,$7884,$7989,$7a7c,$7b5c,$7c29,$7ce3
+        .word   $7d89,$7e1d,$7e9c,$7f09,$7f61,$7fa6,$7fd8,$7ff5
+        .word   $7fff,$7ff5,$7fd8,$7fa6,$7f61,$7f09,$7e9c,$7e1d
+        .word   $7d89,$7ce3,$7c29,$7b5c,$7a7c,$7989,$7884,$776b
+        .word   $7641,$7504,$73b5,$7254,$70e2,$6f5e,$6dc9,$6c23
+        .word   $6a6d,$68a6,$66cf,$64e8,$62f1,$60eb,$5ed7,$5cb3
+        .word   $5a82,$5842,$55f5,$539a,$5133,$4ebf,$4c3f,$49b3
+        .word   $471c,$447a,$41ce,$3f17,$3c56,$398c,$36ba,$33de
+        .word   $30fb,$2e11,$2b1f,$2826,$2528,$2223,$1f1a,$1c0b
+        .word   $18f8,$15e2,$12c8,$0fab,$0c8c,$096a,$0648,$0324
+        .word   $0000,$fcdc,$f9b8,$f695,$f374,$f055,$ed38,$ea1e
+        .word   $e707,$e3f5,$e0e6,$dddc,$dad8,$d7d9,$d4e1,$d1ef
+        .word   $cf04,$cc21,$c946,$c673,$c3aa,$c0e9,$be32,$bb86
+        .word   $b8e3,$b64c,$b3c1,$b141,$aecd,$ac65,$aa0b,$a7be
+        .word   $a57e,$a34c,$a129,$9f14,$9d0f,$9b18,$9931,$975a
+        .word   $9593,$93dd,$9237,$90a2,$8f1e,$8dac,$8c4b,$8afc
+        .word   $89bf,$8895,$877c,$8677,$8584,$84a4,$83d7,$831d
+        .word   $8277,$81e3,$8164,$80f7,$809f,$805a,$8028,$800b
+        .word   $8001,$800b,$8028,$805a,$809f,$80f7,$8164,$81e3
+        .word   $8277,$831d,$83d7,$84a4,$8584,$8677,$877d,$8895
+        .word   $89bf,$8afc,$8c4b,$8dac,$8f1e,$90a2,$9237,$93dd
+        .word   $9593,$975a,$9932,$9b18,$9d0f,$9f15,$a12a,$a34d
+        .word   $a57e,$a7be,$aa0b,$ac66,$aecd,$b141,$b3c1,$b64d
+        .word   $b8e4,$bb86,$be33,$c0ea,$c3aa,$c674,$c947,$cc22
+        .word   $cf05,$d1f0,$d4e2,$d7da,$dad9,$dddd,$e0e7,$e3f5
+        .word   $e708,$ea1f,$ed39,$f055,$f375,$f696,$f9b9,$fcdc
+
+; ce/f600
+SineTbl8:
+        .byte   $00,$03,$06,$09,$0c,$10,$13,$16,$19,$1c,$1f,$22,$25,$28,$2b,$2e
+        .byte   $31,$33,$36,$39,$3c,$3f,$41,$44,$47,$49,$4c,$4e,$51,$53,$55,$58
+        .byte   $5a,$5c,$5e,$60,$62,$64,$66,$68,$6a,$6b,$6d,$6f,$70,$71,$73,$74
+        .byte   $75,$76,$78,$79,$7a,$7a,$7b,$7c,$7d,$7d,$7e,$7e,$7e,$7f,$7f,$7f
+        .byte   $7f,$7f,$7f,$7f,$7e,$7e,$7e,$7d,$7d,$7c,$7b,$7a,$7a,$79,$78,$76
+        .byte   $75,$74,$73,$71,$70,$6f,$6d,$6b,$6a,$68,$66,$64,$62,$60,$5e,$5c
+        .byte   $5a,$58,$55,$53,$51,$4e,$4c,$49,$47,$44,$41,$3f,$3c,$39,$36,$33
+        .byte   $31,$2e,$2b,$28,$25,$22,$1f,$1c,$19,$16,$13,$10,$0c,$09,$06,$03
+        .byte   $00,$fd,$fa,$f7,$f4,$f0,$ed,$ea,$e7,$e4,$e1,$de,$db,$d8,$d5,$d2
+        .byte   $cf,$cd,$ca,$c7,$c4,$c1,$bf,$bc,$b9,$b7,$b4,$b2,$af,$ad,$ab,$a8
+        .byte   $a6,$a4,$a2,$a0,$9e,$9c,$9a,$98,$96,$95,$93,$91,$90,$8f,$8d,$8c
+        .byte   $8b,$8a,$88,$87,$86,$86,$85,$84,$83,$83,$82,$82,$82,$81,$81,$81
+        .byte   $81,$81,$81,$81,$82,$82,$82,$83,$83,$84,$85,$86,$86,$87,$88,$8a
+        .byte   $8b,$8c,$8d,$8f,$90,$91,$93,$95,$96,$98,$9a,$9c,$9e,$a0,$a2,$a4
+        .byte   $a6,$a8,$ab,$ad,$af,$b2,$b4,$b7,$b9,$bc,$bf,$c1,$c4,$c7,$ca,$cd
+        .byte   $cf,$d2,$d5,$d8,$db,$de,$e1,$e4,$e7,$ea,$ed,$f0,$f4,$f7,$fa,$fd
+
+; ---------------------------------------------------------------------------
+
+; This data gets expanded to a 32 * 32 table of 16-bit values in RAM to
+; calculate 8 * sqrt(x^2 + y^2) for (x,y) from (0, 0) up to (31, 31). The
+; first value in each row is simply copied. The remaining 31 values in each
+; row are generated by adding the data value to the previous value.
+
+; ce/f700
+HypotenuseData:
+        .byte   $00,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
+        .byte   $08,3,7,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
+        .byte   $10,2,5,6,7,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
+        .byte   $18,1,4,5,6,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
+        .byte   $20,1,3,4,5,6,6,7,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
+        .byte   $28,1,2,4,5,5,6,6,7,7,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
+        .byte   $30,1,2,3,4,5,5,6,6,7,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
+        .byte   $38,1,2,3,4,4,5,5,6,6,6,7,7,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,8
+        .byte   $40,0,1,2,3,4,5,5,5,6,6,6,7,7,7,7,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8,8
+        .byte   $48,0,1,2,3,4,4,5,5,5,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,8,8,8,8,8,8,8
+        .byte   $50,0,1,2,3,3,4,4,5,5,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,8,8,8,8
+        .byte   $58,0,1,2,2,3,4,4,5,5,5,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,8
+        .byte   $60,0,1,2,2,3,3,4,4,5,5,5,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,7
+        .byte   $68,0,1,2,2,3,3,4,4,4,5,5,5,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7
+        .byte   $70,0,1,1,2,2,3,3,4,4,4,5,5,5,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7
+        .byte   $78,0,1,1,2,2,3,3,4,4,4,5,5,5,5,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7
+        .byte   $80,0,1,1,2,2,3,3,3,4,4,4,5,5,5,5,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7
+        .byte   $88,0,1,1,2,2,2,3,3,4,4,4,4,5,5,5,5,6,6,6,6,6,6,6,6,7,7,7,7,7,7,7
+        .byte   $90,0,1,1,2,2,2,3,3,3,4,4,4,5,5,5,5,5,6,6,6,6,6,6,6,6,7,7,7,7,7,7
+        .byte   $98,0,1,1,1,2,2,3,3,3,4,4,4,4,5,5,5,5,5,6,6,6,6,6,6,6,6,7,7,7,7,7
+        .byte   $a0,0,1,1,1,2,2,2,3,3,3,4,4,4,4,5,5,5,5,5,6,6,6,6,6,6,6,6,6,7,7,7
+        .byte   $a8,0,1,1,1,2,2,2,3,3,3,4,4,4,4,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,7,7
+        .byte   $b0,0,1,1,1,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6
+        .byte   $b8,0,1,1,1,2,2,2,2,3,3,3,4,4,4,4,4,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6
+        .byte   $c0,0,0,1,1,1,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6
+        .byte   $c8,0,0,1,1,1,2,2,2,3,3,3,3,4,4,4,4,4,5,5,5,5,5,5,5,6,6,6,6,6,6,6
+        .byte   $d0,0,0,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,4,5,5,5,5,5,5,5,6,6,6,6,6,6
+        .byte   $d8,0,0,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,4,5,5,5,5,5,5,5,5,6,6,6,6,6
+        .byte   $e0,0,0,1,1,1,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5,5,5,5,6,6,6,6
+        .byte   $e8,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,6,6,6,6
+        .byte   $f0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5,5,5,5,6,6,6
+        .byte   $f8,0,0,1,1,1,1,2,2,2,2,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,5,6,6
+
+; ---------------------------------------------------------------------------
+
+; ce/fb00
+; inverse tangent table for positive x and y (32 * 32 bytes)
+; up to rounding errors these values are equal to arctan(y / x) * 128 / pi
+; for (x,y) from (0,0) up to (31,31)
+ArcTanTbl:
+        .byte   $40,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $40,$20,$12,$0d,$0a,$08,$06,$06,$05,$04,$04,$04,$03,$03,$03,$02
+        .byte   $02,$02,$02,$02,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01
+        .byte   $40,$2d,$20,$17,$12,$0f,$0d,$0b,$0a,$09,$08,$07,$06,$06,$06,$05
+        .byte   $05,$04,$04,$04,$04,$04,$04,$03,$03,$03,$03,$03,$03,$02,$02,$02
+        .byte   $40,$32,$28,$20,$1a,$15,$12,$10,$0e,$0d,$0b,$0b,$0a,$09,$09,$08
+        .byte   $07,$07,$06,$06,$06,$06,$05,$05,$05,$04,$04,$04,$04,$04,$04,$04
+        .byte   $40,$35,$2d,$26,$20,$1b,$17,$15,$12,$10,$0f,$0e,$0d,$0c,$0b,$0a
+        .byte   $0a,$09,$09,$08,$08,$07,$07,$06,$06,$06,$06,$06,$06,$05,$05,$05
+        .byte   $40,$37,$30,$2a,$24,$20,$1c,$19,$17,$15,$12,$11,$10,$0f,$0e,$0d
+        .byte   $0c,$0b,$0b,$0a,$0a,$09,$09,$09,$08,$08,$07,$07,$07,$06,$06,$06
+        .byte   $40,$39,$32,$2d,$28,$24,$20,$1c,$1a,$17,$15,$14,$12,$11,$10,$0f
+        .byte   $0e,$0e,$0d,$0c,$0b,$0b,$0b,$0a,$0a,$09,$09,$09,$09,$08,$08,$07
+        .byte   $40,$3a,$35,$2f,$2b,$26,$23,$20,$1d,$1a,$18,$17,$15,$14,$12,$12
+        .byte   $10,$10,$0f,$0e,$0e,$0d,$0c,$0b,$0b,$0b,$0b,$0a,$0a,$09,$09,$09
+        .byte   $40,$3a,$35,$31,$2d,$29,$26,$22,$20,$1d,$1b,$1a,$17,$16,$15,$14
+        .byte   $12,$12,$10,$10,$0f,$0e,$0e,$0e,$0d,$0c,$0c,$0b,$0b,$0b,$0a,$0a
+        .byte   $40,$3b,$37,$32,$2f,$2b,$28,$25,$22,$20,$1d,$1c,$1a,$18,$17,$15
+        .byte   $15,$13,$12,$12,$11,$10,$10,$0f,$0e,$0e,$0e,$0d,$0c,$0c,$0b,$0b
+        .byte   $40,$3c,$37,$34,$30,$2d,$2a,$27,$24,$22,$20,$1e,$1c,$1a,$19,$17
+        .byte   $17,$15,$15,$13,$12,$12,$11,$10,$10,$0f,$0f,$0e,$0e,$0e,$0d,$0c
+        .byte   $40,$3c,$38,$35,$32,$2e,$2b,$29,$26,$24,$21,$20,$1e,$1c,$1b,$1a
+        .byte   $18,$17,$16,$15,$14,$13,$12,$12,$11,$10,$10,$10,$0f,$0e,$0e,$0e
+        .byte   $40,$3c,$39,$35,$32,$30,$2d,$2a,$28,$26,$24,$21,$20,$1e,$1c,$1b
+        .byte   $1a,$19,$17,$17,$15,$15,$14,$13,$12,$12,$11,$10,$10,$10,$0f,$0f
+        .byte   $40,$3c,$3a,$37,$33,$30,$2e,$2b,$29,$27,$25,$23,$21,$20,$1e,$1c
+        .byte   $1c,$1a,$19,$18,$17,$16,$15,$15,$14,$13,$12,$12,$11,$11,$10,$10
+        .byte   $40,$3c,$3a,$37,$35,$32,$2f,$2d,$2b,$29,$26,$24,$23,$21,$20,$1f
+        .byte   $1d,$1c,$1a,$1a,$18,$17,$17,$16,$15,$15,$14,$13,$12,$12,$12,$11
+        .byte   $40,$3d,$3a,$37,$35,$32,$30,$2e,$2b,$2a,$28,$26,$24,$23,$21,$20
+        .byte   $1f,$1d,$1c,$1b,$1a,$19,$18,$17,$17,$15,$15,$15,$14,$13,$12,$12
+        .byte   $40,$3d,$3a,$38,$35,$33,$31,$2f,$2d,$2b,$29,$27,$26,$24,$22,$21
+        .byte   $20,$1f,$1d,$1c,$1b,$1a,$1a,$18,$17,$17,$16,$15,$15,$14,$14,$13
+        .byte   $40,$3d,$3b,$38,$36,$34,$32,$30,$2e,$2c,$2a,$29,$26,$25,$24,$22
+        .byte   $21,$20,$1f,$1d,$1c,$1b,$1a,$1a,$19,$18,$17,$17,$16,$15,$15,$14
+        .byte   $40,$3d,$3b,$39,$37,$35,$32,$30,$2f,$2d,$2b,$29,$28,$26,$25,$24
+        .byte   $22,$21,$20,$1f,$1d,$1c,$1c,$1b,$1a,$19,$18,$17,$17,$16,$15,$15
+        .byte   $40,$3d,$3b,$3a,$37,$35,$33,$31,$30,$2e,$2c,$2a,$29,$27,$26,$24
+        .byte   $23,$22,$21,$20,$1f,$1e,$1c,$1c,$1b,$1a,$1a,$19,$18,$17,$17,$16
+        .byte   $40,$3e,$3c,$3a,$37,$35,$34,$32,$30,$2e,$2d,$2b,$2a,$28,$27,$26
+        .byte   $24,$23,$22,$21,$20,$1f,$1e,$1d,$1c,$1b,$1a,$1a,$19,$18,$17,$17
+        .byte   $40,$3e,$3c,$3a,$38,$36,$35,$32,$31,$2f,$2e,$2c,$2b,$29,$28,$26
+        .byte   $25,$24,$23,$21,$21,$20,$1f,$1e,$1d,$1c,$1b,$1a,$1a,$19,$18,$18
+        .byte   $40,$3e,$3c,$3a,$38,$37,$35,$33,$32,$30,$2e,$2d,$2b,$2a,$29,$27
+        .byte   $26,$25,$24,$23,$21,$21,$20,$1f,$1e,$1d,$1c,$1c,$1b,$1a,$1a,$19
+        .byte   $40,$3e,$3c,$3a,$39,$37,$35,$34,$32,$30,$2f,$2e,$2c,$2b,$29,$28
+        .byte   $27,$26,$24,$24,$22,$21,$21,$20,$1f,$1e,$1d,$1c,$1c,$1b,$1a,$1a
+        .byte   $40,$3e,$3c,$3a,$39,$37,$35,$34,$32,$31,$30,$2e,$2d,$2b,$2a,$29
+        .byte   $28,$26,$26,$24,$24,$22,$21,$21,$20,$1f,$1e,$1d,$1c,$1c,$1b,$1a
+        .byte   $40,$3e,$3c,$3b,$39,$37,$36,$35,$33,$32,$30,$2f,$2e,$2c,$2b,$2a
+        .byte   $29,$27,$26,$25,$24,$23,$22,$21,$21,$20,$1f,$1e,$1d,$1c,$1c,$1b
+        .byte   $40,$3e,$3c,$3b,$3a,$38,$37,$35,$33,$32,$30,$30,$2e,$2d,$2b,$2b
+        .byte   $29,$28,$27,$26,$25,$24,$23,$22,$21,$21,$20,$1f,$1e,$1d,$1c,$1c
+        .byte   $40,$3e,$3c,$3b,$3a,$38,$37,$35,$34,$32,$31,$30,$2f,$2e,$2c,$2b
+        .byte   $2a,$29,$28,$26,$26,$25,$24,$23,$22,$21,$21,$20,$1f,$1e,$1d,$1d
+        .byte   $40,$3e,$3c,$3b,$3a,$38,$37,$35,$35,$33,$32,$30,$2f,$2e,$2d,$2b
+        .byte   $2b,$29,$29,$27,$26,$26,$24,$24,$23,$22,$21,$21,$20,$1f,$1f,$1e
+        .byte   $40,$3f,$3d,$3c,$3a,$39,$37,$36,$35,$33,$32,$31,$30,$2e,$2e,$2c
+        .byte   $2b,$2a,$29,$28,$27,$26,$25,$24,$24,$23,$22,$21,$21,$20,$1f,$1f
+        .byte   $40,$3f,$3d,$3c,$3a,$39,$37,$36,$35,$34,$32,$31,$30,$2f,$2e,$2d
+        .byte   $2b,$2b,$2a,$29,$28,$27,$26,$25,$24,$24,$23,$22,$21,$20,$20,$1f
+        .byte   $40,$3f,$3d,$3c,$3a,$39,$38,$37,$35,$34,$33,$32,$30,$30,$2e,$2e
+        .byte   $2c,$2b,$2a,$29,$29,$27,$26,$26,$25,$24,$24,$22,$21,$21,$20,$20
+
+; ---------------------------------------------------------------------------
+
+; ce/ff00
+_ceff00:
+        .word   $375c,$3770,$3784,$3798
+
+; ce/ff08
+_ceff08:
+        .word   $376c,$3780,$3794,$37a8
+
+; ce/ff10
+_ceff10:
+        .word   $37dc,$37f0,$3804,$3818
+
+; ce/ff18
+_ceff18:
+        .word   $37ec,$3800,$3814,$3828
+
+; ce/ff20
+_ceff20:
+        .word   $3768,$377c,$3790,$37a4
+
+; ce/ff28
+_ceff28:
+        .word   $37e8,$37fc,$3810,$3824
+
+; ---------------------------------------------------------------------------
+
+; ce/ff30
+_ceff30:
+        .byte   $00,$0a,$14,$1e,$28,$32,$3c,$46,$50,$5a
+        .byte   $00,$0a,$14,$1e,$28,$32,$3c,$46,$50,$5a
+
+; ---------------------------------------------------------------------------
+
+; ce/ff44
+_ceff44:
+        .byte   $00,$05,$0a,$0f,$14,$19,$1e,$23,$28,$2d,$32,$37,$3c,$41,$46
+        .byte   $00,$05,$0a,$0f,$14,$19,$1e,$23,$28,$2d,$32,$37,$3c,$41,$46
+
+; ---------------------------------------------------------------------------
+
+; ce/ff62
+_ceff62:
+        .byte   $03,$06,$09,$0c,$00
+
+; ---------------------------------------------------------------------------
+
+; ce/ff67
+_ceff67:
+        .byte   $02,$04,$06,$08,$00
+
+; ---------------------------------------------------------------------------
+
+; ce/ff6c
+_ceff6c:
+        .byte   $00,$05,$0a,$0f,$14,$19,$1e,$23,$28,$2d
+        .byte   $00,$05,$0a,$0f,$14,$19,$1e,$23,$28,$2d
+
+; ---------------------------------------------------------------------------
+
+; ce/ff80
+_ceff80:
+        .byte   $c0,$30,$0c,$03
+
+; ---------------------------------------------------------------------------
+
+; ce/ff84
+_ceff84:
+        .byte   $00,$0c,$18,$24
+
+; ---------------------------------------------------------------------------
+
+; ce/ff88
+_ceff88:
+        .byte   $02,$04,$06,$08,$00
+
+; ---------------------------------------------------------------------------
+
+; ce/ff8d
+_ceff8d:
+        .word   $0000,$028a,$0514,$079e
+
+; ---------------------------------------------------------------------------
+
+; ce/ff95
+_ceff95:
+        .byte   $69,$89,$6d,$c3,$00,$00,$00,$00,$80,$ca,$b8,$76,$00,$00,$00,$00
+        .byte   $01,$02,$03,$04,$05,$06,$07,$08,$ff,$53,$54,$55,$56,$57,$58,$59
+        .byte   $5a,$5b,$5c,$5d,$5e,$5f,$ce,$77,$c3,$89,$63,$db,$dc,$51,$52,$00
+
+; ---------------------------------------------------------------------------
+
+; ce/ffc5
+_ceffc5:
+        .word   $a630,$b230,$be30,$ca30
+
+; ---------------------------------------------------------------------------
+
+; ce/ffcd
+_ceffcd:
+        .byte   $80,$40,$20,$10,$08,$04,$02,$01
+
+; ---------------------------------------------------------------------------
+
+; ce/ffd5
+_ceffd5:
+        .word   $0080,$0040,$0020,$0010,$0008,$0004,$0002,$0001
+        .word   $8000,$4000,$2000,$1000,$0000,$0000,$0000,$0000
+
+; ---------------------------------------------------------------------------
+
+; ce/fff5
+_cefff5:
+        .word   $4c20,$4c60,$4ca0,$4ce0,$4d20
+
+; ---------------------------------------------------------------------------
+
+; ce/ffff (unused)
+        .byte   $ea
 
 ; ---------------------------------------------------------------------------
 
@@ -35564,333 +35862,6 @@ _d0e48b:
 _d0e4ab:
         .word   $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
         .word   $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
-
-; ---------------------------------------------------------------------------
-
-.segment "btlgfx_code_far"
-
-; ---------------------------------------------------------------------------
-
-; [ wait for vblank ]
-
-_d97caa:
-        inc     $a5
-@7cac:  lda     $a5
-        ora     $db9a
-        bne     @7cac
-        rtl
-
-; ---------------------------------------------------------------------------
-
-; [ clear sprite data ]
-
-_d97cb4:
-        ldx     #$0000
-        lda     #$f0
-@7cb9:  sta     $0200,x
-        inx
-        cpx     #$0200
-        bne     @7cb9
-        ldx     #$0000
-        lda     #$00
-@7cc7:  sta     $0400,x
-        inx
-        cpx     #$0020
-        bne     @7cc7
-        rtl
-
-; ---------------------------------------------------------------------------
-
-.segment "btlgfx_data1"
-
-; ce/f400
-SineTbl16:
-        .word   $0000,$0324,$0648,$096a,$0c8c,$0fab,$12c8,$15e2
-        .word   $18f9,$1c0b,$1f1a,$2223,$2528,$2826,$2b1f,$2e11
-        .word   $30fb,$33df,$36ba,$398c,$3c56,$3f17,$41ce,$447a
-        .word   $471c,$49b3,$4c3f,$4ebf,$5133,$539b,$55f5,$5842
-        .word   $5a82,$5cb3,$5ed7,$60eb,$62f1,$64e8,$66cf,$68a6
-        .word   $6a6d,$6c23,$6dc9,$6f5e,$70e2,$7254,$73b5,$7504
-        .word   $7641,$776b,$7884,$7989,$7a7c,$7b5c,$7c29,$7ce3
-        .word   $7d89,$7e1d,$7e9c,$7f09,$7f61,$7fa6,$7fd8,$7ff5
-        .word   $7fff,$7ff5,$7fd8,$7fa6,$7f61,$7f09,$7e9c,$7e1d
-        .word   $7d89,$7ce3,$7c29,$7b5c,$7a7c,$7989,$7884,$776b
-        .word   $7641,$7504,$73b5,$7254,$70e2,$6f5e,$6dc9,$6c23
-        .word   $6a6d,$68a6,$66cf,$64e8,$62f1,$60eb,$5ed7,$5cb3
-        .word   $5a82,$5842,$55f5,$539a,$5133,$4ebf,$4c3f,$49b3
-        .word   $471c,$447a,$41ce,$3f17,$3c56,$398c,$36ba,$33de
-        .word   $30fb,$2e11,$2b1f,$2826,$2528,$2223,$1f1a,$1c0b
-        .word   $18f8,$15e2,$12c8,$0fab,$0c8c,$096a,$0648,$0324
-        .word   $0000,$fcdc,$f9b8,$f695,$f374,$f055,$ed38,$ea1e
-        .word   $e707,$e3f5,$e0e6,$dddc,$dad8,$d7d9,$d4e1,$d1ef
-        .word   $cf04,$cc21,$c946,$c673,$c3aa,$c0e9,$be32,$bb86
-        .word   $b8e3,$b64c,$b3c1,$b141,$aecd,$ac65,$aa0b,$a7be
-        .word   $a57e,$a34c,$a129,$9f14,$9d0f,$9b18,$9931,$975a
-        .word   $9593,$93dd,$9237,$90a2,$8f1e,$8dac,$8c4b,$8afc
-        .word   $89bf,$8895,$877c,$8677,$8584,$84a4,$83d7,$831d
-        .word   $8277,$81e3,$8164,$80f7,$809f,$805a,$8028,$800b
-        .word   $8001,$800b,$8028,$805a,$809f,$80f7,$8164,$81e3
-        .word   $8277,$831d,$83d7,$84a4,$8584,$8677,$877d,$8895
-        .word   $89bf,$8afc,$8c4b,$8dac,$8f1e,$90a2,$9237,$93dd
-        .word   $9593,$975a,$9932,$9b18,$9d0f,$9f15,$a12a,$a34d
-        .word   $a57e,$a7be,$aa0b,$ac66,$aecd,$b141,$b3c1,$b64d
-        .word   $b8e4,$bb86,$be33,$c0ea,$c3aa,$c674,$c947,$cc22
-        .word   $cf05,$d1f0,$d4e2,$d7da,$dad9,$dddd,$e0e7,$e3f5
-        .word   $e708,$ea1f,$ed39,$f055,$f375,$f696,$f9b9,$fcdc
-
-; ce/f600
-SineTbl8:
-        .byte   $00,$03,$06,$09,$0c,$10,$13,$16,$19,$1c,$1f,$22,$25,$28,$2b,$2e
-        .byte   $31,$33,$36,$39,$3c,$3f,$41,$44,$47,$49,$4c,$4e,$51,$53,$55,$58
-        .byte   $5a,$5c,$5e,$60,$62,$64,$66,$68,$6a,$6b,$6d,$6f,$70,$71,$73,$74
-        .byte   $75,$76,$78,$79,$7a,$7a,$7b,$7c,$7d,$7d,$7e,$7e,$7e,$7f,$7f,$7f
-        .byte   $7f,$7f,$7f,$7f,$7e,$7e,$7e,$7d,$7d,$7c,$7b,$7a,$7a,$79,$78,$76
-        .byte   $75,$74,$73,$71,$70,$6f,$6d,$6b,$6a,$68,$66,$64,$62,$60,$5e,$5c
-        .byte   $5a,$58,$55,$53,$51,$4e,$4c,$49,$47,$44,$41,$3f,$3c,$39,$36,$33
-        .byte   $31,$2e,$2b,$28,$25,$22,$1f,$1c,$19,$16,$13,$10,$0c,$09,$06,$03
-        .byte   $00,$fd,$fa,$f7,$f4,$f0,$ed,$ea,$e7,$e4,$e1,$de,$db,$d8,$d5,$d2
-        .byte   $cf,$cd,$ca,$c7,$c4,$c1,$bf,$bc,$b9,$b7,$b4,$b2,$af,$ad,$ab,$a8
-        .byte   $a6,$a4,$a2,$a0,$9e,$9c,$9a,$98,$96,$95,$93,$91,$90,$8f,$8d,$8c
-        .byte   $8b,$8a,$88,$87,$86,$86,$85,$84,$83,$83,$82,$82,$82,$81,$81,$81
-        .byte   $81,$81,$81,$81,$82,$82,$82,$83,$83,$84,$85,$86,$86,$87,$88,$8a
-        .byte   $8b,$8c,$8d,$8f,$90,$91,$93,$95,$96,$98,$9a,$9c,$9e,$a0,$a2,$a4
-        .byte   $a6,$a8,$ab,$ad,$af,$b2,$b4,$b7,$b9,$bc,$bf,$c1,$c4,$c7,$ca,$cd
-        .byte   $cf,$d2,$d5,$d8,$db,$de,$e1,$e4,$e7,$ea,$ed,$f0,$f4,$f7,$fa,$fd
-
-; ---------------------------------------------------------------------------
-
-; This data gets expanded to a 32 * 32 table of 16-bit values in RAM to
-; calculate 8 * sqrt(x^2 + y^2) for (x,y) from (0, 0) up to (31, 31). The
-; first value in each row is simply copied. The remaining 31 values in each
-; row are generated by adding the data value to the previous value.
-
-; ce/f700
-HypotenuseData:
-        .byte   $00,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
-        .byte   $08,3,7,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
-        .byte   $10,2,5,6,7,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
-        .byte   $18,1,4,5,6,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
-        .byte   $20,1,3,4,5,6,6,7,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
-        .byte   $28,1,2,4,5,5,6,6,7,7,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
-        .byte   $30,1,2,3,4,5,5,6,6,7,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
-        .byte   $38,1,2,3,4,4,5,5,6,6,6,7,7,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,8
-        .byte   $40,0,1,2,3,4,5,5,5,6,6,6,7,7,7,7,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8,8
-        .byte   $48,0,1,2,3,4,4,5,5,5,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,8,8,8,8,8,8,8
-        .byte   $50,0,1,2,3,3,4,4,5,5,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,8,8,8,8
-        .byte   $58,0,1,2,2,3,4,4,5,5,5,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,8
-        .byte   $60,0,1,2,2,3,3,4,4,5,5,5,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,7
-        .byte   $68,0,1,2,2,3,3,4,4,4,5,5,5,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7
-        .byte   $70,0,1,1,2,2,3,3,4,4,4,5,5,5,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7
-        .byte   $78,0,1,1,2,2,3,3,4,4,4,5,5,5,5,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7
-        .byte   $80,0,1,1,2,2,3,3,3,4,4,4,5,5,5,5,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7
-        .byte   $88,0,1,1,2,2,2,3,3,4,4,4,4,5,5,5,5,6,6,6,6,6,6,6,6,7,7,7,7,7,7,7
-        .byte   $90,0,1,1,2,2,2,3,3,3,4,4,4,5,5,5,5,5,6,6,6,6,6,6,6,6,7,7,7,7,7,7
-        .byte   $98,0,1,1,1,2,2,3,3,3,4,4,4,4,5,5,5,5,5,6,6,6,6,6,6,6,6,7,7,7,7,7
-        .byte   $a0,0,1,1,1,2,2,2,3,3,3,4,4,4,4,5,5,5,5,5,6,6,6,6,6,6,6,6,6,7,7,7
-        .byte   $a8,0,1,1,1,2,2,2,3,3,3,4,4,4,4,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,7,7
-        .byte   $b0,0,1,1,1,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6
-        .byte   $b8,0,1,1,1,2,2,2,2,3,3,3,4,4,4,4,4,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6
-        .byte   $c0,0,0,1,1,1,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6
-        .byte   $c8,0,0,1,1,1,2,2,2,3,3,3,3,4,4,4,4,4,5,5,5,5,5,5,5,6,6,6,6,6,6,6
-        .byte   $d0,0,0,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,4,5,5,5,5,5,5,5,6,6,6,6,6,6
-        .byte   $d8,0,0,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,4,5,5,5,5,5,5,5,5,6,6,6,6,6
-        .byte   $e0,0,0,1,1,1,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5,5,5,5,6,6,6,6
-        .byte   $e8,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,6,6,6,6
-        .byte   $f0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5,5,5,5,6,6,6
-        .byte   $f8,0,0,1,1,1,1,2,2,2,2,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,5,6,6
-
-; ---------------------------------------------------------------------------
-
-; ce/fb00
-; inverse tangent table for positive x and y (32 * 32 bytes)
-; up to rounding errors these values are equal to arctan(y / x) * 128 / pi
-; for (x,y) from (0,0) up to (31,31)
-ArcTanTbl:
-        .byte   $40,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-        .byte   $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-        .byte   $40,$20,$12,$0d,$0a,$08,$06,$06,$05,$04,$04,$04,$03,$03,$03,$02
-        .byte   $02,$02,$02,$02,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01
-        .byte   $40,$2d,$20,$17,$12,$0f,$0d,$0b,$0a,$09,$08,$07,$06,$06,$06,$05
-        .byte   $05,$04,$04,$04,$04,$04,$04,$03,$03,$03,$03,$03,$03,$02,$02,$02
-        .byte   $40,$32,$28,$20,$1a,$15,$12,$10,$0e,$0d,$0b,$0b,$0a,$09,$09,$08
-        .byte   $07,$07,$06,$06,$06,$06,$05,$05,$05,$04,$04,$04,$04,$04,$04,$04
-        .byte   $40,$35,$2d,$26,$20,$1b,$17,$15,$12,$10,$0f,$0e,$0d,$0c,$0b,$0a
-        .byte   $0a,$09,$09,$08,$08,$07,$07,$06,$06,$06,$06,$06,$06,$05,$05,$05
-        .byte   $40,$37,$30,$2a,$24,$20,$1c,$19,$17,$15,$12,$11,$10,$0f,$0e,$0d
-        .byte   $0c,$0b,$0b,$0a,$0a,$09,$09,$09,$08,$08,$07,$07,$07,$06,$06,$06
-        .byte   $40,$39,$32,$2d,$28,$24,$20,$1c,$1a,$17,$15,$14,$12,$11,$10,$0f
-        .byte   $0e,$0e,$0d,$0c,$0b,$0b,$0b,$0a,$0a,$09,$09,$09,$09,$08,$08,$07
-        .byte   $40,$3a,$35,$2f,$2b,$26,$23,$20,$1d,$1a,$18,$17,$15,$14,$12,$12
-        .byte   $10,$10,$0f,$0e,$0e,$0d,$0c,$0b,$0b,$0b,$0b,$0a,$0a,$09,$09,$09
-        .byte   $40,$3a,$35,$31,$2d,$29,$26,$22,$20,$1d,$1b,$1a,$17,$16,$15,$14
-        .byte   $12,$12,$10,$10,$0f,$0e,$0e,$0e,$0d,$0c,$0c,$0b,$0b,$0b,$0a,$0a
-        .byte   $40,$3b,$37,$32,$2f,$2b,$28,$25,$22,$20,$1d,$1c,$1a,$18,$17,$15
-        .byte   $15,$13,$12,$12,$11,$10,$10,$0f,$0e,$0e,$0e,$0d,$0c,$0c,$0b,$0b
-        .byte   $40,$3c,$37,$34,$30,$2d,$2a,$27,$24,$22,$20,$1e,$1c,$1a,$19,$17
-        .byte   $17,$15,$15,$13,$12,$12,$11,$10,$10,$0f,$0f,$0e,$0e,$0e,$0d,$0c
-        .byte   $40,$3c,$38,$35,$32,$2e,$2b,$29,$26,$24,$21,$20,$1e,$1c,$1b,$1a
-        .byte   $18,$17,$16,$15,$14,$13,$12,$12,$11,$10,$10,$10,$0f,$0e,$0e,$0e
-        .byte   $40,$3c,$39,$35,$32,$30,$2d,$2a,$28,$26,$24,$21,$20,$1e,$1c,$1b
-        .byte   $1a,$19,$17,$17,$15,$15,$14,$13,$12,$12,$11,$10,$10,$10,$0f,$0f
-        .byte   $40,$3c,$3a,$37,$33,$30,$2e,$2b,$29,$27,$25,$23,$21,$20,$1e,$1c
-        .byte   $1c,$1a,$19,$18,$17,$16,$15,$15,$14,$13,$12,$12,$11,$11,$10,$10
-        .byte   $40,$3c,$3a,$37,$35,$32,$2f,$2d,$2b,$29,$26,$24,$23,$21,$20,$1f
-        .byte   $1d,$1c,$1a,$1a,$18,$17,$17,$16,$15,$15,$14,$13,$12,$12,$12,$11
-        .byte   $40,$3d,$3a,$37,$35,$32,$30,$2e,$2b,$2a,$28,$26,$24,$23,$21,$20
-        .byte   $1f,$1d,$1c,$1b,$1a,$19,$18,$17,$17,$15,$15,$15,$14,$13,$12,$12
-        .byte   $40,$3d,$3a,$38,$35,$33,$31,$2f,$2d,$2b,$29,$27,$26,$24,$22,$21
-        .byte   $20,$1f,$1d,$1c,$1b,$1a,$1a,$18,$17,$17,$16,$15,$15,$14,$14,$13
-        .byte   $40,$3d,$3b,$38,$36,$34,$32,$30,$2e,$2c,$2a,$29,$26,$25,$24,$22
-        .byte   $21,$20,$1f,$1d,$1c,$1b,$1a,$1a,$19,$18,$17,$17,$16,$15,$15,$14
-        .byte   $40,$3d,$3b,$39,$37,$35,$32,$30,$2f,$2d,$2b,$29,$28,$26,$25,$24
-        .byte   $22,$21,$20,$1f,$1d,$1c,$1c,$1b,$1a,$19,$18,$17,$17,$16,$15,$15
-        .byte   $40,$3d,$3b,$3a,$37,$35,$33,$31,$30,$2e,$2c,$2a,$29,$27,$26,$24
-        .byte   $23,$22,$21,$20,$1f,$1e,$1c,$1c,$1b,$1a,$1a,$19,$18,$17,$17,$16
-        .byte   $40,$3e,$3c,$3a,$37,$35,$34,$32,$30,$2e,$2d,$2b,$2a,$28,$27,$26
-        .byte   $24,$23,$22,$21,$20,$1f,$1e,$1d,$1c,$1b,$1a,$1a,$19,$18,$17,$17
-        .byte   $40,$3e,$3c,$3a,$38,$36,$35,$32,$31,$2f,$2e,$2c,$2b,$29,$28,$26
-        .byte   $25,$24,$23,$21,$21,$20,$1f,$1e,$1d,$1c,$1b,$1a,$1a,$19,$18,$18
-        .byte   $40,$3e,$3c,$3a,$38,$37,$35,$33,$32,$30,$2e,$2d,$2b,$2a,$29,$27
-        .byte   $26,$25,$24,$23,$21,$21,$20,$1f,$1e,$1d,$1c,$1c,$1b,$1a,$1a,$19
-        .byte   $40,$3e,$3c,$3a,$39,$37,$35,$34,$32,$30,$2f,$2e,$2c,$2b,$29,$28
-        .byte   $27,$26,$24,$24,$22,$21,$21,$20,$1f,$1e,$1d,$1c,$1c,$1b,$1a,$1a
-        .byte   $40,$3e,$3c,$3a,$39,$37,$35,$34,$32,$31,$30,$2e,$2d,$2b,$2a,$29
-        .byte   $28,$26,$26,$24,$24,$22,$21,$21,$20,$1f,$1e,$1d,$1c,$1c,$1b,$1a
-        .byte   $40,$3e,$3c,$3b,$39,$37,$36,$35,$33,$32,$30,$2f,$2e,$2c,$2b,$2a
-        .byte   $29,$27,$26,$25,$24,$23,$22,$21,$21,$20,$1f,$1e,$1d,$1c,$1c,$1b
-        .byte   $40,$3e,$3c,$3b,$3a,$38,$37,$35,$33,$32,$30,$30,$2e,$2d,$2b,$2b
-        .byte   $29,$28,$27,$26,$25,$24,$23,$22,$21,$21,$20,$1f,$1e,$1d,$1c,$1c
-        .byte   $40,$3e,$3c,$3b,$3a,$38,$37,$35,$34,$32,$31,$30,$2f,$2e,$2c,$2b
-        .byte   $2a,$29,$28,$26,$26,$25,$24,$23,$22,$21,$21,$20,$1f,$1e,$1d,$1d
-        .byte   $40,$3e,$3c,$3b,$3a,$38,$37,$35,$35,$33,$32,$30,$2f,$2e,$2d,$2b
-        .byte   $2b,$29,$29,$27,$26,$26,$24,$24,$23,$22,$21,$21,$20,$1f,$1f,$1e
-        .byte   $40,$3f,$3d,$3c,$3a,$39,$37,$36,$35,$33,$32,$31,$30,$2e,$2e,$2c
-        .byte   $2b,$2a,$29,$28,$27,$26,$25,$24,$24,$23,$22,$21,$21,$20,$1f,$1f
-        .byte   $40,$3f,$3d,$3c,$3a,$39,$37,$36,$35,$34,$32,$31,$30,$2f,$2e,$2d
-        .byte   $2b,$2b,$2a,$29,$28,$27,$26,$25,$24,$24,$23,$22,$21,$20,$20,$1f
-        .byte   $40,$3f,$3d,$3c,$3a,$39,$38,$37,$35,$34,$33,$32,$30,$30,$2e,$2e
-        .byte   $2c,$2b,$2a,$29,$29,$27,$26,$26,$25,$24,$24,$22,$21,$21,$20,$20
-
-; ---------------------------------------------------------------------------
-
-; ce/ff00
-_ceff00:
-        .word   $375c,$3770,$3784,$3798
-
-; ce/ff08
-_ceff08:
-        .word   $376c,$3780,$3794,$37a8
-
-; ce/ff10
-_ceff10:
-        .word   $37dc,$37f0,$3804,$3818
-
-; ce/ff18
-_ceff18:
-        .word   $37ec,$3800,$3814,$3828
-
-; ce/ff20
-_ceff20:
-        .word   $3768,$377c,$3790,$37a4
-
-; ce/ff28
-_ceff28:
-        .word   $37e8,$37fc,$3810,$3824
-
-; ---------------------------------------------------------------------------
-
-; ce/ff30
-_ceff30:
-        .byte   $00,$0a,$14,$1e,$28,$32,$3c,$46,$50,$5a
-        .byte   $00,$0a,$14,$1e,$28,$32,$3c,$46,$50,$5a
-
-; ---------------------------------------------------------------------------
-
-; ce/ff44
-_ceff44:
-        .byte   $00,$05,$0a,$0f,$14,$19,$1e,$23,$28,$2d,$32,$37,$3c,$41,$46
-        .byte   $00,$05,$0a,$0f,$14,$19,$1e,$23,$28,$2d,$32,$37,$3c,$41,$46
-
-; ---------------------------------------------------------------------------
-
-; ce/ff62
-_ceff62:
-        .byte   $03,$06,$09,$0c,$00
-
-; ---------------------------------------------------------------------------
-
-; ce/ff67
-_ceff67:
-        .byte   $02,$04,$06,$08,$00
-
-; ---------------------------------------------------------------------------
-
-; ce/ff6c
-_ceff6c:
-        .byte   $00,$05,$0a,$0f,$14,$19,$1e,$23,$28,$2d
-        .byte   $00,$05,$0a,$0f,$14,$19,$1e,$23,$28,$2d
-
-; ---------------------------------------------------------------------------
-
-; ce/ff80
-_ceff80:
-        .byte   $c0,$30,$0c,$03
-
-; ---------------------------------------------------------------------------
-
-; ce/ff84
-_ceff84:
-        .byte   $00,$0c,$18,$24
-
-; ---------------------------------------------------------------------------
-
-; ce/ff88
-_ceff88:
-        .byte   $02,$04,$06,$08,$00
-
-; ---------------------------------------------------------------------------
-
-; ce/ff8d
-_ceff8d:
-        .word   $0000,$028a,$0514,$079e
-
-; ---------------------------------------------------------------------------
-
-; ce/ff95
-_ceff95:
-        .byte   $69,$89,$6d,$c3,$00,$00,$00,$00,$80,$ca,$b8,$76,$00,$00,$00,$00
-        .byte   $01,$02,$03,$04,$05,$06,$07,$08,$ff,$53,$54,$55,$56,$57,$58,$59
-        .byte   $5a,$5b,$5c,$5d,$5e,$5f,$ce,$77,$c3,$89,$63,$db,$dc,$51,$52,$00
-
-; ---------------------------------------------------------------------------
-
-; ce/ffc5
-_ceffc5:
-        .word   $a630,$b230,$be30,$ca30
-
-; ---------------------------------------------------------------------------
-
-; ce/ffcd
-_ceffcd:
-        .byte   $80,$40,$20,$10,$08,$04,$02,$01
-
-; ---------------------------------------------------------------------------
-
-; ce/ffd5
-_ceffd5:
-        .word   $0080,$0040,$0020,$0010,$0008,$0004,$0002,$0001
-        .word   $8000,$4000,$2000,$1000,$0000,$0000,$0000,$0000
-
-; ---------------------------------------------------------------------------
-
-; ce/fff5
-_cefff5:
-        .word   $4c20,$4c60,$4ca0,$4ce0,$4d20
-
-; ---------------------------------------------------------------------------
-
-; ce/ffff (unused)
-        .byte   $ea
 
 ; ---------------------------------------------------------------------------
 
@@ -36676,3 +36647,292 @@ _d838ec:
         .byte   $00,$80,$04,$80,$ff
 
 ; ---------------------------------------------------------------------------
+
+.segment "btlgfx_code_far"
+
+; ---------------------------------------------------------------------------
+
+; d9/7c50
+_d97c50:
+        .word   $0170,$0171,$0172,$0173,$0174,$0175,$0176,$0177
+        .word   $0178,$0179,$017a,$017b,$017c,$017d,$017e,$017f
+        .word   $017b,$017c,$017c,$017c,$0171
+
+; d9/7c7a
+_d97c7a:
+        .byte   $bf,$fd,$ef,$df,$7f,$fb,$f7,$fe,$bf,$fd,$ef,$df,$7f,$fb,$f7,$fe
+        .byte   $7f,$bf,$df,$ef,$f7,$fb,$fd,$fe,$7f,$bf,$df,$ef,$f7,$fb,$fd,$fe
+        .byte   $fe,$fd,$fb,$f7,$ef,$df,$bf,$7f,$fe,$fd,$fb,$f7,$ef,$df,$bf,$7f
+
+; ---------------------------------------------------------------------------
+
+; [ wait for vblank ]
+
+_d97caa:
+        inc     $a5
+@7cac:  lda     $a5
+        ora     $db9a
+        bne     @7cac
+        rtl
+
+; ---------------------------------------------------------------------------
+
+; [ clear sprite data ]
+
+_d97cb4:
+        ldx     #$0000
+        lda     #$f0
+@7cb9:  sta     $0200,x
+        inx
+        cpx     #$0200
+        bne     @7cb9
+        ldx     #$0000
+        lda     #$00
+@7cc7:  sta     $0400,x
+        inx
+        cpx     #$0020
+        bne     @7cc7
+        rtl
+
+; ---------------------------------------------------------------------------
+
+; d9/7cd1:
+_d97cd1:
+        .word   $2200,$2280,$2300,$2380,$2400,$2480,$2500,$2580
+
+; d9/7ce1:
+_d97ce1:
+        .word   $8000,$8080,$8800,$8880,$9000,$9080
+
+; d9/7ced:
+_d97ced:
+        .word   $d800,$d820,$d840,$d860,$d880,$d8a0
+
+; d9/7cf9:
+_d97cf9:
+        .word   $0000,$0008,$0200,$0208,$0400,$0408,$0600,$0608
+
+; d9/7d09: hex to dec conversion constants (7 items, 4 bytes each)
+HexToDecTbl:
+        .dword  10000000
+        .dword  1000000
+        .dword  100000
+        .dword  10000
+        .dword  1000
+        .dword  100
+        .dword  10
+
+; d9/7d25:
+_d97d25:
+        .byte   $80,$40,$20,$10,$08,$04,$02,$01
+
+; d9/7d2d:
+_d97d2d:
+        .byte   $01,$02,$02,$02,$02,$02,$03,$04,$FF,$FF,$CF,$FF,$FF,$05,$06,$07
+        .byte   $07,$07,$07,$07,$08
+
+; d9/7d42: pointers to attack animation scripts (+$D90000)
+AttackAnimScriptPtrs:
+        ptr_tbl AttackAnimScript
+
+; d9/7f4e: attack animation scripts (262 items, variable size)
+AttackAnimScript:
+        .incbin "attack_anim_script.dat"
+
+; d9/9655: attack animation target palettes (16 * 32 bytes)
+AttackTargetPal:
+        .incbin "attack_target.pal"
+
+; d9/9855: weapon animation properties (128 items, 9 bytes each)
+WeaponAnimProp:
+        .byte   $0f,$00,$00,$14,$68,$0c,$80,$01,$80
+        .byte   $0f,$00,$00,$14,$68,$0c,$80,$01,$80
+        .byte   $05,$58,$03,$02,$68,$02,$00,$16,$00
+        .byte   $05,$58,$03,$02,$68,$02,$00,$16,$00
+        .byte   $05,$59,$03,$02,$69,$02,$00,$16,$00
+        .byte   $05,$58,$03,$02,$68,$02,$00,$16,$00
+        .byte   $05,$58,$03,$02,$6d,$02,$00,$16,$00
+        .byte   $05,$58,$03,$02,$68,$02,$00,$16,$00
+        .byte   $05,$58,$03,$02,$68,$02,$00,$16,$00
+        .byte   $05,$5b,$03,$02,$6b,$02,$00,$16,$00
+        .byte   $05,$5a,$04,$02,$6a,$02,$00,$16,$00
+        .byte   $05,$5c,$03,$02,$6c,$02,$00,$16,$00
+        .byte   $05,$58,$03,$02,$68,$02,$00,$16,$00
+        .byte   $05,$58,$07,$00,$68,$00,$00,$17,$00
+        .byte   $05,$58,$07,$00,$68,$00,$00,$17,$00
+        .byte   $05,$59,$07,$00,$69,$00,$00,$17,$00
+        .byte   $07,$5b,$0e,$00,$6b,$00,$00,$17,$00
+        .byte   $07,$58,$0d,$00,$6a,$00,$00,$17,$00
+        .byte   $07,$58,$0a,$00,$68,$00,$00,$17,$00
+        .byte   $07,$59,$0b,$00,$69,$00,$00,$17,$00
+        .byte   $07,$58,$0b,$00,$6a,$00,$00,$17,$00
+        .byte   $07,$60,$0b,$0a,$6f,$07,$00,$17,$00
+        .byte   $0d,$60,$16,$0a,$6f,$07,$00,$17,$00
+        .byte   $04,$58,$1e,$02,$68,$02,$80,$20,$00
+        .byte   $04,$58,$1e,$02,$68,$02,$80,$20,$00
+        .byte   $04,$59,$1e,$02,$69,$02,$80,$20,$00
+        .byte   $04,$5f,$1f,$10,$6d,$0a,$80,$0e,$00
+        .byte   $04,$5a,$1e,$02,$6a,$02,$80,$20,$00
+        .byte   $04,$58,$1e,$02,$68,$02,$80,$20,$00
+        .byte   $04,$58,$1e,$02,$68,$02,$80,$20,$00
+        .byte   $09,$59,$12,$13,$6d,$0b,$00,$20,$00
+        .byte   $04,$5f,$1e,$02,$6d,$02,$80,$20,$00
+        .byte   $04,$5c,$1e,$02,$6c,$02,$80,$20,$00
+        .byte   $07,$58,$0f,$04,$68,$04,$00,$3e,$00
+        .byte   $04,$59,$2b,$16,$69,$1a,$00,$3e,$00
+        .byte   $07,$5a,$0f,$04,$6f,$04,$00,$3e,$00
+        .byte   $04,$58,$2b,$16,$68,$1a,$00,$3e,$00
+        .byte   $05,$5b,$06,$04,$6b,$04,$00,$3e,$00
+        .byte   $04,$59,$2b,$16,$68,$1a,$00,$3e,$00
+        .byte   $0a,$66,$13,$04,$6f,$04,$00,$3e,$00
+        .byte   $04,$58,$2a,$03,$6d,$03,$40,$3e,$00
+        .byte   $00,$58,$00,$00,$68,$00,$20,$81,$82
+        .byte   $00,$58,$00,$00,$68,$00,$20,$83,$84
+        .byte   $00,$58,$00,$00,$68,$00,$20,$81,$82
+        .byte   $00,$58,$00,$00,$68,$00,$20,$83,$84
+        .byte   $00,$58,$00,$00,$6a,$00,$20,$81,$82
+        .byte   $00,$59,$00,$00,$6b,$00,$20,$83,$82
+        .byte   $00,$59,$00,$00,$6f,$00,$20,$81,$82
+        .byte   $00,$59,$00,$00,$6e,$00,$20,$83,$84
+        .byte   $08,$58,$10,$14,$68,$0c,$40,$05,$00
+        .byte   $08,$61,$10,$14,$6e,$0c,$40,$05,$00
+        .byte   $08,$62,$10,$14,$6d,$0c,$40,$05,$00
+        .byte   $08,$63,$10,$14,$6f,$0c,$40,$05,$00
+        .byte   $08,$5a,$10,$14,$69,$0c,$40,$05,$00
+        .byte   $08,$5b,$10,$14,$6b,$0c,$40,$05,$00
+        .byte   $08,$58,$10,$14,$68,$0c,$40,$05,$00
+        .byte   $08,$58,$11,$14,$68,$0c,$40,$05,$00
+        .byte   $08,$59,$11,$14,$69,$0c,$40,$05,$00
+        .byte   $08,$58,$11,$14,$6c,$0c,$40,$05,$00
+        .byte   $08,$62,$11,$14,$68,$2e,$41,$05,$00
+        .byte   $08,$63,$11,$14,$6f,$0c,$40,$05,$00
+        .byte   $08,$5a,$11,$14,$6d,$0c,$40,$05,$00
+        .byte   $08,$59,$11,$14,$68,$0c,$40,$05,$00
+        .byte   $00,$5b,$01,$14,$61,$13,$80,$12,$00
+        .byte   $00,$5a,$01,$14,$62,$14,$80,$12,$00
+        .byte   $00,$60,$01,$14,$63,$15,$80,$12,$00
+        .byte   $00,$58,$01,$14,$58,$12,$80,$12,$00
+        .byte   $00,$59,$01,$14,$68,$12,$80,$12,$00
+        .byte   $00,$64,$01,$14,$5b,$12,$80,$12,$00
+        .byte   $01,$59,$02,$14,$69,$0f,$80,$12,$00
+        .byte   $01,$60,$02,$14,$68,$0f,$80,$12,$00
+        .byte   $03,$64,$1c,$00,$69,$1f,$80,$ff,$00
+        .byte   $03,$58,$1c,$00,$6a,$1f,$80,$ff,$00
+        .byte   $03,$58,$1c,$00,$6b,$1f,$80,$ff,$00
+        .byte   $03,$5c,$1c,$00,$6e,$1f,$80,$ff,$00
+        .byte   $04,$58,$1d,$10,$68,$09,$00,$30,$00
+        .byte   $04,$59,$1d,$10,$69,$09,$00,$30,$00
+        .byte   $04,$67,$1d,$10,$6f,$09,$00,$30,$00
+        .byte   $04,$64,$1d,$10,$6e,$09,$00,$30,$00
+        .byte   $04,$5c,$1d,$10,$6c,$09,$00,$30,$00
+        .byte   $03,$67,$1b,$00,$67,$19,$00,$21,$00
+        .byte   $03,$67,$1a,$00,$67,$19,$00,$21,$00
+        .byte   $03,$5a,$1a,$00,$5a,$19,$00,$21,$00
+        .byte   $03,$5b,$1b,$00,$5b,$19,$00,$21,$00
+        .byte   $00,$58,$00,$00,$68,$00,$00,$17,$00
+        .byte   $07,$5c,$0c,$00,$6c,$00,$00,$17,$00
+        .byte   $07,$66,$0b,$00,$6a,$00,$00,$17,$00
+        .byte   $0f,$5e,$18,$05,$6e,$05,$00,$71,$00
+        .byte   $0f,$5d,$19,$07,$6d,$06,$00,$72,$00
+        .byte   $02,$59,$26,$03,$69,$03,$40,$09,$00
+        .byte   $03,$59,$29,$14,$69,$0e,$40,$12,$00
+        .byte   $02,$59,$25,$14,$69,$10,$40,$12,$00
+        .byte   $07,$60,$0b,$00,$6f,$00,$00,$17,$00
+        .byte   $04,$58,$1d,$10,$68,$09,$00,$30,$00
+        .byte   $0a,$58,$2c,$16,$68,$11,$00,$05,$00
+        .byte   $0a,$59,$2c,$16,$69,$11,$00,$05,$00
+        .byte   $08,$58,$10,$14,$68,$2e,$41,$05,$00
+        .byte   $05,$58,$07,$00,$68,$00,$00,$17,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $05,$58,$03,$02,$68,$02,$00,$16,$00
+        .byte   $02,$6c,$26,$03,$6c,$03,$40,$09,$00
+        .byte   $00,$59,$01,$14,$68,$12,$80,$12,$00
+        .byte   $00,$59,$01,$14,$68,$12,$80,$12,$00
+        .byte   $00,$59,$01,$14,$68,$12,$80,$12,$00
+        .byte   $00,$58,$01,$14,$58,$12,$80,$12,$00
+        .byte   $0b,$00,$14,$04,$00,$04,$00,$3e,$00
+        .byte   $0a,$00,$13,$04,$00,$04,$00,$3e,$00
+        .byte   $05,$58,$03,$02,$68,$02,$00,$16,$00
+        .byte   $05,$58,$03,$02,$68,$02,$00,$16,$00
+        .byte   $05,$58,$03,$02,$68,$02,$00,$16,$00
+        .byte   $07,$58,$0a,$00,$68,$00,$00,$17,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $0f,$58,$00,$16,$6e,$11,$00,$00,$00
+        .byte   $06,$58,$08,$03,$68,$03,$00,$03,$85
+        .byte   $06,$58,$09,$03,$68,$18,$00,$03,$86
+        .byte   $0c,$58,$15,$03,$69,$03,$00,$03,$87
+        .byte   $0e,$58,$17,$03,$69,$18,$00,$03,$88
+        .byte   $06,$58,$08,$0d,$6f,$08,$00,$41,$00
+        .byte   $06,$58,$09,$0d,$6f,$08,$00,$41,$00
+        .byte   $0c,$58,$15,$0d,$6f,$08,$00,$41,$00
+        .byte   $0e,$58,$17,$0d,$6f,$08,$00,$41,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$ff,$00
+        .byte   $00,$58,$00,$05,$4a,$05,$00,$71,$00
+        .byte   $00,$58,$00,$07,$49,$06,$00,$72,$00
+        .byte   $00,$58,$00,$0c,$6f,$26,$00,$17,$00
+        .byte   $00,$58,$00,$18,$4d,$20,$00,$17,$00
+        .byte   $00,$58,$00,$19,$4a,$21,$00,$17,$00
+        .byte   $00,$58,$00,$18,$4c,$20,$00,$17,$00
+        .byte   $00,$58,$00,$05,$4a,$05,$00,$71,$00
+        .byte   $00,$58,$00,$07,$49,$06,$00,$72,$00
+        .byte   $00,$58,$00,$0c,$6f,$26,$00,$17,$00
+        .byte   $00,$58,$00,$00,$4a,$00,$00,$17,$00
+        .byte   $00,$58,$00,$18,$4c,$22,$00,$17,$00
+        .byte   $00,$58,$00,$1c,$4b,$23,$00,$17,$00
+        .byte   $00,$58,$00,$05,$4a,$05,$00,$71,$00
+        .byte   $00,$58,$00,$07,$49,$06,$00,$72,$00
+        .byte   $00,$58,$00,$0c,$6f,$26,$00,$17,$00
+        .byte   $00,$58,$00,$1c,$49,$24,$00,$17,$00
+        .byte   $00,$58,$00,$19,$4a,$25,$00,$17,$00
+        .byte   $00,$58,$00,$00,$4c,$00,$00,$17,$00
+        .byte   $00,$00,$00,$0d,$58,$27,$00,$52,$00
+        .byte   $00,$00,$00,$0d,$58,$28,$00,$52,$00
+        .byte   $00,$00,$00,$0d,$64,$29,$00,$49,$00
+        .byte   $00,$00,$00,$0b,$34,$2a,$00,$4b,$00
+        .byte   $00,$00,$00,$0a,$04,$2b,$00,$49,$00
+        .byte   $00,$00,$00,$0a,$65,$2c,$00,$4b,$00
+        .byte   $00,$00,$00,$00,$68,$2d,$00,$59,$00
+
+; d9/9e34: pointers to data at D9/9EF2 (+$D90000)
+_d99ef2Ptrs:
+        ptr_tbl _d99ef2
+
+; d9/9ef2: (95 items, variable size)
+_d99ef2:
+        .incbin "unknown_d99ef2.dat"
+
+; d9/a486: pointers to data at D9/A7B0 (+$D90000)
+_d9a7b0Ptrs:
+        ptr_tbl _d9a7b0
+
+; d9/a7b0: (405 items, variable size)
+_d9a7b0:
+        .incbin "unknown_d9a7b0.dat"
+
+; d9/b35e: pointers to attack animation frame data (+$D90000)
+AttackAnimFramesPtrs:
+        ptr_tbl AttackAnimFrames
+
+; d9/be48: attack animation frame data (1397 items, variable size)
+AttackAnimFrames:
+        .incbin "attack_anim_frames.dat"

@@ -321,7 +321,8 @@
 | D1F000-D20000 | fixed-width font graphics (2bpp)                          |
 | D20000-D49400 | battle character graphics (5*22 * 1536 bytes, 4bpp)       |
 | D49400-D497C0 | dead battle character graphics (5 * 192 bytes, 4bpp)      |
-| D497C0-D4A3C0 | misc. battle sprite graphics (3bpp)                       |
+| D497C0-D49E50 | misc. battle sprite graphics (3bpp)                       |
+| D49E50-D4A3C0 | misc. battle sprite graphics (3bpp)                       |
 | D4A3C0-D4B180 | battle character palettes (5*22 items, 32 bytes each)     |
 | D4B180-D4B900 | monster graphics properties (384 items, 5 bytes each)     |
 | D4B900-D4B908 |                                                           |
@@ -394,13 +395,12 @@
 | D97D42-D97F4E | pointers to attack animation scripts (+$D90000)           |
 | D97F4E-D99655 | attack animation scripts (262 items, variable size)       |
 | D99655-D99855 | attack animation target palettes (16 * 32 bytes)          |
-| D99855-D99CD5 | weapon animation properties (128 items, 9 bytes each)     |
-| D99CD5-D99E34 | ??? animation properties (39 items, 9 bytes each)         |
-| D99E34-D99EF2 | pointers to data at D9/9EF2 (+$D90000)                    |
+| D99855-D99E34 | weapon animation properties (167 items, 9 bytes each)     |
+| D99E34-D99E94 | pointers to data at D9/9EF2 (+$D90000)                    |
+| D99E94-D99EF2 | more pointers to data at D9/9EF2 (+$D90000)               |
 | D99EF2-D9A486 | (95 items, variable size)                                 |
 | D9A486-D9A7B0 | pointers to data at D9/A7C0 (+$D90000)                    |
-| D9A7B0-D9A7C0 |                                                           |
-| D9A7C0-D9B35E | (405 items, variable size)                                |
+| D9A7B0-D9B35E | (405 items, variable size)                                |
 | D9B35E-D9BE48 | pointers to attack animation frame data (+$D90000)        |
 | D9BE48-DA0000 | attack animation frame data (1397 items, variable size)   |
 | DA0000-DB8000 | map sprite graphics (4bpp)                                |
