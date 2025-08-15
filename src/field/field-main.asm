@@ -22795,8 +22795,8 @@ _e02f40:
         bra     _2f68
 
 _e02f47:
-        lda     #$d1
-        ldy     #$1c81      ; spell names (short, no icon)
+        lda     #^MagicName
+        ldy     #near (MagicName+1)      ; spell names (short, no icon)
         bra     _2f68
 
 _e02f4e:
@@ -23165,7 +23165,7 @@ _e03201:
         bne     @320e
         lda     f:ProphecyTextGfx,x
         rtl
-@320e:  lda     $c3eb00,x
+@320e:  lda     f:BigFontGfx,x
         rtl
 
 _e03213:
@@ -23174,7 +23174,7 @@ _e03213:
         bne     @3220
         lda     f:ProphecyTextGfx + 12,x
         rtl
-@3220:  lda     $c3eb0c,x
+@3220:  lda     f:BigFontGfx+12,x
         rtl
 
 ; ---------------------------------------------------------------------------

@@ -53,6 +53,10 @@
       "ptr_offset": "0xD10000"
     },
     {
+      "json_path": "src/text/job_name_jp.json",
+      "asset_range": "0xD15600-0xD156AF"
+    },
+    {
       "json_path": "src/text/battle_cmd_name_jp.json",
       "asset_range": "0xD15800-0xD159DF"
     },
@@ -318,6 +322,10 @@
       "item_size": 26
     },
     {
+      "file_path": "src/gfx/monster.pal",
+      "asset_range": "0xCED000-0xCEF26F"
+    },
+    {
       "file_path": "src/field/map_tileset/map_tileset_%s.dat.lz",
       "asset_range": "0xCF0038-0xCFC501",
       "ptr_range": "0xCF0000-0xCF0037",
@@ -541,7 +549,11 @@
       "item_size": 192
     },
     {
-      "file_path": "src/gfx/battle_char_pal/pal_%s.4bpp",
+      "file_path": "src/gfx/battle_sprites.3bpp",
+      "asset_range": "0xD497C0-0xD4A3BF"
+    },
+    {
+      "file_path": "src/gfx/battle_char_pal/pal_%s.pal",
       "asset_range": "0xD4A3C0-0xD4B17F",
       "item_size": 32
     },

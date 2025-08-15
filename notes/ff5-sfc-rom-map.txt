@@ -370,7 +370,9 @@
 | D84157-D84196 | destination address for battle bg graphics (absolute)     |
 | D84196-D841D5 | pointers to battle bg graphics (absolute)                 |
 | D841D5-D8DE36 | battle bg graphics (21 items, variable size)              |
-| D8DE36-D8DE7A |                                                           |
+| D8DE36-D8DE4E |                                                           |
+| D8DE4E-D8DE5A |                                                           |
+| D8DE5A-D8DFFA |                                                           |
 | D8DE7A-D8DFFA |                                                           |
 | D8DFFA-D8DFFF | unused space (6 bytes)                                    |
 | D8E000-D8E080 | initial npc flags (512 items, 1 bit each)                 |

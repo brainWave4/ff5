@@ -18,6 +18,7 @@
 
 inc_lang "text/dlg_%s.inc"
 inc_lang "text/item_name_%s.inc"
+inc_lang "text/job_name_%s.inc"
 inc_lang "text/magic_name_%s.inc"
 inc_lang "text/summon_name_%s.inc"
 inc_lang "text/attack_name_%s.inc"
@@ -175,6 +176,14 @@ BattleMsgPtrs:
 ; d1/3ba9
 BattleMsg:
         .incbin "battle_msg_jp.dat"
+
+; ------------------------------------------------------------------------------
+
+.segment "job_name"
+
+; d1/5600
+JobName:
+        .incbin "job_name_jp.dat"
 
 ; ------------------------------------------------------------------------------
 
