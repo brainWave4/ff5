@@ -96528,16 +96528,16 @@ C4/063D:              .DB $80, $10, $00, $00 ; $7F: fade out sound
 ; songs to suspend the previous song
 C4/0641:              .DB $2B ; the battle
 C4/0642:              .DB $34 ; good night!
-C4/0642:              .DB $2F ; i'm a dancer
-C4/0642:              .DB $35 ; piano lesson 1
-C4/0642:              .DB $36 ; piano lesson 2
-C4/0642:              .DB $37 ; piano lesson 3
-C4/0642:              .DB $38 ; piano lesson 4
-C4/0642:              .DB $39 ; piano lesson 5
-C4/0642:              .DB $3A ; piano lesson 6
-C4/0642:              .DB $3B ; piano lesson 7
-C4/0642:              .DB $3C ; piano lesson 8
-C4/0642:              .DB $FF ; end of list terminator
+C4/0643:              .DB $2F ; i'm a dancer
+C4/0644:              .DB $35 ; piano lesson 1
+C4/0645:              .DB $36 ; piano lesson 2
+C4/0646:              .DB $37 ; piano lesson 3
+C4/0647:              .DB $38 ; piano lesson 4
+C4/0648:              .DB $39 ; piano lesson 5
+C4/0649:              .DB $3A ; piano lesson 6
+C4/064A:              .DB $3B ; piano lesson 7
+C4/064B:              .DB $3C ; piano lesson 8
+C4/064C:              .DB $FF ; end of list terminator
 
 ; =====================================[ menu misc. ]=====================================
 
