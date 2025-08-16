@@ -96553,12 +96553,22 @@ C4/1F69:              .DW $48EA, $48EA
 C4/1F6D:              .DW $48FC, $48FC
 
 ; asdr
-C4/1F71:       10 00 FF E0 FF E0 FF E0 FF E0 FF E0 FF E0 FF
-            E0 FF E0
+C4/1F71: 10 00
+C4/1F73: FF E0 FF E0
+C4/1F77: FF E0 FF E0
+C4/1F7B: FF E0 FF E0
+C4/1F7F: FF E0 FF E0
 
 ; pitch multipliers
-C4/1F83:             10 00 E0 A0 E0 A0 E0 A0 E0 A0 00 00 E0
-            A0 E0 A0 E0 A0
+C4/1F83: 10 00
+C4/1F85:              .DB $E0, $A0
+C4/1F87:              .DB $E0, $A0
+C4/1F89:              .DB $E0, $A0
+C4/1F8B:              .DB $E0, $A0
+C4/1F8D:              .DB $00, $00
+C4/1F8F:              .DB $E0, $A0
+C4/1F91:              .DB $E0, $A0
+C4/1F93:              .DB $E0, $A0
 
 ; [ instrument ]
 
