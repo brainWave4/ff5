@@ -96542,10 +96542,15 @@ C4/064C:              .DB $FF ; end of list terminator
 ; [ sound effect ]
 
 ; bbr/loop pointers
-C4/1F4F:                                                 20
-            00 00 48 00 48 24 48 24 48 48 48 48 48 6C 48 87
-            48 AB 48 C6 48 D8 48 D8 48 EA 48 EA 48 FC 48 FC
-            48
+C4/1F4F: 20 00
+C4/1F51:              .DW $4800, $4800
+C4/1F55:              .DW $4824, $4824
+C4/1F59:              .DW $4848, $4848
+C4/1F5D:              .DW $486C, $4887
+C4/1F61:              .DW $48AB, $48C6
+C4/1F65:              .DW $48D8, $48D8
+C4/1F69:              .DW $48EA, $48EA
+C4/1F6D:              .DW $48FC, $48FC
 
 ; asdr
 C4/1F71:       10 00 FF E0 FF E0 FF E0 FF E0 FF E0 FF E0 FF
