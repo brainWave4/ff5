@@ -96610,12 +96610,41 @@ C4/3D1A:              .DW $0E7C
 C4/3D1C:              .DW $0B6D
 
 ; pitch multipliers
-C4/3D1E:                                              C0 00
-            00 00 C0 00 00 00 60 00 00 00 00 00 FB 00 FE 48
-            E0 A0 00 7C FD 00 51 00 FE 00 E0 90 FC 60 FC 7F
-            FF 00 FC C0 FC A0 FC D0 FF A0 00 00 00 00 00 00
-            00 00 FE 00 E0 B0 FC 90 E0 C0 00 00 00 00 0E 00
-            00 00 00 00
+C4/3D1E:              .DB $C0, $00
+C4/3D20:              .DB $00, $00
+C4/3D22:              .DB $C0, $00
+C4/3D24:              .DB $00, $00
+C4/3D26:              .DB $60, $00
+C4/3D28:              .DB $00, $00
+C4/3D2A:              .DB $00, $00
+C4/3D2C:              .DB $FB, $00
+C4/3D2E:              .DB $FE, $48
+C4/3D30:              .DB $E0, $A0
+C4/3D32:              .DB $00, $7C
+C4/3D34:              .DB $FD, $00
+C4/3D36:              .DB $51, $00
+C4/3D38:              .DB $FE, $00
+C4/3D3A:              .DB $E0, $90
+C4/3D3C:              .DB $FC, $60
+C4/3D3E:              .DB $FC, $7F
+C4/3D40:              .DB $FF, $00
+C4/3D42:              .DB $FC, $C0
+C4/3D44:              .DB $FC, $A0
+C4/3D46:              .DB $FC, $D0
+C4/3D48:              .DB $FF, $A0
+C4/3D4A:              .DB $00, $00
+C4/3D4C:              .DB $00, $00
+C4/3D4E:              .DB $00, $00
+C4/3D50:              .DB $00, $00
+C4/3D52:              .DB $FE, $00
+C4/3D54:              .DB $E0, $B0
+C4/3D56:              .DB $FC, $90
+C4/3D58:              .DB $E0, $C0
+C4/3D5A:              .DB $00, $00
+C4/3D5C:              .DB $00, $00
+C4/3D5E:              .DB $0E, $00
+C4/3D60:              .DB $00, $00
+C4/3D62:              .DB $00, $00
 
 ; asdr
 C4/3D64:                FF E0 FF E0 FF E0 FF F0 FF E0 FF E0
