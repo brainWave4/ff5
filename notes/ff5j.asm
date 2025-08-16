@@ -96573,11 +96573,41 @@ C4/1F93:              .DB $E0, $A0
 ; [ instrument ]
 
 ; loop values
-C4/3CD8:                            8C 0A D9 0B 94 11 FA 05
-            F9 15 65 04 94 11 94 11 F5 04 9A 02 F7 08 C7 02
-            4E 03 DA 04 52 02 89 04 36 09 42 06 44 01 4A 04
-            BB 05 66 06 94 11 BD 09 84 03 BB 05 2D 09 F9 15
-            18 03 7D 07 DC 08 8D 08 E1 09 7C 0E 6D 0B
+C4/3CD8:              .DW $0A8C
+C4/3CDA:              .DW $0A8C
+C4/3CDC:              .DW $0BD9
+C4/3CDE:              .DW $1194
+C4/3CE0:              .DW $05FA
+C4/3CE2:              .DW $0465
+C4/3CE4:              .DW $1194
+C4/3CE6:              .DW $1194
+C4/3CE8:              .DW $04F5
+C4/3CEA:              .DW $029A
+C4/3CEC:              .DW $08F7
+C4/3CEE:              .DW $02C7
+C4/3CF0:              .DW $034E
+C4/3CF2:              .DW $04DA
+C4/3CF4:              .DW $0252
+C4/3CF6:              .DW $0489
+C4/3CF8:              .DW $0936
+C4/3CFA:              .DW $0642
+C4/3CFC:              .DW $0144
+C4/3CFE:              .DW $044A
+C4/3D00:              .DW $05BB
+C4/3D02:              .DW $0666
+C4/3D04:              .DW $1194
+C4/3D06:              .DW $09BD
+C4/3D08:              .DW $0384
+C4/3D0A:              .DW $05BB
+C4/3D0C:              .DW $092D
+C4/3D0E:              .DW $15F9
+C4/3D10:              .DW $0318
+C4/3D12:              .DW $077D
+C4/3D14:              .DW $08DC
+C4/3D16:              .DW $088D
+C4/3D18:              .DW $09E1
+C4/3D1A:              .DW $0E7C
+C4/3D1C:              .DW $0B6D
 
 ; pitch multipliers
 C4/3D1E:                                              C0 00
