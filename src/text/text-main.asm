@@ -17,17 +17,13 @@
 ; ------------------------------------------------------------------------------
 
 inc_lang "text/dlg_%s.inc"
-inc_lang "text/item_name_%s.inc"
-inc_lang "text/job_name_%s.inc"
-inc_lang "text/magic_name_%s.inc"
-inc_lang "text/summon_name_%s.inc"
-inc_lang "text/attack_name_%s.inc"
 inc_lang "text/map_title_%s.inc"
-inc_lang "text/monster_name_%s.inc"
-inc_lang "text/monster_special_name_%s.inc"
 inc_lang "text/battle_dlg_%s.inc"
-inc_lang "text/status_name_%s.inc"
 inc_lang "text/battle_msg_%s.inc"
+
+.export ItemName, JobName, MagicName, AttackName, MonsterName
+.export MonsterSpecialName, StatusName, BattleCmdName
+.export PassiveAbilityName, SpecialAbilityName
 
 ; ------------------------------------------------------------------------------
 
@@ -96,7 +92,9 @@ BattleDlgPtrs:
         ptr_tbl BattleDlg
 
 ; d0/f1d4
+.if !LANG_EN
 BattleDlg:
+.endif
         .incbin "battle_dlg_jp.dat"
 
 ; ------------------------------------------------------------------------------
@@ -104,7 +102,9 @@ BattleDlg:
 .segment "item_name"
 
 ; d1/1380
-.if !LANG_EN
+.if LANG_EN
+.export ItemNameShort := *
+.else
 ItemName:
 .endif
         .incbin "item_name_jp.dat"
@@ -118,10 +118,6 @@ ItemName:
 ; d1/1c80
 MagicName:
         incbin_lang "magic_name_%s.dat"
-
-; d1/1e30
-SummonName:
-        incbin_lang "summon_name_%s.dat"
 
 ; d1/1e8a
 AttackName:
@@ -174,7 +170,9 @@ BattleMsgPtrs:
         ptr_tbl BattleMsg
 
 ; d1/3ba9
+.if !LANG_EN
 BattleMsg:
+.endif
         .incbin "battle_msg_jp.dat"
 
 ; ------------------------------------------------------------------------------
@@ -187,37 +185,49 @@ JobName:
 
 ; ------------------------------------------------------------------------------
 
-inc_lang "text/battle_cmd_name_%s.inc"
-
 .segment "battle_cmd_name"
 
 ; d1/5800
+.if !LANG_EN
 BattleCmdName:
-        incbin_lang "battle_cmd_name_%s.dat"
+.endif
+        .incbin "battle_cmd_name_jp.dat"
 
 ; ------------------------------------------------------------------------------
-
-inc_lang "text/passive_ability_name_%s.inc"
 
 .segment "passive_ability_name"
 
 ; d1/6200
+.if !LANG_EN
 PassiveAbilityName:
-        incbin_lang "passive_ability_name_%s.dat"
+.endif
+        .incbin "passive_ability_name_jp.dat"
 
 ; ------------------------------------------------------------------------------
-
-inc_lang "text/special_ability_name_%s.inc"
 
 .segment "special_ability_name"
 
 ; d1/6700
+.if !LANG_EN
 SpecialAbilityName:
-        incbin_lang "special_ability_name_%s.dat"
+.endif
+        .incbin "special_ability_name_jp.dat"
 
 ; ------------------------------------------------------------------------------
 
 .if LANG_EN
+
+.segment "monster_name_en"
+
+; e0/0050
+MonsterName:
+        .incbin "monster_name_en.dat"
+
+.segment "battle_cmd_name_en"
+
+; e0/1150
+BattleCmdName:
+        .incbin "battle_cmd_name_en.dat"
 
 .segment "dlg_en_ptrs"
 
@@ -231,6 +241,46 @@ DlgPtrs:
 Dlg:
         .incbin "dlg_en.dat"
 
+.segment "special_ability_name_en"
+
+; e7/0900
+SpecialAbilityName:
+        .incbin "special_ability_name_en.dat"
+
+.segment "attack_name_short_en"
+
+.export AttackNameShort
+
+; e7/0900
+AttackNameShort:
+        .incbin "attack_name_short_en.dat"
+
+.export AttackNameLong
+
+.segment "attack_name_long_en"
+
+; e7/1780
+AttackNameLong:
+        .incbin "attack_name_long_en.dat"
+
+.segment "battle_msg_en"
+
+; e7/2760
+BattleMsg:
+        .incbin "battle_msg_en.dat"
+
+.segment "monster_special_name_en"
+
+; e7/3700
+MonsterSpecialName:
+        .incbin "monster_special_name_en.dat"
+
+.segment "battle_dlg_en"
+
+; e7/3b00
+BattleDlg:
+        .incbin "battle_dlg_en.dat"
+
 .segment "map_title_en"
 
 ; e7/7000
@@ -238,8 +288,15 @@ MapTitle:
         .incbin "map_title_en.dat"
 
 .segment "item_name_en"
+
 ; e7/5860
 ItemName:
         .incbin "item_name_en.dat"
+
+.segment "passive_ability_name_en"
+
+; e7/7060
+PassiveAbilityName:
+        .incbin "passive_ability_name_en.dat"
 
 .endif

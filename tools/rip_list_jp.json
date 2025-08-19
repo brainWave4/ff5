@@ -32,11 +32,7 @@
     },
     {
       "json_path": "src/text/magic_name_jp.json",
-      "asset_range": "0xD11C80-0xD11E2F"
-    },
-    {
-      "json_path": "src/text/summon_name_jp.json",
-      "asset_range": "0xD11E30-0xD11E89"
+      "asset_range": "0xD11C80-0xD11E89"
     },
     {
       "json_path": "src/text/attack_name_jp.json",
@@ -535,7 +531,7 @@
       "asset_range": "0xD1D800-0xD1EFFF"
     },
     {
-      "file_path": "src/gfx/small_font.2bpp",
+      "file_path": "src/gfx/small_font_jp.2bpp",
       "asset_range": "0xD1F000-0xD1FFFF"
     },
     {

@@ -204,7 +204,7 @@ WeaponHitGfx:
 
 ; d1/f000
 SmallFontGfx:
-        .incbin "small_font.2bpp"
+        incbin_lang "small_font_%s.2bpp"
 
 ; ------------------------------------------------------------------------------
 

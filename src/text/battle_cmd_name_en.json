@@ -1,0 +1,11 @@
+{
+  "asset_label": "BattleCmdName",
+  "item_size": 7,
+  "char_tables": [
+    "small_symbols_en",
+    "text_en",
+    "fixed_length_en",
+    "dte_en"
+  ],
+  "text": []
+}

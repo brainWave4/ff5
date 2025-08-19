@@ -30,6 +30,7 @@
 .import BattleBGTiles, BattleBGTilesPtrs
 .import MonsterGfx, MonsterGfxProp, MonsterPal
 .import SmallFontGfx, BigFontGfx, KanjiGfx
+.import TheEndGfx
 .import MiscSpriteGfx1, MiscSpriteGfx2
 .import _d84157, BattleBGGfxPtrs
 .import AbilityBitTbl, RNGTbl
@@ -42,19 +43,16 @@
 .include "gfx/battle_bg_anim.inc"
 .include "gfx/battle_bg_pal_anim.inc"
 
-inc_lang "text/monster_name_%s.inc"
-inc_lang "text/monster_special_name_%s.inc"
 inc_lang "text/battle_dlg_%s.inc"
 inc_lang "text/battle_msg_%s.inc"
-inc_lang "text/item_name_%s.inc"
-inc_lang "text/job_name_%s.inc"
-inc_lang "text/magic_name_%s.inc"
-inc_lang "text/summon_name_%s.inc"
-inc_lang "text/attack_name_%s.inc"
-inc_lang "text/status_name_%s.inc"
-inc_lang "text/battle_cmd_name_%s.inc"
-inc_lang "text/passive_ability_name_%s.inc"
-inc_lang "text/special_ability_name_%s.inc"
+.import ItemName, JobName, MagicName, AttackName, StatusName
+.import BattleCmdName, PassiveAbilityName, SpecialAbilityName
+.import MonsterName, MonsterSpecialName
+
+.if LANG_EN
+        .import ItemNameShort
+        .import AttackNameShort, AttackNameLong
+.endif
 
 ; ---------------------------------------------------------------------------
 
@@ -1010,16 +1008,16 @@ _c104c9:
         jsr     $1a57
         lda     #$03
         ldy     #$0000
-        jsr     $aa3e       ; load attack palette (16-colors)
+        jsr     _c1aa3e       ; load attack palette (16-colors)
         lda     #$01
         ldy     #$0100
-        jsr     $aa3e       ; load attack palette (16-colors)
+        jsr     _c1aa3e       ; load attack palette (16-colors)
         lda     #$06
         ldy     #$00e0
-        jsr     $aa3e       ; load attack palette (16-colors)
+        jsr     _c1aa3e       ; load attack palette (16-colors)
         lda     #$08
         ldy     #$0120
-        jsr     $aa3e       ; load attack palette (16-colors)
+        jsr     _c1aa3e       ; load attack palette (16-colors)
         jsr     _c109a7
         ldx     $0971
         stx     $7e0b
@@ -1284,16 +1282,16 @@ _c10888:
         lda     #$f7
         sta     $2127
         sta     $2129
-        lda     #$c1
+        lda     #^_c119ea
         sta     $1f03
-        ldx     #$19ea      ; c1/19ea (battle nmi)
+        ldx     #near _c119ea      ; c1/19ea (battle nmi)
         stx     $1f01
         lda     #$5c
         sta     $1f00
         sta     $1f04
-        lda     #$c1
+        lda     #^_c119e9
         sta     $1f07
-        ldx     #$19e9      ; c1/19e9 (battle irq)
+        ldx     #near _c119e9      ; c1/19e9 (battle irq)
         stx     $1f05
         lda     #$33
         sta     $2123
@@ -2647,7 +2645,7 @@ _c11482:
         sta     $8c
         lda     f:_c114ed+1,x
         sta     $8d
-        lda     #$c1
+        lda     #^*
         sta     $8a
         sta     $8e
         ldy     #$0000
@@ -2682,7 +2680,7 @@ _c11482:
 
 ; pointers to bg scroll hdma data
 _c114ed:
-        .addr   $1596, $1507, $151a, $14f9, $1500, $1596
+        .addr   _c11596, _c11507, _c1151a, _c114f9, _c11500, _c11596
 
 ; credits (bg1)
 _c114f9:
@@ -4151,7 +4149,7 @@ _c12068:
 @209e:  lda     $3eef
         and     #$40
         beq     @20ab
-        lda     $d99755,x   ; underwater monster palette
+        lda     f:AttackTargetPal+$0100,x   ; underwater monster palette
         bra     @20af
 @20ab:  lda     f:MonsterPal,x   ; monster palettes
 @20af:  sta     $7e89,y
@@ -5407,13 +5405,11 @@ _c12a2f:
         jsr     $2bcf
 .if LANG_EN
         lda     #$07
-        sta     $70
-@2a3a:  lda     $e01150,x
 .else
         lda     #$05
+.endif
         sta     $70
 @2a3a:  lda     f:BattleCmdName,x
-.endif
         cmp     #$ff
         beq     @2a4a
         jsr     $2cf1
@@ -5434,13 +5430,11 @@ _c12a2f:
         ldx     $82
 .if LANG_EN
         lda     #$18
-        sta     $70
-@2a5d:  lda     $e77060,x
 .else
         lda     #$08
+.endif
         sta     $70
 @2a5d:  lda     f:PassiveAbilityName,x
-.endif
         cmp     #$ff
         beq     @2a6d
         jsr     $2cf1
@@ -5493,7 +5487,7 @@ _c12a90:
         ldx     $82
 @2aa6:
 .if LANG_EN
-        lda     $e71780,x
+        lda     f:AttackNameLong,x
 .else
         lda     f:AttackName,x
 .endif
@@ -5788,7 +5782,7 @@ _c12c15:
         ldx     $82
 @2c2e:
 .if LANG_EN
-        lda     $e71780,x
+        lda     f:AttackNameLong,x
 .else
         lda     f:AttackName,x
 .endif
@@ -6344,7 +6338,7 @@ _c12fa3:
         ldx     $82
 @2fbc:
 .if LANG_EN
-        lda     $e70f90,x   ; short attack names
+        lda     f:AttackNameShort,x   ; short attack names
 .else
         lda     f:AttackName,x   ; short attack names
 .endif
@@ -6380,7 +6374,12 @@ _c12fe3:
         ldx     $82
         lda     #$09
         sta     $76
-@2ff7:  lda     f:ItemName,x   ; item names
+@2ff7:
+.if LANG_EN
+        lda     f:ItemNameShort,x   ; item names
+.else
+        lda     f:ItemName,x   ; item names
+.endif
         jsr     $2dea       ; draw small text character
         inx
         dec     $76
@@ -6414,7 +6413,7 @@ _c13004:
         bne     @3031
 @3024:
 .if LANG_EN
-        lda     $e00a50,x
+        lda     f:MonsterName+$0a00,x
 .else
         lda     f:MonsterName+$0800,x
 .endif
@@ -6424,11 +6423,7 @@ _c13004:
         bne     @3024
         rts
 @3031:
-.if LANG_EN
-        lda     $e00050,x
-.else
         lda     f:MonsterName,x
-.endif
         jsr     $2dea       ; draw small text character
         inx
         dec     $70
@@ -9097,7 +9092,7 @@ _c1427f:
 .if LANG_EN
         lda     #$0c
         sta     $74
-@42ad:  lda     $e70f90,x
+@42ad:  lda     f:AttackNameShort,x
 .else
         lda     #$09
         sta     $74
@@ -12080,7 +12075,7 @@ _c1584b:
         lda     #$09
         sta     $88
 .if LANG_EN
-@586e:  lda     $e70f90,x   ; short attack names
+@586e:  lda     f:AttackNameShort,x   ; short attack names
 .else
 @586e:  lda     f:AttackName,x   ; short attack names
 .endif
@@ -12815,7 +12810,12 @@ _c15e3b:
         ldx     $9c
         lda     #$09
         sta     $88
-@5e91:  lda     f:ItemName,x   ; item names
+@5e91:
+.if LANG_EN
+        lda     f:ItemNameShort,x   ; item names
+.else
+        lda     f:ItemName,x   ; item names
+.endif
         jsr     $5f67
         inx
         dec     $88
@@ -23006,11 +23006,11 @@ _c1a847:
         lda     f:_d838ec+1,x   ; palette index
         and     #$7f
         ldy     #$0140
-        jsr     $aa3e       ; load attack palette (16-colors)
+        jsr     _c1aa3e       ; load attack palette (16-colors)
         lda     f:_d838ec+1,x   ; palette index
         and     #$7f
         ldy     #$0160
-        jsr     $aa3e       ; load attack palette (16-colors)
+        jsr     _c1aa3e       ; load attack palette (16-colors)
         bra     @a8d2
 
 ; type 5, 6, 7: no graphics
@@ -23262,8 +23262,8 @@ _c1aa8e:
 @aa8e:  phx
         pha
         lda     #$01
-        jsr     $aafe       ; load attack graphics pointers (weapons)
-        jsr     $aa5c       ; init tile pointers (3bpp)
+        jsr     _c1aafe       ; load attack graphics pointers (weapons)
+        jsr     _c1aa5c       ; init tile pointers (3bpp)
         pla
         jsr     $ab1a
         plx
@@ -23277,8 +23277,8 @@ _c1aa9e:
 @aa9e:  phx
         pha
         lda     #$02
-        jsr     $aafe       ; load attack graphics pointers (weapon hits)
-        jsr     $aa5c       ; init tile pointers (3bpp)
+        jsr     _c1aafe       ; load attack graphics pointers (weapon hits)
+        jsr     _c1aa5c       ; init tile pointers (3bpp)
         pla
         jsr     $ab1a
         plx
@@ -23292,8 +23292,8 @@ _c1aaae:
 @aaae:  phx
         pha
         lda     #$06
-        jsr     $aafe       ; load attack graphics pointers (weapons alt.)
-        jsr     $aa5c       ; init tile pointers (3bpp)
+        jsr     _c1aafe       ; load attack graphics pointers (weapons alt.)
+        jsr     _c1aa5c       ; init tile pointers (3bpp)
         pla
         jsr     $ab1a
         plx
@@ -23307,8 +23307,8 @@ _c1aabe:
 @aabe:  phx
         pha
         lda     #$00
-        jsr     $aafe       ; load attack graphics pointers (spells 1)
-        jsr     $aa5c       ; init tile pointers (3bpp)
+        jsr     _c1aafe       ; load attack graphics pointers (spells 1)
+        jsr     _c1aa5c       ; init tile pointers (3bpp)
         pla
         jsr     $ab1a
         plx
@@ -23322,8 +23322,8 @@ _c1aace:
 @aace:  phx
         pha
         lda     #$03
-        jsr     $aafe       ; load attack graphics pointers (spells 2)
-        jsr     $aa5c       ; init tile pointers (3bpp)
+        jsr     _c1aafe       ; load attack graphics pointers (spells 2)
+        jsr     _c1aa5c       ; init tile pointers (3bpp)
         pla
         jsr     $ab1a
         plx
@@ -23337,8 +23337,8 @@ _c1aade:
 @aade:  phx
         pha
         lda     #$04
-        jsr     $aafe       ; load attack graphics pointers (spells 3)
-        jsr     $aa5c       ; init tile pointers (3bpp)
+        jsr     _c1aafe       ; load attack graphics pointers (spells 3)
+        jsr     _c1aa5c       ; init tile pointers (3bpp)
         pla
         jsr     $ab1a
         plx
@@ -23352,8 +23352,8 @@ _c1aaee:
 @aaee:  phx
         pha
         lda     #$05
-        jsr     $aafe       ; load attack graphics pointers (animals)
-        jsr     $aa75       ; init tile pointers (4bpp)
+        jsr     _c1aafe       ; load attack graphics pointers (animals)
+        jsr     _c1aa75       ; init tile pointers (4bpp)
         pla
         jsr     $abd7
         plx
@@ -24390,7 +24390,7 @@ _c1b266:
         phx
         longa
         clr_ax
-@b26c:  lda     $d99835,x
+@b26c:  lda     f:AttackTargetPal+$01e0,x
         sta     $7f89,y
         iny2
         inx2
@@ -25727,7 +25727,7 @@ _c1bd23:
         lda     f:AttackAnimScriptPtrs,x   ; pointer to attack animation scripts
         sta     $d3ea
         ldy     #$0020
-@bd49:  lda     $d97d44,x
+@bd49:  lda     f:AttackAnimScriptPtrs+2,x
         sta     $d3da,y
         tya
         clc
@@ -31924,7 +31924,7 @@ _c1e999:
         jsr     $fdca       ; copy data to vram
         clr_ay
         lda     #$03
-        jsr     $aa3e       ; load attack palette (16-colors)
+        jsr     _c1aa3e       ; load attack palette (16-colors)
         clr_ax
         stx     $bc77
         ldx     #$ffd0
@@ -32320,9 +32320,9 @@ _c1ed01:
 ; [  ]
 
 _c1ed76:
-@ed76:  lda     #$d0        ; ??? (d0/e4cb)
+@ed76:  lda     #^TheEndGfx        ; ??? (d0/e4cb)
         sta     $74
-        ldx     #$e4cb
+        ldx     #near TheEndGfx
         stx     $72
         jsr     $fb77       ; decompress
         phb
@@ -33782,16 +33782,16 @@ _c1f883:
 ; [  ]
 
 _c1f88c:
-@f88c:  lda     #$c1
+@f88c:  lda     #^_c1faef
         sta     $1f03
-        ldx     #$faef      ; nmi = c1/faef
+        ldx     #near _c1faef      ; nmi = c1/faef
         stx     $1f01
         lda     #$5c
         sta     $1f00
         sta     $1f04
-        lda     #$c1
+        lda     #^_c1fa0d
         sta     $1f07
-        ldx     #$fa0d      ; irq = c1/fa0d (rti)
+        ldx     #near _c1fa0d      ; irq = c1/fa0d (rti)
         stx     $1f05
         clr_ax
 @f8ac:  stz     $0400,x     ; clear hi-sprite data
@@ -33855,9 +33855,9 @@ _c1f8f9:
         sta     $4320
         lda     #$32
         sta     $4321
-        ldx     #$dd7a
+        ldx     #near _d0dd7a
         stx     $4322
-        lda     #$d0
+        lda     #^_d0dd7a
         sta     $4324
         lda     #$7e
         sta     $4327
@@ -35339,9 +35339,9 @@ _d0dc2a:
         sta     $4330
         lda     #$26        ; window position
         sta     $4331
-        ldx     #$dd81
+        ldx     #near _d0dd81
         stx     $4332
-        lda     #$d0
+        lda     #^_d0dd81
         sta     $4334
         lda     #$7e
         sta     $4337
@@ -35355,11 +35355,11 @@ _d0dc2a:
         sta     $4361
         lda     $7edbd3
         beq     @dc74
-        ldx     #$dd9f
+        ldx     #near _d0dd9f
         bra     @dc77
-@dc74:  ldx     #$ddac
+@dc74:  ldx     #near _d0ddac
 @dc77:  stx     $4362
-        lda     #$d0
+        lda     #^_d0dd9f
         sta     $4364
         lda     #$7e
         sta     $4367
@@ -35368,9 +35368,9 @@ _d0dc2a:
         sta     $4360
         lda     #$00
         sta     $4361
-        ldx     #$dd7a
+        ldx     #near _d0dd7a
         stx     $4362
-        lda     #$d0
+        lda     #^_d0dd7a
         sta     $4364
         lda     #$7e
         sta     $4367
@@ -35416,9 +35416,9 @@ _d0dca5:
         sta     $4320
         lda     #$32        ; dma channel 2: fixed color
         sta     $4321
-        ldx     #$dd7a
+        ldx     #near _d0dd7a
         stx     $4322
-        lda     #$d0
+        lda     #^_d0dd7a
         sta     $4324
         lda     #$7e
         sta     $4327
@@ -35428,11 +35428,11 @@ _d0dca5:
         sta     $4331
         lda     $7edbd3
         beq     @dd1f
-        ldx     #$dd92
+        ldx     #near _d0dd92
         bra     @dd22
-@dd1f:  ldx     #$dd88
+@dd1f:  ldx     #near _d0dd88
 @dd22:  stx     $4332
-        lda     #$d0
+        lda     #^_d0dd88
         sta     $4334
         lda     #$7e
         sta     $4337
@@ -35440,9 +35440,9 @@ _d0dca5:
         sta     $4360
         lda     #$00        ; dma channel 6: screen brightness
         sta     $4361
-        ldx     #$dd7a
+        ldx     #near _d0dd7a
         stx     $4362
-        lda     #$d0
+        lda     #^_d0dd7a
         sta     $4364
         lda     #$7e
         sta     $4367
@@ -35452,11 +35452,11 @@ _d0dca5:
         sta     $4371
         lda     $7edbd3
         beq     @dd5e
-        ldx     #$ddc0
+        ldx     #near _d0ddc0
         bra     @dd61
-@dd5e:  ldx     #$ddb6
+@dd5e:  ldx     #near _d0ddb6
 @dd61:  stx     $4372
-        lda     #$d0
+        lda     #^_d0ddb6
         sta     $4374
         lda     #$7e
         sta     $4377

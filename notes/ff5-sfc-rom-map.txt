@@ -246,7 +246,7 @@
 | D11380-D11C80 | item names (256 items, 9 bytes each)                      |
 | D11C80-D11E30 | spell names (72 items, 6 bytes each)                      |
 | D11E30-D11E8A | summon names (15 items, 6 bytes each)                     |
-| D11E8A-D1247B | short attack names (161 items, 9 bytes each)              |
+| D11E8A-D1247B | attack names (161 items, 9 bytes each)                    |
 | D1247B-D12480 | unused space (5 bytes)                                    |
 | D12480-D12580 | weapon/armor equipment types (64 items, 4 bytes each)     |
 | D12580-D126C0 | armor elemental properties (64 items, 5 bytes each)       |
@@ -437,8 +437,8 @@
 | E36FBB-E70000 | unused                                                    |
 | E70000-E70763 | map titles (163 items, variable size)                     |
 | E70763-E70900 | unused                                                    |
-| E70900-E70F90 | ability names (16 bytes each)                             |
-| E70F90-E71780 | med. attack names (168 items, 12 bytes each)              |
+| E70900-E70F90 | special ability names (105 items, 16 bytes each)          |
+| E70F90-E71780 | short attack names (168 items, 12 bytes each)             |
 | E71780-E72740 | long attack names (168 items, 24 bytes each)              |
 | E72760-E72F00 | battle messages (256 items, variable size)                |
 | E72F00-E733EC | menu strings                                              |
@@ -452,6 +452,6 @@
 | E75200-E75800 | item descriptions                                         |
 | E75800-E75860 | battle record text ???                                    |
 | E75860-E77060 | long item names (256 items, 24 bytes each)                |
-| E77060-E77378 | long innate ability names (33 items, 24 bytes each)       |
+| E77060-E77378 | long passive ability names (33 items, 24 bytes each)      |
 | E773A0-E77520 | crystal prophecy                                          |
 +---------------+-----------------------------------------------------------+
