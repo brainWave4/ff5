@@ -143,6 +143,7 @@ SampleADSR:
 
 SongSamples:
 
+; 00 Ahead on Our Way
         begin_song_samples 0
         def_song_sample OBOE
         def_song_sample TRUMPET
@@ -156,6 +157,7 @@ SongSamples:
         def_song_sample CYMBAL
         end_song_samples 0
 
+; 01 The Fierce Battle
         begin_song_samples 1
         def_song_sample TIMPANI
         def_song_sample TRUMPET
@@ -165,6 +167,7 @@ SongSamples:
         def_song_sample SNARE
         end_song_samples 1
 
+; 02 A Presentiment
         begin_song_samples 2
         def_song_sample OBOE
         def_song_sample FLUTE
@@ -177,6 +180,7 @@ SongSamples:
         def_song_sample CYMBAL
         end_song_samples 2
 
+; 03 Go Go Boko!
         begin_song_samples 3
         def_song_sample OBOE
         def_song_sample MARIMBA
@@ -189,6 +193,7 @@ SongSamples:
         def_song_sample TOM
         end_song_samples 3
 
+; 04 Pirates Ahoy!
         begin_song_samples 4
         def_song_sample OBOE
         def_song_sample FLUTE
@@ -198,6 +203,7 @@ SongSamples:
         def_song_sample TIMPANI
         end_song_samples 4
 
+; 05 Tenderness in the Air
         begin_song_samples 5
         def_song_sample HARP
         def_song_sample OBOE
@@ -206,6 +212,7 @@ SongSamples:
         def_song_sample MANDOLIN
         end_song_samples 5
 
+; 06 Fate in Haze
         begin_song_samples 6
         def_song_sample FLUTE
         def_song_sample HARP
@@ -217,6 +224,7 @@ SongSamples:
         def_song_sample CYMBAL
         end_song_samples 6
 
+; 07 Critter Tripper Fritter!
         begin_song_samples 7
         def_song_sample OBOE
         def_song_sample FLUTE
@@ -225,6 +233,7 @@ SongSamples:
         def_song_sample BASS_GUITAR
         end_song_samples 7
 
+; 08 The Prelude
         begin_song_samples 8
         def_song_sample HARP
         def_song_sample STRINGS
@@ -232,6 +241,7 @@ SongSamples:
         def_song_sample HORN
         end_song_samples 8
 
+; 09 The Last Battle
         begin_song_samples 9
         def_song_sample TRUMPET
         def_song_sample STRINGS
@@ -244,11 +254,13 @@ SongSamples:
         def_song_sample HARD_SNARE
         end_song_samples 9
 
+; 0A Requiem
         begin_song_samples 10
         def_song_sample FLUTE
         def_song_sample STRINGS
         end_song_samples 10
 
+; 0B Nostalgia
         begin_song_samples 11
         def_song_sample PIANO
         def_song_sample CHOIR
@@ -256,6 +268,7 @@ SongSamples:
         def_song_sample MUSIC_BOX_INSTR
         end_song_samples 11
 
+; 0C Cursed Earths
         begin_song_samples 12
         def_song_sample OBOE
         def_song_sample STRINGS
@@ -265,6 +278,7 @@ SongSamples:
         def_song_sample METAL_SYSTEM
         end_song_samples 12
 
+; 0D Lenna's Theme
         begin_song_samples 13
         def_song_sample FLUTE
         def_song_sample STRINGS
@@ -273,6 +287,7 @@ SongSamples:
         def_song_sample VIBRAPHONE
         end_song_samples 13
 
+; 0E Victory's Fanfare
         begin_song_samples 14
         def_song_sample TRUMPET
         def_song_sample BASS_GUITAR
@@ -281,12 +296,14 @@ SongSamples:
         def_song_sample ORGAN
         end_song_samples 14
 
+; 0F Deception
         begin_song_samples 15
         def_song_sample HARP
         def_song_sample STRINGS
         def_song_sample FLUTE
         end_song_samples 15
 
+; 10 The Day will Come
         begin_song_samples 16
         def_song_sample OBOE
         def_song_sample HARP
@@ -295,9 +312,11 @@ SongSamples:
         def_song_sample CHOIR
         end_song_samples 16
 
+; 11 ...silence
         begin_song_samples 17
         end_song_samples 17
 
+; 12 Exdeath's Castle
         begin_song_samples 18
         def_song_sample STRINGS
         def_song_sample BASS_GUITAR
@@ -307,6 +326,7 @@ SongSamples:
         def_song_sample TIMPANI
         end_song_samples 18
 
+; 13 My Home, Sweet Home
         begin_song_samples 19
         def_song_sample FLUTE
         def_song_sample PIANO
@@ -314,6 +334,7 @@ SongSamples:
         def_song_sample MANDOLIN
         end_song_samples 19
 
+; 14 Waltz Suomi
         begin_song_samples 20
         def_song_sample STRINGS
         def_song_sample FLUTE
@@ -323,6 +344,7 @@ SongSamples:
         def_song_sample TIMPANI
         end_song_samples 20
 
+; 15 Sealed Away
         begin_song_samples 21
         def_song_sample OBOE
         def_song_sample KLAVES
@@ -334,6 +356,7 @@ SongSamples:
         def_song_sample HORN
         end_song_samples 21
 
+; 16 The Four Warriors of Dawn
         begin_song_samples 22
         def_song_sample TRUMPET
         def_song_sample STRINGS
@@ -343,6 +366,7 @@ SongSamples:
         def_song_sample CYMBAL
         end_song_samples 22
 
+; 17 Danger!
         begin_song_samples 23
         def_song_sample STRINGS
         def_song_sample BASS_GUITAR
@@ -351,6 +375,7 @@ SongSamples:
         def_song_sample HARD_SNARE
         end_song_samples 23
 
+; 18 The Fire-Powered Ship
         begin_song_samples 24
         def_song_sample BASS_GUITAR
         def_song_sample STRINGS
@@ -359,6 +384,7 @@ SongSamples:
         def_song_sample CYMBAL
         end_song_samples 24
 
+; 19 As I Feel, You Feel
         begin_song_samples 25
         def_song_sample STRINGS
         def_song_sample OBOE
@@ -366,6 +392,7 @@ SongSamples:
         def_song_sample FLUTE
         end_song_samples 25
 
+; 1A Mambo de Chocobo!
         begin_song_samples 26
         def_song_sample TRUMPET
         def_song_sample UNKNOWN_1
@@ -377,10 +404,12 @@ SongSamples:
         def_song_sample CONGA
         end_song_samples 26
 
+; 1B Music Box
         begin_song_samples 27
         def_song_sample MUSIC_BOX_INSTR
         end_song_samples 27
 
+; 1C Intension of the Earth
         begin_song_samples 28
         def_song_sample OBOE
         def_song_sample HARP
@@ -391,6 +420,7 @@ SongSamples:
         def_song_sample CYMBAL
         end_song_samples 28
 
+; 1D The Dragon Spreads its Wings
         begin_song_samples 29
         def_song_sample TRUMPET
         def_song_sample HARP
@@ -401,12 +431,14 @@ SongSamples:
         def_song_sample SNARE
         end_song_samples 29
 
+; 1E Beyond the Deep Blue Sea
         begin_song_samples 30
         def_song_sample FLUTE
         def_song_sample HARP
         def_song_sample STRINGS
         end_song_samples 30
 
+; 1F Prelude of Empty Skies
         begin_song_samples 31
         def_song_sample BASS_DRUM
         def_song_sample BASS_GUITAR
@@ -418,6 +450,7 @@ SongSamples:
         def_song_sample CYMBAL
         end_song_samples 31
 
+; 20 Searching the Light
         begin_song_samples 32
         def_song_sample TRUMPET
         def_song_sample STRINGS
@@ -427,6 +460,7 @@ SongSamples:
         def_song_sample TIMPANI
         end_song_samples 32
 
+; 21 Harvest
         begin_song_samples 33
         def_song_sample OBOE
         def_song_sample HAND_CLAP
@@ -436,6 +470,7 @@ SongSamples:
         def_song_sample TOM
         end_song_samples 33
 
+; 22 Gilgamesh
         begin_song_samples 34
         def_song_sample ORGAN
         def_song_sample TRUMPET
@@ -449,6 +484,7 @@ SongSamples:
         def_song_sample TOM
         end_song_samples 34
 
+; 23 Four Valiant Hearts
         begin_song_samples 35
         def_song_sample FLUTE
         def_song_sample STRINGS
@@ -461,6 +497,7 @@ SongSamples:
         def_song_sample TRUMPET
         end_song_samples 35
 
+; 24 The Book of Sealings
         begin_song_samples 36
         def_song_sample HARP
         def_song_sample VIBRAPHONE
@@ -472,6 +509,7 @@ SongSamples:
         def_song_sample CYMBAL
         end_song_samples 36
 
+; 25 What?
         begin_song_samples 37
         def_song_sample TOM
         def_song_sample CONGA
@@ -481,6 +519,7 @@ SongSamples:
         def_song_sample WOO
         end_song_samples 37
 
+; 26 Hurry! Hurry!
         begin_song_samples 38
         def_song_sample STRINGS
         def_song_sample KRABI
@@ -494,6 +533,7 @@ SongSamples:
         def_song_sample CYMBAL
         end_song_samples 38
 
+; 27 Unknown Lands
         begin_song_samples 39
         def_song_sample FLUTE
         def_song_sample STRINGS
@@ -506,6 +546,7 @@ SongSamples:
         def_song_sample SNARE
         end_song_samples 39
 
+; 28 The Airship
         begin_song_samples 40
         def_song_sample FLUTE
         def_song_sample TRUMPET
@@ -519,6 +560,7 @@ SongSamples:
         def_song_sample SNARE
         end_song_samples 40
 
+; 29 Fanfare #1
         begin_song_samples 41
         def_song_sample TRUMPET
         def_song_sample TIMPANI
@@ -526,6 +568,7 @@ SongSamples:
         def_song_sample STRINGS
         end_song_samples 41
 
+; 2A Fanfare #2
         begin_song_samples 42
         def_song_sample TRUMPET
         def_song_sample STRINGS
@@ -535,6 +578,7 @@ SongSamples:
         def_song_sample TIMPANI
         end_song_samples 42
 
+; 2B The Battle
         begin_song_samples 43
         def_song_sample STRINGS
         def_song_sample TRUMPET
@@ -547,6 +591,7 @@ SongSamples:
         def_song_sample VIBRAPHONE
         end_song_samples 43
 
+; 2C Walking the Snowy Mountains
         begin_song_samples 44
         def_song_sample TRUMPET
         def_song_sample ORGAN
@@ -561,6 +606,7 @@ SongSamples:
         def_song_sample SYNTH_CHORD
         end_song_samples 44
 
+; 2D The Evil Lord, Exdeath
         begin_song_samples 45
         def_song_sample STRINGS
         def_song_sample CHOIR
@@ -571,6 +617,7 @@ SongSamples:
         def_song_sample DIST_GUITAR
         end_song_samples 45
 
+; 2E The Castle of Dawn
         begin_song_samples 46
         def_song_sample TRUMPET
         def_song_sample STRINGS
@@ -580,6 +627,7 @@ SongSamples:
         def_song_sample CYMBAL
         end_song_samples 46
 
+; 2F I'm a Dancer
         begin_song_samples 47
         def_song_sample BASS_GUITAR
         def_song_sample TRUMPET
@@ -588,9 +636,11 @@ SongSamples:
         def_song_sample HAND_CLAP
         end_song_samples 47
 
+; 30 Reminiscence
         begin_song_samples 48
         end_song_samples 48
 
+; 31 Run!
         begin_song_samples 49
         def_song_sample TRUMPET
         def_song_sample STRINGS
@@ -602,6 +652,7 @@ SongSamples:
         def_song_sample SNARE
         end_song_samples 49
 
+; 32 The Ancient Library
         begin_song_samples 50
         def_song_sample TOM
         def_song_sample OPEN_HIHAT
@@ -612,6 +663,7 @@ SongSamples:
         def_song_sample BASS_GUITAR
         end_song_samples 50
 
+; 33 Royal Palace
         begin_song_samples 51
         def_song_sample OBOE
         def_song_sample TRUMPET
@@ -623,9 +675,11 @@ SongSamples:
         def_song_sample VIBRAPHONE
         end_song_samples 51
 
+; 34 Good Night!
         begin_song_samples 52
         end_song_samples 52
 
+; 35 Piano lesson 1
         begin_song_samples 53
         def_song_sample VIBRAPHONE
         def_song_sample KLAVES
@@ -633,6 +687,7 @@ SongSamples:
         def_song_sample ORGAN
         end_song_samples 53
 
+; 36 Piano lesson 2
         begin_song_samples 54
         def_song_sample VIBRAPHONE
         def_song_sample KLAVES
@@ -640,6 +695,7 @@ SongSamples:
         def_song_sample ORGAN
         end_song_samples 54
 
+; 37 Piano lesson 3
         begin_song_samples 55
         def_song_sample VIBRAPHONE
         def_song_sample KLAVES
@@ -647,6 +703,7 @@ SongSamples:
         def_song_sample ORGAN
         end_song_samples 55
 
+;38 Piano lesson 4
         begin_song_samples 56
         def_song_sample VIBRAPHONE
         def_song_sample KLAVES
@@ -655,26 +712,31 @@ SongSamples:
         def_song_sample ORGAN
         end_song_samples 56
 
+; 39 Piano lesson 5
         begin_song_samples 57
         def_song_sample VIBRAPHONE
         def_song_sample ORGAN
         end_song_samples 57
 
+; 3A Piano lesson 6
         begin_song_samples 58
         def_song_sample VIBRAPHONE
         def_song_sample ORGAN
         end_song_samples 58
 
+; 3B Piano lesson 7
         begin_song_samples 59
         def_song_sample VIBRAPHONE
         def_song_sample ORGAN
         end_song_samples 59
 
+; 3C Piano lesson 8
         begin_song_samples 60
         def_song_sample VIBRAPHONE
         def_song_sample ORGAN
         end_song_samples 60
 
+; 3D Musica Machina
         begin_song_samples 61
         def_song_sample TIMPANI
         def_song_sample BASS_GUITAR
@@ -684,9 +746,11 @@ SongSamples:
         def_song_sample FLUTE
         end_song_samples 61
 
+; 3E (a meteor is falling)
         begin_song_samples 62
         end_song_samples 62
 
+; 3F The Land Unknown
         begin_song_samples 63
         def_song_sample MANDOLIN
         def_song_sample HARP
@@ -700,6 +764,7 @@ SongSamples:
         def_song_sample KLAVES
         end_song_samples 63
 
+; 40 The Decisive Battle
         begin_song_samples 64
         def_song_sample STRINGS
         def_song_sample TRUMPET
@@ -713,6 +778,7 @@ SongSamples:
         def_song_sample DIST_GUITAR
         end_song_samples 64
 
+; 41 The Silent Beyond
         begin_song_samples 65
         def_song_sample FLUTE
         def_song_sample OBOE
@@ -721,11 +787,13 @@ SongSamples:
         def_song_sample STRINGS
         end_song_samples 65
 
+; 42 Dear Friends
         begin_song_samples 66
         def_song_sample MANDOLIN
         def_song_sample FLUTE
         end_song_samples 66
 
+; 43 Final Fantasy
         begin_song_samples 67
         def_song_sample HORN
         def_song_sample STRINGS
@@ -735,6 +803,7 @@ SongSamples:
         def_song_sample VIBRAPHONE
         end_song_samples 67
 
+; 44 A New Origin
         begin_song_samples 68
         def_song_sample STRINGS
         def_song_sample TRUMPET
@@ -746,12 +815,15 @@ SongSamples:
         def_song_sample HARP
         end_song_samples 68
 
+; 45 (crickets chirping)
         begin_song_samples 69
         end_song_samples 69
 
+; 46 a shore
         begin_song_samples 70
         end_song_samples 70
 
+; 47 the tide rolls in
         begin_song_samples 71
         end_song_samples 71
 
