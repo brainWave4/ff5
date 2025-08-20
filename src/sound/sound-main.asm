@@ -91,7 +91,7 @@ _002c:  phb
         sta $05
         lda #$f0
         sta $00
-        jmp @0161
+        jmp _0161
 @007e:  cpx $2140
         bne @007e
         ldx #$0000
@@ -206,7 +206,7 @@ _014c:  phb
         ldx #$1d00
         phx
         pld
-@0161:  shorta
+_0161:  shorta
         lda $00
         stz $00
         beq _017d       ; no interrupt ($00)
@@ -783,7 +783,7 @@ _05c9:  longa
         sta $02
         lda $c40601,x
         sta $00
-        jmp @0161
+        jmp _0161
 
 ; ---------------------------------------------------------------------------
 
@@ -812,22 +812,22 @@ _05e0:  php
 
 ; [ interrupts $70-$7F ]
 
-        .btye $01,$0e,$08,$0f   ; $70: play song $0e (victory fanfare)
-        .btye $01,$2b,$08,$0f   ; $71: play song $2b (the battle)
-        .btye $01,$01,$08,$0f   ; $72: play song $01 (the fierce battle)
-        .btye $01,$09,$08,$0f   ; $73: play song $09 (the last battle)
-        .btye $01,$22,$08,$0f   ; $74: play song $22 (gilgamesh)
-        .btye $01,$0a,$08,$0f   ; $75: play song $0a (requiem)
-        .btye $01,$2d,$08,$0f   ; $76: play song $2d (the evil lord, exdeath)
-        .btye $01,$40,$08,$0f   ; $77: play song $40 (the decisive battle)
-        .btye $01,$07,$08,$0f   ; $78: play song $07 (critter tripper fritter!)
-        .btye $01,$3e,$08,$0f   ; $79: play song $3e (a meteor is falling)
-        .btye $01,$00,$08,$0f   ; $7a: play song $00 (ahead on our way)
-        .btye $01,$00,$08,$0f   ; $7b: play song $00
-        .btye $01,$00,$08,$0f   ; $7c: play song $00
-        .btye $01,$00,$08,$0f   ; $7d: play song $00
-        .btye $01,$00,$08,$0f   ; $7e: play song $00
-        .btye $80,$01,$00,$00   ; $7f: fade out sound
+        .byte $01,$0e,$08,$0f   ; $70: play song $0e (victory fanfare)
+        .byte $01,$2b,$08,$0f   ; $71: play song $2b (the battle)
+        .byte $01,$01,$08,$0f   ; $72: play song $01 (the fierce battle)
+        .byte $01,$09,$08,$0f   ; $73: play song $09 (the last battle)
+        .byte $01,$22,$08,$0f   ; $74: play song $22 (gilgamesh)
+        .byte $01,$0a,$08,$0f   ; $75: play song $0a (requiem)
+        .byte $01,$2d,$08,$0f   ; $76: play song $2d (the evil lord, exdeath)
+        .byte $01,$40,$08,$0f   ; $77: play song $40 (the decisive battle)
+        .byte $01,$07,$08,$0f   ; $78: play song $07 (critter tripper fritter!)
+        .byte $01,$3e,$08,$0f   ; $79: play song $3e (a meteor is falling)
+        .byte $01,$00,$08,$0f   ; $7a: play song $00 (ahead on our way)
+        .byte $01,$00,$08,$0f   ; $7b: play song $00
+        .byte $01,$00,$08,$0f   ; $7c: play song $00
+        .byte $01,$00,$08,$0f   ; $7d: play song $00
+        .byte $01,$00,$08,$0f   ; $7e: play song $00
+        .byte $80,$01,$00,$00   ; $7f: fade out sound
 
 ; [ songs to suspend the previous song ]
 
@@ -845,3 +845,5 @@ _05e0:  php
         .byte $ff               ; end of list terminator
 
 ; ---------------------------------------------------------------------------
+
+.include "song-data.asm"
