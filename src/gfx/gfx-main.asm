@@ -247,7 +247,7 @@ DeadCharGfx:
 
 ; d4/97c0
 MiscSpriteGfx1:
-        .incbin "battle_sprites1.3bpp"
+        incbin_lang "battle_sprites1_%s.3bpp"
 
 ; d4/9e50
 MiscSpriteGfx2:

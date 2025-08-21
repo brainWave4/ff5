@@ -50,10 +50,12 @@ Dlg:
 .segment "monster_name"
 
 ; d0/5c00
-.if !LANG_EN
+.if LANG_EN
+        .res 384 * 8, $ff
+.else
 MonsterName:
-.endif
         .incbin "monster_name_jp.dat"
+.endif
 
 ; ------------------------------------------------------------------------------
 
@@ -94,8 +96,8 @@ BattleDlgPtrs:
 ; d0/f1d4
 .if !LANG_EN
 BattleDlg:
-.endif
         .incbin "battle_dlg_jp.dat"
+.endif
 
 ; ------------------------------------------------------------------------------
 
@@ -107,7 +109,7 @@ BattleDlg:
 .else
 ItemName:
 .endif
-        .incbin "item_name_jp.dat"
+        incbin_lang "item_name_%s.dat"
 
 ; ------------------------------------------------------------------------------
 
@@ -172,8 +174,8 @@ BattleMsgPtrs:
 ; d1/3ba9
 .if !LANG_EN
 BattleMsg:
-.endif
         .incbin "battle_msg_jp.dat"
+.endif
 
 ; ------------------------------------------------------------------------------
 
@@ -188,10 +190,12 @@ JobName:
 .segment "battle_cmd_name"
 
 ; d1/5800
-.if !LANG_EN
+.if LANG_EN
+        .res 96 * 5, $ff
+.else
 BattleCmdName:
-.endif
         .incbin "battle_cmd_name_jp.dat"
+.endif
 
 ; ------------------------------------------------------------------------------
 
@@ -208,10 +212,12 @@ PassiveAbilityName:
 .segment "special_ability_name"
 
 ; d1/6700
-.if !LANG_EN
+.if LANG_EN
+        .res 105 * 9
+.else
 SpecialAbilityName:
-.endif
         .incbin "special_ability_name_jp.dat"
+.endif
 
 ; ------------------------------------------------------------------------------
 
@@ -291,7 +297,7 @@ MapTitle:
 
 ; e7/5860
 ItemName:
-        .incbin "item_name_en.dat"
+        .incbin "item_name_long_en.dat"
 
 .segment "passive_ability_name_en"
 

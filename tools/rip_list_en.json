@@ -1,6 +1,10 @@
 {
   "text": [
     {
+      "json_path": "src/text/item_name_en.json",
+      "asset_range": "0xD11380-0xD11C7F"
+    },
+    {
       "json_path": "src/text/magic_name_en.json",
       "asset_range": "0xD11C80-0xD11E89"
     },
@@ -70,7 +74,7 @@
       "ptr_offset": "0xE70000"
     },
     {
-      "json_path": "src/text/item_name_en.json",
+      "json_path": "src/text/item_name_long_en.json",
       "asset_range": "0xE75860-0xE7705F"
     },
     {
@@ -90,6 +94,10 @@
     {
       "file_path": "src/gfx/small_font_en.2bpp",
       "asset_range": "0xD1F000-0xD1FFFF"
+    },
+    {
+      "file_path": "src/gfx/battle_sprites1_en.3bpp",
+      "asset_range": "0xD497C0-0xD49E4F"
     }
   ],
   "array": []
