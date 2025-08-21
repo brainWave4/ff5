@@ -1,6 +1,6 @@
 {
-  "asset_label": "ItemName",
-  "item_size": 9,
+  "asset_label": "MonsterSpecialName",
+  "item_size": 16,
   "char_tables": [
     "small_symbols_en",
     "text_en",

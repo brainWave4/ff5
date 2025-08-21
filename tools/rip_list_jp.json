@@ -7,6 +7,26 @@
       "ptr_offset": "0xCA0000"
     },
     {
+      "json_path": "src/text/monster_name_jp.json",
+      "asset_range": "0xD05C00-0xD067FF"
+    },
+    {
+      "json_path": "src/text/map_title_jp.json",
+      "asset_range": "0xD07200-0xD07667",
+      "ptr_range": "0xD07000-0xD07147",
+      "ptr_offset": "0xD07200"
+    },
+    {
+      "json_path": "src/text/monster_special_name_jp.json",
+      "asset_range": "0xD08700-0xD088FF"
+    },
+    {
+      "json_path": "src/text/battle_dlg_jp.json",
+      "asset_range": "0xD0F1D4-0xD0FEBB",
+      "ptr_range": "0xD0F000-0xD0F1D3",
+      "ptr_offset": "0xD00000"
+    },
+    {
       "json_path": "src/text/item_name_jp.json",
       "asset_range": "0xD11380-0xD11C7F"
     },
@@ -15,10 +35,34 @@
       "asset_range": "0xD11C80-0xD11E89"
     },
     {
-      "json_path": "src/text/map_title_jp.json",
-      "asset_range": "0xD07200-0xD07667",
-      "ptr_range": "0xD07000-0xD07147",
-      "ptr_offset": "0xD07200"
+      "json_path": "src/text/attack_name_jp.json",
+      "asset_range": "0xD11E8A-0xD1247A"
+    },
+    {
+      "json_path": "src/text/status_name_jp.json",
+      "asset_range": "0xD128B6-0xD12975"
+    },
+    {
+      "json_path": "src/text/battle_msg_jp.json",
+      "asset_range": "0xD13BA9-0xD13F0D",
+      "ptr_range": "0xD139A9-0xD13BA8",
+      "ptr_offset": "0xD10000"
+    },
+    {
+      "json_path": "src/text/job_name_jp.json",
+      "asset_range": "0xD15600-0xD156AF"
+    },
+    {
+      "json_path": "src/text/battle_cmd_name_jp.json",
+      "asset_range": "0xD15800-0xD159DF"
+    },
+    {
+      "json_path": "src/text/passive_ability_name_jp.json",
+      "asset_range": "0xD16200-0xD16307"
+    },
+    {
+      "json_path": "src/text/special_ability_name_jp.json",
+      "asset_range": "0xD16700-0xD16AB0"
     }
   ],
   "data": [
@@ -57,6 +101,194 @@
       "asset_range": "0xC0FEC0-0xC0FFBF"
     },
     {
+      "file_path": "src/cutscene/unknown_c30200.dat.cmp",
+      "asset_range": "0xC30200-0xC302B2"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c302b3.dat.cmp",
+      "asset_range": "0xC302B3-0xC30367"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c30368.dat.cmp",
+      "asset_range": "0xC30368-0xC305F8"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c305f9.dat.cmp",
+      "asset_range": "0xC305F9-0xC305FC"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c305fd.dat.cmp",
+      "asset_range": "0xC305FD-0xC30662"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c30663.dat.cmp",
+      "asset_range": "0xC30663-0xC3067B"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c3067c.dat.cmp",
+      "asset_range": "0xC3067C-0xC306F4"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c306f5.dat.cmp",
+      "asset_range": "0xC306F5-0xC309D1"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c309d2.dat.cmp",
+      "asset_range": "0xC309D2-0xC30D88"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c30d89.dat.cmp",
+      "asset_range": "0xC30D89-0xC30DA2"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c30da3.dat.cmp",
+      "asset_range": "0xC30DA3-0xC30E1A"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c30e1b.dat.cmp",
+      "asset_range": "0xC30E1B-0xC30E6F"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c30e70.dat.cmp",
+      "asset_range": "0xC30E70-0xC30F49"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c30f4a.dat.cmp",
+      "asset_range": "0xC30F4A-0xC30F6F"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c30f70.dat.cmp",
+      "asset_range": "0xC30F70-0xC31176"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c31177.dat.cmp",
+      "asset_range": "0xC31177-0xC31242"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c31243.dat.cmp",
+      "asset_range": "0xC31243-0xC31C64"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c31c65.dat.cmp",
+      "asset_range": "0xC31C65-0xC31C68"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c31c69.dat.cmp",
+      "asset_range": "0xC31C69-0xC31D24"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c31d25.dat.cmp",
+      "asset_range": "0xC31D25-0xC31D47"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c31d48.dat.cmp",
+      "asset_range": "0xC31D48-0xC31E82"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c31e83.dat.cmp",
+      "asset_range": "0xC31E83-0xC32D21"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c32d22.dat.cmp",
+      "asset_range": "0xC32D22-0xC3331E"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c3331f.dat.cmp",
+      "asset_range": "0xC3331F-0xC33341"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c33342.dat.cmp",
+      "asset_range": "0xC33342-0xC333F5"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c333f6.dat.cmp",
+      "asset_range": "0xC333F6-0xC3362A"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c3362b.dat.cmp",
+      "asset_range": "0xC3362B-0xC3383B"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c3383c.dat.cmp",
+      "asset_range": "0xC3383C-0xC33908"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c33909.dat.cmp",
+      "asset_range": "0xC33909-0xC34451"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c34452.dat.cmp",
+      "asset_range": "0xC34452-0xC34468"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c34469.dat.lz",
+      "asset_range": "0xC34469-0xC34DF7"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c34df8.dat.cmp",
+      "asset_range": "0xC34DF8-0xC34E33"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c34e34.dat.lz",
+      "asset_range": "0xC34E34-0xC350D3"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c350d4.dat.lz",
+      "asset_range": "0xC350D4-0xC351EE"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c351ef.dat.lz",
+      "asset_range": "0xC351EF-0xC35B1D"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c35b1e.dat.cmp",
+      "asset_range": "0xC35B1E-0xC366D7"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c366d8.dat.cmp",
+      "asset_range": "0xC366D8-0xC372E6"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c372e7.dat.cmp",
+      "asset_range": "0xC372E7-0xC37445"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c37445.dat.cmp",
+      "asset_range": "0xC37445-0xC3750C"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c3750d.dat.cmp",
+      "asset_range": "0xC3750D-0xC37599"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c3759a.dat.cmp",
+      "asset_range": "0xC3759A-0xC3765B"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c3765c.dat.cmp",
+      "asset_range": "0xC3765C-0xC377AD"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c377ae.dat.cmp",
+      "asset_range": "0xC377AE-0xC37890"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c37891.dat.cmp",
+      "asset_range": "0xC37891-0xC37A06"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c37a07.dat.cmp",
+      "asset_range": "0xC37A07-0xC37A68"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c37a69.dat.cmp",
+      "asset_range": "0xC37A69-0xC37B91"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c37b92.dat.cmp",
+      "asset_range": "0xC37B92-0xC37E4C"
+    },
+    {
       "file_path": "src/gfx/map_pal/map_pal_%s.pal",
       "asset_range": "0xC3BB00-0xC3E6FF",
       "item_size": 256
@@ -84,6 +316,10 @@
       "file_path": "src/field/map_prop/map_prop_%s.dat",
       "asset_range": "0xCE9C00-0xCECFFF",
       "item_size": 26
+    },
+    {
+      "file_path": "src/gfx/monster.pal",
+      "asset_range": "0xCED000-0xCEF26F"
     },
     {
       "file_path": "src/field/map_tileset/map_tileset_%s.dat.lz",
@@ -142,6 +378,26 @@
       ]
     },
     {
+      "file_path": "src/battle/monster_prop.dat",
+      "asset_range": "0xD00000-0xD02FFF"
+    },
+    {
+      "file_path": "src/battle/battle_prop.dat",
+      "asset_range": "0xD03000-0xD04FFF"
+    },
+    {
+      "file_path": "src/battle/monster_item.dat",
+      "asset_range": "0xD05000-0xD055FF"
+    },
+    {
+      "file_path": "src/battle/monster_control.dat",
+      "asset_range": "0xD05600-0xD05BFF"
+    },
+    {
+      "file_path": "src/field/rand_battle_grp.dat",
+      "asset_range": "0xD06800-0xD06FFF"
+    },
+    {
       "file_path": "src/field/event_battle_grp.dat",
       "asset_range": "0xD07800-0xD079FF"
     },
@@ -162,8 +418,64 @@
       "asset_range": "0xD084C0-0xD0853F"
     },
     {
-      "file_path": "src/field/rand_battle_grp.dat",
-      "asset_range": "0xD06800-0xD06FFF"
+      "file_path": "src/battle/monster_release.dat",
+      "asset_range": "0xD08600-0xD086FF"
+    },
+    {
+      "file_path": "src/battle/monster_pos.dat",
+      "asset_range": "0xD08900-0xD098FF"
+    },
+    {
+      "file_path": "src/battle/monster_special_prop.dat",
+      "asset_range": "0xD09900-0xD09BFF"
+    },
+    {
+      "file_path": "src/gfx/monster_stencil_small.dat",
+      "asset_range": "0xD0D004-0xD0D333"
+    },
+    {
+      "file_path": "src/gfx/monster_stencil_large.dat",
+      "asset_range": "0xD0D334-0xD0DBD3"
+    },
+    {
+      "file_path": "src/gfx/misc_battle.4bpp",
+      "asset_range": "0xD0E003-0xD0E162"
+    },
+    {
+      "file_path": "src/gfx/unknown_d0e220.4bpp",
+      "asset_range": "0xD0E220-0xD0E31F"
+    },
+    {
+      "file_path": "src/gfx/the_end.4bpp.lz",
+      "asset_range": "0xD0E4CB-0xD0EBE4"
+    },
+    {
+      "file_path": "src/battle/weapon_prop.dat",
+      "asset_range": "0xD10000-0xD105FF"
+    },
+    {
+      "file_path": "src/battle/armor_prop.dat",
+      "asset_range": "0xD10600-0xD10A7F"
+    },
+    {
+      "file_path": "src/battle/item_prop.dat",
+      "asset_range": "0xD10A80-0xD10B7F"
+    },
+    {
+      "file_path": "src/battle/attack_prop.dat",
+      "asset_range": "0xD10B80-0xD1137F"
+    },
+    {
+      "file_path": "src/battle/equip_type.dat",
+      "asset_range": "0xD12480-0xD1257F"
+    },
+    {
+      "file_path": "src/battle/armor_element.dat",
+      "asset_range": "0xD12580-0xD126BF"
+    },
+    {
+      "file_path": "src/battle/armor_status.dat",
+      "asset_range": "0xD126C0-0xD1287F"
     },
     {
       "file_path": "src/field/map_treasures.dat",
@@ -178,12 +490,132 @@
       "asset_range": "0xD17000-0xD1713F"
     },
     {
-      "file_path": "src/gfx/small_font.2bpp",
+      "file_path": "src/gfx/attack1.scr",
+      "asset_range": "0xD17FA0-0xD1879F"
+    },
+    {
+      "file_path": "src/gfx/attack2.scr",
+      "asset_range": "0xD187A0-0xD18F9F"
+    },
+    {
+      "file_path": "src/gfx/attack3.scr",
+      "asset_range": "0xD18FA0-0xD1979F"
+    },
+    {
+      "file_path": "src/gfx/weapons.scr",
+      "asset_range": "0xD197A0-0xD19B9F"
+    },
+    {
+      "file_path": "src/gfx/weapon_hit.scr",
+      "asset_range": "0xD19BA0-0xD1A39F"
+    },
+    {
+      "file_path": "src/gfx/attack_pal/pal_%s.pal",
+      "asset_range": "0xD1A3A0-0xD1AB9F",
+      "item_size": 16
+    },
+    {
+      "file_path": "src/gfx/animals.4bpp",
+      "asset_range": "0xD1ABA0-0xD1BDFF"
+    },
+    {
+      "file_path": "src/gfx/animals.scr",
+      "asset_range": "0xD1BE00-0xD1BFFF"
+    },
+    {
+      "file_path": "src/gfx/weapons.3bpp",
+      "asset_range": "0xD1C000-0xD1D7FF"
+    },
+    {
+      "file_path": "src/gfx/weapon_hit.3bpp",
+      "asset_range": "0xD1D800-0xD1EFFF"
+    },
+    {
+      "file_path": "src/gfx/small_font_jp.2bpp",
       "asset_range": "0xD1F000-0xD1FFFF"
+    },
+    {
+      "file_path": "src/gfx/battle_char_gfx/gfx_%s.4bpp",
+      "asset_range": "0xD20000-0xD493FF",
+      "item_size": 1536
+    },
+    {
+      "file_path": "src/gfx/dead_char_gfx/gfx_%s.4bpp",
+      "asset_range": "0xD49400-0xD497BF",
+      "item_size": 192
+    },
+    {
+      "file_path": "src/gfx/battle_sprites1_jp.3bpp",
+      "asset_range": "0xD497C0-0xD49E4F"
+    },
+    {
+      "file_path": "src/gfx/battle_sprites2.3bpp",
+      "asset_range": "0xD49E50-0xD4A3BF"
+    },
+    {
+      "file_path": "src/gfx/battle_char_pal/pal_%s.pal",
+      "asset_range": "0xD4A3C0-0xD4B17F",
+      "item_size": 32
+    },
+    {
+      "file_path": "src/gfx/battle_bg_prop.dat",
+      "asset_range": "0xD4BA21-0xD4BB30"
+    },
+    {
+      "file_path": "src/gfx/battle_bg_pal/pal_%s.pal",
+      "asset_range": "0xD4BB31-0xD4C5B0",
+      "item_size": 32
+    },
+    {
+      "file_path": "src/gfx/battle_bg_flip/flip_%s.dat",
+      "asset_range": "0xD4C748-0xD4C86C",
+      "ptr_range": "0xD4C736-0xD4C747",
+      "ptr_offset": "0xD40000"
+    },
+    {
+      "file_path": "src/gfx/battle_bg_tiles/tiles_%s.scr",
+      "asset_range": "0xD4C8A5-0xD4EFF0",
+      "ptr_range": "0xD4C86D-0xD4C8A4",
+      "ptr_offset": "0xD40000"
+    },
+    {
+      "file_path": "src/gfx/monster_gfx.dat",
+      "asset_range": "0xD50000-0xD82FFF"
+    },
+    {
+      "file_path": "src/gfx/battle_bg_gfx/gfx_%s.4bpp.lz",
+      "asset_range": "0xD841D5-0xD8DE35",
+      "item_offsets": [
+        "0xD841D5",
+        "0xD85A3D",
+        "0xD87878",
+        "0xD888B2",
+        "0xD8A517",
+        "0xD8B959",
+        "0xD8CDD8",
+        "0xD8D881",
+        "0xD8DC32"
+      ]
     },
     {
       "file_path": "src/field/init_npc_switch.dat",
       "asset_range": "0xD8E000-0xD8E07F"
+    },
+    {
+      "file_path": "src/gfx/attack1.3bpp",
+      "asset_range": "0xD90000-0xD92EC7"
+    },
+    {
+      "file_path": "src/gfx/attack2.3bpp",
+      "asset_range": "0xD92EC8-0xD9575F"
+    },
+    {
+      "file_path": "src/gfx/attack3.3bpp",
+      "asset_range": "0xD95760-0xD97C4F"
+    },
+    {
+      "file_path": "src/btlgfx/attack_target.pal",
+      "asset_range": "0xD99655-0xD99854"
     },
     {
       "file_path": "src/gfx/map_sprite.4bpp",
@@ -296,6 +728,70 @@
       "ptr_range": "0xCFE000-0xCFE9FF",
       "ptr_offset": "0xC70000",
       "auto_bank": true
+    },
+    {
+      "file_path": "src/gfx/battle_bg_anim.dat",
+      "inc_path": "include/gfx/battle_bg_anim.inc",
+      "asset_range": "0xD4C5C1-0xD4C6CC",
+      "asset_label": "BattleBGAnim",
+      "ptr_range": "0xD4C5B1-0xD4C5C0",
+      "ptr_offset": "0xD40000"
+    },
+    {
+      "file_path": "src/gfx/battle_bg_pal_anim.dat",
+      "inc_path": "include/gfx/battle_bg_pal_anim.inc",
+      "asset_range": "0xD4C6D3-0xD4C735",
+      "asset_label": "BattleBGPalAnim",
+      "ptr_range": "0xD4C6CD-0xD4C6D2",
+      "ptr_offset": "0xD40000"
+    },
+    {
+      "file_path": "src/gfx/battle_bg_flip.dat",
+      "inc_path": "include/gfx/battle_bg_flip.inc",
+      "asset_range": "0xD4C748-0xD4C86C",
+      "asset_label": "BattleBGFlip",
+      "ptr_range": "0xD4C736-0xD4C747",
+      "ptr_offset": "0xD40000"
+    },
+    {
+      "file_path": "src/gfx/battle_bg_tiles.dat",
+      "inc_path": "include/gfx/battle_bg_tiles.inc",
+      "asset_range": "0xD4C8A5-0xD4EFF0",
+      "asset_label": "BattleBGTiles",
+      "ptr_range": "0xD4C86D-0xD4C8A4",
+      "ptr_offset": "0xD40000"
+    },
+    {
+      "file_path": "src/btlgfx/attack_anim_script.dat",
+      "inc_path": "include/btlgfx/attack_anim_script.inc",
+      "asset_range": "0xD97F4E-0xD99654",
+      "asset_label": "AttackAnimScript",
+      "ptr_range": "0xD97D42-0xD97F4D",
+      "ptr_offset": "0xD90000"
+    },
+    {
+      "file_path": "src/btlgfx/unknown_d99ef2.dat",
+      "inc_path": "include/btlgfx/unknown_d99ef2.inc",
+      "asset_range": "0xD99EF2-0xD9A485",
+      "asset_label": "_d99ef2",
+      "ptr_range": "0xD99E34-0xD99EF1",
+      "ptr_offset": "0xD90000"
+    },
+    {
+      "file_path": "src/btlgfx/unknown_d9a7b0.dat",
+      "inc_path": "include/btlgfx/unknown_d9a7b0.inc",
+      "asset_range": "0xD9A7B0-0xD9B35D",
+      "asset_label": "_d9a7b0",
+      "ptr_range": "0xD9A486-0xD9A7AF",
+      "ptr_offset": "0xD90000"
+    },
+    {
+      "file_path": "src/btlgfx/attack_anim_frames.dat",
+      "inc_path": "include/btlgfx/attack_anim_frames.inc",
+      "asset_range": "0xD9BE48-0xD9FFF7",
+      "asset_label": "AttackAnimFrames",
+      "ptr_range": "0xD9B35E-0xD9BE47",
+      "ptr_offset": "0xD90000"
     }
   ]
 }

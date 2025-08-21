@@ -4,7 +4,7 @@
   "is_sequential": true,
   "char_tables": [
     "text_en",
-    "null_terminated_en"
+    "dlg_symbols_en"
   ],
   "text": []
 }

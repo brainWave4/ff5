@@ -16,10 +16,10 @@
 .include "hardware.inc"
 .include "const.inc"
 
-.include "text/dlg_jp.inc"
-.include "text/item_name_jp.inc"
-.include "text/magic_name_jp.inc"
-.include "text/map_title_jp.inc"
+inc_lang "text/dlg_%s.inc"
+inc_lang "text/map_title_%s.inc"
+
+.import ItemName, MagicName, AttackName
 
 .include "field/event_cond.inc"
 .include "field/event_script.inc"
@@ -13800,7 +13800,7 @@ _c08a85:
         inx
         inc     $09
         lda     $09
-        cmp     #MagicName::ITEM_SIZE
+        cmp     #6
         bne     @8a98
 @8ab2:  sty     $ab
         jmp     _c08459
@@ -13842,7 +13842,7 @@ _8acb:
 .if LANG_EN
         cmp     #$18
 .else
-        cmp     #ItemName::ITEM_SIZE - 1
+        cmp     #8
 .endif
         bne     _8acb
 ::_c08ae5:
@@ -22413,6 +22413,8 @@ EventCond:
 
 .if LANG_EN
 
+.import MonsterSpecialName, BattleCmdName, AttackNameLong
+
 .segment "rpge_code1"
 
 ; ---------------------------------------------------------------------------
@@ -22783,38 +22785,38 @@ _e02f25:
 @2f35:  jml     $c12b0d
 
 _e02f39:
-        lda     #$e7
-        ldy     #$1780      ; long attack names
+        lda     #^AttackNameLong
+        ldy     #near AttackNameLong
         bra     _2f68
 
 _e02f40:
-        lda     #$d1
-        ldy     #$1c80      ; spell names (short)
+        lda     #^MagicName
+        ldy     #near MagicName      ; spell names (short)
         bra     _2f68
 
 _e02f47:
-        lda     #$d1
-        ldy     #$1c81      ; spell names (short, no icon)
+        lda     #^MagicName
+        ldy     #near (MagicName+1)      ; spell names (short, no icon)
         bra     _2f68
 
 _e02f4e:
-        lda     #$e0
-        ldy     #$1150      ; battle command names
+        lda     #^BattleCmdName
+        ldy     #near BattleCmdName
         bra     _2f68
 
 _e02f55:
-        lda     #$e7
-        ldy     #$0900      ; spell names (long)
+        lda     #^MagicName
+        ldy     #near MagicName
         bra     _2f68
 
 _e02f5c:
-        lda     #$e7
-        ldy     #$3700      ; enemy attack names
+        lda     #^MonsterSpecialName
+        ldy     #near MonsterSpecialName
         bra     _2f68
 
 _e02f63:
-        lda     #$e7
-        ldy     #$5860
+        lda     #^ItemName
+        ldy     #near ItemName
 
 _2f68:
         sta     $7e1c03
@@ -23163,7 +23165,7 @@ _e03201:
         bne     @320e
         lda     f:ProphecyTextGfx,x
         rtl
-@320e:  lda     $c3eb00,x
+@320e:  lda     f:BigFontGfx,x
         rtl
 
 _e03213:
@@ -23172,7 +23174,7 @@ _e03213:
         bne     @3220
         lda     f:ProphecyTextGfx + 12,x
         rtl
-@3220:  lda     $c3eb0c,x
+@3220:  lda     f:BigFontGfx+12,x
         rtl
 
 ; ---------------------------------------------------------------------------

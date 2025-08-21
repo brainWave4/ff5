@@ -3,8 +3,8 @@
   "inc_path": "include/text/dlg_en.inc",
   "char_tables": [
     "text_en",
-    "null_terminated_en",
-    "dlg_escape"
+    "dlg_escape",
+    "dlg_symbols_en"
   ],
   "text": []
 }
