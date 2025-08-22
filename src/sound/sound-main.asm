@@ -16,7 +16,55 @@
 
 .export InitSound_ext, ExecSound_ext
 
-; ---------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
+
+; [ begin/end block of SPC data ]
+
+_spc_block_seq .set 0
+
+; each spc block is preceded by a 2-byte header containing the block size
+.macro spc_block label
+        label := *
+        .word .ident(.sprintf("_spc_block_size_%d", _spc_block_seq))
+        .ident(.sprintf("_spc_block_start_%d", _spc_block_seq)) := *
+.endmac
+
+.macro end_spc_block
+        .local start
+        start = .ident(.sprintf("_spc_block_start_%d", _spc_block_seq))
+        .ident(.sprintf("_spc_block_size_%d", _spc_block_seq)) = * - start
+        _spc_block_seq .set _spc_block_seq + 1
+.endmac
+
+; ------------------------------------------------------------------------------
+
+; [ make adsr value ]
+
+.macro make_adsr attack, decay, sustain, release
+        .byte $80 | (attack & $0f) | ((decay & $07) << 4)
+        .byte (release & $1f) | ((sustain & $07) << 5)
+.endmac
+
+; ------------------------------------------------------------------------------
+
+; [ make song sample list ]
+
+.macro def_song_sample sample_id
+        ; use the sample id plus 1 (zero means no sample)
+        .word sample_id
+.endmac
+
+.macro begin_song_samples _song_id
+        ; save the start position for this song's samples
+        .ident(.sprintf("SongSamples_%04x", _song_id)) := *
+.endmac
+
+.macro end_song_samples _song_id
+        ; fill remaining space with zeroes (32 bytes total)
+        .res 32 + .ident(.sprintf("SongSamples_%04x", _song_id)) - *, 0
+.endmac
+
+; ------------------------------------------------------------------------------
 
 .segment "sound_code"
 
@@ -827,7 +875,7 @@ _05e0:  php
         .byte $01,$00,$08,$0f   ; $7c: play song $00
         .byte $01,$00,$08,$0f   ; $7d: play song $00
         .byte $01,$00,$08,$0f   ; $7e: play song $00
-        .byte $80,$01,$00,$00   ; $7f: fade out sound
+        .byte $80,$10,$00,$00   ; $7f: fade out sound
 
 ; [ songs to suspend the previous song ]
 
@@ -846,4 +894,10 @@ _05e0:  php
 
 ; ---------------------------------------------------------------------------
 
+; c4/064d
+.incbin "ff5_spc.dat"
+
+.include "sfx-data.asm"
 .include "song-data.asm"
+
+; ---------------------------------------------------------------------------

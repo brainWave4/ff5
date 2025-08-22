@@ -8,43 +8,24 @@
 ; | description: background music data                                      |
 ; +-------------------------------------------------------------------------+
 
-; ------------------------------------------------------------------------------
+.include "sound/song_script.inc"
+.include "sound/sample_brr.inc"
 
-; [ make adsr value ]
+; c4/3b97: pointers to song scripts
+SongScriptPtrs:
+        ptr_tbl_far SongScript
 
-.macro make_adsr attack, decay, sustain, release
-        .byte $80 | (attack & $0f) | ((decay & $07) << 4)
-        .byte (release & $1f) | ((sustain & $07) << 5)
-.endmac
-
-; ------------------------------------------------------------------------------
-
-; [ make song sample list ]
-
-.macro def_song_sample sample_id
-        ; use the sample id plus 1 (zero means no sample)
-        .word sample_id + 1
-.endmac
-
-.macro begin_song_samples _song_id
-        ; save the start position for this song's samples
-        .ident(.sprintf("SongSamples_%04x", _song_id)) := *
-.endmac
-
-.macro end_song_samples _song_id
-        ; fill remaining space with zeroes (32 bytes total)
-        .res 32 + .ident(.sprintf("SongSamples_%04x", _song_id)) - *, 0
-.endmac
-
-; ------------------------------------------------------------------------------
+; c4/3c6f: pointers to instrument brr samples
+SampleBRRPtrs:
+        ptr_tbl_far SampleBRR
 
 ; c4/3cd8
 SampleLoopStart:
         .word   $0a8c
-        .word   $0a8c
         .word   $0bd9
         .word   $1194
         .word   $05fa
+        .word   $15f9
         .word   $0465
         .word   $1194
         .word   $1194
@@ -101,7 +82,7 @@ SampleFreqMult:
         .byte   $fc,$c0
         .byte   $fc,$a0
         .byte   $fc,$d0
-        .byte   $fc,$a0
+        .byte   $ff,$a0
         .byte   $00,$00
         .byte   $00,$00
         .byte   $00,$00
@@ -112,7 +93,7 @@ SampleFreqMult:
         .byte   $e0,$c0
         .byte   $00,$00
         .byte   $00,$00
-        .byte   $e0,$00
+        .byte   $0e,$00
         .byte   $00,$00
         .byte   $00,$00
 
@@ -120,41 +101,41 @@ SampleFreqMult:
 
 ; c4/3d64
 SampleADSR:
-        make_adsr 15,15,14,0
-        make_adsr 15,15,14,0
-        make_adsr 15,15,14,0
-        make_adsr 15,15,15,0
-        make_adsr 15,15,14,0
-        make_adsr 15,15,14,0
-        make_adsr 15,15,14,0
-        make_adsr 15,15,14,0
-        make_adsr 15,15,15,0
-        make_adsr 15,15,15,5
-        make_adsr 15,15,14,0
-        make_adsr 15,15,14,0
-        make_adsr 15,15,15,2
-        make_adsr 15,15,14,1
-        make_adsr 15,15,14,1
-        make_adsr 15,15,14,1
-        make_adsr 15,15,14,0
-        make_adsr 15,15,14,13
-        make_adsr 15,15,14,0
-        make_adsr 15,15,14,12
-        make_adsr 15,15,14,10
-        make_adsr 15,15,15,3
-        make_adsr 15,15,14,0
-        make_adsr 15,15,14,10
-        make_adsr 15,15,14,10
-        make_adsr 15,15,14,8
-        make_adsr 15,15,15,3
-        make_adsr 15,15,14,1
-        make_adsr 15,15,15,1
-        make_adsr 15,15,15,4
-        make_adsr 15,15,15,3
-        make_adsr 15,15,14,0
-        make_adsr 15,15,14,0
-        make_adsr 15,15,14,0
-        make_adsr 15,15,14,0
+        make_adsr 15,15,7,0
+        make_adsr 15,15,7,0
+        make_adsr 15,15,7,0
+        make_adsr 15,15,7,16
+        make_adsr 15,15,7,0
+        make_adsr 15,15,7,0
+        make_adsr 15,15,7,0
+        make_adsr 15,15,7,0
+        make_adsr 15,15,7,16
+        make_adsr 15,15,7,21
+        make_adsr 15,15,7,0
+        make_adsr 15,15,7,0
+        make_adsr 15,15,7,18
+        make_adsr 15,15,7,1
+        make_adsr 15,15,7,1
+        make_adsr 15,15,7,1
+        make_adsr 15,15,7,0
+        make_adsr 15,15,7,13
+        make_adsr 15,15,7,0
+        make_adsr 15,15,7,12
+        make_adsr 15,15,7,10
+        make_adsr 15,15,7,19
+        make_adsr 15,15,7,0
+        make_adsr 15,15,7,10
+        make_adsr 15,15,7,10
+        make_adsr 15,15,7,8
+        make_adsr 15,15,7,19
+        make_adsr 15,15,7,1
+        make_adsr 15,15,7,17
+        make_adsr 15,15,7,20
+        make_adsr 15,15,7,19
+        make_adsr 15,15,7,0
+        make_adsr 15,15,7,0
+        make_adsr 15,15,7,0
+        make_adsr 15,15,7,0
 
 ; ---------------------------------------------------------------------------
 
@@ -773,5 +754,36 @@ SongSamples:
 
         begin_song_samples 71
         end_song_samples 71
+
+; ---------------------------------------------------------------------------
+
+; c4/46aa
+SampleBRR:
+        .incbin "sample_brr.dat"
+
+; ---------------------------------------------------------------------------
+
+; c5/e5e8
+SongScript:
+        .incbin "song_script.dat"
+
+; ---------------------------------------------------------------------------
+
+.segment "song_script_41"
+
+; d0/c800
+        .incbin "song_script_41.dat"
+
+; ---------------------------------------------------------------------------
+
+.segment "sample_brr_33"
+
+; d4/f000
+        .incbin "sample_brr_33.dat"
+
+.segment "sample_brr_2f"
+
+; db/f800
+        .incbin "sample_brr_2f.dat"
 
 ; ---------------------------------------------------------------------------

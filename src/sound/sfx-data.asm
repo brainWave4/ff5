@@ -9,6 +9,10 @@
 ; | description: sound effects data                                         |
 ; +-------------------------------------------------------------------------+
 
+; c4/1e3f
+SfxBRR:
+        .incbin "sfx_brr.dat"
+
 ; ---------------------------------------------------------------------------
 
 ;c4/1f4f
@@ -25,14 +29,14 @@ end_spc_block
 
 ;c4/1F71
 spc_block SfxADSR
-        make_adsr 15,15,14,0
-        make_adsr 15,15,14,0
-        make_adsr 15,15,14,0
-        make_adsr 15,15,14,0
-        make_adsr 15,15,14,0
-        make_adsr 15,15,14,0
-        make_adsr 15,15,14,0
-        make_adsr 15,15,14,0
+        make_adsr 15,7,7,0
+        make_adsr 15,7,7,0
+        make_adsr 15,7,7,0
+        make_adsr 15,7,7,0
+        make_adsr 15,7,7,0
+        make_adsr 15,7,7,0
+        make_adsr 15,7,7,0
+        make_adsr 15,7,7,0
 end_spc_block
 
 ;c4/1f83
@@ -48,3 +52,7 @@ spc_block SfxFreqMult
 end_spc_block
 
 ; ---------------------------------------------------------------------------
+
+; c4/1f95
+SfxScript:
+        .incbin "sfx_script.dat"
