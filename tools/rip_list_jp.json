@@ -298,6 +298,18 @@
       "asset_range": "0xC3EB00-0xC3FDFF"
     },
     {
+      "file_path": "src/sound/ff5_spc.dat",
+      "asset_range": "0xC4064D-0xC41E3E"
+    },
+    {
+      "file_path": "src/sound/sfx_brr.dat",
+      "asset_range": "0xC41E3F-0xC41F4E"
+    },
+    {
+      "file_path": "src/sound/sfx_script.dat",
+      "asset_range": "0xC41F95-0xC43B96"
+    },
+    {
       "file_path": "src/field/sub_tilemap/sub_tilemap_%s.dat.lz",
       "asset_range": "0xCB0290-0xCDF9FE",
       "ptr_range": "0xCB0000-0xCB0285",
@@ -478,6 +490,10 @@
       "asset_range": "0xD126C0-0xD1287F"
     },
     {
+      "file_path": "src/sound/song_script_41.dat",
+      "asset_range": "0xD0C800-0xD0CFD8"
+    },
+    {
       "file_path": "src/field/map_treasures.dat",
       "asset_range": "0xD13000-0xD1320F"
     },
@@ -533,6 +549,10 @@
     {
       "file_path": "src/gfx/small_font_jp.2bpp",
       "asset_range": "0xD1F000-0xD1FFFF"
+    },
+    {
+      "file_path": "src/sound/sample_brr_33.dat",
+      "asset_range": "0xD4F000-0xD4FE7D"
     },
     {
       "file_path": "src/gfx/battle_char_gfx/gfx_%s.4bpp",
@@ -648,6 +668,10 @@
       "asset_range": "0xDBD000-0xDBF7FF"
     },
     {
+      "file_path": "src/sound/sample_brr_2f.dat",
+      "asset_range": "0xDBF800-0xDBFFA2"
+    },
+    {
       "file_path": "src/gfx/map_bg3_gfx/map_bg3_gfx_%s.2bpp",
       "asset_range": "0xDC0024-0xDC2D83",
       "ptr_range": "0xDC0000-0xDC0021",
@@ -728,6 +752,24 @@
       "ptr_range": "0xCFE000-0xCFE9FF",
       "ptr_offset": "0xC70000",
       "auto_bank": true
+    },
+    {
+      "file_path": "src/sound/song_script.dat",
+      "inc_path": "include/sound/song_script.inc",
+      "asset_range": "0xC5E5E8-0xC6FE75",
+      "asset_label": "SongScript",
+      "ptr_range": "0xC43B97-0xC43C6E",
+      "ptr_size": 3,
+      "is_mapped": true
+    },
+    {
+      "file_path": "src/sound/sample_brr.dat",
+      "inc_path": "include/sound/sample_brr.inc",
+      "asset_range": "0xC446AA-0xC5E5E7",
+      "asset_label": "SampleBRR",
+      "ptr_range": "0xC43C6F-0xC43CD7",
+      "ptr_size": 3,
+      "is_mapped": true
     },
     {
       "file_path": "src/gfx/battle_bg_anim.dat",
