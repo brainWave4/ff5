@@ -1,8 +1,36 @@
 {
   "text": [
     {
+      "json_path": "src/text/item_name_en.json",
+      "asset_range": "0xD11380-0xD11C7F"
+    },
+    {
       "json_path": "src/text/magic_name_en.json",
       "asset_range": "0xD11C80-0xD11E89"
+    },
+    {
+      "json_path": "src/text/attack_name_en.json",
+      "asset_range": "0xD11E8A-0xD1247A"
+    },
+    {
+      "json_path": "src/text/status_name_en.json",
+      "asset_range": "0xD128B6-0xD12975"
+    },
+    {
+      "json_path": "src/text/job_name_en.json",
+      "asset_range": "0xD15600-0xD156AF"
+    },
+    {
+      "json_path": "src/text/passive_ability_name_en.json",
+      "asset_range": "0xD16200-0xD16307"
+    },
+    {
+      "json_path": "src/text/monster_name_en.json",
+      "asset_range": "0xE00050-0xE00F4F"
+    },
+    {
+      "json_path": "src/text/battle_cmd_name_en.json",
+      "asset_range": "0xE01150-0xE013EF"
     },
     {
       "json_path": "src/text/dlg_en.json",
@@ -18,8 +46,40 @@
       "ptr_offset": "0xE70000"
     },
     {
-      "json_path": "src/text/item_name_en.json",
+      "json_path": "src/text/special_ability_name_en.json",
+      "asset_range": "0xE70900-0xE70F8F"
+    },
+    {
+      "json_path": "src/text/attack_name_short_en.json",
+      "asset_range": "0xE70F90-0xE7177B"
+    },
+    {
+      "json_path": "src/text/attack_name_long_en.json",
+      "asset_range": "0xE71780-0xE7273F"
+    },
+    {
+      "json_path": "src/text/battle_msg_en.json",
+      "asset_range": "0xE72760-0xE72DDD",
+      "ptr_range": "0xD139A9-0xD13BA8",
+      "ptr_offset": "0xE70000"
+    },
+    {
+      "json_path": "src/text/monster_special_name_en.json",
+      "asset_range": "0xE73700-0xE73AFF"
+    },
+    {
+      "json_path": "src/text/battle_dlg_en.json",
+      "asset_range": "0xE73B00-0xE74FAC",
+      "ptr_range": "0xD0F000-0xD0F1D3",
+      "ptr_offset": "0xE70000"
+    },
+    {
+      "json_path": "src/text/item_name_long_en.json",
       "asset_range": "0xE75860-0xE7705F"
+    },
+    {
+      "json_path": "src/text/passive_ability_name_long_en.json",
+      "asset_range": "0xE77060-0xE77377"
     }
   ],
   "data": [
@@ -30,6 +90,14 @@
     {
       "file_path": "src/gfx/big_font_en.1bpp",
       "asset_range": "0xC3EB00-0xC3FDFF"
+    },
+    {
+      "file_path": "src/gfx/small_font_en.2bpp",
+      "asset_range": "0xD1F000-0xD1FFFF"
+    },
+    {
+      "file_path": "src/gfx/battle_sprites1_en.3bpp",
+      "asset_range": "0xD497C0-0xD49E4F"
     }
   ],
   "array": []

@@ -34,7 +34,10 @@ def update_array_inc(asset_bytes, item_ranges, **kwargs):
         # define item offsets
         for id, item_range in enumerate(item_ranges):
             inc_text += ASM_INDENT + '_%d := ' % id
-            inc_text += f'{asset_label} + $%04x\n' % item_range.begin
+            if item_range.begin < 0:
+                inc_text += f'{asset_label} + -$%04x\n' % -item_range.begin
+            else:
+                inc_text += f'{asset_label} + $%04x\n' % item_range.begin
 
     # update item offsets in the include file
     rt.insert_asm(inc_path, inc_text)

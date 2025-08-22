@@ -1,6 +1,6 @@
 {
-  "asset_label": "ItemName",
-  "item_size": 9,
+  "asset_label": "PassiveAbilityName",
+  "item_size": 8,
   "char_tables": [
     "small_symbols_en",
     "text_en",

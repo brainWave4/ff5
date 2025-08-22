@@ -1,6 +1,6 @@
 {
-  "asset_label": "ItemName",
-  "item_size": 9,
+  "asset_label": "AttackNameLong",
+  "item_size": 24,
   "char_tables": [
     "small_symbols_en",
     "text_en",
