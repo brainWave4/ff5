@@ -51,7 +51,7 @@ _spc_block_seq .set 0
 
 .macro def_song_sample sample_id
         ; use the sample id plus 1 (zero means no sample)
-        .word sample_id
+        .word SAMPLE_BRR::sample_id + 1
 .endmac
 
 .macro begin_song_samples _song_id
