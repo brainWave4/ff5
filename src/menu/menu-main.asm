@@ -65,9 +65,165 @@ ExecMenu:
 ; ---------------------------------------------------------------------------
 
 CommonReturn:
-; @a02d:  jsr     $b2bd
-;         shorta
-;         rtl
+@a02d:  jsr $b2bd
+@a030:  shorta
+        rtl
+
+; ---------------------------------------------------------------------------
+
+; [ menu command $00: main menu ]
+
+_c2a033:
+_a033:  lda $35
+        sta $44
+        lda #$01
+        bra _a06b       ; show menu
+
+; ---------------------------------------------------------------------------
+
+; [ menu command $01: collect items after battle ]
+
+_c2a03b:
+_a03b:  lda #$0a
+        bra _a06b       ; show menu
+
+; ---------------------------------------------------------------------------
+
+; [ menu command $02: shop ]
+
+_c2a03f:
+_a03f:  lda #$06
+        bra _a06b       ; show menu
+
+; ---------------------------------------------------------------------------
+
+; [ menu command $03: init menu settings ]
+
+_c2a043:
+_a043:  jsr $a1f0       ; init config settings
+        jsr $ff7d       ; update joypad config
+        jsr $d447       ; update window color
+        jsr $f5a9       ; update mono/stereo setting
+        lda #$0c
+        bra _a06b       ; show menu
+
+; ---------------------------------------------------------------------------
+
+; [ menu command $04: tutorial ]
+
+_c2a053:
+_a053:  lda #$80
+        tsb $45         ; enable tutorial mode
+        stz $49         ; clear pause counter
+        stz $41
+        jsr $a394       ; init tutorial script
+        lda #$01
+        bra _a06b       ; show menu
+
+; ---------------------------------------------------------------------------
+
+; [ menu command $06: transfer galuf's stats to krile ]
+
+_c2a062:
+_a062:  stz $35
+        jsr $d958
+        bra @a030
+
+; ---------------------------------------------------------------------------
+
+; [ menu command $05: name change ]
+
+_c2a069:
+_a069:  lda #$0d
+
+; ---------------------------------------------------------------------------
+
+; [ show menu ]
+
+_c2a06b:
+_a06b:  shorta
+        sta $43         ; menu state
+        lda #$7e
+        pha
+        plb
+        longa
+        jsr $c16a       ; load tilemap/???/cursor data
+        jsr $a16e       ; reset sprite data
+        lda $43         ; menu state
+        and #$00ff
+        dec
+        asl
+        tax
+        lda $c0e60e,x
+        sta $c7
+        per $a08e
+        jmp ($01c7)
+        longa
+        lda $43         ; menu state
+        and #$00ff
+        cmp #$000c
+        bne @a0a2
+        jmp @a030
+        shorta
+        lda #$00
+        pha
+        plb
+        stz $2121
+        longa
+        stz $2102
+        stz $2116
+        ldx #$f5b2      ; 02 04 00 02 00 20 02 (sprite data)
+        jsr $a0f6
+        ldx #$f5b9      ; 02 22 00 73 7E 00 02 (color palettes)
+        jsr $a0f6
+        ldx #$f58b      ; 01 18 00 30 7E 00 40 (vram)
+        jsr $a0f6
+        shorta
+        lda #$04
+        sta $ca
+        lda #$00
+        sta $7e7511
+        jsr $a106       ; wait for vblank
+        lda $7e750e
+        sta $420c
+        lda $4210
+        lda #$81
+        sta $4200
+        lda #$00
+        sta $7e7522
+        sta $7e7525
+        lda #$03
+        sta $7e7513
+        jmp _a2e9
+
+; ---------------------------------------------------------------------------
+
+; [ dma ]
+
+; +X: address of dma parameters (+$C00000)
+
+_c2a0f6:
+_a0f6:  ldy #$4300
+        lda #$0006
+        mvn $00,$c0
+        lda #$0001
+        sta $420b
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ wait for vblank ]
+
+_c2a106:
+_a106:  php
+        shorta
+@a109:  lda $004210
+        bmi @a109
+@a10f:  lda $004210
+        bpl @a10f
+        lda $004210
+        plp
+        rts
 
 ; ---------------------------------------------------------------------------
 
