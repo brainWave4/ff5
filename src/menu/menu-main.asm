@@ -65,7 +65,7 @@ ExecMenu:
 ; ---------------------------------------------------------------------------
 
 CommonReturn:
-@a02d:  jsr $b2bd
+@a02d:  jsr _c2b2bd
 @a030:  shorta
         rtl
 
@@ -100,10 +100,10 @@ _a03f:  lda #$06
 ; [ menu command $03: init menu settings ]
 
 _c2a043:
-_a043:  jsr $a1f0       ; init config settings
-        jsr $ff7d       ; update joypad config
-        jsr $d447       ; update window color
-        jsr $f5a9       ; update mono/stereo setting
+_a043:  jsr _c2a1f0     ; init config settings
+        jsr _c2ff7d     ; update joypad config
+        jsr _c2d447     ; update window color
+        jsr _c2f5a9     ; update mono/stereo setting
         lda #$0c
         bra _a06b       ; show menu
 
@@ -116,7 +116,7 @@ _a053:  lda #$80
         tsb $45         ; enable tutorial mode
         stz $49         ; clear pause counter
         stz $41
-        jsr $a394       ; init tutorial script
+        jsr _c2a394     ; init tutorial script
         lda #$01
         bra _a06b       ; show menu
 
@@ -126,7 +126,7 @@ _a053:  lda #$80
 
 _c2a062:
 _a062:  stz $35
-        jsr $d958
+        jsr _c2d958
         bra @a030
 
 ; ---------------------------------------------------------------------------
@@ -147,8 +147,8 @@ _a06b:  shorta
         pha
         plb
         longa
-        jsr $c16a       ; load tilemap/???/cursor data
-        jsr $a16e       ; reset sprite data
+        jsr _c2c16a     ; load tilemap/???/cursor data
+        jsr _c2a16e     ; reset sprite data
         lda $43         ; menu state
         and #$00ff
         dec
@@ -173,17 +173,17 @@ _a06b:  shorta
         stz $2102
         stz $2116
         ldx #$f5b2      ; 02 04 00 02 00 20 02 (sprite data)
-        jsr $a0f6
+        jsr _c2a0f6
         ldx #$f5b9      ; 02 22 00 73 7E 00 02 (color palettes)
-        jsr $a0f6
+        jsr _c2a0f6
         ldx #$f58b      ; 01 18 00 30 7E 00 40 (vram)
-        jsr $a0f6
+        jsr _c2a0f6
         shorta
         lda #$04
         sta $ca
         lda #$00
         sta $7e7511
-        jsr $a106       ; wait for vblank
+        jsr _c2a106       ; wait for vblank
         lda $7e750e
         sta $420c
         lda $4210
@@ -229,10 +229,160 @@ _a106:  php
 
 ; c2/a11b
 InitMenu:
-; @a11b:  longai
-;         lda     #$0100
-;         tcd
+@a11b:  longai
+        lda #$0100      ; set direct page to $0100
+        tcd
+        ldx #$f533      ; copy interrupt jump code
+        ldy #$1f00
+        lda #$0007
+        mvn $7e,$co
+        stz $8e
+        shorta
+        lda #$80
+        sta $002100
+        stz $44
+        stz $45
+        stz $46
+        stz $47
+        stz $48
+        jsr _c2a18a
+        jsr _c2d230
+        jsr _c2d37b
+        jsr _c2d3db
+        jsr _c2a247
+        jsr _c2a1cf
+        jsr _c2ff7d     ; update joypad config
+        jsr _c2d447     ; update window color
+        jsr _c2f5a9     ; update mono/stereo setting
+        jsr _c2a16e     ; reset sprite data
+        longa
+        ldx #$f573
+        ldy #$750f
+        lda #$0017
+        mvn $7e,$c0
+        rts
 
+; ---------------------------------------------------------------------------
+
+; [ reset sprite data ]
+
+_c2a16e:
+_a16e:  php
+        longa
+        ldx #$0220
+@a174:  stz $01fe,x
+        dex2
+        bne @a174
+        ldx #$0020
+        lda #$aaaa
+@a181:  sta $03fe,x
+        dex2
+        bne @a181
+        plp
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c2a18a:
+_a18a:  phb
+        php
+        shorta
+        lda #$00
+        pha
+        plb
+        lda #$01
+        sta $4200
+        lda #$01
+        sta $2101
+        lda #$00        ; mode 0
+        sta $2105
+        sta $2106
+        lda #$80
+        sta $2115
+        ldx #$0008
+@a1ac:  stz $210c,x
+        stz $210c,x
+        dex
+        bne @a1ac
+        longa
+        ldx #$f53b
+        ldy #$2107
+        lda #$0005
+        mvn $00,$c0
+        ldy #$212c
+        lda #$0005
+        mvn $00,$c0
+        plp
+        plb
+        rts
+        phb
+        php
+        longa
+        lda $8e
+        sta $00420c
+        ldx #$f547
+@a1dc:  lda $c00000,x
+        beq @a1ed
+        tay
+        inx2
+        lda #$0004
+        mvn $00,$c0
+        bra @a1dc
+@a1ed:  plp
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ init config settings ]
+
+_c2a1f0:
+_a1f0:  phb
+        php
+        longa
+        ldx #$f342      ; C0/F342 (default config settings)
+        ldy #$0970
+        lda #$001f
+        mvn $00,$c0
+        lda #$0100      ; set character cursor positions
+        sta $042d
+        lda #$0302
+        sta $042f
+        shorta
+        stz $59
+        stz $5d
+        stz $5f
+        stz $61
+        stz $62
+        stz $5e
+        stz $5c
+        stz $5b
+        lda #$02
+        sta $60
+        lda #$08
+        sta $5a
+        stz $63
+        stz $64
+        stz $65
+        stz $66
+        lda #$07
+        sta $67
+        sta $68
+        sta $69
+        Sta $6a
+        plp
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c2a23b:
+_a23b:  sta ($e0),y
+        clc
+        adc $e4
+        iny2
+        cpy $e2
+        bne _a23b
         rts
 
 ; ---------------------------------------------------------------------------
