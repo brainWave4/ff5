@@ -77638,7 +77638,7 @@ C2/B1F5: A0 84 42     LDY #$4284
 C2/B1F8: 20 4E E4     JSR $E44E
 C2/B1FB: 20 CC CE     JSR $CECC       ; get list of available jobs
 C2/B1FE: 64 85        STZ $85
-C2/B200: A4 85        LDY
+C2/B200: A4 85        LDY $85
 C2/B202: B9 00 7A     LDA $7A00,Y
 C2/B205: 29 FF 00     AND #$00FF
 C2/B208: C9 FF 00     CMP #$00FF
@@ -78921,23 +78921,26 @@ C2/BDAE: 0A           ASL
 C2/BDAF: AA           TAX
 C2/BDB0: BF 14 2C 7E  LDA $7E2C14,X
 C2/BDB4: 60           RTS
+
 C2/BDB5: A5 43        LDA $43         ; menu state
-C2/BDB7: C9 0C D0     CMP #$D00C
-C2/BDBA: 03 4C        ORA $4C,S
-C2/BDBC: F0 A4        BEQ $BD62
+C2/BDB7: C9 0C        CMP #$0C
+C2/BDB9: D0 03        BNE $BDBE
+C2/BDBB: 4C F0 A4     JMP $A4F0
 C2/BDBE: 20 BD B2     JSR $B2BD
-C2/BDC1: A9 01 4C     LDA #$4C01
-C2/BDC4: 6B           RTL
-C2/BDC5: A0 A5 55     LDY #$55A5
-C2/BDC8: C9 03 F0     CMP #$F003
-C2/BDCB: 0F 3A 8D 65  ORA $658D3A
-C2/BDCF: 2B           PLD
+C2/BDC1: A9 01        LDA #$01
+C2/BDC3: 4C 6B A0     JMP $A06B
+C2/BDC6: A5 55        LDA $55
+C2/BDC8: C9 03        CMP #$03
+C2/BDCA: F0 0F        BEQ $BDDB
+C2/BDCC: 3A           DEC
+C2/BDCE: 8D 65 2B     STA $2B65
 C2/BDD0: 20 DA C4     JSR $C4DA
 C2/BDD3: 20 9D A6     JSR $A69D
-C2/BDD6: A9 03 4C     LDA #$4C03
-C2/BDD9: 7C A4 A6     JMP ($A6A4,X)
-C2/BDDC: 8E BD 90     STX $90BD
-C2/BDDF: 09 C9 FF     ORA #$FFC9
+C2/BDD6: A9 03        LDA #$03
+C2/BDD8: 4C 7C A4     JMP $A47C
+C2/BDDB: A6 8E        LDX $8E
+C2/BDDD: BD 90 09     LDA $0990,X
+C2/BDE0: C9 FF        CMP #$FF
 C2/BDE2: D0 0C        BNE $BDF0
 C2/BDE4: E8           INX
 C2/BDE5: E0 06 00     CPX #$0006
@@ -85403,6 +85406,7 @@ C2/EF83: 8D 86 28     STA $2886
 C2/EF86: 28           PLP
 C2/EF87: AB           PLB
 C2/EF88: 60           RTS
+
 C2/EF89: 8B           PHB
 C2/EF8A: 08           PHP
 C2/EF8B: C2 20        REP #$20
@@ -85414,6 +85418,7 @@ C2/EF99: 20 9F EF     JSR $EF9F
 C2/EF9C: 28           PLP
 C2/EF9D: AB           PLB
 C2/EF9E: 60           RTS
+
 C2/EF9F: 64 7E        STZ $7E
 C2/EFA1: 20 C5 D4     JSR $D4C5
 C2/EFA4: A4 80        LDY $80
@@ -85423,17 +85428,18 @@ C2/EFA9: 0A           ASL
 C2/EFAA: 0A           ASL
 C2/EFAB: AA           TAX
 C2/EFAC: B9 00 05     LDA $0500,Y
-C2/EFAF: 29 40        AND #$40
-C2/EFB1: 00 F0        BRK $F0
-C2/EFB3: 06 9E        ASL $9E
-C2/EFB5: 42 02        WDM $02
+C2/EFAF: 29 40 00     AND #$0040
+C2/EFB2: F0 06        BEQ $EFBA
+C2/EFB4: 9E 42 02     STZ $0242,X
 C2/EFB7: 9E 46 02     STZ $0246,X
 C2/EFBA: A5 7E        LDA $7E
 C2/EFBC: 1A           INC
 C2/EFBD: 85 7E        STA $7E
-C2/EFBF: C9 04        CMP #$04
-C2/EFC1: 00 D0        BRK $D0
-C2/EFC3: DD 60 8B     CMP $8B60,X
+C2/EFBF: C9 04        CMP #$0004
+C2/EFC2: D0 DD        BNE $EFA1
+C2/EFC4: 60           RTS
+
+C2/EFC5: 8B           PHB
 C2/EFC6: 08           PHP
 C2/EFC7: C2 20        REP #$20
 C2/EFC9: 29 01 00     AND #$0001

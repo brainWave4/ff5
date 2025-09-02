@@ -20,6 +20,9 @@
 
 ; ---------------------------------------------------------------------------
 
+        .a8
+        .i16
+
 ; c2/a000
 ExecMenu_ext:
         bra ExecMenu
@@ -66,6 +69,8 @@ ExecMenu:
 
 CommonReturn:
 @a02d:  jsr _c2b2bd
+
+_c2a030:
 @a030:  shorta
         rtl
 
@@ -127,7 +132,7 @@ _a053:  lda #$80
 _c2a062:
 _a062:  stz $35
         jsr _c2d958
-        bra @a030
+        bra _c2a030
 
 ; ---------------------------------------------------------------------------
 
@@ -163,8 +168,8 @@ _a06b:  shorta
         and #$00ff
         cmp #$000c
         bne @a0a2
-        jmp @a030
-        shorta
+        jmp _c2a030
+@a0a2:  shorta
         lda #$00
         pha
         plb
@@ -235,7 +240,7 @@ InitMenu:
         ldx #$f533      ; copy interrupt jump code
         ldy #$1f00
         lda #$0007
-        mvn $7e,$co
+        mvn $7e,$c0
         stz $8e
         shorta
         lda #$80
@@ -315,6 +320,8 @@ _a18a:  phb
         plp
         plb
         rts
+
+_c2a1cf:
         phb
         php
         longa
@@ -468,7 +475,8 @@ _a2e9:  shorta
         jsr _c2e66f
         jsr _c2fc2f
         pea $7e7e
-        plb2
+        plb
+        plb
         bit $45
         bmi @a301       ; branch if in tutorial mode
         jsr _c2a33a     ; get pressed button index
@@ -500,7 +508,7 @@ _a2e9:  shorta
         lda $c0e628,x
         sta $c7
         shorta
-        jmp (01c7)
+        jmp ($01c7)
 
 ; ---------------------------------------------------------------------------
 
@@ -545,7 +553,7 @@ _a36a:  jsr _c2e0b0
         longa
         and #$007f
         asl2
-        bra @a386
+        bra _a386
 
 ; ---------------------------------------------------------------------------
 
@@ -558,7 +566,7 @@ _a378:  jsr _c2e0b8     ; play sound effect
         and #$007f
         asl2
         inc2
-        tax
+_a386:  tax
         lda $c08724,x
         sta $c7
         lda $8e
@@ -695,7 +703,8 @@ _c2a476:
 _a476:  jsr _c2e4df     ; get pointer to current cursor data
         lda $7607,x
 @a47c:  pea $7e7e
-        plb2
+        plb
+        plb
         jsr _c2e0a8     ; play sound effect
         shorta
         stz $4f
@@ -1774,7 +1783,7 @@ _a9fd:  lda #$36
         ldy $b4
         jsr _c2c1b8
         lda $7e29e2
-        amd #$07
+        and #$07
         brk $0a
         tax
         lda $c0f3b3,x
@@ -2358,6 +2367,7 @@ _af1b:  phb
 ; ---------------------------------------------------------------------------
 
 _c2b1ec:
+        .a16
 _b1ec:  lda #$b3c2
         jsr _c2c1b8
         lda $2d1b
@@ -2365,7 +2375,7 @@ _b1ec:  lda #$b3c2
         jsr _c2e44e
         jsr _c2cecc     ; get list of available jobs
         stz $85
-@b200:  ldy
+@b200:  ldy $85
         lda $7a00,y
         and #$00ff
         cmp #$00ff
@@ -2463,6 +2473,8 @@ _b25e:  lda $53
         ora $08f5
         bne @b2ad
         bra @b284
+
+_c2b2bd:
         shorta
         lda #$00
         sta $7e7510
@@ -2699,7 +2711,7 @@ _b429:  lda $55
         lda #$04
         jmp _c2a47c
 @b4a8:  lda $45
-        blp @b4b0
+        bpl @b4b0
         and #$02
         bne @b4d4
 @b4b0:  longa
@@ -3085,6 +3097,7 @@ _b521:  lda $6f
         jsr _c2b2bd
         lda #$4c01
         rtl
+
         ldy #$55a5
         cmp #$f001
         phd
@@ -3107,7 +3120,7 @@ _b521:  lda $6f
         lda #$4c18
         jmp ($4ca4,x)
         and $a5a0
-        ero $3a,x
+        eor $3a,x
         sta $2807
         stz $2808
         ldx $2807
@@ -3410,8 +3423,7 @@ _b521:  lda $6f
         lda #$1c
         jmp _c2a47c
 
-; ---------------------------------------------------------------------------
-
+        .a16
 _bb66:  and #$00ff
         sec
         sbc #$00f8      ; subtract 248 from item index
@@ -3673,28 +3685,36 @@ _bd3d:  lda $53
         tax
         lda $7e2c14,x
         rts
+
+_c2bdb5:
         lda $43         ; menu state
-        cmp #$d00c
-        ora $4c,s
-        beq $bd62
-        jsr #$4c01
-        rtl
-        ldy #$55a5
-        cmp #$f003
-        ora $658d3a
-        pld
+        cmp #$0c
+        bne @bdbe
+        jmp _c2a4f0
+@bdbe:  jsr _c2b2bd
+        lda #$01
+        jmp _c2a06b
+
+_c2bdc6:
+        lda $55
+        cmp #$03
+        beq @bddb
+        dec
+        sta $2b65
         jsr _c2c4da
         jsr _c2a69d
-        lda #$4c03
-        jmp ($a6a4,x)
-        stx $90bd
-        ora #$ffc9
+        lda #$03
+        jmp _c2a47c
+@bddb:  ldx $8e
+@bddd:  lda $0990,x
+        cmp #$ff
         bne @bdf0
         inx
         cpx #$0006
-        bne $bddd
-        jsr _c2e0c0     ; play sound effect (error)
+        bne @bddd
+        jsr _c2e0c0       ; play sound effect (error)
         jmp _c2a4f0
+
 @bdf0:  jmp _c2a02d     ; exit menu
         jmp _c2a4f0
         longa
@@ -3704,8 +3724,7 @@ _bd3d:  lda $53
         tax
         shorta
         jsr _c2c51d
-        cmp
-        #$ff
+        cmp #$ff
         beq @be2b
         ldy $29b2
         sta $0990,y
@@ -4177,11 +4196,13 @@ _c1a6:  phb
 _c2c1b8:
 _c1b8:  phb
         pea $c3c3
-        plb2
+        plb
+        plb
         tax
         beq @c1ed
         pea $c3c3
-        plb2
+        plb
+        plb
         lda $0000,x
         inx
         and #$000f
@@ -4195,7 +4216,8 @@ _c1b8:  phb
         mvn $00,$c3
         ply
 @c1de:  pea $7e7e
-        plb2
+        plb
+        plb
         phx
         php
         tyx
@@ -4204,7 +4226,8 @@ _c1b8:  phb
         plx
         bra _c2c1c1
 @c1ed:  pea $7e7e
-        plb2
+        plb
+        plb
         jsr _c2c25f
 @c1f5:  plb
         rts
@@ -4423,7 +4446,8 @@ _c34a:  jsr _c2f63d
 
 _c2c36f:
 _c36f:  pea $7e7e
-        plb2
+        plb
+        plb
         shorta
         stz $53
         jsr _c2d210
@@ -4467,7 +4491,8 @@ _c36f:  pea $7e7e
         phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         shorta
         ldx #$5246
         stx $99
@@ -4529,7 +4554,8 @@ _c36f:  pea $7e7e
 
 _c2c442:
 _c442:  pea $7e7e
-        plb2
+        plb
+        plb
         shorta
         lda #$01
         sta $2b65
@@ -4586,7 +4612,8 @@ _c442:  pea $7e7e
         phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         shorta
         ldx #$6194
         stx $99
@@ -4716,6 +4743,7 @@ _c5b9:  jsr _c2f4d4
 ; [ menu state $07:  ]
 
 _c2c5c8:
+        .a16
 _c5c8:  lda $71
         and #$0007
         sta $7e
@@ -4724,7 +4752,8 @@ _c5c8:  lda $71
         lda #$b434
         jsr _c2c1b8
         pea $7e7e
-        plb2
+        plb
+        plb
         ldx #$0950      ; known spells
         ldy #$29b8
         lda #$001f
@@ -4741,7 +4770,8 @@ _c5c8:  lda $71
         clc
         adc $01,s
         sta $29d8,y
-        pla2
+        pla
+        pla
         iny
         cpy #$0005
         beq @c61b
@@ -4885,7 +4915,8 @@ _c6f7:  shorta
         phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         longa
         ldy $8e
         stz $85
@@ -5028,6 +5059,7 @@ _c803:  shorta
         shorta
         lda #$0b
         jsr _c2cfbd
+        .a16
         shorta
         stz $5c
         stz $5b
@@ -5062,6 +5094,7 @@ _c2c8a0:
 _c8a0:  shorta
         lda #$0a
         jsr _c2cfbd
+        .a16
         jsr _c2e76c
         jsr _c2c954
         ldy $80
@@ -5139,7 +5172,7 @@ _c8de:  phb
         adc $01,s
         sta $0340
         stz $0000,x
-        stx $0002,x
+        stz $0002,x
 @c93d:  pla
         plp
         plb
@@ -5304,7 +5337,8 @@ _c2caa5:
 _caa5:  phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         longa
         ldx $8e
         lda #$63c4
@@ -5548,7 +5582,8 @@ _cb8c:  lda $99
         php
         phb
         pea $7e7e
-        plb2
+        plb
+        plb
         longa
         jsr _c2c941
         ldx $8e
@@ -5578,13 +5613,14 @@ _cccb:  phb
         shorta
         lda #$06
         jsr _c2cfbd
+        .a16
         stz $53
         jsr _c2d210     ; init cursor ???
         stz $6f
         jsr _c2d503
         jsr _c2e464
         jsr _c2cdc6     ; update current character data
-        jsr _c2d388    
+        jsr _c2d388
         jsr _c2cecc     ; get list of available jobs
         jsr _c2cde3     ; update job sprites
         jsr _c2cd57     ; update selected job palette
@@ -5720,7 +5756,8 @@ _c2cde3:
 _cde3:  phb
         plp
         pea $7e7e
-        plb2
+        plb
+        plb
         longa
         lda $80
         clc
@@ -5870,6 +5907,7 @@ _c2ceec:
 _ceec:  shorta
         lda #$04
         jsr _c2cfbd
+        .a16
         ldx #$efb5
         lda #$0011
         jsr _c2da9d
@@ -5999,7 +6037,8 @@ _cfdc:  jsr _c2d230
         lda #$0103
         jsr _c2d6dc
 @d00a:  pea $7e7e
-        plb2
+        plb
+        plb
         lda $0840       ; available jobs
         bne @d025
         lda $0842
@@ -6031,7 +6070,8 @@ _cfdc:  jsr _c2d230
 _c2d04c:
 _d04c:  phb
         pea $7e7e
-        plb2
+        plb
+        plb
         shorta
         lda #$c0
         stx $82
@@ -6412,7 +6452,7 @@ _d304:  phb
         bra @d33e
         lda #$001f
         mvn $7e,$d4
-@d33e:  pxl
+@d33e:  plx
 ; hexes d33f and d340 are missing here!
         inx4
         dec $e8
@@ -6502,7 +6542,7 @@ _d388:  phb
         dey
         bne @d3a3
         longa
-        lxd #$efd9
+        ldx #$efd9
         jsr _c2d9fb
         plp
         plb
@@ -7171,7 +7211,7 @@ _d8b1:  sta $e4         ; end bit
 @d8b3:  lda $0000,y
         sta $e2
         lda #$08        ; 8 bits
-        sya $e5
+        sta $e5
 @d8bc:  asl $e2
         bcc @d8ca
         lda $e3         ; start bit
@@ -7203,7 +7243,8 @@ _d8e4:  phb
         phy
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         longa
         and #$00ff
         pha
@@ -7368,7 +7409,8 @@ _d9fb:  lda $c00000,x
         phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         longa
         lda $2ce5
         sta $2ced
@@ -7468,7 +7510,8 @@ _d9fb:  lda $c00000,x
         phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         longa
         stz $29f1
         shorta
@@ -7593,7 +7636,8 @@ _d9fb:  lda $c00000,x
         phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         longa
         stz $29f1
         lda $71
@@ -7779,7 +7823,8 @@ _d9fb:  lda $c00000,x
         phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         longa
         lda $2bba
         sta $e6
@@ -7831,7 +7876,8 @@ _c2de3e:
 _de3e:  phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         longa
         ldx #$0200
         lda #$ffff
@@ -7965,7 +8011,8 @@ _c2df4d:
 _df4d:  phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         longa
         lda $29e2
         and #$00ff
@@ -8031,7 +8078,7 @@ _df7f:  lda $c00000,x
         cmp $f2
         bpl @dff4
         bra @dfe9
-@dfda:  lad $e8
+@dfda:  lda $e8
         and #$0040
         bne @dff4
         lda $f0
@@ -8059,7 +8106,8 @@ _c2e002:
 _e002:  phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         longa
         ldx $8e
 @e00d:  stz $7f00,x
@@ -8141,6 +8189,8 @@ _e0a8:  pha
         shorta
         lda #$11        ; cursor 1
         bra @e0ce
+
+_c2e0b0:
         pha
         php
         shorta
@@ -8404,7 +8454,8 @@ _e0f7:  phb
         phx
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         shorta
         stz $90
         cmp #$00
@@ -8448,7 +8499,8 @@ _e2ce:  phb
         phx
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         shorta
         stz $90
         cmp #$00
@@ -8502,7 +8554,8 @@ _e328:  phb
         phx
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         shorta
         stz $90
         ldx $8e
@@ -8568,7 +8621,8 @@ _e328:  phb
 @e3a6:  phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         shorta
         sta $91
         xba
@@ -8583,7 +8637,7 @@ _e328:  phb
         sta $0000,x
         inx2
         ldy #$0192
-        lda @#0021
+        lda #$0021
         jsr _c2e4ed
         bra @e3e0
 @e3d4:  longa
@@ -8973,7 +9027,8 @@ _c2e610:
 _e610:  phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         longa
         sta $85
         lda $85
@@ -9455,7 +9510,8 @@ _c2e933:
 _e933:  phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         longa
         jsr _c2a4c5
         ldy $80
@@ -9492,7 +9548,8 @@ _c2e973:
 _e973:  phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         longa
         jsr _c2d4c5
         ldy $80
@@ -9539,7 +9596,8 @@ _c2e9ce:
 _e9ce:  phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         jsr _c2d4c5
         longa
         ldy $80
@@ -9724,7 +9782,8 @@ _c2eb82:
 _eb82:  phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         longa
         ldy $80
         lda $0501,y     ; job
@@ -9920,7 +9979,8 @@ _ec76:  phb
         plb
         rts
         pea $7e7e
-@ecd9:  plb2
+@ecd9:  plb
+        plb
         longa
         stz $75
         ldy $80
@@ -10022,6 +10082,8 @@ _ec76:  phb
         plp
         plb
         rts
+
+_c2edb5:
         ldy $8e
 @edb7:  shorta
         lda $7a00,y
@@ -10053,7 +10115,7 @@ _ec76:  phb
         inc $7f00,x
         cpy $75
         beq @ee02
-        cpy @#00ff
+        cpy #$00ff
         beq @ee02
         iny
         bra @ede3
@@ -10102,6 +10164,8 @@ _ec76:  phb
         iny
         bra @ee1f
 @ee62:  rts
+
+_c2ee63:
         longa
         lda $7f01
         and #$00ff
@@ -10150,7 +10214,8 @@ _ec76:  phb
         rts
         phb
         pea $7e7e
-        plb2
+        plb
+        plb
         stx $f2
         sty $f4
         lda #$04
@@ -10171,7 +10236,7 @@ _ec76:  phb
         and #$000f
         asl
         tax
-        ldx $c0f208,x
+        lda $c0f208,x
         jsr _c2c1b8
         jsr _c2a698
         plp
@@ -10189,7 +10254,8 @@ _ec76:  phb
         phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         longa
         stz $f1
         stz $7e
@@ -10239,6 +10305,8 @@ _ec76:  phb
         plp
         plb
         rts
+
+_c2ef89:
         phb
         php
         longa
@@ -10250,24 +10318,29 @@ _ec76:  phb
         plp
         plb
         rts
+
+_c2ef9f:
+        .a16
         stz $7e
-        jsr _c2d4c5
+@efa1:  jsr _c2d4c5
         ldy $80
         lda $7e
         asl3
         tax
         lda $0500,y
-        and #$40
-        brk $f0
-        asl $9e
-        wdm $02
+        and #$0040
+        beq @efba
+        stz $0242,x
         stz $0246,x
-        lda $7e
+@efba:  lda $7e
         inc
         sta $7e
-        cmp #$04
-        brk $d0
-        cmp $8b60,x
+        cmp #$0004
+        bne @efa1
+        rts
+
+_c2efc5:
+        phb
         php
         longa
         and #$0001
@@ -10292,7 +10365,8 @@ _c2efe3:
 _efe3:  phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         lda $2809
         jsr _c2f00b     ; give spell
         ldx $8e
