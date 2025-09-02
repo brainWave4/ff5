@@ -8191,6 +8191,2125 @@ _e0d9:  phb
 
 ; ---------------------------------------------------------------------------
 
+_c2e0f7:
+_e0f7:  phb
+        php
+        shorta
+        lda #$7e
+        pha
+        plb
+        stz $90
+        lda $6f
+        cmp #$03
+        bpl @e167
+        dec
+        longa
+        and #$0001
+        asl2
+        tax
+        lda $c0ef53,x
+        clc
+        adc $80
+        tay
+        lda $72
+        sta $e0
+        shorta
+        lda $0500,y
+        bne @e126
+        lda $04ef,y
+@e126:  sta $e2
+        jsr @e16a
+        sta $e3
+        lda $e0
+        jsr @e16a
+        sta $e1
+        ldy $80
+        lda $e0
+        bmi @e155
+        lda $e2
+        bmi @e14f
+        beq @e167
+        cmp #$01
+        beq @e167
+        lda $0521,y
+        and #$01
+        beq @e165
+        lda $e3
+        bmi @e165
+@e14f:  lda $e1
+        bmi @e165
+        bra @e167
+@e155:  lda $e2
+        bmi @e165
+        beq @e167
+        cmp #$01
+        beq @e167
+        lda $e3
+        bmi @e165
+        bra @e167
+@e165:  inc $90
+@e167:  plp
+        plb
+        rts
+@e16a:  bmi @e175
+        and #$7f
+        jsr _c2d9ab
+        lda $9f
+        bra @e177
+@e175:  lda #$00
+@e177:  rts
+        phb
+        php
+        longa
+        lda $80
+        clc
+        adc #$050e
+        tax
+        ldy #$01e0
+        lda #$0006
+        mvn $7e,$7e
+        plp
+        plb
+        rts
+        phb
+        php
+        longa
+        lda $80
+        clc
+        adc #$050e
+        tay
+        ldx #$01e0
+        lda #$0006
+        mvn $7e,$7e
+        plp
+        plb
+        rts
+        phb
+        php
+        shorta
+        lda #$7e
+        pha
+        plb
+        lda $6f
+        cmp #$01
+        beq @e1ca
+        cmp #$02
+        beq @e1ca
+        dec3
+        longa
+        and #$0003
+        tay
+        shorta
+        lda $72
+        sta $01e0,y
+        bra @e20e
+@e1ca:  dec
+        longa
+        and #$0001
+        tay
+        shorta
+        lda $72
+        bmi @e1e1
+        sta $01e5,y
+        lda #$00
+        sta $01e3,y
+        bra @e1e9
+@e1e1:  sta $01e3,y
+        lda #$00
+        sta $01e5,y
+@e1e9:  longa
+        tya
+        inc
+        and #$0001
+        tax
+        shorta
+        lda $01e5,y
+        beq @e202
+        lda $e5,x
+        cmp #$01
+        bne @e20e
+        stz $e5,x
+        bra @e20e
+@e202:  lda $e5,x
+        ora $e3,x
+        bne @e20e
+        lda #$01
+        sta $e5,x
+        stz $e3,x
+@e20e:  plp
+        plb
+        rts
+        phb
+        php
+        shorta
+        lda #$7e
+        pha
+        plb
+        stz $73
+        lda $6f
+        cmp #$01
+        beq @e240
+        cmp #$02
+        beq @e240
+        dec3
+        longa
+        and #$0003
+        tax
+        shorta
+        lda $e0,x
+        beq @e283
+        cmp #$80
+        beq @e283
+        sta $73
+        lda #$80
+        sta $e0,x
+        bra @e283
+@e240:  dec
+        longa
+        and #$0001
+        tay
+        shorta
+        lda $01e5,y
+        bne @e253
+        lda $01e3,y
+        beq @e262
+@e253:  cmp #$01
+        beq @e262
+        sta $73
+        lda #$00
+        sta $01e3,y
+        inc
+        sta $01e5,y
+@e262:  longa
+        tya
+        inc
+        and #$0001
+        tax
+        shorta
+        lda $e5,x
+        beq @e27b
+        cmp #$01
+        beq @e283
+        lda #$00
+        sta $01e5,y
+        bra @e283
+@e27b:  lda $e3,x
+        bne @e283
+        lda #$01
+        sta $e5,x
+@e283:  plp
+        plb
+        rts
+        phb
+        phx
+        php
+        pea $7e7e
+        plb2
+        shorta
+        stz $90
+        cmp #$00
+        beq @e2ca
+        cmp #$01
+        beq @e2ca
+        cmp #$80
+        beq @e2ca
+        ldx $8e
+@e2a0:  cmp $0640,x
+        beq @e2ad
+        inx
+        cpx #$0100
+        beq @e2b9
+        bra @e2a0
+@e2ad:  lda $0740,x
+        inc
+        cmp #$64
+        bmi @e2ca
+        inc $90
+        bra $e2ca
+@e2b9:  ldx $8e
+@e2bb:  lda $0640,x
+        beq @e2ca
+        inx
+        cpx #$0100
+        bne @e2bb
+        inc $90
+        inc $90
+@e2ca:  plp
+        plx
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c2e2ce:
+_e2ce:  phb
+        phx
+        php
+        pea $7e7e
+        plb2
+        shorta
+        stz $90
+        cmp #$00
+        beq @e324
+        cmp #$01
+        beq @e324
+        cmp #$80
+        beq @e324
+        ldx $8e
+        cmp $0640,x
+        beq @e2f5
+        inx
+        cpx #$0100
+        beq @e305
+        bra @e2e8
+@e2f5:  xba
+        clc
+        adc $0740,x
+        cmp #$64
+        bmi @e300
+        lda #$63
+@e300:  sta $0740,x
+        bra @e324
+@e305:  ldx $8e
+        pha
+@e308:  lda $0640,x
+        beq @e315
+        inx
+        cpx #$0100
+        beq @e31f
+        bra @e308
+@e315:  pla
+        sta $0640,x
+        xba
+        sta $0740,x
+        bra @e324
+@e31f:  pla
+        inc $90
+        inc $90
+@e324:  plp
+        plx
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c2e328:
+_e328:  phb
+        phx
+        php
+        pea $7e7e
+        plb2
+        shorta
+        stz $90
+        ldx $8e
+@e336:  cmp $0640,x
+        beq @e343
+        inx
+        cpx #$0100
+        beq @e361
+        bra @e336
+@e343:  xba
+        pha
+        sec
+        lda $0740,x
+        sbc $01,s
+        bpl @e350
+        pla
+        bra @e361
+@e350:  sta $0740,x
+        pla
+        lda $0740,x
+        bne @e363
+        stz $0640,x
+        stz $288a,x
+        bra @e363
+@e361:  inc $90
+@e363:  plp
+        plx
+        plb
+        rts
+        php
+        longa
+        lda $6d
+        beq @e394
+        ldy $8e
+        lda $6b
+        beq @e37a
+        cmp $6d
+        beq @e379
+        iny
+@e379:  iny
+@e37a:  tya
+        asl2
+        tay
+        lda $7e29b6
+        and #$000f
+        asl2
+        tax
+        phx
+        jsr @e396
+        iny2
+        plx
+        inx2
+        jsr @e396
+@e394:  plp
+        rts
+@e396:  lda $c0e9c6,x
+        pha
+        tyx
+        lda $c0e9d6,x
+        plx
+        sta $7e0000,x
+        rts
+@e3a6:  phb
+        php
+        pea $7e7e
+        plb2
+        shorta
+        sta $91
+        xba
+        sta $92
+        lda $92
+        beq @e3d4
+        lda $91
+        beq @e3d4
+        jsr _c2e44e
+        longa
+        lda #$00cf
+        sta $0000,x
+        inx2
+        ldy #$0192
+        lda @#0021
+        jsr _c2e4ed
+        bra @e3e0
+@e3d4:  longa
+        tyx
+        ldy #$ef59
+        lda #$c00c
+        jsr _c2e59d
+@e3e0:  plp
+        plb
+        rts
+@e3e3:  php
+        shorta
+        lda $7a00,x
+        xba
+        lda $7b00,x
+        xba
+        jsr @e3a6
+        plp
+        rts
+        phy
+        jsr @e3e3
+        ply
+        php
+        longa
+        lda $54
+        and #$00ff
+        cmp #$0016
+        beq @e42a
+        lda $91
+        and #$00ff
+        cmp #$00e0
+        bmi @e421
+        shorta
+        ldx $8e
+@e413:  lda $c0eed2,x
+        beq @e421
+        cmp $91
+        beq @e42a
+        inx2
+        bra @e413
+@e421:  tyx
+        longa
+        lda #$010c
+        jsr _c2d6dc
+@e42a:  plp
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ draw spell name ]
+
+;  A: spell id
+; +Y: destination address
+
+_c2e42c:
+_e42c:  php
+        longa
+        and #$00ff
+        pha
+        asl
+        tax
+        lda $7ed400,x   ; pointer to spell name ???
+        tyx
+        tay
+        pla
+        cmp #$0057
+        bpl $e446
+        lda #$d106      ; spells $00-$56: 6 bytes each
+        bra @e449
+        lda #$d108      ; spells $57-...: 8 bytes each
+@e449:  jsr _c2e59d
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ draw item name ]
+
+_c2e44e:
+_e44e:  php
+        longa
+        and #$00ff
+        asl
+        tax
+        lda $7ed200,x   ; pointer to item name ???
+        tyx
+        tay
+        lda #$d109
+        jsr _c2e59d
+        plp
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c2e464:
+_e464:  phb
+        php
+        lda $d8
+        jsr _c2e4b2
+        lda $da
+        and #$0f
+        brk $0a
+        asl3
+        xba
+        ora $dc
+        sta $0843,x
+        plp
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ get character job data ]
+
+; +$7E: character index
+; +$D8: job index
+; +$DA: job level (out)
+; +$DC: current abp (out)
+; +$DE: abp to next level (out)
+
+_c2e47d:
+_e47d:  phb
+        php
+        longa
+        lda $d8
+        jsr _c2e4b2     ; get pointer to character job data
+        lda $0843,x     ; job level/abp
+        pha
+        and #$0fff      ; abp
+        sta $dc
+        pla
+        xba
+        lsr4
+        and #$000f
+        sta $da
+        lda $d8
+        asl
+        tax
+        lda $da
+        asl
+        clc
+        adc $da
+        adc $d152c0,x   ; pointers to job ability data
+        tax
+        lda $d10000,x   ; number of ability points to next level
+        sta $de
+        plp
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ get pointer to character job data ]
+
+_c2e4b2:
+_e4b2:  php
+        longa
+        and #$00ff
+        pha
+        lda $7e
+        asl
+        tax
+        pla
+        asl
+        clc
+        adc $c0ef65,x   ; pointers to character job data (+$0843)
+        tax
+        plp
+        rts
+
+; ---------------------------------------------------------------------------
+
+_c2e4c7:
+_e4c7:  php
+        longa
+        and #$001f
+        asl3
+        clc
+        adc #$5600
+        tax
+        tyx
+        tay
+        lda #$d107
+        jsr _c2e59d
+        plp
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ get pointer to current cursor data ]
+
+_c2e4df:
+_e4df:  lda $53         ; current cursor position
+        php
+        longa
+        and #$00ff
+        asl3            ; 8 bytes each
+        tax
+        plp
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c2e4ed:
+_e4ed:  phb
+        pha
+        phx
+        phy
+        php
+        longai
+        stz $d2
+        stz $d4
+        stz $d6
+        shorta
+        xba
+        pha
+        plb
+        xba
+        tax
+        lsr4
+        and #$07
+        sta $ce
+        txa
+        and #$0f
+        sta $cd
+        txa
+        eor #$80
+        sta $d1
+        ldx $8e
+@e515:  lda $0000,y
+        phy
+        longa
+        and #$00ff
+        sta $cb
+        ldy #$0008
+@e523:  lsr $cb
+        bcc @e53a
+        sed
+        clc
+        lda $c0f887,x
+        adc $d2
+        sta $d2
+        lda $c0f889,x
+        adc $d4
+        sta $d4
+        cld
+@e53a:  inx4
+        dey
+        bne @e523
+        ply
+        shorta
+        iny
+        dec $cd
+        bne @e515
+        jsr _c2e552
+        plp
+        ply
+        plx
+        pla
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c2e552:
+_e552:  shorta
+        lda #$7e
+        pha
+        plb
+        ldy $d6
+        lda #$00
+        xba
+        lda $ce
+        dec
+        and #$07
+        lsr
+        tax
+        bcc @e56f
+@e566:  lda $d2,x
+        lsr4
+        jsr @e57f
+@e56f:  cpx #$0000
+        bne @e576
+        stz $d1
+@e576:  lda $d2,x
+        jsr _c2e57f
+        dex
+        bpl @e566
+        rts
+@e57f:  and #$0f
+        bne @e58b
+        bit $d1
+        bpl @e58b
+        lda #$ff
+        bra @e590
+@e58b:  stz $d1
+        clc
+        adc #$53
+@e590:  longa
+        and #$00ff
+        sta $0000,y
+        iny2
+        shorta
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ draw text ]
+
+;  A: text length (msb does something)
+;  B: source bank
+; +Y: source address
+; +X: destination address
+
+_c2e59d:
+_e59d:  phb
+        php
+        shorta
+        xba
+        pha
+        plb
+        xba
+        pha
+        and #$7f
+        sta $7b         ; length
+        stz $7c
+        pla
+        stz $79
+        stz $7a
+        and #$80
+        sta $7d
+        bmi @e5b9
+        dec $7a
+@e5b9:  shorta
+        lda $0000,y
+        beq @e5ea
+        iny
+        bit $7d
+        bmi @e5db
+        jsr _c2e5ed     ; get dakuten
+        pha
+        and #$00ff
+        sta $7e0000,x
+        pla
+        xba
+        and #$00ff
+        sta $7dffc0,x   ; dakuten
+        bra @e5e4
+@e5db:  longa
+        and #$00ff
+        sta $7e0000,x
+@e5e4:  inx2
+        dec $7b
+        bne @e5b9
+@e5ea:  plp
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ get dakuten ]
+
+_c2e5ed:
+_e5ed:  longa
+        and #$00ff
+        cmp #$0053
+        bpl @e60d
+        cmp #$0049
+        bpl @e607
+        cmp #$0020
+        bmi @e60d
+        clc
+        adc #$5140
+        bra @e60f
+@e607:  clc
+        adc #$5217
+        bra @e60f
+@e60d:  ora $79
+@e60f:  rts
+
+; ---------------------------------------------------------------------------
+
+_c2e610:
+_e610:  phb
+        php
+        pea $7e7e
+        plb2
+        longa
+        sta $85
+        lda $85
+@e61d:  beq @e650
+        cmp #$0001
+        beq @e640
+        lda $0000,x
+        sta $87
+        lda $0000,y
+        sta $0000,x
+        lda $87
+        sta $0000,y
+        inx2
+        iny2
+        lda $85
+        dec2
+        sta $85
+        bra @e61d
+@e640:  shorta
+        lda $0000,x
+        xba
+        lda $0000,y
+        sta $0000,x
+        xba
+        sta $0000,y
+@e650:  plp
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c2e653:
+_e653:  lda #$0014
+        bra @e65b
+        ldx #$0028
+@e65b:  php
+        longa
+        pha
+@e65f:  jsr _c2e66f
+        lda $0a
+        and #$8080
+        bne @e66c
+        dex
+        bne @e65f
+@e66c:  pla
+        plp
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c2e66f:
+_e66f:  php
+        shorta
+        lda #$80
+        sta $c9
+@e676:  bit $c9
+        bmi @e676
+        plp
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c2e67c:
+_e67c:  php
+        longa
+        lda $54
+        and #$00ff
+        tax
+        shorta
+        lda $000973     ; cursor setting (reset/memory)
+        and #$04
+        bne @e697
+@e68f:  lda $c0e9e2,x
+        sta $53
+        bra @e6a9
+@e697:  lda $c0e9f3,x
+        beq @e68f
+        longa
+        and #$00ff
+        tax
+        shorta
+        lda $00,x
+        sta $53         ; current cursor position
+@e6a9:  plp
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ update cursor sprite ]
+
+_c2e6ab:
+_e6ab:  phb
+        php
+        shorta
+        lda #$7e
+        pha
+        plb
+        jsr _c2e4df     ; get pointer to current cursor data
+        longa
+        lda $7602,x     ; xy position
+        sta $0200
+        lda #$2e02      ; priority 2, palette 7, tile 2
+        sta $0202
+        shorta
+        lda $7600,x
+        sta $54
+        lda $7601,x
+        sta $55
+        jsr _c2fad4     ; copy sprite data to vram
+        plp
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c2e6d6:
+_e6d6:  jsr _c2ebbd
+        jsr _c2e76c
+        jsr _c2e9ce
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ update spell levels ]
+
+_c2e6e0:
+_e6e0:  phb
+        php
+        shorta
+        lda #$7e
+        pha
+        plb
+        stz $e0         ; clear all spell levels
+        stz $e1
+        stz $e2
+        stz $e3
+        stz $e4
+        stz $e5
+        lda #$04        ; loop through all 4 battle command slots
+        sta $e6
+        ldy $80
+        ldx $8e
+@e6fc:  lda $0516,y     ; battle command
+        bmi @e746
+        cmp #$2c
+        bmi @e746
+        cmp #$49
+        bpl @e72b
+
+; spellblade, white, black, time, summon magic
+        sec
+        sbc #$2c
+        longa
+        and #$00ff
+        tax
+        lda $c0e931,x   ; spell level / spell type (lo/hi nybble)
+        and #$000f
+        pha
+        lda $c0e931,x
+        lsr4
+        and #$000f
+        tax
+        pla
+        shorta
+        bra @e743
+
+@e72b:  cmp #$4c        ; x-magic
+        beq @e73f
+        bpl @e746
+
+; red magic
+        sec
+        sbc #$48        ; red mage spell level
+@e734:  ldx #$0001      ; white
+        jsr $e765
+        ldx #$0002      ; black
+        bra @e743
+
+; x-magic
+@e73f:  lda #$03        ; use spell level 3 (black and white)
+        bra @e734
+@e743:  jsr _c2e765
+@e746:  iny             ; next command slot
+        dec $e6
+        bne @e6fc
+        ldy $80
+        ldx $8e
+@e74f:  lda $e0,x
+        asl4
+        ora $e1,x
+        sta $053d,y     ; spell level
+        iny
+        inx2
+        cpx #$0006
+        bne @e74f
+        plp
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ set spell level ]
+
+_c2e765:
+_e765:  cmp $e0,x       ; use highest level found so far
+        bmi @e76b
+        sta $e0,x
+@e76b:  rts
+
+; ---------------------------------------------------------------------------
+
+; [ update character properties ]
+
+_c2e76c:
+_e76c:  phb
+        php
+        shorta
+        lda #$7e
+        pha
+        plb
+        jsr _c2e973
+        jsr _c2e933
+        jsr _c2e879
+        jsr _c2d4c5
+        jsr _c2e178
+        jsr _c2e7b3
+        jsr _c2e7cc
+        ldy $80
+        longa
+        lda $eb         ; update stats
+        sta $0528,y
+        lda $ed
+        sta $052a,y
+        lda $f2
+        sta $052c,y
+        lda $f4
+        sta $052e,y
+        lda $f6         ; update attack power
+        sta $0544,y
+        shorta
+        lda $f1         ; update equipment weight
+        sta $0523,y
+        jsr _c2e6e0     ; update spell levels
+        plp
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c2e7b3:
+_e7b3:  php
+        ldx $80
+        longa
+        lda $000524,x   ; get base stats
+        sta $e7
+        lda $000523,x
+        sta $e9
+        lda $000520,x
+        sta $ef
+        plp
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c2e7cc:
+_e7cc:  phb
+        php
+        shorta
+        stz $f1
+        stz $f2
+        stz $f3
+        stz $f4
+        stz $f5
+        ldx $8e
+@e7dc:  lda $e0,x
+        phx
+        jsr _c2d9ab
+        txy
+        plx
+        lda $9c
+        clc
+        adc $f1
+        sta $f1
+        lda $a1
+        clc
+        adc $f2
+        sta $f2
+        lda $a2
+        clc
+        adc $f3
+        sta $f3
+        lda $a3
+        clc
+        adc $f4
+        sta $f4
+        lda $a4
+        clc
+        adc $f5
+        sta $f5
+        inx
+        cpx #$0005
+        bne @e7dc
+        stz $f8
+        lda $f0
+        and #$20
+        beq @e827
+        lda $e3
+        ora $e4
+        bne @e827
+        lda $e5
+        beq @e823
+        lda $e6
+        bne @e827
+@e823:  lda #$80
+        sta $f8
+@e827:  stz $f6
+        stz $f7
+        ldx $8e
+@e82d:  lda $e5,x
+        phx
+        jsr _c2d9ab
+        txy
+        plx
+        lda $a2
+        sta $f6,x
+        bit $9f
+        bvc @e845
+        lda $f8
+        bpl @e845
+        ora #$01
+        sta $f8
+@e845:  inx
+        cpx #$0002
+        bne @e82d
+        shorta
+        lda $e5
+        cmp #$01
+        bne @e85b
+        lda $e6
+        cmp #$01
+        bne @e85b
+        stz $f7
+@e85b:  lda $f6
+        clc
+        adc $f7
+        sta $f6
+        lda $8e
+        rol
+        and #$01
+        sta $f7
+        lda $f8
+        cmp #$81
+        bne @e873
+        asl $f6
+        rol $f7
+@e873:  jsr _c2ec76
+        plp
+        plb
+        rts
+        phb
+        php
+        shorta
+        stz $e0
+        stz $e1
+        stz $e2
+        stz $e3
+        stz $e4
+        stz $e5
+        stz $e6
+        stz $e7
+        jsr _c2d4c5
+        lda #$05
+        sta $85
+        ldx $80
+@e896:  phx
+        lda $00050e,x
+        jsr _c2d9ab
+        lda $9e
+        bmi @e8a4
+        tsb $e0
+@e8a4:  lda $a0
+        tsb $e2
+        lda $a5
+        longa
+        and #$00ff
+        pha
+        asl2
+        clc
+        adc $01,s
+        tax
+        pla
+        lda $d12580,x
+        tsb $e3
+        lda $d12582,x
+        tsb $e5
+        shorta
+        lda $d12584,x
+        tsb $e7
+        plx
+        inx
+        dec $85
+        bne @e896
+        ldx $80
+        lda #$02
+        sta $85
+@e8d7:  lda $000513,x
+        phx
+        jsr _c2d9ab
+        plx
+        lda $9e
+        bmi @e8e6
+        tsb $e0
+@e8e6:  lda $a0
+        tsb $e1
+        inx
+        dec $85
+        bne @e8d7
+        shorta
+        lda #$7e
+        pha
+        plb
+        ldy $80
+        lda $e0
+        sta $0522,y
+        phy
+        ldx $8e
+@e8ff:  lda $e3,x
+        sta $0530,y
+        inx
+        iny
+        cpx #$0005
+        bne @e8ff
+        ply
+        longa
+        lda $e1
+        sta $0538,y
+        plp
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ get job innate abilities ]
+
+_c2e916:
+_e916:  phy
+        phx
+        and #$001f
+        cmp #$0014
+        bmi @e92a       ; branch if not mimic or freelancer
+        ldy $80
+        lda $054e,y
+        and #$f7ff
+        bra @e930
+@e92a:  asl
+        tax
+        lda $d157b8,x   ; innate abilities
+@e930:  plx
+        ply
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c2e933:
+_e933:  phb
+        php
+        pea $7e7e
+        plb2
+        longa
+        jsr _c2a4c5
+        ldy $80
+        lda $0501,y
+        jsr _c2e916     ; get job innate abilities
+        sta $ef
+        lda #$0004
+        sta $85
+@e94e:  shorta
+        lda $0516,y     ; battle command
+        longa
+        bpl @e962
+        and #$007f
+        asl
+        tax
+        lda $d1638c,x
+        tsb $ef
+@e962:  iny
+        dec $85
+        bne @e94e
+        ldy $80
+        longa
+        lda $ef
+        sta $0520,y
+        plp
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c2e973:
+_e973:  phb
+        php
+        pea $7e7e
+        plb2
+        longa
+        jsr _c2d4c5
+        ldy $80
+        lda $0501,y
+        and #$001f
+        asl2
+        tax
+        lda $d15708,x
+        sta $e0
+        lda $d1570a,x
+        sta $e2
+        lda #$0004
+        sta $85
+@e99b:  shorta
+        lda $0516,y
+        bpl @e9b8
+        longa
+        and #$007f
+        asl2
+        tax
+        lda $d163ce,x
+        tsb $e0
+        lda $d163d0,x
+        tsb $e2
+        shorta
+@e9b8:  iny
+        dec $85
+        bne @e99b
+        ldy $80
+        longa
+        lda $e0
+        sta $0540,y
+        lda $e2
+        sta $0542,y
+        plp
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c2e9ce:
+_e9ce:  phb
+        php
+        pea $7e7e
+        plb2
+        jsr _c2d4c5
+        longa
+        ldy $80
+        lda $0502,y
+        and #$00ff
+        dec
+        asl
+        tax
+        lda $d15129,x
+        sta $e0
+        stz $e2
+        shorta
+        lda $0526,y
+        sta $e9
+        jsr _c2eaac
+        lda $e0
+        and #$ff
+        adc $2710c9,x
+        bmi $ea04
+        lda #$0f
+        and [$99]
+        php
+        ora $bf
+        sbc $85d151
+        cpx #$e264
+        shorta
+        lda $0527,y
+        sta $e9
+        jsr _c2eaac
+        lda $e0
+        and #$ff
+        adc $03e8c9,x
+        bmi $ea26
+        lda #$e7
+        ora $99,s
+        tsb $a405
+        bra $e9e7
+        shorta
+        lda #$04
+        sta $85
+@ea32:  lda $0516,y
+        cmp #$8b
+        beq @ea4b
+        cmp #$8c
+        beq @ea4b
+        cmp #$8d
+        beq @ea4b
+        cmp #$8e
+        beq @ea68
+        cmp #$8f
+        beq @ea68
+        bra @ea68
+@ea4b:  sec
+        sbc #$8a
+        sta $e8
+        longa
+        lda $0508,x
+        jsr _c2eaee
+        and #$7fff
+        cmp #$2710
+        bmi @ea63
+        lda #$270f
+@ea63:  sta $0508,x
+        bra @ea88
+@ea68:  sec
+        sbc #$8d
+        cmp #$02
+        bne @ea70
+        inc
+@ea70:  sta $e8
+        longa
+        lda $050c,x
+        jsr _c2eaee
+        and #$7fff
+        cmp #$03e8
+        bmi @ea85
+        lda #$03e7
+@ea85:  sta $050c,x
+@ea88:  shorta
+        iny
+        dec $85
+        bne @ea32
+        longa
+        ldx $80
+        lda $0508,x
+        cmp $0506,x
+        bpl @ea9e
+        sta $0506,x
+@ea9e:  lda $050c,x
+        cmp $050a,x
+        bpl @eaa9
+        sta $050a,x
+@eaa9:  plp
+        plb
+        rts
+        lda $e0
+        sta $00211b
+        lda $e1
+        sta $00211b
+        lda $e9
+        clc
+        adc #$20
+        sta $00211c
+        sta $00211c
+        longa
+        lda $002134
+        sta $e0
+        lda $002136
+        and #$00ff
+        sta $e2
+        asl $e0
+        rol $e2
+        asl $e0
+        rol $e2
+        asl $e0
+        rol $e2
+        lda $e1
+        sta $e0
+        lda $e3
+        and #$00ff
+        sta $e2
+        rts
+        php
+        longa
+        sta $e0
+        stz $e2
+        shorta
+        lda $e8
+        asl3
+        clc
+        adc $e8
+        adc $e8
+        sta $e8
+        stz $e4
+        stz $e5
+        stz $e6
+        stz $e7
+        lda $e0
+        sta $00211b
+        lda $e1
+        sta $00211b
+        lda $e8
+        sta $00211c
+        sta $00211c
+        lda $002135
+        sta $004204
+        lda $002136
+        sta $004205
+        lda #$64
+        sta $004206
+        nop8
+        lda $004214
+        sta $e5
+        lda $004215
+        sta $e6
+        lda $002134
+        sta $004204
+        lda $004216
+        sta $004205
+        lda #$64
+        sta $004206
+        nop8
+        lda $004214
+        sta $e4
+        longa
+        lda $e0
+        clc
+        adc $e4
+        sta $e0
+        lda $e2
+        adc $e6
+        sta $e2
+        lda $e0
+        plp
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c2eb82:
+_eb82:  phb
+        php
+        pea $7e7e
+        plb2
+        longa
+        ldy $80
+        lda $0501,y     ; job
+        and #$001f
+        pha
+        asl2
+        tax
+        pla
+        jsr _c2e916     ; get job innate abilities
+        sta $0520,y     ; innate abilities
+        lda $d15760,x
+        sta $0516,y     ; battle commands
+        lda $d15762,x
+        sta $0518,y
+        lda $d15708,x
+        sta $0540,y     ; equipment types
+        lda $d1570a,x
+        sta $0542,y
+        plp
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c2ebbd:
+_ebbd:  phb
+        php
+        shorta
+        lda #$7e
+        pha
+        plb
+        jsr _c2d4c5
+        stz $e7
+        stz $e8
+        stz $e9
+        stz $ea
+        lda #$d1
+        sta $84
+        lda #$04
+        sta $85
+        ldx $80
+@ebda:  lda $0516,x
+        pha
+        bmi @ebe5
+        ldy #$5e00
+        bra @ebe8
+@ebe5:  ldy #$6308
+@ebe8:  sty $82
+        pla
+        and #$7f
+        jsr _c2ec54
+        inx
+        dec $85
+        bne @ebda
+        ldy #$56b0      ; D1/56B0 (job stat modifiers)
+        sty $82
+        lda #$d1
+        sta $84
+        ldx $80
+        lda $0501,x
+        and #$1f
+        cmp #$14
+        bmi @ec18       ; branch if not mimic or freelancer
+        longa
+        txa
+        clc
+        adc #$054a
+        sta $82
+        shorta
+        stz $84
+        lda #$00
+@ec18:  jsr _c2ec54
+        ldy #$551e      ; D1/551E (character stat modifiers)
+        sty $82
+        lda #$d1
+        sta $84
+        longa
+        lda $0500,x     ; character index
+        and #$0007
+        asl2
+        tay
+        shorta
+        ldx $8e
+@ec33:  lda [$82],y
+        clc
+        adc $e7,x
+        sta $e7,x
+        iny
+        inx
+        cpx #$0004
+        bne @ec33
+        ldx $8e
+        ldy $80
+@ec45:  lda $e7,x
+        sta $0524,y
+        iny
+        inx
+        cpx #$0004
+        bne @ec45
+        plp
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [ apply stat bonus ]
+
+_c2ec54:
+_ec54:  phx
+        phy
+        php
+        longa
+        and #$00ff
+        asl2
+        tay
+        shorta
+        ldx $8e
+@ec63:  lda [$82],y
+        cmp $e7,x
+        bmi @ec6b       ; branch if less than current bonus
+        sta $e7,x
+@ec6b:  iny
+        inx
+        cpx #$0004
+        bne @ec63
+        plp
+        ply
+        plx
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c2ec76:
+_ec76:  phb
+        php
+        shorta
+        stz $eb
+        stz $ec
+        stz $ed
+        stz $ee
+        ldx $8e
+@ec84:  lda $e0,x
+        phx
+        jsr _c2d9ab
+        plx
+        lda $9e
+        bpl @ecbd
+        phx
+        pha
+        longa
+        and #$0007
+        asl
+        tax
+        lda $d12880,x
+        sta $f9
+        shorta
+        pla
+        and #$78
+        asl
+        ldx $8e
+@eca6:  asl
+        xba
+        bcc @ecae
+        lda $fa
+        bra @ecb0
+@ecae:  lda $f9
+@ecb0:  clc
+        adc $eb,x
+        sta $eb,x
+        xba
+        inx
+        cpx #$0004
+        bne @eca6
+        plx
+@ecbd:  inx
+        cpx #$0007
+        bne @ec84
+        ldx $8e
+@ecc5:  lda $e7,x
+        clc
+        adc $eb,x
+        bpl @ecce
+        lda #$00
+@ecce:  sta $eb,x
+        inx
+        cpx #$0004
+        bne @ecc5
+        plp
+        plb
+        rts
+        pea $7e7e
+@ecd9:  plb2
+        longa
+        stz $75
+        ldy $80
+        lda $0540,y
+        sta $e0
+        lda $0542,y
+        sta $e2
+        stz $e6
+        stz $e8
+        rts
+@ecf3:  ldy $8e
+@ecf5:  longa
+        lda $0740,y
+        and #$00ff
+        beq @ed47
+        sta $e8
+        lda $0640,y
+        and #$00ff
+        sta $e6
+        cmp $93
+        bmi @ed47
+        cmp $95
+        bpl @ed47
+        jsr _c2d9ab
+        lda $e4
+        bmi @ed1e
+        lda $9b
+        and $e4
+        beq @ed47
+@ed1e:  lda $9d
+        and #$003f
+        asl2
+        tax
+        lda $d12480,x   ; item equipment types
+        and $e0
+        bne @ed36
+        lda $d12482,x
+        and $e2
+        beq @ed47
+@ed36:  shorta
+        ldx $75
+        lda $e6
+        sta $7a00,x
+        lda $e8
+        sta $7b00,x
+        inx
+        stx $75
+@ed47:  iny
+        cpy #$0100
+        bne @ecf5
+        shorta
+        ldx $75
+@ed51:  stz $7a00,x
+        stz $7b00,x
+        inx
+        cpx #$0100
+        bne @ed51
+        rts
+        phb
+        php
+        jsr @ecd9
+        lda #$89
+        brk $85
+        sta ($a9,s),y
+        cpx #$8500
+        sta $e2,x
+        jsr _c26fa5
+        dec3
+        longa
+        and #$0003
+        asl
+        tax
+        lda $c0f5c9,x
+        sta $e4
+        jsr @ecf3
+        plp
+        plb
+        rts
+        phb
+        php
+        jsr @ecd9
+        lda #$02
+        brk $85
+        sta ($a9,s),y
+        bra @ed94
+@ed94:  sta $95
+        lda #$00
+        bra $ed1f
+        cpx $20
+        sbc ($ec,s),y
+        longa
+        lda #$0080
+        sta $93
+        lda #$00e0
+        sta $95
+        lda #$0008
+        sta $e4
+        jsr _c2ecf3
+        plp
+        plb
+        rts
+        ldy $8e
+@edb7:  shorta
+        lda $7a00,y
+        beq @edd2
+        jsr _c2d9ab
+        lda $a2
+        sta $7e00,y
+        cpy $75
+        beq @edd2
+        cpy #$00ff
+        beq @edd2
+        iny
+        bra @edb7
+@edd2:  rts
+@edd3:  longa
+        ldx #$0100
+@edd8:  dex2
+        stz $7f00,x
+        bne @edd8
+        shorta
+        ldy $8e
+@ede3:  lda $7a00,y
+        beq @ee02
+        lda $7e00,y
+        longa
+        and #$00ff
+        tax
+        shorta
+        inc $7f00,x
+        cpy $75
+        beq @ee02
+        cpy @#00ff
+        beq @ee02
+        iny
+        bra @ede3
+@ee02:  rts
+        shorta
+        ldy #$00fe
+@ee08:  lda $7f00,y
+        clc
+        adc $7f01,y
+        sta $7f00,y
+        cpy #$0000
+        beq @ee1a
+        dey
+        bra @ee08
+@ee1a:  rts
+        shorta
+        ldy $8e
+@ee1f:  lda $7a00,y
+        beq @ee62
+        lda $7e00,y
+        beq @ee56
+        cmp #$ff
+        bne @ee32
+        ldx #$0000
+        bra @ee40
+@ee32:  inc
+        longa
+        and #$00ff
+        tax
+        lda $7f00,x
+        and #$00ff
+        tax
+@ee40:  shorta
+@ee42:  lda $8000,x
+        beq @ee4a
+        inx
+        bra @ee42
+@ee4a:  lda $7a00,y
+        sta $8000,x
+        lda $7b00,y
+        sta $8100,x
+@ee56:  cpy $75
+        beq @ee62
+        cpy #$00ff
+        beq @ee62
+        iny
+        bra @ee1f
+@ee62:  rts
+        longa
+        lda $7f01
+        and #$00ff
+        tax
+        shorta
+        ldy $8e
+@ee70:  lda $7a00,y
+        beq @ee93
+        lda $7e00,y
+        bne @ee87
+        lda $7a00,y
+        sta $8000,x
+        lda $7b00,y
+        sta $8100,x
+        inx
+@ee87:  cpy $75
+        beq @ee93
+        cpy #$00ff
+        beq @ee93
+        iny
+        bra @ee70
+@ee93:  rts
+        phb
+        php
+        shorta
+        lda #$7e
+        pha
+        plb
+        longa
+        ldx #$0400
+@eea1:  dex2
+        stz $7e00,x
+        bne @eea1
+        jsr _c2edb5
+        jsr @edd3
+        jsr _c2ee03
+        jsr _c2ee1b
+        jsr _c2ee63
+        longa
+        ldx #$8000
+        ldy #$7a00
+        lda #$01ff
+        mvn $7e,$7e
+        plp
+        plb
+        rts
+        phb
+        pea $7e7e
+        plb2
+        stx $f2
+        sty $f4
+        lda #$04
+        sta $f6
+        ldy $8e
+        sec
+@eed9:  lda ($f2),y
+        sbc ($f4),y
+        sta $281d,y
+        iny
+        dec $f6
+        bne @eed9
+        plb
+        rts
+        phb
+        php
+        longa
+        and #$000f
+        asl
+        tax
+        ldx $c0f208,x
+        jsr _c2c1b8
+        jsr _c2a698
+        plp
+        plb
+        rts
+        jsr _c2efc5
+        jsr _c2ef16
+        jsr _c2fad4     ; copy sprite data to vram
+        jsr _c2e658
+        jsr _c2ef89
+        jsr _c2ef16
+        jsr _c2fad4     ; copy sprite data to vram
+        jsr _c2e66f
+        rts
+        phb
+        php
+        pea $7e7e
+        plb2
+        longa
+        stz $f1
+        stz $7e
+@ef23:  jsr _c2d4c5
+        ldx $80
+        lda $0500,x
+        and #$0040
+        bne @ef75
+        lda $0540,x
+        sta $eb
+        lda $0542,x
+        sta $ed
+        lda $55
+        dec
+        and #$000f
+        asl2
+        tay
+        lda $eb
+        and $285e,y
+        bne @ef53
+        lda $ed
+        and $2860,y
+        bne @ef53
+        bra @ef75
+@ef53:  lda $7e
+        asl3
+        tay
+        lda $0240,y
+        sec
+        sbc #$000c
+        sta $0240,y
+        lda $0244,y
+        sec
+        sbc #$000c
+        sta $0244,y
+        ldx $7e
+        lda $c0f204,x
+        tsb $f1
+@ef75:  lda $7e
+        inc
+        sta $7e
+        cmp #$0004
+        bne @ef23
+        shorta
+        lda $f1
+        sta $2886
+        plp
+        plb
+        rts
+        phb
+        php
+        longa
+        ldx #$f4b4
+        ldy #$0240
+        lda #$001f
+        mvn $7e,$c0
+        jsr _c2ef9f
+        plp
+        plb
+        rts
+        stz $7e
+        jsr _c2d4c5
+        ldy $80
+        lda $7e
+        asl3
+        tax
+        lda $0500,y
+        and #$40
+        brk $f0
+        asl $9e
+        wdm $02
+        stz $0246,x
+        lda $7e
+        inc
+        sta $7e
+        cmp #$04
+        brk $d0
+        cmp $8b60,x
+        php
+        longa
+        and #$0001
+        inc
+        asl
+        tax
+        lda $c0f4ae,x
+        tax
+        ldy #$0240
+        lda #$001f
+        mvn $7e,$c0
+        jsr _c2ef9f
+        plp
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
+; [  ]
+
+_c2efe3:
+_efe3:  phb
+        php
+        pea $7e7e
+        plb2
+        lda $2809
+        jsr _c2f00b     ; give spell
+        ldx $8e
+@eff2:  lda $d12890,x
+        beq @f008
+        cmp $2809
+        beq @f001
+        inx2
+        bra @eff2
+@f001:  lda $d12891,x
+        jsr _c2f00b     ; give spell
+@f008:  plp
+        plb
+        rts
+
+; ---------------------------------------------------------------------------
+
 ; [ update joypad input ]
 
 _c2fe5b:
