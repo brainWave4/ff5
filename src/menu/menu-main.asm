@@ -6449,11 +6449,10 @@ _d304:  phb
         bra $d340
 @d332:  lda #$001f
         mvn $7e,$d3
-        bra @d33e
+        bra @d340
         lda #$001f
         mvn $7e,$d4
-@d33e:  plx
-; hexes d33f and d340 are missing here!
+@d340:  plx
         inx4
         dec $e8
         bne @d308
