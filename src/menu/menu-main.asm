@@ -222,11 +222,11 @@ _a0f6:  ldy #$4300
 _c2a106:
 _a106:  php
         shorta
-@a109:  lda $004210
+@a109:  lda f:$004210
         bmi @a109
-@a10f:  lda $004210
+@a10f:  lda f:$004210
         bpl @a10f
-        lda $004210
+        lda f:$004210
         plp
         rts
 
@@ -244,7 +244,7 @@ InitMenu:
         stz $8e
         shorta
         lda #$80
-        sta $002100
+        sta f:$002100
         stz $44
         stz $45
         stz $46
@@ -326,7 +326,7 @@ _c2a1cf:
         php
         longa
         lda $8e
-        sta $00420c
+        sta f:$00420c
         ldx #$f547
 @a1dc:  lda $c00000,x
         beq @a1ed
@@ -1083,11 +1083,11 @@ _a6fc:  lda $2b66
         cpx #$0002
         bne @a713
         lda $2b67
-        sta $004202
+        sta f:$004202
         lda $2b68
-        sta $004203
+        sta f:$004203
         nop4
-        lda $004216
+        lda f:$004216
         clc
         adc $2b66
         longa
@@ -2024,10 +2024,10 @@ _ae6f:  jsr _c2b2bd
         shorta
         jsr _c2a106
         lda $750e
-        sta $00420c
-        lda $004210
+        sta f:$00420c
+        lda f:$004210
         lda #$81
-        sta $004200
+        sta f:$004200
         lda #$00
         sta $7522
         sta $7525
@@ -2489,12 +2489,12 @@ _c2b2bd:
         lda $7e7513
         bne @b2d9
         lda #$01
-        sta $004200
+        sta f:$004200
         jsr _c2a106
         lda #$00
-        sta $00420c
+        sta f:$00420c
         lda #$80
-        sta $002100
+        sta f:$002100
         rts
         lda $53
         sta $59
@@ -2593,9 +2593,9 @@ _b302:  lda $6f
         stz $ca
         jsr _c2a698
         lda $6f
-        sta $0000
+        sta f:$0000
         lda $70
-        sta $0001
+        sta f:$0001
         jsl $c10009     ; swap character saved cursor positions
         stz $6f
         stz $70
@@ -2618,16 +2618,16 @@ _b3d8:  and #$0003
         tax
         lda $c0eb08,x
         tax
-        stz $0000,x
-        stz $0002,x
-        stz $0004,x
-        stz $0006,x
+        stz f:$0000,x
+        stz f:$0002,x
+        stz f:$0004,x
+        stz f:$0006,x
         txa
         sec
         sbc #$0020
         tax
-        stz $0000,x
-        stz $0002,x
+        stz f:$0000,x
+        stz f:$0002,x
         rts
 
 ; ---------------------------------------------------------------------------
@@ -3294,7 +3294,7 @@ _b521:  lda $6f
         jmp ($c2a4,x)
         jsr $0220
         cpx #$0e20
-        ldy $00a9
+        ldy f:$00a9
         jmp _c2a47c
         longa
         lda #$b3b4
@@ -4203,7 +4203,7 @@ _c1b8:  phb
         pea $c3c3
         plb
         plb
-        lda $0000,x
+        lda f:$0000,x
         inx
         and #$000f
         beq @c1f5
@@ -4248,10 +4248,10 @@ _c1f7:  ldy $e6
         lda $c30000,x
         beq @c23a
         beq @c221
-@c20b:  sta $0000,y
+@c20b:  sta f:$0000,y
         longa
         lda $85
-        sta $0001,y
+        sta f:$0001,y
         clc
         adc #$0004
         sta $85
@@ -4260,17 +4260,17 @@ _c1f7:  ldy $e6
         bra @c201
 @c221:  pha
         lda #$7f
-        sta $0000,y
+        sta f:$0000,y
         lda $85
-        sta $0001,y
+        sta f:$0001,y
         lda #$00
-        sta $0002,y
+        sta f:$0002,y
         iny3
         pla
         and #$1a7f
         bra @c20b
 @c23a:  lda #$00
-        sta $0000,y
+        sta f:$0000,y
         plp
         plb
         rts
@@ -4308,19 +4308,19 @@ _c242:  pha
         lda $e0
         sta $e6
         rts
-@c272:  sta $0000,x
+@c272:  sta f:$0000,x
         inx2
         dey
         bne @c272
         rts
 @c27b:  dey2
         dec
-        sta $0000,x
+        sta f:$0000,x
         inx2
         inc
         jsr _c2c272
         inc
-        sta $0000,x
+        sta f:$0000,x
         rts
 @c28c:  pha
         ldy $8e
@@ -5144,10 +5144,10 @@ _c8de:  phb
         lda #$0007
         mvn $7e,$7e
         plx
-        stz $0000,x
-        stz $0002,x
-        stz $0004,x
-        stz $0006,x
+        stz f:$0000,x
+        stz f:$0002,x
+        stz f:$0004,x
+        stz f:$0006,x
         lda $0348
         clc
         adc $01,s
@@ -5160,7 +5160,7 @@ _c8de:  phb
         sec
         sbc #$0020
         tax
-        lda $0002,x
+        lda f:$0002,x
         beq @c93d
         phx
         ldy #$0340
@@ -5171,8 +5171,8 @@ _c8de:  phb
         clc
         adc $01,s
         sta $0340
-        stz $0000,x
-        stz $0002,x
+        stz f:$0000,x
+        stz f:$0002,x
 @c93d:  pla
         plp
         plb
@@ -5485,7 +5485,7 @@ _cb8c:  lda $99
         jsr _c2c1b8
         pla
         and #$00
-        sbc $000409,x
+        sbc f:$000409,x
         ldx $e6
         jsr _c2d6dc
         plx
@@ -5546,7 +5546,7 @@ _cb8c:  lda $99
         tax
         lda $01,s
         tay
-        lda $0000,x
+        lda f:$0000,x
         cpy #$0008
         beq @cc5e
         and #$00ff
@@ -5555,7 +5555,7 @@ _cb8c:  lda $99
         ldy $f6
         lda $01,s
         tax
-        lda $0000,y
+        lda f:$0000,y
         cpx #$0008
         beq @cc73
         and #$00ff
@@ -5935,11 +5935,11 @@ _ceec:  shorta
         cmp #$14
         bne @cf39       ; branch if not mimic
         lda #$48        ; include fight and item
-        ora $0000,x
+        ora f:$0000,x
         bra @cf3e
 @cf39:  lda #$b7        ; remove fight and item
-        and $0000,x
-@cf3e:  sta $0000,x
+        and f:$0000,x
+@cf3e:  sta f:$0000,x
         longa
         stz $6b
         lda #$0040
@@ -6199,20 +6199,20 @@ _d04c:  phb
         beq @d167
         longa
         lda #$7edb
-        sta $0008,y
+        sta f:$0008,y
         lda #$4dd3
-        sta $0010,y
+        sta f:$0010,y
         shorta
 @d167:  lda #$02
         and $e8
         beq @d181
         longa
         lda #$3af5
-        sta $0008,y
+        sta f:$0008,y
         lda #$3210
-        sta $0010,y
+        sta f:$0010,y
         lda #$7fff
-        sta $0006,y
+        sta f:$0006,y
 @d181:  longa
         stz $e2
         shorta
@@ -6375,7 +6375,7 @@ _d298:  phb
         sta $e4
         jsr _c2d4c5
         ldx $80
-        lda $000500,x
+        lda f:$000500,x
         sta $ea
         jsr _c2d2db
         lda #$0018
@@ -6789,7 +6789,7 @@ _d533:  ldx $80
         and #$000f
         clc
         adc #$0053
-        sta $0000,x
+        sta f:$0000,x
 @d59c:  rts
         ldx $d8
         cpx #$0015
@@ -6862,7 +6862,7 @@ _d533:  ldx $80
 @d628:  asl $e0
         bcc @d63c
         lda $e4
-        sta $0000,x
+        sta f:$0000,x
         lda #$00ff
         sta $7dffc0,x
         inx2
@@ -6875,7 +6875,7 @@ _d533:  ldx $80
         lda #$00ff
 @d647:  dey
         beq @d655
-        sta $0000,x
+        sta f:$0000,x
         sta $7dffc0,x
         inx2
         bra @d647
@@ -6919,16 +6919,16 @@ _d533:  ldx $80
         iny3
         lda #$00
         ldx #$0004
-@d6ad:  sta $004205
-        lda $0000,y
-        sta $004204
+@d6ad:  sta f:$004205
+        lda f:$0000,y
+        sta f:$004204
         dey
         lda $8d
-        sta $004206
+        sta f:$004206
         nop8
-        lda $004214
+        lda f:$004214
         sta $88,x
-        lda $004216
+        lda f:$004216
         dex
         bne @d6ad
         pha
@@ -6962,10 +6962,10 @@ _d6dc:  phb
         and #$80
         sta $e2
         inx
-@d6f4:  lda $0000,x
+@d6f4:  lda f:$0000,x
         and #$e3
         ora $e1
-        sta $0000,x
+        sta f:$0000,x
         bit $e2
         bmi @d70e
         lda $7dffc0,x
@@ -7066,9 +7066,9 @@ _d717:  phb
         jsr _c2c1b8
 @d7c9:  rts
         ldx $80
-        lda $000540,x
+        lda f:$000540,x
         sta $f9
-        lda $000542,x
+        lda f:$000542,x
         sta $fb
         lda $f9
         cmp #$ffff
@@ -7117,7 +7117,7 @@ _d80d:  lda $f9
         lda $c0f7b1,x
         and #$00ff
         beq @d82d
-        sta $0000,y
+        sta f:$0000,y
         iny2
 @d82d:  inx5
         dec $85
@@ -7208,7 +7208,7 @@ _d851:  php
 
 _c2d8b1:
 _d8b1:  sta $e4         ; end bit
-@d8b3:  lda $0000,y
+@d8b3:  lda f:$0000,y
         sta $e2
         lda #$08        ; 8 bits
         sta $e5
@@ -7396,7 +7396,7 @@ _d9ab:  php
 
 _c2d9fb:
 _d9fb:  lda $c00000,x
-        sta $002116
+        sta f:$002116
         inx2
         ldy #$4300
         lda #$06
@@ -7421,7 +7421,7 @@ _d9fb:  lda $c00000,x
         dec
         mvn $7e,$d1
         inc
-        sta $0000,y
+        sta f:$0000,y
         ldx $8e
         shorta
 @da3d:  lda $2cf1,x
@@ -7516,12 +7516,12 @@ _d9fb:  lda $c00000,x
         stz $29f1
         shorta
         lda $29f8
-        sta $004202
+        sta f:$004202
         lda $29f9
-        sta $004203
+        sta f:$004203
         nop3
         longa
-        lda $004216
+        lda f:$004216
         sta $29ef
         shorta
         lda $29e7
@@ -7647,19 +7647,19 @@ _d9fb:  lda $c00000,x
         ldx $80
         shorta
         lda $0502,x
-        sta $004202
+        sta f:$004202
         lda $052b,x
-        sta $004203
+        sta f:$004203
         nop4
-        lda $004217
+        lda f:$004217
         clc
         adc #$04
-        sta $004202
+        sta f:$004202
         lda $29f9
-        sta $004203
+        sta f:$004203
         nop3
         longa
-        lda $004216
+        lda f:$004216
         tay
         lda $55
         and #$000f
@@ -7753,14 +7753,14 @@ _d9fb:  lda $c00000,x
         longa
         lda $0508,y
         shorta
-        sta $00211b
+        sta f:$00211b
         xba
-        sta $00211b
+        sta f:$00211b
         lda $29fa
-        sta $00211c
-        sta $00211c
+        sta f:$00211c
+        sta f:$00211c
         longa
-        lda $002134
+        lda f:$002134
         lsr4
         sta $0506,y
         inc $29f1
@@ -8210,7 +8210,7 @@ _c2e0b0:
         php
         shorta
         lda #$13        ; system sound effect $13
-@e0ce:  sta $001d00
+@e0ce:  sta f:$001d00
         jsl $c40004     ; execute spc interrupt
         plp
         pla
@@ -8634,7 +8634,7 @@ _e328:  phb
         jsr _c2e44e
         longa
         lda #$00cf
-        sta $0000,x
+        sta f:$0000,x
         inx2
         ldy #$0192
         lda #$0021
@@ -8868,7 +8868,7 @@ _e4ed:  phb
         eor #$80
         sta $d1
         ldx $8e
-@e515:  lda $0000,y
+@e515:  lda f:$0000,y
         phy
         longa
         and #$00ff
@@ -8941,7 +8941,7 @@ _e552:  shorta
         adc #$53
 @e590:  longa
         and #$00ff
-        sta $0000,y
+        sta f:$0000,y
         iny2
         shorta
         rts
@@ -8975,7 +8975,7 @@ _e59d:  phb
         bmi @e5b9
         dec $7a
 @e5b9:  shorta
-        lda $0000,y
+        lda f:$0000,y
         beq @e5ea
         iny
         bit $7d
@@ -9035,12 +9035,12 @@ _e610:  phb
 @e61d:  beq @e650
         cmp #$0001
         beq @e640
-        lda $0000,x
+        lda f:$0000,x
         sta $87
-        lda $0000,y
-        sta $0000,x
+        lda f:$0000,y
+        sta f:$0000,x
         lda $87
-        sta $0000,y
+        sta f:$0000,y
         inx2
         iny2
         lda $85
@@ -9048,12 +9048,12 @@ _e610:  phb
         sta $85
         bra @e61d
 @e640:  shorta
-        lda $0000,x
+        lda f:$0000,x
         xba
-        lda $0000,y
-        sta $0000,x
+        lda f:$0000,y
+        sta f:$0000,x
         xba
-        sta $0000,y
+        sta f:$0000,y
 @e650:  plp
         plb
         rts
@@ -9104,7 +9104,7 @@ _e67c:  php
         and #$00ff
         tax
         shorta
-        lda $000973     ; cursor setting (reset/memory)
+        lda f:$000973     ; cursor setting (reset/memory)
         and #$04
         bne @e697
 @e68f:  lda $c0e9e2,x
@@ -9116,7 +9116,7 @@ _e67c:  php
         and #$00ff
         tax
         shorta
-        lda $00,x
+        lda f:$00,x
         sta $53         ; current cursor position
 @e6a9:  plp
         rts
@@ -9292,11 +9292,11 @@ _c2e7b3:
 _e7b3:  php
         ldx $80
         longa
-        lda $000524,x   ; get base stats
+        lda f:$000524,x   ; get base stats
         sta $e7
-        lda $000523,x
+        lda f:$000523,x
         sta $e9
-        lda $000520,x
+        lda f:$000520,x
         sta $ef
         plp
         rts
@@ -9416,7 +9416,7 @@ _e7cc:  phb
         sta $85
         ldx $80
 @e896:  phx
-        lda $00050e,x
+        lda f:$00050e,x
         jsr _c2d9ab
         lda $9e
         bmi @e8a4
@@ -9446,7 +9446,7 @@ _e7cc:  phb
         ldx $80
         lda #$02
         sta $85
-@e8d7:  lda $000513,x
+@e8d7:  lda f:$000513,x
         phx
         jsr _c2d9ab
         plx
@@ -9694,18 +9694,18 @@ _e9ce:  phb
         plb
         rts
         lda $e0
-        sta $00211b
+        sta f:$00211b
         lda $e1
-        sta $00211b
+        sta f:$00211b
         lda $e9
         clc
         adc #$20
-        sta $00211c
-        sta $00211c
+        sta f:$00211c
+        sta f:$00211c
         longa
-        lda $002134
+        lda f:$002134
         sta $e0
-        lda $002136
+        lda f:$002136
         and #$00ff
         sta $e2
         asl $e0
@@ -9736,31 +9736,31 @@ _e9ce:  phb
         stz $e6
         stz $e7
         lda $e0
-        sta $00211b
+        sta f:$00211b
         lda $e1
-        sta $00211b
+        sta f:$00211b
         lda $e8
-        sta $00211c
-        sta $00211c
-        lda $002135
-        sta $004204
-        lda $002136
-        sta $004205
+        sta f:$00211c
+        sta f:$00211c
+        lda f:$002135
+        sta f:$004204
+        lda f:$002136
+        sta f:$004205
         lda #$64
-        sta $004206
+        sta f:$004206
         nop8
-        lda $004214
+        lda f:$004214
         sta $e5
-        lda $004215
+        lda f:$004215
         sta $e6
-        lda $002134
-        sta $004204
-        lda $004216
-        sta $004205
+        lda f:$002134
+        sta f:$004204
+        lda f:$004216
+        sta f:$004205
         lda #$64
-        sta $004206
+        sta f:$004206
         nop8
-        lda $004214
+        lda f:$004214
         sta $e4
         longa
         lda $e0
@@ -10391,8 +10391,8 @@ _f00b:  phx
         php
         shorta
         jsr _c2f01d
-        ora $000950,x   ; known spells
-        sta $000950,x
+        ora f:$000950,x   ; known spells
+        sta f:$000950,x
         plp
         plx
         rts
@@ -10808,14 +10808,14 @@ _f2fb:  php
         stz $e7
         shorta
         lda $e0
-        sta $004202
+        sta f:$004202
         ldx $8e
 @f30c:  shorta
         lda $e1,x
-        sta $004203
+        sta f:$004203
         nop3
         longa
-        lda $004216
+        lda f:$004216
         clc
         adc $e5,x
         sta $e5,x
@@ -11073,15 +11073,15 @@ _f2fb:  php
         jsr @f561
         ldy $fc
         ldx $8e
-@f523:  lda $0000,y
+@f523:  lda f:$0000,y
         sta $e8,x
         and #$07
         brk $d0
-        ora $0002b9
+        ora f:$0002b9
         sta $e2
-        lda $0006,y
+        lda f:$0006,y
         sta $e4
-        lda $0008,y
+        lda f:$0008,y
         sta $e6
         tya
         clc
@@ -11134,7 +11134,7 @@ _f2fb:  php
         ldy #$0600
         lda $8e
         clc
-@f59b:  adc $0000,x
+@f59b:  adc f:$0000,x
         inx2
         dey2
         bne @f59b
@@ -11151,12 +11151,12 @@ _f2fb:  php
 _c2f5a9:
 _f5a9:  php
         shorta
-        lda $000973
+        lda f:$000973
         and #$02
         lsr
         clc
         adc #$f3        ; $F3 = stereo, $F4 = mono
-        sta $001d00
+        sta f:$001d00
         jsl $c40004
         plp
         rts
@@ -11479,7 +11479,7 @@ _f7a6:  phb
         beq @f83d
         phy
         lda #$00fe
-@f834:  sta $0000,x
+@f834:  sta f:$0000,x
         inx2
         dey
         bne @f834
@@ -11491,13 +11491,13 @@ _f7a6:  phb
         asl
         clc
         adc #$00f8
-        sta $0000,x
+        sta f:$0000,x
         inx2
         iny
 @f84f:  lda #$000c
 @f852:  cpy #$0008
         beq @f85f
-        sta $0000,x
+        sta f:$0000,x
         inx2
         iny
         bra @f852
@@ -11922,19 +11922,19 @@ _fb0c:  phb
         beq @fbe7
         longa
         lda $7514
-        sta $002116
+        sta f:$002116
         lda $7516
-        sta $004300
+        sta f:$004300
         lda $7518
-        sta $004302
+        sta f:$004302
         lda $751a
-        sta $004304
+        sta f:$004304
         lda $751b
-        sta $004305
+        sta f:$004305
         shorta
         lda $7511
         and #$01
-        sta $00420b
+        sta f:$00420b
         stz $7511
 @fbe7:  longa
         lda #$0001
@@ -11954,11 +11954,11 @@ _fb0c:  phb
         sta $0afc
 @fc0f:  shorta
         lda $7e750e
-        sta $00420c
+        sta f:$00420c
         lda #$81
-        sta $004200
+        sta f:$004200
         lda $7e7525
-        sta $002100
+        sta f:$002100
         ply
         plx
         plp
@@ -12158,20 +12158,20 @@ _fc2f:  phb
         tax
         ldy $29b4
         shorta
-        lda $0000,y
+        lda f:$0000,y
         clc
         adc $c0f22e,x
-        sta $0000,y
+        sta f:$0000,y
         iny3
 @fdea:  shorta
-        lda $0000,y
+        lda f:$0000,y
         beq @fe03
         iny
         longa
-        lda $0000,y
+        lda f:$0000,y
         clc
         adc $c0f230,x
-        sta $0000,y
+        sta f:$0000,y
         iny2
         bra @fdea
 @fe03:  plp
@@ -12398,7 +12398,7 @@ _c2ff7d:
         phx
         phy
         php
-        pea     $0000
+        pea     f:$0000
         plb
         plb
         longai
