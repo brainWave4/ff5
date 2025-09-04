@@ -10872,7 +10872,7 @@ _f2fb:  php
         jml [$80d6]
         asl $a9
         lda ($b5),y
-        jsb _c2c1b8
+        jsr _c2c1b8
         plp
         plb
         rts
@@ -11166,7 +11166,8 @@ _c2f5c0:
 _f5c0:  phb
         php
         pea $7e7e
-        plb2
+        plb
+        plb
         longa
         stz $85
         sta $7e
