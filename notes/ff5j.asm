@@ -84880,6 +84880,7 @@ C2/EAE6: A5 E3        LDA $E3
 C2/EAE8: 29 FF 00     AND #$00FF
 C2/EAEB: 85 E2        STA $E2
 C2/EAED: 60           RTS
+
 C2/EAEE: 08           PHP
 C2/EAEF: C2 20        REP #$20
 C2/EAF1: 85 E0        STA $E0
@@ -85145,6 +85146,7 @@ C2/ECD4: D0 EF        BNE $ECC5
 C2/ECD6: 28           PLP
 C2/ECD7: AB           PLB
 C2/ECD8: 60           RTS
+
 C2/ECD9: F4 7E 7E     PEA $7E7E
 C2/ECDC: AB           PLB
 C2/ECDD: AB           PLB
@@ -85269,6 +85271,7 @@ C2/EDCD: F0 03        BEQ $EDD2
 C2/EDCF: C8           INY
 C2/EDD0: 80 E5        BRA $EDB7
 C2/EDD2: 60           RTS
+
 C2/EDD3: C2 20        REP #$20
 C2/EDD5: A2 00 01     LDX #$0100
 C2/EDD8: CA           DEX

@@ -7088,7 +7088,7 @@ _d717:  phb
         lda $c0f318,x
         tax
         ldy #$7100
-        jsr _c0c1fd
+        jsr _c2c1fd
         lda $2b63
         and #$0f
         brk $0a
@@ -9858,7 +9858,9 @@ _eaac:  lda $e0
         and #$00ff
         sta $e2
         rts
-        php
+
+_c2eaee:
+_eaee:  php
         longa
         sta $e0
         stz $e2
@@ -10117,7 +10119,9 @@ _ec76:  phb
         plb
         rts
         pea $7e7e
-@ecd9:  plb
+
+_c2ecd9:
+_ecd9:  plb
         plb
         longa
         stz $75
@@ -10183,7 +10187,7 @@ _ecf3:  ldy $8e
 _c2ed5e:
 _ed5e:  phb
         php
-        jsr @ecd9
+        jsr _c2ecd9
         lda #$89
         brk $85
         sta ($a9,s),y
@@ -10205,7 +10209,7 @@ _ed5e:  phb
 _c2ed87:
 _ed87:  phb
         php
-        jsr @ecd9
+        jsr _c2ecd9
         lda #$02
         brk $85
         sta ($a9,s),y
@@ -10242,7 +10246,9 @@ _c2edb5:
         iny
         bra @edb7
 @edd2:  rts
-@edd3:  longa
+
+_c2edd3:
+_edd3:  longa
         ldx #$0100
 @edd8:  dex2
         stz $7f00,x
@@ -10350,7 +10356,7 @@ _ee94:  phb
         stz $7e00,x
         bne @eea1
         jsr _c2edb5
-        jsr @edd3
+        jsr _c2edd3
         jsr _c2ee03
         jsr _c2ee1b
         jsr _c2ee63
@@ -10983,8 +10989,8 @@ _f2fb:  php
         plp
         rts
 
-_c2d32a:
-_d32a:  phb
+_c2f32a:
+_f32a:  phb
         php
         lda $2bf4
         bne $f393
