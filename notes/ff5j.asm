@@ -81770,6 +81770,7 @@ C2/D428: 8D 0B 42     STA $420B
 C2/D42B: 28           PLP
 C2/D42C: AB           PLB
 C2/D42D: 60           RTS
+
 C2/D42E: A9 04        LDA #$04
 C2/D430: 00 85        BRK $85
 C2/D432: E8           INX
@@ -81847,6 +81848,7 @@ C2/D4B0: FA           PLX
 C2/D4B1: 28           PLP
 C2/D4B2: AB           PLB
 C2/D4B3: 60           RTS
+
 C2/D4B4: 98           TYA
 C2/D4B5: 29 07        AND #$07
 C2/D4B7: 00 EB        BRK $EB
@@ -83332,6 +83334,7 @@ C2/E04A: 54 7E 7E     MVN $7E,$7E
 C2/E04D: 28           PLP
 C2/E04E: AB           PLB
 C2/E04F: 60           RTS
+
 C2/E050: 85 93        STA $93
 C2/E052: 86 95        STX $95
 C2/E054: A6 8E        LDX $8E
@@ -84120,6 +84123,7 @@ C2/E578: 20 7F E5     JSR $E57F
 C2/E57B: CA           DEX
 C2/E57C: 10 E8        BPL $E566
 C2/E57E: 60           RTS
+
 C2/E57F: 29 0F        AND #$0F
 C2/E581: D0 08        BNE $E58B
 C2/E583: 24 D1        BIT $D1
@@ -84563,6 +84567,7 @@ C2/E873: 20 76 EC     JSR $EC76
 C2/E876: 28           PLP
 C2/E877: AB           PLB
 C2/E878: 60           RTS
+
 C2/E879: 8B           PHB
 C2/E87A: 08           PHP
 C2/E87B: E2 20        SEP #$20
@@ -84847,6 +84852,7 @@ C2/EAA6: 9D 0A 05     STA $050A,X
 C2/EAA9: 28           PLP
 C2/EAAA: AB           PLB
 C2/EAAB: 60           RTS
+
 C2/EAAC: A5 E0        LDA $E0
 C2/EAAE: 8F 1B 21 00  STA $00211B
 C2/EAB2: A5 E1        LDA $E1
@@ -85152,6 +85158,7 @@ C2/ECEC: 85 E2        STA $E2
 C2/ECEE: 64 E6        STZ $E6
 C2/ECF0: 64 E8        STZ $E8
 C2/ECF2: 60           RTS
+
 C2/ECF3: A4 8E        LDY $8E
 C2/ECF5: C2 20        REP #$20
 C2/ECF7: B9 40 07     LDA $0740,Y

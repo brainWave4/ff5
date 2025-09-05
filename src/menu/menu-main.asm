@@ -1647,7 +1647,7 @@ _ab4c:  jsr _c2a67a
         sta $750f
         rts
 
-_c2aba0
+_c2aba0:
 _aba0:  shorta
         lda #$02
         trb $7500
@@ -4275,7 +4275,7 @@ _c1f7:  ldy $e6
         bne _c2c1fd
         rts
 
-_c2c1fd
+_c2c1fd:
 _c1fd:  phb
         php
         stz $85
@@ -4555,7 +4555,7 @@ _c3d2:  phb
         plb
         rts
 
-_c2c3fd
+_c2c3fd:
 _c3fd:  lda $2b9a,x
         xba
         lda $2ba2,x
@@ -10129,7 +10129,9 @@ _ec76:  phb
         stz $e6
         stz $e8
         rts
-@ecf3:  ldy $8e
+
+_c2ecf3:
+_ecf3:  ldy $8e
 @ecf5:  longa
         lda $0740,y
         and #$00ff
@@ -10195,7 +10197,7 @@ _ed5e:  phb
         tax
         lda $c0f5c9,x
         sta $e4
-        jsr @ecf3
+        jsr _ecf3
         plp
         plb
         rts
