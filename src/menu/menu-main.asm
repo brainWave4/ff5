@@ -567,7 +567,7 @@ _a378:  jsr _c2e0b8     ; play sound effect
         asl2
         inc2
 _a386:  tax
-        lda $c08724,x
+        lda $c0e724,x
         sta $c7
         lda $8e
         shorta
@@ -12699,30 +12699,51 @@ _c2ffc2:
 .segment "menu_data"
 
 ; c0/e600
-; 33 A0 3B A0 3F A0 43 A0 53 A0 69 A0 62 A0
+        .addr   $a033,$a03b,$a03f,$a043,$a053,$a069,$a062
 
 ; c0/e60e
-; DC CF EC CE CB CC 37 CA A0 C8 03 C8 F7 C6 C8 C5 4A C3 6F C3 B9 C5 6B C5 42 C4
+        .addr   $cfdc,$ceec,$cccb,$ca37,$c8a0,$c803,$c6f7,$c5c8
+        .addr   $c34a,$c36f,$c5b9,$c56b,$c442
 
 ; c0/e628
-; F0 A4 6A A3 78 A3 5E A4 66 A4 6E A4 76 A4 58 A3 41 A4
+        .addr   $a4f0,$a36a,$a378,$a45e,$a466,$a46e,$a476,$a358,$a441
 
 ; c0/e63a
-; 80 19 A5 82 B5 A5 83 E6 A5 85 18 A6 86 B9 A6 87 FC A6 89 9C A7 00 00 00
+        .byte   $80,$19,$a5,$82,$b5,$a5,$83,$e6,$a5,$85,$18,$a6,$86,$b9,$a6,$87
+        .byte   $fc,$a6,$89,$9c,$a7,$00,$00,$00
 
 ; c0/e652
-; 01 FC A7 02 26 A8 03 FA A8 04 25 A9 05 58 A9 06 6C A9 08 FD A9 09 35 AA 0B BB AA 0C E9 AA 0D 91 AB 0E C1 AB 0F DF AB 10 01 AC 12 C3 AC 13 FF AC 14 B0 AD 15 FF AC 16 DF AD 19 47 AE 1A 5C AE 1C 6F AE 1D 1B AF 1E 4F B0 1F 79 B0 20 D6 B0 21 06 B1 22 9A B1 23 CA B1 24 EC B1 00 00 00
+        .byte   $01,$fc,$a7,$02,$26,$a8,$03,$fa,$a8,$04,$25,$a9,$05,$58,$a9,$06
+        .byte   $6c,$a9,$08,$fd,$a9,$09,$35,$aa,$0b,$bb,$aa,$0c,$e9,$aa,$0d,$91
+        .byte   $ab,$0e,$c1,$ab,$0f,$df,$ab,$10,$01,$ac,$12,$c3,$ac,$13,$ff,$ac
+        .byte   $14,$b0,$ad,$15,$ff,$ac,$16,$df,$ad,$19,$47,$ae,$1a,$5c,$ae,$1c
+        .byte   $6f,$ae,$1d,$1b,$af,$1e,$4f,$b0,$1f,$79,$b0,$20,$d6,$b0,$21,$06
+        .byte   $b1,$22,$9a,$b1,$23,$ca,$b1,$24,$ec,$b1,$00,$00,$00
 
 ; c0/e6af
-; 01 1D A8 02 D3 A8 03 1C A9 04 48 A9 08 12 AA 09 4E AA 0C 19 AB 0D B2 AB 0E D1 AB 12 D6 AC 13 3E AD 14 CC AD 15 3E AD 16 11 AE 1A 6B AE 1D 87 AF 1E 63 B0 24 57 B2 00 00 00
+        .byte   $01,$1d,$a8,$02,$d3,$a8,$03,$1c,$a9,$04,$48,$a9,$08,$12,$aa,$09
+        .byte   $4e,$aa,$0c,$19,$ab,$0d,$b2,$ab,$0e,$d1,$ab,$12,$d6,$ac,$13,$3e
+        .byte   $ad,$14,$cc,$ad,$15,$3e,$ad,$16,$11,$ae,$1a,$6b,$ae,$1d,$87,$af
+        .byte   $1e,$63,$b0,$24,$57,$b2,$00,$00,$00
 
 ; c0/e6e8
-; 02 C1 A8 03 18 A9 04 35 A9 05 65 A9 06 6F A9 09 6E AA 0B D1 AA 0C 20 AB 0E DB AB 0F F2 AB 10 1E AC 13 5B AD 14 5B AD 16 90 AC 17 31 AE 19 4B AE 1D B2 AF 1E B2 AF 21 6E B1 00 00 00
+        .byte   $02,$c1,$a8,$03,$18,$a9,$04,$35,$a9,$05,$65,$a9,$06,$6f,$a9,$09
+        .byte   $6e,$aa,$0b,$d1,$aa,$0c,$20,$ab,$0e,$db,$ab,$0f,$f2,$ab,$10,$1e
+        .byte   $ac,$13,$5b,$ad,$14,$5b,$ad,$16,$90,$ac,$17,$31,$ae,$19,$4b,$ae
+        .byte   $1d,$b2,$af,$1e,$b2,$af,$21,$6e,$b1,$00,$00,$00
 
 ; c0/e724
-; 5B B2 5B B2 5E B2 FB B2 02 B3 0C B4 29 B4 80 B4 8F B4 A8 B4 D7 B4 11 B5 21 B5 EA B5 B9 B6 4B B7 52 B7 96 B7 AD B7 FC B7 11 B8 45 B8 4D B8 79 B8 AE B8 1D B9 55 B9 93 B9 98 B9 05 BA 0A BA 63 BA 7D BA FA BB 27 BC 2A BC 2D BC 48 BC 5E BC D9 BC D9 BC D9 BC D9 BC D9 BC E0 BC 3D BD 47 BD B5 BD C6 BD F3 BD F6 BD 2E BE 64 BE C8 BE CD BE F4 BE 2E BF 89 BF 9D BF CD BF D4 BF F4 BF 03 C0 41 C0 46 C0 5E C0 69 C0 6C C0 71 C0 BD C0 F7 C0 46 C1 62 C1 62 C1
+        .addr   $b25b,$b25b,$b25e,$b2fb,$b302,$b40c,$b429,$b480
+        .addr   $b48f,$b4a8,$b4d7,$b511,$b521,$b5ea,$b6b9,$b74b
+        .addr   $b752,$b796,$b7ad,$b7fc,$b811,$b845,$b84d,$b879
+        .addr   $b8ae,$b91d,$b955,$b993,$b998,$ba05,$ba0a,$ba63
+        .addr   $ba7d,$bbfa,$bc27,$bc2a,$bc2d,$bc48,$bc5e,$bcd9
+        .addr   $bcd9,$bcd9,$bcd9,$bcd9,$bce0,$bd3d,$bd47,$bdb5
+        .addr   $bdc6,$bdf3,$bdf6,$be2e,$be64,$bec8,$becd,$bef4
+        .addr   $bf2e,$bf89,$bf9d,$bfcd,$bfd4,$bff4,$c003,$c041
+        .addr   $c046,$c05e,$c069,$c06c,$c071,$c0bd,$c0f7,$c146
+        .addr   $c162,$c162
 
-; todo: move to the correct segment
 _c0e7b8:
         .word   $0080,$8000,$0040,$4000,$0020,$0010,$2000
 
@@ -12732,7 +12753,20 @@ _c0e7c6:
 ; ---------------------------------------------------------------------------
 
 ; c0/e7d2
+        .byte   $80,$00,$01
+        .byte   $00,$80,$02
+        .byte   $00,$08,$03
+        .byte   $00,$04,$04
+        .byte   $00,$02,$05
+        .byte   $00,$01,$06
+        .byte   $00,$00,$00
 
 ; c0/e7e7
+        .addr   $c1b8,$c1b8,$c1b8,$c1b8,$c1f7,$c1f7,$c1f7,$c1f7
+        .addr   $c1a6,$c1a6,$c1a6,$c1a6
 
 ; c0/e7ff
+        .addr   $d533,$d54a,$d554,$d55d,$d571,$d93f,$d588,$d59d
+        .addr   $d5d3,$d5ef,$d60b
+
+; c0/e815
