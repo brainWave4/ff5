@@ -76126,6 +76126,7 @@ C2/A540: 20 6F E6     JSR $E66F
 C2/A543: 20 2F FC     JSR $FC2F
 C2/A546: 20 4A A5     JSR $A54A
 C2/A549: 60           RTS
+
 C2/A54A: E2 20        SEP #$20
 C2/A54C: A5 58        LDA $58
 C2/A54E: C9 03        CMP #$03
@@ -76507,6 +76508,7 @@ C2/A83E: 20 5A A8     JSR $A85A
 C2/A841: A2 C7 AD     LDX #$ADC7
 C2/A844: 20 F0 A8     JSR $A8F0
 C2/A847: 60           RTS
+
 C2/A848: 08           PHP
 C2/A849: C2 20        REP #$20
 C2/A84B: A5 55        LDA $55
@@ -76518,6 +76520,7 @@ C2/A853: BF 64 EA C0  LDA $C0EA64,X
 C2/A857: AA           TAX
 C2/A858: 28           PLP
 C2/A859: 60           RTS
+
 C2/A85A: 20 48 A8     JSR $A848
 C2/A85D: 3C 00 05     BIT $0500,X
 C2/A860: 50 15        BVC $A877
@@ -76532,6 +76535,7 @@ C2/A870: E6 53        INC $53
 C2/A872: 20 AB E6     JSR $E6AB       ; update cursor sprite
 C2/A875: 80 E3        BRA $A85A
 C2/A877: 60           RTS
+
 C2/A878: A5 53        LDA $53
 C2/A87A: 29 03        AND #$03
 C2/A87C: 85 E0        STA $E0
@@ -76546,6 +76550,7 @@ C2/A88B: 80 02        BRA $A88F
 C2/A88D: A9 01        LDA #$01
 C2/A88F: 85 E2        STA $E2
 C2/A891: 60           RTS
+
 C2/A892: 08           PHP
 C2/A893: E2 20        SEP #$20
 C2/A895: 20 78 A8     JSR $A878
@@ -76575,6 +76580,7 @@ C2/A8C3: A5 6F        LDA $6F
 C2/A8C5: D0 03        BNE $A8CA
 C2/A8C7: 20 92 A8     JSR $A892
 C2/A8CA: 60           RTS
+
 C2/A8CB: A5 50        LDA $50
 C2/A8CD: 85 53        STA $53
 C2/A8CF: 20 AB E6     JSR $E6AB       ; update cursor sprite
@@ -76592,6 +76598,7 @@ C2/A8E8: 9C 10 75     STZ $7510
 C2/A8EB: A5 50        LDA $50
 C2/A8ED: 85 5A        STA $5A
 C2/A8EF: 60           RTS
+
 C2/A8F0: C2 20        REP #$20
 C2/A8F2: 8A           TXA
 C2/A8F3: 20 B8 C1     JSR $C1B8
@@ -76860,6 +76867,7 @@ C2/AB2B: 09 20 89     ORA #$8920
 C2/AB2E: EF 20 16 EF  SBC $EF1620
 C2/AB32: 20 D4 FA     JSR $FAD4       ; copy sprite data to vram
 C2/AB35: 60           RTS
+
 C2/AB36: A5 55        LDA $55
 C2/AB38: 29 0F 00     AND #$000F
 C2/AB3B: 3A           DEC
@@ -76871,6 +76879,7 @@ C2/AB44: 20 CB A8     JSR $A8CB
 C2/AB47: A9 01        LDA #$01
 C2/AB49: 14 CA        TRB $CA
 C2/AB4B: 60           RTS
+
 C2/AB4C: 20 7A A6     JSR $A67A
 C2/AB4F: A2 5A 43     LDX #$435A
 C2/AB52: A0 11 28     LDY #$2811
@@ -76905,6 +76914,7 @@ C2/AB96: 20 E7 EE     JSR $EEE7
 C2/AB99: AD 86 28     LDA $2886
 C2/AB9C: 8D 0F 75     STA $750F
 C2/AB9F: 60           RTS
+
 C2/ABA0: E2 20        SEP #$20
 C2/ABA2: A9 02        LDA #$02
 C2/ABA4: 1C 00 75     TRB $7500
@@ -76960,6 +76970,7 @@ C2/AC06: 0C 06 75     TSB $7506
 C2/AC09: A9 04        LDA #$04
 C2/AC0B: 04 CA        TSB $CA
 C2/AC0D: 60           RTS
+
 C2/AC0E: A9 B4        LDA #$B4
 C2/AC10: B3 20        LDA ($20,S),Y
 C2/AC12: B8           CLV
@@ -76995,6 +77006,7 @@ C2/AC55: 20 E2 C0     JSR $C0E2
 C2/AC58: E2 20        SEP #$20
 C2/AC5A: 9C 10 75     STZ $7510
 C2/AC5D: 60           RTS
+
 C2/AC5E: 08           PHP
 C2/AC5F: C2 20        REP #$20
 C2/AC61: A9 A9 B3     LDA #$B3A9
@@ -77019,6 +77031,7 @@ C2/AC88: 8D EB 2C     STA $2CEB
 C2/AC8B: 20 16 DA     JSR $DA16
 C2/AC8E: 28           PLP
 C2/AC8F: 60           RTS
+
 C2/AC90: A5 08        LDA $08
 C2/AC92: 29 00        AND #$00
 C2/AC94: 10 F0        BPL $AC86
@@ -77508,6 +77521,7 @@ C2/B0CD: 64 71        STZ $71
 C2/B0CF: A9 20 00     LDA #$0020
 C2/B0D2: 20 54 B1     JSR $B154
 C2/B0D5: 60           RTS
+
 C2/B0D6: A9 39 B7     LDA #$B739
 C2/B0D9: 20 B8 C1     JSR $C1B8
 C2/B0DC: 20 93 A6     JSR $A693
@@ -77592,6 +77606,7 @@ C2/B192: 69 0F        ADC #$0F
 C2/B194: 85 53        STA $53
 C2/B196: 20 AB E6     JSR $E6AB       ; update cursor sprite
 C2/B199: 60           RTS
+
 C2/B19A: A9 40        LDA #$40
 C2/B19C: B7 20        LDA [$20],Y
 C2/B19E: B8           CLV
@@ -77860,6 +77875,7 @@ C2/B3E0: BF CD F3 C0  LDA $C0F3CD,X
 C2/B3E4: AA           TAX
 C2/B3E5: 20 A0 A6     JSR $A6A0
 C2/B3E8: 60           RTS
+
 C2/B3E9: 29 03 00     AND #$0003
 C2/B3EC: 0A           ASL
 C2/B3ED: AA           TAX
@@ -78441,6 +78457,7 @@ C2/B940: EB           XBA
 C2/B941: AD 09 28     LDA $2809
 C2/B944: 20 CE E2     JSR $E2CE
 C2/B947: 60           RTS
+
 C2/B948: A9 01 00     LDA #$0001
 C2/B94B: 20 E7 EE     JSR $EEE7
 C2/B94E: A9 38 00     LDA #$0038
@@ -79285,6 +79302,7 @@ C2/C0E5: 9C 04 02     STZ $0204
 C2/C0E8: 9C 06 02     STZ $0206
 C2/C0EB: 28           PLP
 C2/C0EC: 60           RTS
+
 C2/C0ED: 20 C0 F5     JSR $F5C0
 C2/C0F0: 20 93 A6     JSR $A693
 C2/C0F3: 20 6F E6     JSR $E66F
@@ -79445,6 +79463,7 @@ C2/C1F7: A4 E6        LDY $E6
 C2/C1F9: AA           TAX
 C2/C1FA: D0 01        BNE $C1FD
 C2/C1FC: 60           RTS
+
 C2/C1FD: 8B           PHB
 C2/C1FE: 08           PHP
 C2/C1FF: 64 85        STZ $85
@@ -79504,6 +79523,7 @@ C2/C25A: 85 E8        STA $E8
 C2/C25C: 28           PLP
 C2/C25D: 68           PLA
 C2/C25E: 60           RTS
+
 C2/C25F: 64 E0        STZ $E0
 C2/C261: A5 E0        LDA $E0
 C2/C263: A0 00 10     LDY #$1000
@@ -79515,6 +79535,7 @@ C2/C26C: 60           RTS
 C2/C26D: A5 E0        LDA $E0
 C2/C26F: 85 E6        STA $E6
 C2/C271: 60           RTS
+
 C2/C272: 9D 00 00     STA $0000,X
 C2/C275: E8           INX
 C2/C276: E8           INX
@@ -79547,6 +79568,7 @@ C2/C29E: 00 A8        BRK $A8
 C2/C2A0: 80 ED        BRA $C28F
 C2/C2A2: 68           PLA
 C2/C2A3: 60           RTS
+
 C2/C2A4: 20 42 C2     JSR $C242
 C2/C2A7: A5 E5        LDA $E5
 C2/C2A9: 29 FF        AND #$FF
@@ -79583,6 +79605,7 @@ C2/C2E0: C6 E5        DEC $E5
 C2/C2E2: C2 20        REP #$20
 C2/C2E4: 20 A4 C2     JSR $C2A4
 C2/C2E7: 60           RTS
+
 C2/C2E8: 20 42 C2     JSR $C242
 C2/C2EB: A5 E8        LDA $E8
 C2/C2ED: AA           TAX
@@ -79693,6 +79716,7 @@ C2/C3C9: C0 08 00     CPY #$0008
 C2/C3CC: D0 EB        BNE $C3B9
 C2/C3CE: 20 D2 C3     JSR $C3D2
 C2/C3D1: 60           RTS
+
 C2/C3D2: 8B           PHB
 C2/C3D3: 08           PHP
 C2/C3D4: F4 7E 7E     PEA $7E7E
@@ -79714,6 +79738,7 @@ C2/C3F7: 20 FD C3     JSR $C3FD
 C2/C3FA: 28           PLP
 C2/C3FB: AB           PLB
 C2/C3FC: 60           RTS
+
 C2/C3FD: BD 9A 2B     LDA $2B9A,X
 C2/C400: EB           XBA
 C2/C401: BD A2 2B     LDA $2BA2,X
@@ -79730,6 +79755,7 @@ C2/C413: E8           INX
 C2/C414: C6 85        DEC $85
 C2/C416: D0 E5        BNE $C3FD
 C2/C418: 60           RTS
+
 C2/C419: 08           PHP
 C2/C41A: A6 8E        LDX $8E
 C2/C41C: DD 40 06     CMP $0640,X
@@ -79813,6 +79839,7 @@ C2/C4D1: 80 EF        BRA $C4C2
 C2/C4D3: A9 1C 3C     LDA #$3C1C
 C2/C4D6: 20 DE C8     JSR $C8DE
 C2/C4D9: 60           RTS
+
 C2/C4DA: 8B           PHB
 C2/C4DB: 08           PHP
 C2/C4DC: F4 7E 7E     PEA $7E7E
@@ -79845,6 +79872,7 @@ C2/C518: D0 D2        BNE $C4EC
 C2/C51A: 28           PLP
 C2/C51B: AB           PLB
 C2/C51C: 60           RTS
+
 C2/C51D: 08           PHP
 C2/C51E: C2 20        REP #$20
 C2/C520: BF 14 F4 C0  LDA $C0F414,X
@@ -79862,6 +79890,7 @@ C2/C53C: 6D 65 2B     ADC $2B65
 C2/C53F: 29 FF 00     AND #$00FF
 C2/C542: 28           PLP
 C2/C543: 60           RTS
+
 C2/C544: 20 1D C5     JSR $C51D
 C2/C547: 09 00        ORA #$00
 C2/C549: FF 99 3F 2B  SBC $2B3F99,X
@@ -79869,6 +79898,7 @@ C2/C54D: C8           INY
 C2/C54E: C8           INY
 C2/C54F: E8           INX
 C2/C550: 60           RTS
+
 C2/C551: 08           PHP
 C2/C552: 8B           PHB
 C2/C553: C2 20        REP #$20
@@ -80048,6 +80078,7 @@ C2/C6B0: 54 7E C0     MVN $7E,$C0
 C2/C6B3: A9 C8 00     LDA #$00C8
 C2/C6B6: 8D 6A 2B     STA $2B6A
 C2/C6B9: 60           RTS
+
 C2/C6BA: 8B           PHB
 C2/C6BB: 08           PHP
 C2/C6BC: C2 20        REP #$20
@@ -80068,6 +80099,7 @@ C2/C6E3: 8D E1 29     STA $29E1
 C2/C6E6: 28           PLP
 C2/C6E7: AB           PLB
 C2/C6E8: 60           RTS
+
 C2/C6E9: 08           PHP
 C2/C6EA: C2 20        REP #$20
 C2/C6EC: A0 E5 2C     LDY #$2CE5
@@ -80109,6 +80141,7 @@ C2/C734: 20 E9 C6     JSR $C6E9
 C2/C737: C2 20        REP #$20
 C2/C739: 20 5E AC     JSR $AC5E
 C2/C73C: 60           RTS
+
 C2/C73D: 8B           PHB
 C2/C73E: 08           PHP
 C2/C73F: F4 7E 7E     PEA $7E7E
@@ -80179,6 +80212,7 @@ C2/C7B6: E0 00 01     CPX #$0100
 C2/C7B9: D0 C8        BNE $C783
 C2/C7BB: 28           PLP
 C2/C7BC: 60           RTS
+
 C2/C7BD: 8B           PHB
 C2/C7BE: 08           PHP
 C2/C7BF: C2 20        REP #$20
@@ -80369,6 +80403,7 @@ C2/C93D: 68           PLA
 C2/C93E: 28           PLP
 C2/C93F: AB           PLB
 C2/C940: 60           RTS
+
 C2/C941: 08           PHP
 C2/C942: A5 80        LDA $80
 C2/C944: 18           CLC
@@ -80379,6 +80414,7 @@ C2/C94C: A9 45        LDA #$45
 C2/C94E: 00 54        BRK $54
 C2/C950: 7E 7E 28     ROR $287E,X
 C2/C953: 60           RTS
+
 C2/C954: 8B           PHB
 C2/C955: 08           PHP
 C2/C956: C2 20        REP #$20
@@ -80690,6 +80726,7 @@ C2/CBF1: C9 80        CMP #$80
 C2/CBF3: D0 02        BNE $CBF7
 C2/CBF5: A9 00        LDA #$00
 C2/CBF7: 60           RTS
+
 C2/CBF8: 8B           PHB
 C2/CBF9: 08           PHP
 C2/CBFA: A5 F1        LDA $F1
@@ -80767,6 +80804,7 @@ C2/CC99: D0 86        BNE $CC21
 C2/CC9B: 28           PLP
 C2/CC9C: AB           PLB
 C2/CC9D: 60           RTS
+
 C2/CC9E: 8B           PHB
 C2/CC9F: 08           PHP
 C2/CCA0: F4 7E 7E     PEA $7E7E
@@ -81274,6 +81312,7 @@ C2/D0AB: C9 04 00     CMP #$0004
 C2/D0AE: D0 AE        BNE $D05E
 C2/D0B0: AB           PLB
 C2/D0B1: 60           RTS
+
 C2/D0B2: 8B           PHB
 C2/D0B3: 08           PHP
 C2/D0B4: 20 C5 D4     JSR $D4C5
@@ -81785,6 +81824,7 @@ C2/D48C: 54 7E C0     MVN $7E,$C0
 C2/D48F: 28           PLP
 C2/D490: AB           PLB
 C2/D491: 60           RTS
+
 C2/D492: 8B           PHB
 C2/D493: 08           PHP
 C2/D494: DA           PHX
@@ -81818,6 +81858,7 @@ C2/D4BD: 69 00        ADC #$00
 C2/D4BF: 74 A8        STZ $A8,X
 C2/D4C1: A9 1F        LDA #$1F
 C2/D4C3: 00 60        BRK $60
+
 C2/D4C5: DA           PHX
 C2/D4C6: 08           PHP
 C2/D4C7: C2 20        REP #$20
@@ -81831,6 +81872,7 @@ C2/D4D6: 85 80        STA $80
 C2/D4D8: 28           PLP
 C2/D4D9: FA           PLX
 C2/D4DA: 60           RTS
+
 C2/D4DB: 8B           PHB
 C2/D4DC: C2 20        REP #$20
 C2/D4DE: A2 6D EF     LDX #$EF6D
@@ -81917,6 +81959,7 @@ C2/D57E: A0 81 EA     LDY #$EA81
 C2/D581: A9 8C C0     LDA #$C08C
 C2/D584: 20 9D E5     JSR $E59D
 C2/D587: 60           RTS
+
 C2/D588: A5 D8        LDA $D8
 C2/D58A: C9 15 00     CMP #$0015
 C2/D58D: F0 0D        BEQ $D59C
@@ -81927,6 +81970,7 @@ C2/D595: 18           CLC
 C2/D596: 69 53 00     ADC #$0053
 C2/D599: 9D 00 00     STA $0000,X
 C2/D59C: 60           RTS
+
 C2/D59D: A6 D8        LDX $D8
 C2/D59F: E0 15 00     CPX #$0015
 C2/D5A2: F0 2E        BEQ $D5D2
@@ -82030,6 +82074,7 @@ C2/D653: 80 F2        BRA $D647
 C2/D655: 28           PLP
 C2/D656: AB           PLB
 C2/D657: 60           RTS
+
 C2/D658: A0 47 09     LDY #$0947
 C2/D65B: A9 73        LDA #$73
 C2/D65D: 00 20        BRK $20
@@ -82175,6 +82220,7 @@ C2/D75B: D0 EA        BNE $D747
 C2/D75D: 28           PLP
 C2/D75E: AB           PLB
 C2/D75F: 60           RTS
+
 C2/D760: A9 53        LDA #$53
 C2/D762: AE 20 B8     LDX $B820
 C2/D765: C1 A5        CMP ($A5,X)
@@ -82225,6 +82271,7 @@ C2/D7C0: 20 ED E4     JSR $E4ED
 C2/D7C3: A9 37 AE     LDA #$AE37
 C2/D7C6: 20 B8 C1     JSR $C1B8
 C2/D7C9: 60           RTS
+
 C2/D7CA: A6 80        LDX $80
 C2/D7CC: BF 40 05 00  LDA $000540,X
 C2/D7D0: 85 F9        STA $F9
@@ -82429,6 +82476,7 @@ C2/D93B: 28           PLP
 C2/D93C: 7A           PLY
 C2/D93D: AB           PLB
 C2/D93E: 60           RTS
+
 C2/D93F: BB           TYX
 C2/D940: C2 20        REP #$20
 C2/D942: A5 D8        LDA $D8
@@ -82540,6 +82588,7 @@ C2/DA0E: E2 20        SEP #$20
 C2/DA10: A9 01        LDA #$01
 C2/DA12: 8D 0B 42     STA $420B
 C2/DA15: 60           RTS
+
 C2/DA16: 8B           PHB
 C2/DA17: 08           PHP
 C2/DA18: F4 7E 7E     PEA $7E7E
@@ -82600,9 +82649,11 @@ C2/DA98: 80 8E        BRA $DA28
 C2/DA9A: 28           PLP
 C2/DA9B: AB           PLB
 C2/DA9C: 60           RTS
+
 C2/DA9D: A0 BE 2B     LDY #$2BBE
 C2/DAA0: 54 7E C0     MVN $7E,$C0
 C2/DAA3: 60           RTS
+
 C2/DAA4: 8B           PHB
 C2/DAA5: 08           PHP
 C2/DAA6: C2 20        REP #$20
@@ -82632,6 +82683,7 @@ C2/DAD5: 85 6F        STA $6F
 C2/DAD7: 28           PLP
 C2/DAD8: AB           PLB
 C2/DAD9: 60           RTS
+
 C2/DADA: A6 8E        LDX $8E
 C2/DADC: BF D2 EE C0  LDA $C0EED2,X
 C2/DAE0: F0 09        BEQ $DAEB
@@ -82642,6 +82694,7 @@ C2/DAE8: E8           INX
 C2/DAE9: 80 F1        BRA $DADC
 C2/DAEB: 9C E7 29     STZ $29E7
 C2/DAEE: 60           RTS
+
 C2/DAEF: 8B           PHB
 C2/DAF0: 08           PHP
 C2/DAF1: F4 7E 7E     PEA $7E7E
@@ -82770,6 +82823,7 @@ C2/DC11: 2D F8 29     AND $29F8
 C2/DC14: 99 1A 05     STA $051A,Y
 C2/DC17: EE F1 29     INC $29F1
 C2/DC1A: 60           RTS
+
 C2/DC1B: 8B           PHB
 C2/DC1C: 08           PHP
 C2/DC1D: F4 7E 7E     PEA $7E7E
@@ -82966,6 +83020,7 @@ C2/DDCD: 0D FA 29     ORA $29FA
 C2/DDD0: 99 1A 05     STA $051A,Y
 C2/DDD3: EE F1 29     INC $29F1
 C2/DDD6: 60           RTS
+
 C2/DDD7: 8B           PHB
 C2/DDD8: 08           PHP
 C2/DDD9: F4 7E 7E     PEA $7E7E
@@ -83439,6 +83494,7 @@ C2/E171: A5 9F        LDA $9F
 C2/E173: 80 02        BRA $E177
 C2/E175: A9 00        LDA #$00
 C2/E177: 60           RTS
+
 C2/E178: 8B           PHB
 C2/E179: 08           PHP
 C2/E17A: C2 20        REP #$20
@@ -83452,6 +83508,7 @@ C2/E189: 54 7E 7E     MVN $7E,$7E
 C2/E18C: 28           PLP
 C2/E18D: AB           PLB
 C2/E18E: 60           RTS
+
 C2/E18F: 8B           PHB
 C2/E190: 08           PHP
 C2/E191: C2 20        REP #$20
@@ -83465,6 +83522,7 @@ C2/E1A0: 54 7E 7E     MVN $7E,$7E
 C2/E1A3: 28           PLP
 C2/E1A4: AB           PLB
 C2/E1A5: 60           RTS
+
 C2/E1A6: 8B           PHB
 C2/E1A7: 08           PHP
 C2/E1A8: E2 20        SEP #$20
@@ -83522,6 +83580,7 @@ C2/E20C: 74 E3        STZ $E3,X
 C2/E20E: 28           PLP
 C2/E20F: AB           PLB
 C2/E210: 60           RTS
+
 C2/E211: 8B           PHB
 C2/E212: 08           PHP
 C2/E213: E2 20        SEP #$20
@@ -83585,6 +83644,7 @@ C2/E281: 95 E5        STA $E5,X
 C2/E283: 28           PLP
 C2/E284: AB           PLB
 C2/E285: 60           RTS
+
 C2/E286: 8B           PHB
 C2/E287: DA           PHX
 C2/E288: 08           PHP
@@ -83713,6 +83773,7 @@ C2/E363: 28           PLP
 C2/E364: FA           PLX
 C2/E365: AB           PLB
 C2/E366: 60           RTS
+
 C2/E367: 08           PHP
 C2/E368: C2 20        REP #$20
 C2/E36A: A5 6D        LDA $6D
@@ -83750,6 +83811,7 @@ C2/E39C: BF D6 E9 C0  LDA $C0E9D6,X
 C2/E3A0: FA           PLX
 C2/E3A1: 9F 00 00 7E  STA $7E0000,X
 C2/E3A5: 60           RTS
+
 C2/E3A6: 8B           PHB
 C2/E3A7: 08           PHP
 C2/E3A8: F4 7E 7E     PEA $7E7E
@@ -83781,6 +83843,7 @@ C2/E3DD: 20 9D E5     JSR $E59D
 C2/E3E0: 28           PLP
 C2/E3E1: AB           PLB
 C2/E3E2: 60           RTS
+
 C2/E3E3: 08           PHP
 C2/E3E4: E2 20        SEP #$20
 C2/E3E6: BD 00 7A     LDA $7A00,X
@@ -83790,6 +83853,7 @@ C2/E3ED: EB           XBA
 C2/E3EE: 20 A6 E3     JSR $E3A6
 C2/E3F1: 28           PLP
 C2/E3F2: 60           RTS
+
 C2/E3F3: 5A           PHY
 C2/E3F4: 20 E3 E3     JSR $E3E3
 C2/E3F7: 7A           PLY
@@ -85137,6 +85201,7 @@ C2/ED57: E8           INX
 C2/ED58: E0 00 01     CPX #$0100
 C2/ED5B: D0 F4        BNE $ED51
 C2/ED5D: 60           RTS
+
 C2/ED5E: 8B           PHB
 C2/ED5F: 08           PHP
 C2/ED60: 20 D9 EC     JSR $ECD9
@@ -85231,6 +85296,7 @@ C2/EE15: F0 03        BEQ $EE1A
 C2/EE17: 88           DEY
 C2/EE18: 80 EE        BRA $EE08
 C2/EE1A: 60           RTS
+
 C2/EE1B: E2 20        SEP #$20
 C2/EE1D: A4 8E        LDY $8E
 C2/EE1F: B9 00 7A     LDA $7A00,Y
@@ -85286,6 +85352,7 @@ C2/EE8E: F0 03        BEQ $EE93
 C2/EE90: C8           INY
 C2/EE91: 80 DD        BRA $EE70
 C2/EE93: 60           RTS
+
 C2/EE94: 8B           PHB
 C2/EE95: 08           PHP
 C2/EE96: E2 20        SEP #$20
@@ -85311,6 +85378,7 @@ C2/EEC2: 54 7E 7E     MVN $7E,$7E
 C2/EEC5: 28           PLP
 C2/EEC6: AB           PLB
 C2/EEC7: 60           RTS
+
 C2/EEC8: 8B           PHB
 C2/EEC9: F4 7E 7E     PEA $7E7E
 C2/EECC: AB           PLB
@@ -85329,6 +85397,7 @@ C2/EEE1: C6 F6        DEC $F6
 C2/EEE3: D0 F4        BNE $EED9
 C2/EEE5: AB           PLB
 C2/EEE6: 60           RTS
+
 C2/EEE7: 8B           PHB
 C2/EEE8: 08           PHP
 C2/EEE9: C2 20        REP #$20
@@ -85341,6 +85410,7 @@ C2/EEF7: 20 98 A6     JSR $A698
 C2/EEFA: 28           PLP
 C2/EEFB: AB           PLB
 C2/EEFC: 60           RTS
+
 C2/EEFD: 20 C5 EF     JSR $EFC5
 C2/EF00: 20 16 EF     JSR $EF16
 C2/EF03: 20 D4 FA     JSR $FAD4       ; copy sprite data to vram
@@ -85350,6 +85420,7 @@ C2/EF0C: 20 16 EF     JSR $EF16
 C2/EF0F: 20 D4 FA     JSR $FAD4       ; copy sprite data to vram
 C2/EF12: 20 6F E6     JSR $E66F
 C2/EF15: 60           RTS
+
 C2/EF16: 8B           PHB
 C2/EF17: 08           PHP
 C2/EF18: F4 7E 7E     PEA $7E7E
@@ -85905,6 +85976,7 @@ C2/F323: E0 03 00     CPX #$0003
 C2/F326: D0 E4        BNE $F30C
 C2/F328: 28           PLP
 C2/F329: 60           RTS
+
 C2/F32A: 8B           PHB
 C2/F32B: 08           PHP
 C2/F32C: AD F4 2B     LDA $2BF4
@@ -85963,6 +86035,7 @@ C2/F396: 20 B8 C1     JSR $C1B8
 C2/F399: 28           PLP
 C2/F39A: AB           PLB
 C2/F39B: 60           RTS
+
 C2/F39C: 8B           PHB
 C2/F39D: 08           PHP
 C2/F39E: F4 7E 7E     PEA $7E7E
@@ -86020,6 +86093,7 @@ C2/F3F2: E8           INX
 C2/F3F3: E8           INX
 C2/F3F4: E8           INX
 C2/F3F5: 60           RTS
+
 C2/F3F6: 8B           PHB
 C2/F3F7: 08           PHP
 C2/F3F8: F4 7E 7E     PEA $7E7E
@@ -86068,6 +86142,7 @@ C2/F44B: D0 F6        BNE $F443
 C2/F44D: 28           PLP
 C2/F44E: AB           PLB
 C2/F44F: 60           RTS
+
 C2/F450: 8B           PHB
 C2/F451: 08           PHP
 C2/F452: C2 20        REP #$20
@@ -86078,6 +86153,7 @@ C2/F45D: 54 7E C0     MVN $7E,$C0
 C2/F460: 28           PLP
 C2/F461: AB           PLB
 C2/F462: 60           RTS
+
 C2/F463: 8B           PHB
 C2/F464: 08           PHP
 C2/F465: F4 7E 7E     PEA $7E7E
@@ -86138,6 +86214,7 @@ C2/F4CE: 20 FB D9     JSR $D9FB
 C2/F4D1: 28           PLP
 C2/F4D2: AB           PLB
 C2/F4D3: 60           RTS
+
 C2/F4D4: 8B           PHB
 C2/F4D5: 08           PHP
 C2/F4D6: F4 30 30     PEA $3030
@@ -86229,6 +86306,7 @@ C2/F581: 03 A9        ORA $A9,S
 C2/F583: 00 40        BRK $40
 C2/F585: 85 E0        STA $E0
 C2/F587: 60           RTS
+
 C2/F588: 8B           PHB
 C2/F589: DA           PHX
 C2/F58A: 5A           PHY
@@ -86634,6 +86712,7 @@ C2/F864: D0 B5        BNE $F81B
 C2/F866: 28           PLP
 C2/F867: AB           PLB
 C2/F868: 60           RTS
+
 C2/F869: 8B           PHB
 C2/F86A: 08           PHP
 C2/F86B: F4 7E 7E     PEA $7E7E
@@ -86893,6 +86972,7 @@ C2/FAA6: A5 72        LDA $72
 C2/FAA8: 20 28 E3     JSR $E328
 C2/FAAB: 28           PLP
 C2/FAAC: 60           RTS
+
 C2/FAAD: 8B           PHB
 C2/FAAE: 08           PHP
 C2/FAAF: E2 20        SEP #$20
@@ -87306,6 +87386,7 @@ C2/FE00: C8           INY
 C2/FE01: 80 E7        BRA $FDEA
 C2/FE03: 28           PLP
 C2/FE04: 60           RTS
+
 C2/FE05: 08           PHP
 C2/FE06: C2 20        REP #$20
 C2/FE08: A2 8E 29     LDX #$298E
