@@ -85159,6 +85159,7 @@ C2/ED81: 20 F3 EC     JSR $ECF3
 C2/ED84: 28           PLP
 C2/ED85: AB           PLB
 C2/ED86: 60           RTS
+
 C2/ED87: 8B           PHB
 C2/ED88: 08           PHP
 C2/ED89: 20 D9 EC     JSR $ECD9
@@ -85992,6 +85993,7 @@ C2/F3CC: D0 DC        BNE $F3AA
 C2/F3CE: 28           PLP
 C2/F3CF: AB           PLB
 C2/F3D0: 60           RTS
+
 C2/F3D1: 29 0F        AND #$0F
 C2/F3D3: 00 3A        BRK $3A
 C2/F3D5: 29 03        AND #$03
@@ -86000,6 +86002,7 @@ C2/F3D9: 4A           LSR
 C2/F3DA: 4A           LSR
 C2/F3DB: 4A           LSR
 C2/F3DC: 60           RTS
+
 C2/F3DD: 0A           ASL
 C2/F3DE: 48           PHA
 C2/F3DF: BD 93 02     LDA $0293,X
@@ -86151,6 +86154,7 @@ C2/F4EA: D0 F3        BNE $F4DF
 C2/F4EC: 28           PLP
 C2/F4ED: AB           PLB
 C2/F4EE: 60           RTS
+
 C2/F4EF: A5 F6        LDA $F6
 C2/F4F1: 0A           ASL
 C2/F4F2: AA           TAX
@@ -86384,6 +86388,7 @@ C2/F6A9: 20 AF F6     JSR $F6AF
 C2/F6AC: 28           PLP
 C2/F6AD: AB           PLB
 C2/F6AE: 60           RTS
+
 C2/F6AF: 8B           PHB
 C2/F6B0: 08           PHP
 C2/F6B1: F4 7E 7E     PEA $7E7E
@@ -86407,6 +86412,7 @@ C2/F6D1: 30 E7        BMI $F6BA
 C2/F6D3: 28           PLP
 C2/F6D4: AB           PLB
 C2/F6D5: 60           RTS
+
 C2/F6D6: 8B           PHB
 C2/F6D7: 08           PHP
 C2/F6D8: F4 7E 7E     PEA $7E7E
@@ -86439,6 +86445,7 @@ C2/F704: 30 DB        BMI $F6E1
 C2/F706: 28           PLP
 C2/F707: AB           PLB
 C2/F708: 60           RTS
+
 C2/F709: 48           PHA
 C2/F70A: 08           PHP
 C2/F70B: 29 1F        AND #$1F
@@ -86564,6 +86571,7 @@ C2/F7F6: 20 FC F7     JSR $F7FC
 C2/F7F9: 28           PLP
 C2/F7FA: AB           PLB
 C2/F7FB: 60           RTS
+
 C2/F7FC: AC 94 2C     LDY $2C94
 C2/F7FF: C0 01 00     CPY #$0001
 C2/F802: F0 05        BEQ $F809
@@ -86664,6 +86672,7 @@ C2/F8AB: FC F8 FF     JSR ($FFF8,X)
 C2/F8AE: 28           PLP
 C2/F8AF: AB           PLB
 C2/F8B0: 60           RTS
+
 C2/F8B1: 08           PHP
 C2/F8B2: E2 20        SEP #$20
 C2/F8B4: 8E CD 2C     STX $2CCD
@@ -86702,6 +86711,7 @@ C2/F903: AD CC 2C     LDA $2CCC
 C2/F906: 9D D5 2C     STA $2CD5,X
 C2/F909: 28           PLP
 C2/F90A: 60           RTS
+
 C2/F90B: 08           PHP
 C2/F90C: E2 20        SEP #$20
 C2/F90E: 29 03        AND #$03
@@ -86856,6 +86866,7 @@ C2/FA6C: E2 20        SEP #$20
 C2/FA6E: 9C D2 2C     STZ $2CD2
 C2/FA71: 20 75 FA     JSR $FA75
 C2/FA74: 60           RTS
+
 C2/FA75: E2 20        SEP #$20
 C2/FA77: A9 01        LDA #$01
 C2/FA79: 85 6F        STA $6F
@@ -87129,6 +87140,7 @@ C2/FCAB: 8D 11 75     STA $7511
 C2/FCAE: 28           PLP
 C2/FCAF: AB           PLB
 C2/FCB0: 60           RTS
+
 C2/FCB1: AD 1E 75     LDA $751E
 C2/FCB4: C2 20        REP #$20
 C2/FCB6: 29 01 00     AND #$0001
@@ -87171,6 +87183,7 @@ C2/FD00: AD 1E 75     LDA $751E
 C2/FD03: 49 01        EOR #$01
 C2/FD05: 8D 1E 75     STA $751E
 C2/FD08: 60           RTS
+
 C2/FD09: E2 20        SEP #$20
 C2/FD0B: AD 10 75     LDA $7510
 C2/FD0E: C2 20        REP #$20
@@ -87190,6 +87203,7 @@ C2/FD27: E8           INX
 C2/FD28: EC 20 75     CPX $7520
 C2/FD2B: D0 EF        BNE $FD1C
 C2/FD2D: 60           RTS
+
 C2/FD2E: E2 20        SEP #$20
 C2/FD30: AD 22 75     LDA $7522
 C2/FD33: D0 1F        BNE $FD54
@@ -87219,6 +87233,7 @@ C2/FD6B: 8D 25 75     STA $7525
 C2/FD6E: 9C 22 75     STZ $7522
 C2/FD71: 9C 13 75     STZ $7513
 C2/FD74: 60           RTS
+
 C2/FD75: E2 20        SEP #$20
 C2/FD77: AD 27 75     LDA $7527
 C2/FD7A: C9 04        CMP #$04
@@ -87259,6 +87274,7 @@ C2/FDC1: 8D 27 75     STA $7527
 C2/FDC4: D0 03        BNE $FDC9
 C2/FDC6: 9C 12 75     STZ $7512
 C2/FDC9: 60           RTS
+
 C2/FDCA: 08           PHP
 C2/FDCB: C2 20        REP #$20
 C2/FDCD: 18           CLC

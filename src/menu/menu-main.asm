@@ -4346,7 +4346,7 @@ _c242:  pha
         lda $e4
         and #$7f
         brk $a8
-        phx
+@c2b6:  phx
         phy
         lda $e0
         jsr _c2c272
@@ -4358,7 +4358,7 @@ _c242:  pha
         clc
         adc #$40
         brk $aa
-        bra @c2c2b6
+        bra @c2b6
 @c2cb:  rts
         jsr _c2c2e8
         lda #$ff
@@ -6815,7 +6815,9 @@ _d533:  ldx $80
         clc
         adc #$0506
         tay
-        lda #$7e42
+
+_c2d5db:
+_d5db:  lda #$7e42
         jsr _c2e4ed
         pha
         txa
@@ -10058,7 +10060,9 @@ _ec76:  phb
         plp
         plb
         rts
-        phb
+
+_c2ed87:
+_ed87:  phb
         php
         jsr @ecd9
         lda #$02
@@ -10119,7 +10123,9 @@ _c2edb5:
         iny
         bra @ede3
 @ee02:  rts
-        shorta
+
+_c2ee03:
+_ee03:  shorta
         ldy #$00fe
 @ee08:  lda $7f00,y
         clc
@@ -10130,7 +10136,9 @@ _c2edb5:
         dey
         bra @ee08
 @ee1a:  rts
-        shorta
+
+_c2ee1b:
+_ee1b:  shorta
         ldy $8e
 @ee1f:  lda $7a00,y
         beq @ee62
@@ -10823,7 +10831,9 @@ _f2fb:  php
         bne @f30c
         plp
         rts
-        phb
+
+_c2d32a:
+_d32a:  phb
         php
         lda $2bf4
         bne $f393
@@ -10905,13 +10915,17 @@ _f2fb:  php
         plp
         plb
         rts
-        and #$0f
+
+_c2f3d1:
+_f3d1:  and #$0f
         brk $3a
         and #$03
         brk $eb
         lsr3
         rts
-        asl
+
+_c2f3dd:
+_f3dd:  asl
         pha
         lda $0293,x
         and #$f1
@@ -11048,7 +11062,9 @@ _f2fb:  php
         plp
         plb
         rts
-        lda $f6
+
+_c2f4ef:
+_f4ef:  lda $f6
         asl
         tax
         lda $c0f8e7,x
@@ -11278,7 +11294,9 @@ _f5c0:  phb
         plp
         plb
         rts
-        phb
+
+_c2f6af:
+_f6af:  phb
         php
         pea $7e7e
         plb
@@ -11301,7 +11319,9 @@ _f5c0:  phb
         plp
         plb
         rts
-        phb
+
+_c2f6d6:
+_f6d6:  phb
         php
         pea $7e7e
         plb
@@ -11333,7 +11353,9 @@ _f5c0:  phb
         plp
         plb
         rts
-        pha
+
+_c2f709:
+_f709:  pha
         php
         and #$1f
         brk $e2
@@ -11446,11 +11468,13 @@ _f7a6:  phb
         tax
         lda $2c9a
         and #$00ff
-        jsr @f7fc
+        jsr _c2f7fc
         plp
         plb
         rts
-@f7fc:  ldy $2c94
+
+_c2f7fc:
+_f7fc:  ldy $2c94
         cpy #$0001
         beq @f809
         cpy #$0002
@@ -11543,7 +11567,9 @@ _f7a6:  phb
 @f8ae:  plp
         plb
         rts
-        php
+
+_c2f8b1:
+_f8b1:  php
         shorta
         stx $2ccd
         and #$03
@@ -11581,7 +11607,9 @@ _f7a6:  phb
         sta $2cd5,x
         plp
         rts
-        php
+
+_c2f90b:
+_f90b:  php
         shorta
         and #$03
         dec
@@ -11747,7 +11775,9 @@ _f9d6:  ldx #$0040
         stz $2cd2
 @fa71:  jsr _c2fa75
         rts
-        shorta
+
+_c2fa75:
+_fa75:  shorta
         lda #$01
         sta $6f
         lda $2cd1
@@ -11784,7 +11814,7 @@ _f9d6:  ldx #$0040
         jsr _c2ee94
         lda $7e7a00
         sta $72
-        jsr _c2fa92
+        jsr @fa92
 @fac8:  lda $6f
         inc
         sta $6f
@@ -12034,7 +12064,9 @@ _fc2f:  phb
         plp
 @fcaf:  plb
         rts
-        lda $751e
+
+_c2fcb1:
+_fcb1:  lda $751e
         longa
         and #$0001
         asl
@@ -12069,7 +12101,9 @@ _fc2f:  phb
         eor #$01
         sta $751e
         rts
-        shorta
+
+_c2fd09:
+_fd09:  shorta
         lda $7510
         longa
         and #$0007
@@ -12084,7 +12118,9 @@ _fc2f:  phb
         cpx $7520
         bne @fd1c
         rts
-        shorta
+
+_c2fd2e:
+_fd2e:  shorta
         lda $7522
         bne @fd54
         lda $7513
@@ -12112,7 +12148,9 @@ _fc2f:  phb
         stz $7522
         stz $7513
 @fd74:  rts
-        shorta
+
+_c2fd75:
+_fd75:  shorta
         lda $7527
         cmp #$04
         beq @fd8c
@@ -12144,7 +12182,9 @@ _fc2f:  phb
         bne @fda5
         jsr _c2fad4
 @fdbd:  lda $7527
-        dec
+
+_c2fdca:
+_fdc0:  dec
         sta $7527
         bne @fdc9
         stz $7512
