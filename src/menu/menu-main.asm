@@ -783,7 +783,7 @@ _a4f3:  shorta
         sta $c7
         per $4515
         jmp ($01c7)
-        shorta
+@a516:  shorta
         rts
 
 ; ---------------------------------------------------------------------------
@@ -2669,7 +2669,9 @@ _b3db:  and #$0003
         tax
         jsr _c2a6a0
         rts
-        and #$0003
+
+_c2b3e9:
+_b3e9:  and #$0003
         asl
         tax
         lda $c0eb08,x
@@ -3361,7 +3363,7 @@ _b948:  lda #$0001
         jsr _c2c1b8
         jsr _c2c73d
         jsr _c2a69d
-        jsr _c1a698
+        jsr _c2a698
         lda #$8d01
         ora $2d,x
         jmp _c2a4f0
@@ -3464,7 +3466,7 @@ _b948:  lda #$0001
         bmi @bb47
         cmp #$00fc
         bpl @bb47
-        bra @bb66
+        bra _bb66
 @bb47:  asl
         tax
         lda $d000,x
@@ -7389,7 +7391,7 @@ _d8e4:  phb
         ldx #$f4a3
         ldy #$2b3f
         lda #$0007
-        mvn $7e,c0
+        mvn $7e,$c0
         pla
         ply
         plx
@@ -11171,8 +11173,8 @@ _f3f6:  phb
         plb
         rts
 
-_c2fa50:
-_fa50:  phb
+_c2f450:
+_f450:  phb
         php
         longa
         ldx #$f907
@@ -11438,7 +11440,9 @@ _f5c0:  phb
         plp
         plb
         rts
-        phb
+
+_c2f63d:
+_f63d:  phb
         php
         pea $7e7e
         plb
@@ -11981,14 +11985,16 @@ _fa75:  shorta
         lda $2cd1
         beq @fa85
         sta $72
-        jsr @fa92
+        jsr _c2fa92
 @fa85:  lda $2cd2
         beq @fa91
         sta $72
         inc $6f
-        jsr @fa92
+        jsr _c2fa92
 @fa91:  rts
-@fa92:  php
+
+_c2fa92:
+_fa92:  php
         jsr _c2e0f7
         lda $90
         bne @faab
@@ -12014,7 +12020,7 @@ _faad:  phb
         jsr _c2ee94
         lda $7e7a00
         sta $72
-        jsr @fa92
+        jsr _c2fa92
 @fac8:  lda $6f
         inc
         sta $6f
