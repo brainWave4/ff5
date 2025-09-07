@@ -79547,6 +79547,7 @@ C2/C284: 20 72 C2     JSR $C272
 C2/C287: 1A           INC
 C2/C288: 9D 00 00     STA $0000,X
 C2/C28B: 60           RTS
+
 C2/C28C: 48           PHA
 C2/C28D: A4 8E        LDY $8E
 C2/C28F: A3 01        LDA $01,S
@@ -80175,6 +80176,7 @@ C2/C77B: D0 CD        BNE $C74A
 C2/C77D: 28           PLP
 C2/C77E: AB           PLB
 C2/C77F: 60           RTS
+
 C2/C780: 08           PHP
 C2/C781: A6 8E        LDX $8E
 C2/C783: E2 20        SEP #$20
@@ -86413,6 +86415,7 @@ C2/F638: D0 93        BNE $F5CD
 C2/F63A: 28           PLP
 C2/F63B: AB           PLB
 C2/F63C: 60           RTS
+
 C2/F63D: 8B           PHB
 C2/F63E: 08           PHP
 C2/F63F: F4 7E 7E     PEA $7E7E
@@ -86963,6 +86966,7 @@ C2/FA8A: 85 72        STA $72
 C2/FA8C: E6 6F        INC $6F
 C2/FA8E: 20 92 FA     JSR $FA92
 C2/FA91: 60           RTS
+
 C2/FA92: 08           PHP
 C2/FA93: 20 F7 E0     JSR $E0F7
 C2/FA96: A5 90        LDA $90

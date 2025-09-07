@@ -3067,7 +3067,7 @@ _b521:  lda $6f
         cmp #$01
         beq @b77c
         cmp #$05
-        beq @b769
+        beq @b796
 @b76a:  beq @b791
 @b76c:  lda #$00
         jmp _c2a47c
@@ -3084,7 +3084,7 @@ _b521:  lda $6f
         jsr _c2b7a0
 @b791:  lda #$05
         jmp _c2a47c
-        jsr _c2b2bd
+@b796:  jsr _c2b2bd
         stz $74
         lda #$01
         jmp _c2a06b
@@ -4390,7 +4390,9 @@ _c272:  sta f:$0000,x
         inc
         sta f:$0000,x
         rts
-@c28c:  pha
+
+_c2c28c:
+_c28c:  pha
         ldy $8e
 @c28f:  lda $01,s
         sta ($ec),y
@@ -4466,7 +4468,7 @@ _c2e8:  jsr _c2c242
         sta $ea
         lda #$0004
         ldx #$0005
-        jsr @c28c
+        jsr _c2c28c
         tya
         clc
         adc #$0080
@@ -5040,7 +5042,9 @@ _c73d:  phb
         plp
         plb
         rts
-@c780:  php
+
+_c2c780:
+_c780:  php
         ldx $8e
 @c783:  shorta
         lda $7a00,x
@@ -5083,7 +5087,7 @@ _c7bd:  phb
         ldy #$7a00
         lda #$01ff
         mvn $7e,$7e
-        jsr @c780
+        jsr _c2c780
         ldx $8e
         lda $6b
         and #$00ff
