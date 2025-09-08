@@ -82253,7 +82253,7 @@ C2/D763: 20 B8 C1     JSR $C1B8
 C2/D766: A5           LDA $A5
 C2/D768: 29 FF 00     AND #$00FF
 C2/D76B: 3A           DEC
-C2/D76C: 18           SEC
+C2/D76C: 18           CLC
 C2/D76D: 65 6B        ADC $6B
 C2/D76F: AA           TAX
 C2/D770: BD 00 7A     LDA $7A00,X
