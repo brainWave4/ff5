@@ -77580,6 +77580,7 @@ C2/B166: A9 04        LDA #$04
 C2/B168: 04 CA        TSB $CA
 C2/B16A: 20 6F E6     JSR $E66F
 C2/B16D: 60           RTS
+
 C2/B16E: E2 20        SEP #$20
 C2/B170: 20 78 A8     JSR $A878
 C2/B173: A5 55        LDA $55
@@ -77756,6 +77757,7 @@ C2/B2F0: 8F 0C 42 00  STA $00420C
 C2/B2F4: A9 80        LDA #$80
 C2/B2F6: 8F 00 21 00  STA $002100
 C2/B2FA: 60           RTS
+
 C2/B2FB: A5 53        LDA $53
 C2/B2FD: 85 59        STA $59
 C2/B2FF: 4C 2D A0     JMP $A02D       ; exit menu
@@ -78115,8 +78117,8 @@ C2/B606: A6 7E        LDX $7E
 C2/B608: BD F3 08     LDA $08F3,X
 C2/B60B: F0 22        BEQ $B62F
 C2/B60D: C2 20        REP #$20
-C2/B60F: A9 2B        LDA #$2B
-C2/B611: AF 20 B8 C1  LDA $C1B820
+C2/B60F: A9 2B AF     LDA #$AF2B
+C2/B612: 20 B8 C1     JSR $C1B8
 C2/B615: 20 93 A6     JSR $A693
 C2/B618: A9 02        LDA #$02
 C2/B61A: 0C 00 75     TSB $7500
@@ -78284,11 +78286,13 @@ C2/B796: 20 BD B2     JSR $B2BD
 C2/B799: 64 74        STZ $74
 C2/B79B: A9 01        LDA #$01
 C2/B79D: 4C 6B A0     JMP $A06B
+
 C2/B7A0: 20 6C E7     JSR $E76C
 C2/B7A3: 20 C8 CA     JSR $CAC8
 C2/B7A6: 20 9E CC     JSR $CC9E
 C2/B7A9: 20 98 A6     JSR $A698
 C2/B7AC: 60           RTS
+
 C2/B7AD: 20 F7 E0     JSR $E0F7
 C2/B7B0: A5 90        LDA $90
 C2/B7B2: D0 42        BNE $B7F6
@@ -78763,8 +78767,11 @@ C2/BC1B: 9C 10 75     STZ $7510
 C2/BC1E: 20 E2 C0     JSR $C0E2
 C2/BC21: 20 D4 FA     JSR $FAD4       ; copy sprite data to vram
 C2/BC24: 4C F0 A4     JMP $A4F0
+
 C2/BC27: 4C F0 A4     JMP $A4F0
+
 C2/BC2A: 4C F0 A4     JMP $A4F0
+
 C2/BC2D: A6 7E        LDX $7E
 C2/BC2F: A5 53        LDA $53
 C2/BC31: 95 63        STA $63,X
@@ -78777,6 +78784,7 @@ C2/BC3E: AA           TAX
 C2/BC3F: BF A4 F3 C0  LDA $C0F3A4,X
 C2/BC43: E2 20        SEP #$20
 C2/BC45: 4C 7C A4     JMP $A47C
+
 C2/BC48: 20 BD B2     JSR $B2BD
 C2/BC4B: A9 00        LDA #$00
 C2/BC4D: EB           XBA
@@ -78788,6 +78796,7 @@ C2/BC55: A5 71        LDA $71
 C2/BC57: 85 5D        STA $5D
 C2/BC59: A9 01        LDA #$01
 C2/BC5B: 4C 6B A0     JMP $A06B       ; show menu
+
 C2/BC5E: C2 20        REP #$20
 C2/BC60: A5 55        LDA $55
 C2/BC62: 29 FF 00     AND #$00FF
@@ -78842,6 +78851,7 @@ C2/BCCD: ED E8 29     SBC $29E8
 C2/BCD0: 99 0A 05     STA $050A,Y
 C2/BCD3: 8D DF 29     STA $29DF
 C2/BCD6: 4C 2D A0     JMP $A02D       ; exit menu
+
 C2/BCD9: A6 7E        LDX $7E
 C2/BCDB: B5 63        LDA $63,X
 C2/BCDD: 4C 7C A4     JMP $A47C
@@ -79073,6 +79083,7 @@ C2/BEEB: C8           INY
 C2/BEEC: C0 08 00     CPY #$0008
 C2/BEEF: D0 EB        BNE $BEDC
 C2/BEF1: 4C 2D A0     JMP $A02D       ; exit menu
+
 C2/BEF4: 4C F0 A4     JMP $A4F0
 
 ; [ save sram ]
@@ -79320,6 +79331,7 @@ C2/C0ED: 20 C0 F5     JSR $F5C0
 C2/C0F0: 20 93 A6     JSR $A693
 C2/C0F3: 20 6F E6     JSR $E66F
 C2/C0F6: 60           RTS
+
 C2/C0F7: A5 6F        LDA $6F
 C2/C0F9: D0 11        BNE $C10C
 C2/C0FB: A9 01        LDA #$01
@@ -79507,7 +79519,8 @@ C2/C231: C8           INY
 C2/C232: C8           INY
 C2/C233: C8           INY
 C2/C234: 68           PLA
-C2/C235: 29 7F 1A     AND #$1A7F
+C2/C235: 29 7F        AND #$7F
+C2/C237: 1A           INC
 C2/C238: 80 D1        BRA $C20B
 C2/C23A: A9 00        LDA #$00
 C2/C23E: 99 00 00     STA $0000,Y
@@ -81686,8 +81699,7 @@ C2/D36F: 68           PLA
 C2/D370: 18           CLC
 C2/D371: 69 20 00     ADC #$0020
 C2/D374: AA           TAX
-C2/D375: C9 00        CMP #$00
-C2/D377: 08           PHP
+C2/D375: C9 00 08     CMP #$0800
 C2/D378: D0 D4        BNE $D34E
 C2/D37A: 60           RTS
 
@@ -82761,6 +82773,7 @@ C2/DB60: 20 C8 E0     JSR $E0C8
 C2/DB63: 28           PLP
 C2/DB64: AB           PLB
 C2/DB65: 60           RTS
+
 C2/DB66: 08           PHP
 C2/DB67: B9 1A 05     LDA $051A,Y
 C2/DB6A: 89 C2        BIT #$C2
@@ -82780,6 +82793,7 @@ C2/DB8A: 99 0A 05     STA $050A,Y
 C2/DB8D: EE F1 29     INC $29F1
 C2/DB90: 28           PLP
 C2/DB91: 60           RTS
+
 C2/DB92: 08           PHP
 C2/DB93: B9 1A 05     LDA $051A,Y
 C2/DB96: 89 C2        BIT #$C2
@@ -86864,14 +86878,14 @@ C2/F980: 20 75 FA     JSR $FA75
 C2/F983: 60           RTS
 
 C2/F984: A2 80 00     LDX #$0080
-C2/F987: A9 01 20     LDA #$2001
-C2/F98A: B1 F8        LDA ($F8),Y
+C2/F987: A9 01        LDA #$01
+C2/F989: 20 B1 F8     JSR $F8B1
 C2/F98C: A2 80 80     LDX #$8080
-C2/F98F: A9 02 20     LDA #$2002
-C2/F992: B1 F8        LDA ($F8),Y
+C2/F98F: A9 02        LDA #$02
+C2/F991: 20 B1 F8     JSR $F8B1
 C2/F994: A2 80 80     LDX #$8080
-C2/F997: A9 03 20     LDA #$2003
-C2/F99A: B1 F8        LDA ($F8),Y
+C2/F997: A9 03        LDA #$03
+C2/F99B: 20 B1 F8     JSR $F8B1
 C2/F99C: AD D3 2C     LDA $2CD3
 C2/F99F: D0 05        BNE $F9A6
 C2/F9A1: A9 03        LDA #$03
