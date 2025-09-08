@@ -20,7 +20,7 @@
 
 ; ---------------------------------------------------------------------------
 
-        .a8
+        .a16
         .i16
 
 ; c2/a000
@@ -161,12 +161,14 @@ _a06b:  shorta
         tax
         lda $c0e60e,x
         sta $c7
-        per $a08e
+        per @a08f-1
         jmp ($01c7)
-        longa
+@a08f:  longa
         lda $43         ; menu state
         and #$00ff
         cmp #$000c
+        bne @a0a2
+        lda $39
         bne @a0a2
         jmp _c2a030
 @a0a2:  shorta
@@ -208,6 +210,7 @@ _a06b:  shorta
 ; +X: address of dma parameters (+$C00000)
 
 _c2a0f6:
+        .a16
 _a0f6:  ldy #$4300
         lda #$0006
         mvn $00,$c0
@@ -426,8 +429,6 @@ _a247:  php
         lda #$1380      ; D1/1380 (item names)
         jsr _c2a23b
         ldx #$d400
-        stx $e0
-        ldx #$00ae
         stx $e0
         ldx #$00ae
         stx $e2
@@ -675,7 +676,7 @@ _a441:  longa
 _c2a45e:
 _a45e:  jsr _c2e4df     ; get pointer to current cursor data
         lda $7604,x
-        bra @a47c
+        bra _c2a47c
 
 ; ---------------------------------------------------------------------------
 
@@ -684,7 +685,7 @@ _a45e:  jsr _c2e4df     ; get pointer to current cursor data
 _c2a466:
 _a466:  jsr _c2e4df     ; get pointer to current cursor data
         lda $7605,x
-        bra @a47c
+        bra _c2a47c
 
 ; ---------------------------------------------------------------------------
 
@@ -693,16 +694,18 @@ _a466:  jsr _c2e4df     ; get pointer to current cursor data
 _c2a46e:
 _a46e:  jsr _c2e4df     ; get pointer to current cursor data
         lda $7606,x
-        bra @a47c
+        bra _c2a47c
 
 ; ---------------------------------------------------------------------------
 
 ; [ menu state $10: move cursor right ]
 
 _c2a476:
-_a476:  jsr _c2e4df     ; get pointer to current cursor data
+        jsr _c2e4df     ; get pointer to current cursor data
         lda $7607,x
-@a47c:  pea $7e7e
+
+_c2a47c:
+        pea $7e7e
         plb
         plb
         jsr _c2e0a8     ; play sound effect
@@ -781,7 +784,7 @@ _a4f3:  shorta
 @a508:  longa
         lda $c00001,x
         sta $c7
-        per $4515
+        per @a516-1
         jmp ($01c7)
 @a516:  shorta
         rts
@@ -862,10 +865,12 @@ _a55f:  shorta
         ldx $29a6
         ldy $29a8
         lda $29aa
-        bpl $a5ae
+        bpl @a5ae
         and #$7fff
         mvn $7e,$7e
-        clc
+        bra @a5b1
+@a5ae:  mvp $7e,$7e
+@a5b1:  clc
         rts
 @a5b3:  sec
         rts
@@ -941,6 +946,7 @@ _a607:  lda $29ac
 ; [  ]
 
 _c2a618:
+        .a16
 _a618:  lda $2802
         bpl @a61e
         rts
@@ -982,6 +988,7 @@ _a618:  lda $2802
 @a671:  longa
         jsr _c2a67a
         jsr _c2a693
+        .a8
         rts
 
 ; ---------------------------------------------------------------------------
@@ -989,6 +996,7 @@ _a618:  lda $2802
 ; [  ]
 
 _c2a67a:
+        .a16
 _a67a:  ldx #$42a4
         ldy #$2819
         lda #$7e73
@@ -1003,13 +1011,21 @@ _a67a:  ldx #$42a4
 
 ; [  ]
 
+; this subroutine is problematic because the accumulator is often 16-bit
+; when called but changes to 8-bit when it returns
+
 _c2a693:
 _a693:  ldx #$f3f9
-        bra @a6a0
+        bra _c2a6a0
+
+_c2a698:
         ldx #$f402
-        bra @a6a0
+        bra _c2a6a0
+
+_c2a69d:
         ldx #$f40b
-@a6a0:  longa
+
+_c2a6a0:  longa
         ldy #$7514
         lda #$0008
         mvn $7e,$c0
@@ -1066,6 +1082,7 @@ _a6de:  lda $29ac
 ; [  ]
 
 _c2a6fc:
+        .a16
 _a6fc:  lda $2b66
         tay
 @a700:  lda $58
@@ -1147,6 +1164,7 @@ _a780:  bpl @a794
 ; [  ]
 
 _c2a79c:
+        .a16
 _a79c:  lda $55
         and #$00ff
         dec
@@ -1179,12 +1197,14 @@ _a79c:  lda $55
         jsr _c2f71c     ; update config settings
         jsr _c2d447     ; update window color
         jsr _c2a698
+        .a8
         jsr _c2faf0
         bra @a7fb
 @a7ed:  longa
         lda #$b77a
         jsr _c2c1b8
 @a7f5:  jsr _c2a693
+        .a8
         jsr _c2f71c     ; update config settings
 @a7fb:  rts
 
@@ -1245,6 +1265,8 @@ _a848:  php
         tax
         plp
         rts
+        .a8
+
 _c2a85a:
 _a85a:  jsr _c2a848
         bit $0500,x
@@ -1332,7 +1354,9 @@ _a8f0:  longa
         txa
         jsr _c2c1b8
         jsr _c2a693
+        .a8
         rts
+
         lda $59
         jsr _c2c0c0
         shorta
@@ -1355,6 +1379,7 @@ _a8f0:  longa
         rts
         jsr _c2d717
         jsr _c2a698
+        .a8
         lda #$02
         tsb $7500
         lda #$04
@@ -1362,6 +1387,7 @@ _a8f0:  longa
         rts
 
 _c2a935:
+        .a16
         lda $55
         and #$00ff
         dec
@@ -1389,11 +1415,13 @@ _c2a958:
         jsr _c2c1b8
         jsr _c2e367
         jsr _c2a698
+        .a8
         rts
 
 _c2a965:
         jsr _c2d760
         jsr _c2a698
+        .a8
         rts
 
 _c2a96c:
@@ -1401,6 +1429,7 @@ _c2a96c:
         rts
 
 _c2a96f:
+        .a16
         lda $55
         and #$00ff
         dec
@@ -1448,6 +1477,7 @@ _c2a96f:
         jsr _c2a9d9
         jsr _c2cd08
         jsr _c2a69d
+        .a8
         rts
 
 ; ---------------------------------------------------------------------------
@@ -1484,6 +1514,7 @@ _c2a9fd:
         lda #$0004
         tsb $ca
         jsr _c2a693
+        .a8
         rts
 
 _c2aa12:
@@ -1503,8 +1534,11 @@ _c2aa12:
 @aa2e:  ldx #$b07d
 @aa31:  jsr _c2a8f0
         rts
+
+_c2aa35:
         jsr _c2e367
         jsr _c2a698
+        .a8
         stz $72
         stz $73
         lda #$08
@@ -1514,11 +1548,15 @@ _c2aa12:
         lda #$04
         tsb $ca
         rts
+
+_c2aa4e:
+        .a16
         stz $0208
         stz $020a
-        lda #$fa
-        lda $c1b820
+        lda #$affa
+        jsr _c2c1b8
         jsr _c2a698
+        .a8
         stz $70
         lda #$08
         trb $7500
@@ -1565,7 +1603,11 @@ _c2aa89:
         lda #$b005
         jsr _c2c1b8
 @aab7:  jsr _c2a698
+        .a8
         rts
+
+_c2aabb:
+        .a16
         lda #$b26a
         jsr _c2c1b8
         lda #$0004
@@ -1574,6 +1616,9 @@ _c2aa89:
         jsr _c2fad4     ; copy sprite data to vram
         jsr _c2e66f
         rts
+
+_c2aad1:
+        .a16
         shorta
         lda $2801
         and #$07
@@ -1586,12 +1631,13 @@ _c2aa89:
         eor #$02
         sta $53
 @aae8:  rts
-        lda #$42
-        lda ($20)
-        clv
-        cmp ($e2,x)
-        jsr $01ad
-        plp
+
+_c2aae9:
+        .a16
+        lda #$b242
+        jsr _c2c1b8
+        shorta
+        lda $2801
         and #$03
         cmp #$03
         bne @ab01
@@ -1607,9 +1653,14 @@ _c2aa89:
         lda #$0000
         jsr _c2eee7
         rts
+
+_c2ab19:
+        .a16
         lda #$b254
         jsr _c2c1b8
         rts
+
+_c2ab20:
         jsr _c2ab36
         lda $2801
         and #$c903
@@ -1636,6 +1687,9 @@ _c2ab4c:
         .a16
 _ab4c:  jsr _c2a67a
         ldx #$435a
+        ldy #$2811
+        jsr _c2e4ed
+        ldx #$43da
         ldy #$2812
         jsr _c2e4ed
         lda #$b1e0
@@ -1656,6 +1710,7 @@ _ab4c:  jsr _c2a67a
         lda #$04
         tsb $ca
         jsr _c2a693
+        .a8
         rts
 
 _c2ab91:
@@ -1698,6 +1753,7 @@ _c2abd1:
         lda #$b254
         jsr _c2c1b8
         jsr _c2a698
+        .a8
         rts
 
 _c2abdb:
@@ -1707,8 +1763,9 @@ _c2abdb:
 _c2abdf:
         .a16
         lda #$b3a9
-        jsr $c1b8
-        jsr $a698
+        jsr _c2c1b8
+        jsr _c2a698
+        .a8
         lda #$08
         trb $7506
         lda #$04
@@ -1723,6 +1780,7 @@ _c2abf2:
         lda $50
         sta $53
 @abfd:  jsr _c2a698
+        .a8
         rts
 
 _c2ac01:
@@ -1734,10 +1792,12 @@ _c2ac01:
         rts
 
 _c2ac0e:
+        .a16
         lda #$b3b4
         jsr _c2c1b8
         jsr _c2c7bd
         jsr _c2a69d
+        .a8
         jsr _c2e367
         rts
 
@@ -1748,6 +1808,7 @@ _c2ac1e:
         stz $7528
         jsr _ac5e
         jsr _c2a698
+        .a8
         lda $2889
         beq @ac5d
         lda $6f
@@ -1756,6 +1817,8 @@ _c2ac1e:
         sec
         sbc $6b
         bmi @ac55
+        cmp #$0016
+        bpl @ac55
         clc
         adc #$0004
         jsr _c2c0c9
@@ -1821,16 +1884,20 @@ _c2ac90:
 @acc2:  rts
 
 _c2acc3:
+        .a16
         lda #$b434
         jsr _c2c1b8
         jsr _c2a693
+        .a8
         jsr _c2a69d
+        .a8
         ldx $7e
         lda $63,x
         sta $53
         rts
 
 _c2acd6:
+        .a16
         lda #$b499
         jsr _c2c1b8
         lda #$b4a4
@@ -1842,18 +1909,22 @@ _c2acd6:
         lda $c0f3b3,x
         jsr _c2c1b8
         jsr _c2a693
+        .a8
         jsr _c2a698
+        .a8
         ldx $7e
         lda $50
         sta $63,x
         rts
 
 _c2acff:
+        .a16
         lda #$b3fe
         jsr _c2c1b8
         jsr _c2de3e
         jsr _c2df4d
         jsr _c2a69d
+        .a8
         lda $54
         cmp #$13
         bne @ad37
@@ -1875,14 +1946,17 @@ _c2acff:
         jsr _c2e6ab     ; update cursor sprite
 @ad37:  jsr _c2c6ba
         jsr _c2a698
+        .a8
         rts
 
 ; ---------------------------------------------------------------------------
 
 _c2ad3e:
+        .a16
 _ad3e:  lda #$b413
-        jsr _c2cab8
-        jsr _c2a69d     ; (this does a shorta)
+        jsr _c2c1b8
+        jsr _c2a69d
+        .a8
         lda $51
         cmp #$13
         bne @ad5a
@@ -1898,6 +1972,7 @@ _ad3e:  lda #$b413
 
 _c2ad5b:
 _ad5b:
+        .a16
         lda $29e2
         and #$00ff
         cmp #$0006
@@ -1930,6 +2005,7 @@ _ad5b:
         lda #$7e31
         jsr _c2e4ed
 @ada4:  jsr _c2a69d
+        .a8
         bra @adaf
 @ada9:  shorta
         lda $50
@@ -1939,34 +2015,38 @@ _ad5b:
 ; ---------------------------------------------------------------------------
 
 _c2adb0:
-_adb0:  lda #$1e
-        ldy $20,x
-        clv
-        cmp ($20,x)
-        rol $20de,x
-        eor $a2df
-        cpx $a0b8
-        bra @ae33
-        jsr _c2c1fd
-        jsr _c2a69d
-        stz $2b66
-        rts
-        lda #$29
-        ldy $20,x
-        clv
-        cmp ($a2,x)
-        inc $b8
+        .a16
+        lda #$b41e
+        jsr _c2c1b8
+        jsr _c2de3e
+        jsr _c2df4d
+        ldx #$b8ec
         ldy #$7180
         jsr _c2c1fd
         jsr _c2a69d
+        .a8
+        stz $2b66
         rts
-        lda #$fe
-        lda ($20)
-        clv
-        cmp ($20,x)
-        lda $20c7,x
-        sta $a9a6,x
-        php
+
+_c2adcc:
+        .a16
+        lda #$b429
+        jsr _c2c1b8
+        ldx #$b8e6
+        ldy #$7180
+        jsr _c2c1fd
+        jsr _c2a69d
+        .a8
+        rts
+
+_c2addf:
+        .a16
+        lda #$b2fe
+        jsr _c2c1b8
+        jsr _c2c7bd
+        jsr _c2a69d
+        .a8
+        lda #$08
         tsb $7500
         lda #$1c
         tsb $7502
@@ -1982,11 +2062,13 @@ _adb0:  lda #$1e
         lda #$07
         jsr _c2eee7
         rts
-        lda #$10
-        lda ($20,s),y
-        clv
-        cmp ($e2,x)
-        jsr $08a9
+
+_c2ae11:
+        .a16
+        lda #$b310
+        jsr _c2c1b8
+        shorta
+        lda #$08
         trb $7500
         stz $7502
         stz $7505
@@ -1995,19 +2077,26 @@ _adb0:  lda #$1e
         lda #$04
         tsb $ca
         jsr _c2a698
+        .a8
         rts
+
+_c2ae31:
+        .a16
         lda $55
-@ae33:  and #$0f
-        brk $c9
-        ora #$00
+@ae33:  and #$000f
+        cmp #$0009
         beq @ae40
         jsr _c2f3f6
         bra @ae43
 @ae40:  jsr _c2f450
 @ae43:  jsr _c2faf0
         rts
+
+_c2ae47:
         stz $2b6e
         rts
+
+_c2ae4b:
         shorta
         lda $2b6f
         beq @ae5b
@@ -2088,44 +2177,46 @@ _ae6f:  jsr _c2b2bd
         lda #$03
         sta $7513
         jsr _c2a698
+        .a8
         jsr _c2fad4     ; copy sprite data to vram
         jsr _c2faf0
+        lda #$0c
+        tsb $7500
+        tsb $7502
         lda #$02
         trb $7500
         lda #$04
         tsb $ca
         jsr _c2a69d
+        .a8
         rts
 
 ; ---------------------------------------------------------------------------
 
 _c2af1b:
+        .a16
 _af1b:  phb
         php
         ldx #$f384
         jsr _c2d04c
         ldx $8e
 @af25:  lda $0242,x
-        ora #$00
-        jsr $429d
-        cop $bd
-        jsl $06f002
-        ora #$00
-        jsr $229d
-        cop $e8
-        inx3
+        ora #$2000
+        sta $0242,x
+        lda $0222,x
+        beq @af39
+        ora #$2000
+        sta $0222,x
+@af39:  inx4
         cpx #$0020
         bne @af25
-        lda #$0d
-        lda $20,x
-        clv
-        cmp ($a2,x)
-        ror
-        sbc ($49,s),y
-        ora ($00),y
+        lda #$b50d
+        jsr _c2c1b8
+        ldx #$f36a
+        lda #$0011
         jsr _c2da9d
         stz $7e
-        lda $7e
+@af53:  lda $7e
         asl
         tax
         lda $c0f362,x
@@ -2134,10 +2225,10 @@ _af1b:  phb
         lda $7e
         inc
         sta $7e
-        cmp #$04
-        brk $d0
-        inx
+        cmp #$0004
+        bne @af53
         jsr _c2a693
+        .a8
         longa
         jsr _c2fad4     ; copy sprite data to vram
         jsr _c2faf0
@@ -2151,16 +2242,19 @@ _af1b:  phb
         plp
         plb
         rts
+
+_c2af87:
+        .a16
         lda $71
-        and #$0f
-        brk $85
-        ror $c520,x
-        pei ($49)
-        clc
-        lda $20,x
-        clv
-        cmp ($20,x)
-        sta ($a6,s),y
+        and #$000f
+        sta $7e
+        jsr _c2d4c5
+
+_c2af91:
+        lda #$b518
+        jsr _c2c1b8
+        jsr _c2a693
+        .a8
         stz $7510
         longa
         ldx $8e
@@ -2261,6 +2355,8 @@ _af1b:  phb
         longa
         jsr _c2af91
         rts
+
+_c2b079:
         lda #$b7e9
         jsr _c2c1b8
         ldx #$ea04
@@ -2302,22 +2398,25 @@ _c2b0d6:
 _b0d6:  lda #$b739
         jsr _c2c1b8
         jsr _c2a693
-        lda #$1c02
-        brk $75
-        lda #$1c04
-        ora #$a975
-        jsr _c20e1c
-        adc $a9,x
-        tsb $04
-        dex
+        .a8
+        lda #$02
+        trb $7500
+        lda #$04
+        trb $7509
+        lda #$20
+        trb $750e
+        lda #$04
+        tsb $ca
         jsr _c2a16e     ; reset sprite data
         jsr _c2fad4     ; copy sprite data to vram
         jsr _c2e66f
-        lda #$8f00
-        bpl $b121
-        brk $8f
-        bpl $b125
-        brk $60
+        lda #$00
+        sta f:$002110
+        sta f:$002110
+        rts
+
+_c2b106:
+        .a16
         lda #$b710
         jsr _c2c1b8
         lda #$0014
@@ -2348,11 +2447,15 @@ _b0d6:  lda #$b739
         bmi @b114
         lda #$0000
         jsr _c2b154
-        lda #$850e
-        bvc @b1b4
+        lda #$0e
+        sta $50
+        rts
+
+_c2b154:
         shorta
         tsb $750e
         jsr _c2a693
+        .a8
         lda #$02
         tsb $7500
         lda #$04
@@ -2395,7 +2498,7 @@ _c2b19a:
         inc $2c94
         lda $2c94
         cmp #$002f
-        bmi $b1af
+        bmi @b1af
         lda #$b77a
         jsr _c2c1b8
         lda #$0020
@@ -2648,6 +2751,7 @@ _b302:  lda $6f
         jsr _c2d4db
         stz $ca
         jsr _c2a698
+        .a8
         lda $6f
         sta f:$0000
         lda $70
@@ -2820,6 +2924,7 @@ _b4d7:  longa
         jsr _c2e973
         jsr _c2cfa4
         jsr _c2a698
+        .a8
         jsr _c2c0e2
         stz $7510
         lda $6f
@@ -2902,6 +3007,7 @@ _b521:  lda $6f
         jsr _c2e66f
         stz $ca
         jsr _c2a698
+        .a8
         jsr _c2daa4
         phx
         ldx $7e
@@ -2927,6 +3033,7 @@ _b521:  lda $6f
         lda #$2b
         lda $c1b820
         jsr _c2a693
+        .a8
         lda #$02
         tsb $7500
         lda #$04
@@ -2966,6 +3073,8 @@ _b521:  lda $6f
         jsr _c2fad4     ; copy sprite data to vram
         stz $6f
         jmp $a4f0
+
+_c2b676:
         php
         shorta
         lda $0973
@@ -2977,10 +3086,11 @@ _b521:  lda $6f
 @b687:  lda #$aed9
 @b68a:  jsr _c2c1b8
         jsr _c2a693
-        lda #$0c02
-        brk $75
-        lda #$0404
-        dex
+        .a8
+        lda #$02
+        tsb $7500
+        lda #$04
+        tsb $ca
         jsr _c2e658
         jsr _c2b2bd
         jsr _c2daa4
@@ -2988,18 +3098,21 @@ _b521:  lda $6f
         inc $0420,x
         jsr _c2e6d6
         lda $0973
-        and #$d001
-        asl $20
-        lda $20fa
-        adc #$28f8
+        and #$01
+        bne @b6b7
+        jsr _c2faad
+        jsr _c2f869
+@b6b7:  plp
         rts
+
+_c2b6b9:
         lda $74
-        cmp #$f003
-        ora [$c9]
-        tsb $f0
-        bmi @b710
-        beq @b66a
-        lda $55
+        cmp #$03
+        beq @b6c6
+        cmp #$04
+        beq @b6f3
+        jmp _c2a4f0
+@b6c6:  lda $55
         sta $6f
         stz $70
         jsr _c2e178
@@ -3010,22 +3123,23 @@ _b521:  lda $6f
         beq @b6e0
         jsr _c2e0c0     ; play sound effect (error)
         bra @b6e8
-@b6e0:  lda #$eb01
+@b6e0:  lda #$01
+        xba
         lda $73
         jsr _c2e2ce
 @b6e8:  jsr _c2e18f
         jsr _c2b7a0
         stz $6f
         jmp _c2a4f0
-        lda $55
+@b6f3:  lda $55
         sta $6f
         stz $70
         lda $6f
-        cmp #$1003
-        ora $20
-        sta [$ed]
+        cmp #$03
+        bpl @b704
+        jsr _c2ed87
         bra @b707
-        jsr _c2ed5e
+@b704:  jsr _c2ed5e
 @b707:  ldx $75
         beq @b745
         jsr _c2e66f
@@ -3049,6 +3163,7 @@ _b521:  lda $6f
         sta $020a
         jsr _c2c0e2
         jsr _c2a69d
+        .a8
         lda #$0a
         jmp _c2a47c
 @b745:  jsr _c2e0c0
@@ -3071,7 +3186,7 @@ _b521:  lda $6f
 @b76a:  beq @b791
 @b76c:  lda #$00
         jmp _c2a47c
-        jsr _c2daa4
+@b771:  jsr _c2daa4
         jsr _c2e66f
         jsr _c2b7a0
         bra @b791
@@ -3088,10 +3203,13 @@ _b521:  lda $6f
         stz $74
         lda #$01
         jmp _c2a06b
+
+_c2b7a0:
 @b7a0:  jsr _c2e76c
         jsr _c2cac8
         jsr _c2cc9e
         jsr _c2a698
+        .a8
         rts
         jsr _c2e0f7
         lda $90
@@ -3106,7 +3224,8 @@ _b521:  lda $6f
         lda $73
         jsr _c2e2ce
         jsr _c2e1a6
-        lda #$eb01
+        lda #$01
+        xba
         lda $72
         jsr _c2e328
         jsr _c2e18f
@@ -3121,28 +3240,36 @@ _b521:  lda $6f
         stz $72
         lda $6f
         dec
-        and #$4c07
-        jmp ($20a4,x)
-        cpy #$4ce0
-        beq @b7a0
+        AND #$07
+        jmp _c2a47c
+@b7f6:  jsr _c2e0c0
+        jmp _c2a4f0
+
+_c2b7fc:
         longa
         lda #$b005
         jsr _c2c1b8
         jsr _c2a698
+        .a8
         stz $70
         lda $6f
         dec
-        and #$4c07
-        jmp ($a5a4,x)
-        adc ($1a),y
-        and #$8503
-        adc ($85),y
-        ror $7f64,x
-        jsr $d4c5
+        and #$07
+        jmp _c2a47c
+
+_c2b811:
+@b811:  lda $71
+        inc
+        and #$03
+        sta $71
+        sta $7e
+        stz $7f
+        jsr _c2d4c5
         ldx $80
         lda $0500,x
-        and #$d040
-        sbc #$20c2
+        and #$40
+        bne @b811
+        longa
         lda #$b095
         jsr _c2c1b8
         lda #$b0d3
@@ -3150,35 +3277,39 @@ _b521:  lda $6f
         jsr _c2c8a0
         jsr _c2fad4     ; copy sprite data to vram
         jsr _c2a698
+        .a8
         jsr _c2a69d
+        .a8
         jmp _c2a4f0
-        jsr _c2b2bd
-        lda #$4c01
-        rtl
 
-        ldy #$55a5
-        cmp #$f001
-        phd
-        cmp #$f001
-        phd
-        cmp #$f002
-        clc
-        cmp #$f003
-        asl $f04c,x
-        ldy $9c
-        tsb $28
+_c2b845:
+        jsr _c2b2bd
+        lda #$01
+        jmp _c2a06b
+        lda $55
+        cmp #$01
+        beq @b85e
+        cmp #$02
+        beq @b86f
+        cmp #$03
+        beq @b879
+        jmp _c2a4f0
+@b85e:  stz $2804
         lda $2802
         bmi @b86a
-        lda #$8003
-        cop $a9
-        bpl @b8b9
-        jmp ($a9a4,x)
-        bra @b7ff
-        tsb $28
-        lda #$4c18
-        jmp ($4ca4,x)
-        and $a5a0
-        eor $3a,x
+        lda #$03
+        bra @b86c
+@b86a:  lda #$10
+@b86c:  jmp _c2a47c
+@b86f:  lda #$80
+        sta $2804
+        lda #$18
+        jmp _c2a47c
+@b879:  jmp CommonReturn
+
+_c2b87c:
+        lda $55
+        dec
         sta $2807
         stz $2808
         ldx $2807
@@ -3199,7 +3330,7 @@ _b521:  lda $6f
         lda $2830,y
         sta $280e
         rts
-        jsr $b87c
+        jsr _c2b87c
         jsr _c2f070
         shorta
         lda $2813
@@ -3238,15 +3369,19 @@ _b521:  lda $6f
         lda #$b349
         jsr _c2c1b8
         jsr _c2a698
-        lda #$2000
-        sbc $20ee,x
-        cli
-        inc $4c
-        and $a9a0
-        brk $4c
-        jmp ($ada4,x)
-        ora $8d28,x
-        ora $28,x
+        .a8
+        lda #$00
+        jsr _c2eefd
+        jsr _c2e658
+        jmp CommonReturn
+
+_c2b91d:
+        lda #$00
+        jmp _c2a47c
+
+_c2b922:
+        lda $281d
+        sta $2815
         sta $0947
         lda $281e
         sta $2816
@@ -3330,55 +3465,63 @@ _b948:  lda #$0001
         lda #$0000
         jsr _c2eee7
         jmp _c2a4f0
-        lda #$4c00
-        jmp ($64a4,x)
-        adc $a97064
-        brk $8d
-        bit #$a528
-        eor $c9,x
-        ora ($f0,x)
-        phd
-        cmp #$f003
-        inc
-        cmp #$f004
-        and $4c,s
-        beq @b9c8
-        lda $0973
-        and #$d004
-        tsb $a9
-        tsb $80
-        ora $a5
-        tcd
-        clc
-        adc #$4c04
-        jmp ($c2a4,x)
-        jsr $0220
-        cpx #$0e20
-        ldy a:$00a9
+        .a8
+
+_c2ba05:
+        lda #$00
         jmp _c2a47c
-        longa
+        stz $6f
+        stz $70
+        lda #$00
+        sta $2889
+        lda $55
+        cmp #$01
+        beq @ba24
+        cmp #$03
+        beq @ba37
+        cmp #$04
+        beq @ba44
+        jmp _c2a4f0
+@ba24:  lda $0973
+        and #$04
+        bne @ba2f
+        lda #$04
+        bra @ba34
+@ba2f:  lda $5b
+        clc
+        adc #$04
+@ba34:  jmp _c2a47c
+@ba37:  longa
+        jsr _c2e002
+        jsr _c2ac0e
+        lda #$00
+        jmp _c2a47c
+@ba44:  longa
         lda #$b3b4
         jsr _c2c1b8
         lda #$b360
         jsr _c2c1b8
         jsr _c2c73d
         jsr _c2a69d
+        .a8
         jsr _c2a698
-        lda #$8d01
-        ora $2d,x
+        .a8
+        lda #$01
+        sta $2d15
         jmp _c2a4f0
         lda $2d15
         beq @ba75
         stz $2d15
         longa
         jsr _c2ac0e
-        lda #$4c00
-        jmp ($20a4,x)
-        lda $a9b2,x
-        ora ($4c,x)
-        rtl
-        ldy #$89ad
-        plp
+        lda #$00
+        jmp _c2a47c
+@ba75:  jsr _c2b2bd
+        lda #$01
+        jmp _c2a06b
+
+_c2ba7d:
+        lda $2889
         bne @baa1
         longa
         lda $55
@@ -3428,6 +3571,7 @@ _b948:  lda #$0001
         jsr _c2c0e2
         jsr _c2c7bd
         jsr _c2a69d
+        .a8
         stz $6f
         stz $70
         stz $2889
@@ -3445,7 +3589,7 @@ _b948:  lda #$0001
         plx
         lda $29e7
         bne @bb15
-@bb12:  jmp _c2bbac
+@bb12:  jmp @bbac
 @bb15:  lda #$40
         sta $29e6
         lda $7b00,x
@@ -3466,7 +3610,7 @@ _b948:  lda #$0001
         bmi @bb47
         cmp #$00fc
         bpl @bb47
-        bra _bb66
+        bra @bb66
 @bb47:  asl
         tax
         lda $d000,x
@@ -3482,9 +3626,8 @@ _b948:  lda #$0001
         sta $5c
         lda #$1c
         jmp _c2a47c
-
         .a16
-_bb66:  and #$00ff
+@bb66:  and #$00ff
         sec
         sbc #$00f8      ; subtract 248 from item index
         tax
@@ -3498,6 +3641,7 @@ _bb66:  and #$00ff
         jsr _c2e328
         jsr _c2c7bd
         jsr _c2a69d
+        .a8
         bra @bbeb
 @bb90:  sta $39
         stz $3a
@@ -3511,7 +3655,7 @@ _bb66:  and #$00ff
 @bba6:  stz $39
         stz $3a
         bra @bbeb
-        lda $7a00,x
+@bbac:  lda $7a00,x
         longa
         and #$00ff
         beq @bbeb
@@ -3543,7 +3687,7 @@ _bb66:  and #$00ff
         jsr _c2c0e2
         jmp _c2a4f0
         lda $2889
-        bne _c2bc14
+        bne @bc14
         stz $6f
         stz $70
         stz $2889
@@ -3554,7 +3698,7 @@ _bb66:  and #$00ff
         sta $5c
         lda #$00
         jmp _c2a47c
-        stz $6f
+@bc14:  stz $6f
         stz $70
         stz $2889
         stz $7510
@@ -3700,7 +3844,7 @@ _bd3d:  lda $53
         jmp _c2a47c
         lda $55
         cmp #$05
-        bpl _c2bd72
+        bpl @bd72
         dec
         sta $6f
         lda $53
@@ -3717,7 +3861,7 @@ _bd3d:  lda $53
         stz $2d13
         lda #$04
         jmp _c2a47c
-        cmp #$09
+@bd72:  cmp #$09
         beq @bd90
         dec
         and #$03
@@ -3763,6 +3907,7 @@ _c2bdc6:
         sta $2b65
         jsr _c2c4da
         jsr _c2a69d
+        .a8
         lda #$03
         jmp _c2a47c
 @bddb:  ldx $8e
@@ -3799,6 +3944,7 @@ _c2bdc6:
         lda #$0006
         jsr _c2e59d
         jsr _c2a698
+        .a8
 @be2b:  jmp _c2a4f0
 
 ; ---------------------------------------------------------------------------
@@ -3806,15 +3952,16 @@ _c2bdc6:
 _c2be2e:
 _be2e:  ldx $2b92
         lda $0990,x
-        cmp #$f0ff
-        ora [$a9]
-        sbc $09909d,x
+        cmp #$ff
+        beq @be3f
+        lda #$ff
+        sta $0990,x
         bra @be4a
-        cpx #$0000
+@be3f:  cpx #$0000
         beq @be4a
         dex
-        lda #$9dff
-        bcc $be53
+        lda #$ff
+        sta $0990,x
 @be4a:  stx $2b92
         jsr _c2c551
         longa
@@ -3823,6 +3970,7 @@ _be2e:  ldx $2b92
         lda #$0006
         jsr _c2e59d
         jsr _c2a698
+        .a8
         jmp _c2a4f0
         longa
         lda $2815
@@ -3921,7 +4069,7 @@ _c2bf2e:
 _bf2e:  lda $55
         cmp #$01
         beq @bf37
-        jmp _c2bf37
+        jmp _c2bf89
 @bf37:  lda $2d13
         bne @bf47
         jsr _c2bef7     ; save sram
@@ -3991,6 +4139,7 @@ _bf9d:  jsr _c2dc1b
         shorta
         jsr _c2af1b
         jsr _c2a698
+        .a8
         ldx #$0005
         jsr _c2e65b
         longa
@@ -4005,8 +4154,10 @@ _bf9d:  jsr _c2dc1b
         jsr _c2daef
         jsr _c2c7bd
         jsr _c2a69d
+        .a8
         jsr _c2af1b
         jsr _c2a698
+        .a8
         ldx #$0005
         jsr _c2e65b
         lda $29e8
@@ -4045,11 +4196,16 @@ _bf9d:  jsr _c2dc1b
         cpx #$0004
         bne @c031
         stz $71
-        lda #$4c1b
-        jmp ($a9a4,x)
-        ora $4c,s
-        jmp ($a9a4,x)
-        brk $eb
+        lda #$1b
+        jmp _c2a47c
+
+_c2c041:
+        lda #$03
+        jmp _c2a47c
+
+_c2c046:
+        lda #$00
+        xba
         lda $55
         dec
         tax
@@ -4059,36 +4215,43 @@ _bf9d:  jsr _c2dc1b
         beq @c05b
         jmp _c2a47c
 @c05b:  jmp _c2a4f0
+
+_c2c05e:
         jsr _c2f71c     ; update config settings
         jsr _c2b2bd
-        lda #$4c01
-        rtl
-        ldy #$f04c
-        ldy $49
-        ora #$7c4c
-        ldy $a5
-        eor $c9,x
-        ora ($f0,x)
-        ora $4c,s
-        beq @c01e
-        ldx $8e
+        lda #$01
+        jmp _c2a06b
+
+_c2c069:
+        jmp _c2a4f0
+
+_c2c06c:
+        lda #$09
+        jmp _c2a47c
+
+_c2c071:
+        lda $55
+        cmp #$01
+        beq @c07b
+        jmp _c2a4f0
+@c07b:  ldx $8e
         txa
 @c07d:  ora $2ca9,x
         inx
         cpx #$0007
         bmi @c07d
-        and #$c9fc
-        jsr ($0bd0,x)
+        and #$fc
+        cmp #$fc
+        bne @c097
         jsr _c2f71c     ; update config settings
         jsr _c2ff7d     ; update joypad config
-        lda #$4c08
-        jmp ($20a4,x)
-        cpy #$c2e0
-        jsr _c2d2a9
-        lda [$20],y
-        clv
-        cmp ($20,x)
-        sta ($a6,s),y
+        lda #$08
+        jmp _c2a47c
+@c097:  jsr _c2e0c0
+        longa
+        lda #$b7d2
+        jsr _c2c1b8
+        jsr _c2a693
         jsr _c2a16e     ; reset sprite data
         jsr _c2fad4     ; copy sprite data to vram
         ldx #$0078
@@ -4098,6 +4261,8 @@ _bf9d:  jsr _c2dc1b
         shorta
         lda $53
         jmp _c2a47c
+
+_c2c0bd:
         jmp _c2a4f0
 
 ; ---------------------------------------------------------------------------
@@ -4106,11 +4271,15 @@ _bf9d:  jsr _c2dc1b
 
 _c2c0c0:
 _c0c0:  ldy $8e
-        bra @c0cc
+        bra _c0cc
+
+_c2c0c4:
         ldy #$fc04
-        bra @c0cc
+        bra _c0cc
+
+_c2c0c9:
         ldy #$ff02
-@c0cc:  jsr $e4e1       ; get pointer to cursor data
+_c0cc:  jsr _c2e4e1       ; get pointer to cursor data
         php
         longa
         tya
@@ -4137,6 +4306,7 @@ _c0e2:  php
 _c2c0ed:
 _c0ed:  jsr _c2f5c0
         jsr _c2a693
+        .a8
         jsr _c2e66f
         rts
         lda $6f
@@ -4215,22 +4385,18 @@ _c16a:  phb
         lda #$0017
         mvn $7e,$c0
         ldx $8e
-@c183:  lda $c0f5cf,x   ; mvn destination address (+$7E0000)
+_c183:  lda $c0f5cf,x   ; mvn destination address (+$7E0000)
         sta $e6
         phx
         lda $c0e7e7,x   ; jump address
         sta $c7
         lda $2bdc,x     ; pointer to data
-        per $c198
+        per @c199-1
         jmp ($01c7)
-
-; ---------------------------------------------------------------------------
-
-_c2c199:
-_c199:  plx
+@c199:  plx
         inx2
         cpx #$0018
-        bne @c183
+        bne _c183
         plb
         jsr _c2a18a
         rts
@@ -4256,13 +4422,14 @@ _c1a6:  phb
 ; [ load menu tilemap ]
 
 _c2c1b8:
+        .a16
 _c1b8:  phb
         pea $c3c3
         plb
         plb
         tax
         beq @c1ed
-        pea $c3c3
+@c1c1:  pea $c3c3
         plb
         plb
         lda f:$0000,x
@@ -4286,7 +4453,7 @@ _c1b8:  phb
         jsr ($ffea,x)
         plp
         plx
-        bra _c2c1c1
+        bra @c1c1
 @c1ed:  pea $7e7e
         plb
         plb
@@ -4347,13 +4514,13 @@ _c2c242:
 _c242:  pha
         php
         lda $e3
-        and #$3f
-        brk $eb
+        and #$003f
+        xba
         lsr2
         sta $e8
         lda $e2
-        and #$1f
-        brk $0a
+        and #$001f
+        asl
         clc
         adc $e8
         clc
@@ -4365,12 +4532,16 @@ _c242:  pha
 
 _c2c25f:
 _c25f:  stz $e0
+
+_c2c261:
         lda $e0
         ldy #$1000
 @c266:  dey2
         sta ($e6),y
         bne @c266
         rts
+
+_c2c26d:
         lda $e0
         sta $e6
         rts
@@ -4381,6 +4552,8 @@ _c272:  sta f:$0000,x
         dey
         bne _c272
         rts
+
+_c2c27b:
 @c27b:  dey2
         dec
         sta f:$0000,x
@@ -4392,6 +4565,7 @@ _c272:  sta f:$0000,x
         rts
 
 _c2c28c:
+        .a16
 _c28c:  pha
         ldy $8e
 @c28f:  lda $01,s
@@ -4402,22 +4576,22 @@ _c28c:  pha
         beq @c2a2
         tya
         clc
-        adc #$40
-        brk $a8
+        adc #$0040
+        tay
         bra @c28f
 @c2a2:  pla
         rts
 
 _c2c2a4:
+        .a16
 _c2a4:  jsr _c2c242
         lda $e5
-        and #$ff
-        brk $85
-        nop
+        and #$00ff
+        sta $ea
         ldx $e8
         lda $e4
-        and #$7f
-        brk $a8
+        and #$007f
+        tay
 @c2b6:  phx
         phy
         lda $e0
@@ -4428,14 +4602,16 @@ _c2a4:  jsr _c2c242
         beq @c2cb
         txa
         clc
-        adc #$40
-        brk $aa
+        adc #$0040
+        tax
         bra @c2b6
 @c2cb:  rts
+
+_c2c2cc:
         jsr _c2c2e8
-        lda #$ff
-        brk $85
-        cpx #$20e2
+        lda #$00ff
+        sta $e0
+        shorta
         inc $e2
         inc $e3
         dec $e4
@@ -4457,7 +4633,7 @@ _c2e8:  jsr _c2c242
         and #$003f
         tay
         lda $e0
-        jsr $c27b
+        jsr _c2c27b
         txa
         clc
         adc #$0040
@@ -4478,8 +4654,10 @@ _c2e8:  jsr _c2c242
         and #$003f
         tay
         lda #$0007
-        jsr @c27b
+        jsr _c2c27b
         rts
+
+_c2c32d:
         jsr _c242
         lda $e0
         and #$00ff
@@ -5092,7 +5270,7 @@ _c7bd:  phb
         lda $6b
         and #$00ff
         tay
-        lda $c0ed8f,x
+@c7df:  lda $c0ed8f,x
         phx
         phy
         tyx
@@ -5103,7 +5281,7 @@ _c7bd:  phb
         inx2
         iny
         cpx #$0030
-        bne $c7df
+        bne @c7df
         ldx #$f250
         ldy #$298a
         lda #$0015
@@ -5197,14 +5375,11 @@ _c8a0:  shorta
         jsr _c2c954
         ldy $80
         lda $051a,y
-        and #$7f
-        brk $f0
-        ora $a9
-        plp
-        tsc
+        and #$007f
+        beq @c8bc
+        lda #$3b28
         bra @c8bf
-        lda #$3c
-        tsc
+@c8bc:  lda #$3b3c
 @c8bf:  jsr _c2c8de
         ldx $8e
         ldy $80
@@ -5277,18 +5452,20 @@ _c8de:  phb
         rts
 
 _c2c941:
+        .a16
 _c941:  php
         lda $80
         clc
-        adc #$00
-        ora $aa
+        adc #$0500
+        tax
         ldy #$2700
-        lda #$45
-        brk $54
-        ror $287e,x
+        lda #$0045
+        mvn $7e,$7e
+        plp
         rts
 
 _c2c954:
+        .a16
 _c954:  phb
         php
         longa
@@ -5557,37 +5734,36 @@ _cac8:  phb
 _c2cb8c:
 _cb8c:  lda $99
         clc
-        adc #$80
-        brk $85
-        sta $c260,y
-        jsr _c2dfad
-        bit $ff29
-        brk $f0
-        asl $a2
-        plp
-        eor ($20,s),y
-        sbc ($cb,x)
-        lda $2ce0
-        and #$ff
-        brk $f0
-        asl $a2
-        tay
-        eor ($20,s),y
-        sbc ($cb,x)
-        ldx $8e
+        adc #$0080
+        sta $99
+        rts
+
+_c2cb95:
+        longa
+        lda $2cdf
+        and #$00ff
+        beq @cba5
+        ldx #$5328
+        jsr _c2cbe1
+@cba5:  lda $2ce0
+        and #$00ff
+        beq @cbb3
+        ldx #$53a8
+        jsr _c2cbe1
+@cbb3:  ldx $8e
 @cbb5:  phx
         lda $c0ea44,x
         sta $e6
         lda $2ce1,x
         pha
-        and #$0f
-        brk $0a
+        and #$000f
+        asl
         tax
         lda $c0ea3e,x
         jsr _c2c1b8
         pla
-        and #$00
-        sbc f:$000409,x
+        and #$ff00
+        ora #$0004
         ldx $e6
         jsr _c2d6dc
         plx
@@ -5595,15 +5771,19 @@ _cb8c:  lda $99
         cpx #$0004
         bne @cbb5
         rts
+
+_c2cbe1:
         phx
         asl
         tax
         lda $7ed600,x
         tay
         plx
-        lda #$08
-        cmp ($20),y
-        sta $60e5,x
+        lda #$d108
+        jsr _c2e59d
+        rts
+
+_c2cbf1:
         cmp #$80
         bne @cbf7
         lda #$00
@@ -6446,7 +6626,7 @@ _d230:  phb
 
 _c2d25b:
 _d25b:  ldx $8e
-        phx
+@d25d:  phx
         lda $c0ecc3,x
         sta $e0
         lda $c0ecc5,x
@@ -6463,7 +6643,7 @@ _d25b:  ldx $8e
         adc #$000a
         tax
         cpx #$001e
-        bne $d25d
+        bne @d25d
         jsr _c2d34c
         ldx #$b9a0
         ldy #$9080
@@ -6549,16 +6729,16 @@ _d304:  phb
         adc $8e
         and #$00ff
         cmp #$00d4
-        beq $d33a
+        beq @d33a
         cmp #$00d3
         beq @d332
         lda #$001f
         mvn $7e,$d2
-        bra $d340
+        bra @d340
 @d332:  lda #$001f
         mvn $7e,$d3
         bra @d340
-        lda #$001f
+@d33a:  lda #$001f
         mvn $7e,$d4
 @d340:  plx
         inx4
@@ -6660,6 +6840,7 @@ _d388:  phb
 ; [  ]
 
 _c2d3db:
+        .a16
 _d3db:  phb
         php
         longa
@@ -6695,16 +6876,17 @@ _d3db:  phb
         plb
         rts
 
+; ---------------------------------------------------------------------------
+
 _c2d42e:
-_d42e:  lda #$04
-        brk $85
-        inx
+        .a16
+_d42e:  lda #$0004
+        sta $e8
         ldy #$7300
 @d436:  ldx #$f827
-        lda #$3f
-        brk $54
-        ror $c6c0,x
-        inx
+        lda #$003f
+        mvn $7e,$c0
+        dec $e8
         bne @d436
         jsr _c2d447     ; update window color
         rts
@@ -6714,6 +6896,7 @@ _d42e:  lda #$04
 ; [ update window color ]
 
 _c2d447:
+        .a16
 _d447:  php
         longa
         ldy $8e
@@ -6780,15 +6963,16 @@ _d492:  phb
         rts
 
 _c2d4b4:
+        .a16
 _d4b4:  tya
-        and #$07
-        brk $eb
+        and #$0007
+        xba
         lsr3
         clc
-        adc #$00
-        stz $a8,x
-        lda #$1f
-        brk $60
+        adc #$7400
+        tay
+        lda #$1f00
+        rts
 
 _c2d4c5:
 _d4c5:  phx
@@ -6870,14 +7054,20 @@ _d533:  ldx $80
         lda #$0006
         jsr _c2e59d
         rts
+
+_c2d54a:
         ldx $80
         lda $051a,x
         and #$007f
-        bne @d55c
+        bne _d55c
+
+_c2d554:
         ldx $80
         lda $0501,x
         jsr _c2e4c7
-@d55c:  rts
+_d55c:  rts
+
+_c2d55d:
         lda $7e
         and #$0003
         asl
@@ -6888,6 +7078,8 @@ _d533:  ldx $80
         lda #$0021
         jsr _c2e4ed
         rts
+
+_c2d571:
         tyx
         lda $d8
         cmp #$0015
@@ -7007,10 +7199,13 @@ _d5db:  lda #$7e42
         rts
 
 _c2d658:
+        .a16
 _d658:  ldy #$0947
-        lda #$73
-        brk $20
-        sbc $60e4
+        lda #$0073
+        jsr _c2e4ed
+        rts
+
+_c2d662:
         php
         shorta
         lda #$3c
@@ -7107,12 +7302,12 @@ _d6dc:  phb
 ; ---------------------------------------------------------------------------
 
 _c2d717:
+        .a16
 _d717:  phb
         php
         lda $2b63
-        and #$0f
-        brk $0a
-        asl
+        and #$000f
+        asl2
         tax
         lda $c0f316,x
         phx
@@ -7123,40 +7318,41 @@ _d717:  phb
         ldy #$7100
         jsr _c2c1fd
         lda $2b63
-        and #$0f
-        brk $0a
-        asl2
+        and #$000f
+        asl3
         tax
-        lda #$04
-        brk $85
-        sta $a4
-        bra $d707
-        jsl $f0c0f3
-        ora #$da
+        lda #$0004
+        sta $85
+        ldy $80
+@d747:  lda $c0f322,x
+        beq @d756
+        phx
         tax
         lda $0516,y
         jsr _c2d8e4
         plx
-        inx2
+@d756:  inx2
         iny
         dec $85
-        bne $d747
+        bne @d747
         plp
         plb
         rts
 
 _c2d760:
-_d760:  lda #$53
-        ldx $b820
-        cmp ($a5,x)
-        eor $29,x
-        sbc $183a00,x
+        .a16
+        lda #$ae53
+        jsr _c2c1b8
+        lda $a5
+        and #$00ff
+        dec
+        sec
         adc $6b
         tax
         lda $7a00,x
-        and #$ff
-        brk $e2
-        jsr _c28089
+        and #$00ff
+        shorta
+        bit #$80
         beq @d781
         and #$7f
         clc
@@ -7168,7 +7364,7 @@ _d760:  lda #$53
         tax
         lda $d1716c,x
         sta $7e2ceb
-        jsr _c2da26
+        jsr _c2da16
         pla
         tax
         shorta
@@ -7199,6 +7395,8 @@ _d7ca:  ldx $80
         sta $f9
         lda f:$000542,x
         sta $fb
+
+_c2d7d8:
         lda $f9
         cmp #$ffff
         bne @d7f2
@@ -7458,7 +7656,7 @@ _d958:  php
         inc $0420,x
         lda #$15
         sta $d8
-        jsr _c2ea7d     ; get character job data
+        jsr _c2e47d     ; get character job data
         ldx $80
         lda $da
         sta $053a,x     ; job level
@@ -7526,13 +7724,13 @@ _d9ab:  php
 ; [  ]
 
 _c2d9fb:
+        .a16
 _d9fb:  lda $c00000,x
         sta f:$002116
         inx2
         ldy #$4300
-        lda #$06
-        brk $54
-        brk $c0
+        lda #$0006
+        mvn $00,$c0
         shorta
         lda #$01
         sta $420b
@@ -7683,9 +7881,9 @@ _daef:  phb
 @db3d:  sty $7e
         jsr _c2d4c5
         ldy $80
-        per $db49
+        per @db4a-1
         jmp ($01c7)
-        lda $29f1
+@db4a:  lda $29f1
         beq @db63
         longa
         lda $29e7
@@ -7831,9 +8029,9 @@ _dc1b:  phb
         sty $7e
         jsr _c2d4c5
         ldy $80
-        per $dca4
+        per @dca5-1
         jmp ($01c7)
-        ply
+@dca5:  ply
 @dca6:  iny
         cpy #$0004
         bne @dc92
@@ -7854,6 +8052,7 @@ _dc1b:  phb
 @dccf:  plp
         plb
         rts
+
 @dcd2:  php
         lda $051a,y
         bit #$c2
@@ -7868,11 +8067,12 @@ _dc1b:  phb
         sta $0506,y
         lda $0508,y
         cmp $0506,y
-        bpl $dcf9
+        bpl @dcf9
         sta $0506,y
-        inc $29f1
+@dcf9:  inc $29f1
 @dcfc:  plp
         rts
+
         lda $051a,y
         bit #$04
         beq @dd0e
@@ -7880,6 +8080,7 @@ _dc1b:  phb
         sta $051a,y
         inc $29f1
 @dd0e:  rts
+
         lda $051a,y
         bit #$c2
         bne @dd1f
@@ -7887,6 +8088,7 @@ _dc1b:  phb
         sta $051a,y
         inc $29f1
 @dd1f:  rts
+
         php
         lda $051a,y
         bit #$80
@@ -7909,6 +8111,7 @@ _dc1b:  phb
         inc $29f1
 @dd58:  plp
         rts
+
         lda $051a,y
         bit #$75
         beq @dd6a
@@ -7916,6 +8119,7 @@ _dc1b:  phb
         sta $051a,y
         inc $29f1
 @dd6a:  rts
+
         lda $55
         cmp #$05
         bne @dd74
@@ -7932,6 +8136,7 @@ _dc1b:  phb
         inc $29f1
 @dd8c:  plp
 @dd8d:  rts
+
         php
         lda $051a,y
         bit #$80
@@ -7944,11 +8149,13 @@ _dc1b:  phb
         inc $29f1
 @dda6:  plp
         rts
+
         lda $051a,y
         and $29f8
         sta $051a,y
         inc $29f1
         rts
+
         lda $051a,y
         bit #$c0
         bne @ddc5
@@ -7956,6 +8163,7 @@ _dc1b:  phb
         sta $051a,y
         inc $29f1
 @ddc5:  rts
+
         lda $051a,y
         bit #$c2
         bne @ddd6
@@ -8002,9 +8210,9 @@ _ddd7:  phb
         tay
         lda $c0e7ff,x
         sta $c7
-        per $de2e
+        per @de2f-1
         jmp ($01c7)
-        plp
+@de2f:  plp
         ply
         plx
         iny2
@@ -8283,26 +8491,25 @@ _e002:  phb
         rts
 
 _c2e050:
+        .a16
 _e050:  sta $93
         stx $95
         ldx $8e
 @e056:  lda $0640,x
-        and #$ff
-        brk $f0
-        and $01c9,x
-        brk $f0
-        sec
-        cmp #$80
-        brk $f0
-        and ($85,s),y
-        cpx #$40bd
-        ora [$29]
-        sbc $29f000,x
-        cmp #$64
-        brk $30
-        ora $a9,s
-        adc $00,s
-        sta $e2
+        and #$00ff
+        beq @e09b
+        and #$0001
+        beq @e09b
+        cmp #$0080
+        beq @e09b
+        sta $e0
+        lda $0740,x
+        and #$00ff
+        beq @e09b
+        cmp #$0064
+        bmi @e07a
+        lda #$0063
+@e07a:  sta $e2
         lda $e0
         cmp $93
         bmi @e09b
@@ -8335,29 +8542,35 @@ _e0a8:  pha
         php
         shorta
         lda #$11        ; cursor 1
-        bra @e0ce
+        bra _e0ce
 
 _c2e0b0:
         pha
         php
         shorta
         lda #$10        ; cursor 2
-        bra @e0ce
+        bra _e0ce
+
+_c2e0b8:
         pha
         php
         shorta
         lda #$11        ; cursor 1
-        bra @e0ce
+        bra _e0ce
+
+_c2e0c0:
         pha
         php
         shorta
         lda #$12        ; error
-        bra @e0ce
+        bra _e0ce
+
+_c2e0c8:
         pha
         php
         shorta
         lda #$13        ; system sound effect $13
-@e0ce:  sta f:$001d00
+_e0ce:  sta f:$001d00
         jsl $c40004     ; execute spc interrupt
         plp
         pla
@@ -8633,7 +8846,7 @@ _e286:  phb
         cmp #$64
         bmi @e2ca
         inc $90
-        bra $e2ca
+        bra @e2ca
 @e2b9:  ldx $8e
 @e2bb:  lda $0640,x
         beq @e2ca
@@ -8869,10 +9082,10 @@ _e42c:  php
         tay
         pla
         cmp #$0057
-        bpl $e446
+        bpl @e446
         lda #$d106      ; spells $00-$56: 6 bytes each
         bra @e449
-        lda #$d108      ; spells $57-...: 8 bytes each
+@e446:  lda #$d108      ; spells $57-...: 8 bytes each
 @e449:  jsr _c2e59d
         rts
 
@@ -8897,14 +9110,14 @@ _e44e:  php
 ; ---------------------------------------------------------------------------
 
 _c2e464:
+        .a16
 _e464:  phb
         php
         lda $d8
         jsr _c2e4b2
         lda $da
-        and #$0f
-        brk $0a
-        asl3
+        and #$000f
+        asl4
         xba
         ora $dc
         sta $0843,x
@@ -8995,6 +9208,8 @@ _e4c7:  php
 
 _c2e4df:
 _e4df:  lda $53         ; current cursor position
+
+_c2e4e1:
         php
         longa
         and #$00ff
@@ -9231,8 +9446,12 @@ _e610:  phb
 
 _c2e653:
 _e653:  lda #$0014
-        bra @e65b
+        bra _c2e65b
+
+_c2e658:
         ldx #$0028
+
+_c2e65b:
 @e65b:  php
         longa
         pha
@@ -9283,7 +9502,7 @@ _e67c:  php
         and #$00ff
         tax
         shorta
-        lda f:$00,x
+        lda $00,x
         sta $53         ; current cursor position
 @e6a9:  plp
         rts
@@ -9682,7 +9901,7 @@ _e933:  phb
         plb
         plb
         longa
-        jsr _c2a4c5
+        jsr _c2d4c5
         ldy $80
         lda $0501,y
         jsr _c2e916     ; get job innate abilities
@@ -9782,28 +10001,29 @@ _e9ce:  phb
         lda $0526,y
         sta $e9
         jsr _c2eaac
+        .a16
         lda $e0
-        and #$ff
-        adc $2710c9,x
-        bmi $ea04
-        lda #$0f
-        and [$99]
-        php
-        ora $bf
-        sbc $85d151
-        cpx #$e264
+        and #$7fff
+        cmp #$2710
+        bmi @ea04
+        lda #$270f
+@ea04:  sta $0508,x
+        lda $d151ef,x
+        sta $e0
+        stz $e2
         shorta
         lda $0527,y
         sta $e9
         jsr _c2eaac
+        .a16
         lda $e0
-        and #$ff
-        adc $03e8c9,x
-        bmi $ea26
-        lda #$e7
-        ora $99,s
-        tsb $a405
-        bra $e9e7
+        and #$7fff
+        cmp #$03e8
+        bmi @ea26
+        lda #$03e7
+@ea26:  sta $050c,x
+        ldy $80
+        tyx
         shorta
         lda #$04
         sta $85
@@ -10221,12 +10441,12 @@ _c2ed5e:
 _ed5e:  phb
         php
         jsr _c2ecd9
-        lda #$89
-        brk $85
-        sta ($a9,s),y
-        cpx #$8500
-        sta $e2,x
-        jsr _c26fa5
+        lda #$0089
+        sta $95
+        lda #$00e0
+        sta $95
+        shorta
+        lda $6f
         dec3
         longa
         and #$0003
@@ -10240,18 +10460,17 @@ _ed5e:  phb
         rts
 
 _c2ed87:
+        .a16
 _ed87:  phb
         php
         jsr _c2ecd9
-        lda #$02
-        brk $85
-        sta ($a9,s),y
-        bra @ed94
+        lda #$0002
+        sta $93
+        lda #$0080
 @ed94:  sta $95
-        lda #$00
-        bra $ed1f
-        cpx $20
-        sbc ($ec,s),y
+        lda #$8000
+        sta $e4
+        jsr _c2ecf3
         longa
         lda #$0080
         sta $93
@@ -10432,6 +10651,7 @@ _eee7:  phb
         lda $c0f208,x
         jsr _c2c1b8
         jsr _c2a698
+        .a8
         plp
         plb
         rts
@@ -10613,7 +10833,7 @@ _f01d:  php
         beq @f03b
         dey
         lsr
-        bra $f032
+        bra @f032
 @f03b:  ply
         plp
         rts
@@ -11026,32 +11246,30 @@ _c2f32a:
 _f32a:  phb
         php
         lda $2bf4
-        bne $f393
-        lda #$9e
-        lda $20,x
-        clv
-        cmp ($a6,x)
-        inc $a0
-        tsb $2c
-        lda #$06
-        ror $9d20,x
-        sbc $a5
-        inc $18
-        adc #$34
-        brk $aa
+        bne @f393
+        lda #$b59e
+        jsr _c2c1b8
+        ldx $e6
+        ldy #$2c04
+        lda #$7e06
+        jsr _c2e59d
+        lda $e6
+        clc
+        adc #$0034
+        tax
         ldy #$2bf6
-        lda #$21
-        ror $ed20,x
-        cpx $a5
-        inc $18
-        adc #$a6
-        brk $aa
+        lda #$7e21
+        jsr _c2e4ed
+        lda $e6
+        clc
+        adc #$00a6
+        tax
         ldy #$2bf8
         jsr _c2d5db
         lda $e6
         clc
-        adc #$80
-        brk $aa
+        adc #$0080
+        tax
         ldy #$2c0c
         jsr _c2d662
         lda $2c0a
@@ -11061,23 +11279,23 @@ _f32a:  phb
         sta $7362,x
         lda $e6
         sec
-        sbc #$82
-        brk $aa
+        sbc #$0082
+        tax
         lda $2c0a
         inc4
         xba
-        and #$00
-        ora [$09]
-        cpy #$2080
-        jml [$80d6]
-        asl $a9
-        lda ($b5),y
+        and #$0700
+        ora #$80c0
+        jsr _c2d6dc
+        bra @f399
+@f393:  lda #$b5b1
         jsr _c2c1b8
-        plp
+@f399:  plp
         plb
         rts
 
 _c2f39c:
+        .a16
 _f39c:  phb
         php
         pea $7e7e
@@ -11109,14 +11327,16 @@ _f39c:  phb
         rts
 
 _c2f3d1:
-_f3d1:  and #$0f
-        brk $3a
-        and #$03
-        brk $eb
+        .a16
+_f3d1:  and #$000f
+        dec
+        and #$0003
+        xba
         lsr3
         rts
 
 _c2f3dd:
+        .a8
 _f3dd:  asl
         pha
         lda $0293,x
@@ -11264,13 +11484,13 @@ _f4d4:  phb
         rts
 
 _c2f4ef:
+        .a16
 _f4ef:  lda $f6
         asl
         tax
         lda $c0f8e7,x
         clc
-        adc #$00
-        rts
+        adc #$6000
         sta $fc
         tax
         lda $044a,x
@@ -11285,57 +11505,57 @@ _f4ef:  lda $f6
         sta $f4
         lda $0471,x
         sta $fe
-        jsr @f561
+        jsr _c2f561
         ldy $fc
         ldx $8e
 @f523:  lda a:$0000,y
         sta $e8,x
-        and #$07
-        brk $d0
-        ora f:$0002b9
+        and #$0007
+        bne @f53c
+        lda $0002,y
         sta $e2
         lda a:$0006,y
         sta $e4
         lda a:$0008,y
         sta $e6
-        tya
+@f53c:  tya
         clc
-        adc #$50
-        brk $a8
+        adc #$0050
+        tay
         inx2
         cpx #$0008
         bne @f523
         lda $f6
-        and #$03
-        brk $0a
+        and #$0003
+        asl
         tax
         lda $c0f8f7,x
         tay
         ldx #$01e0
-        lda #$1f
-        brk $8b
+        lda #$001f
+        phb
         mvn $7e,$00
         plb
         rts
+
+_c2f561:
+        .a16
 @f561:  lda $f6
-        and #$03
-        brk $0a
+        and #$0003
+        asl
         tax
         lda $7ff8,x
-        cmp #$1b
-        cpx $d0
-        ora $8820
-        sbc $dd,x
-        beq $f5f5
-        bne $f582
-        lda #$00
-        brk $80
-        php
-        lda #$00
-        bra @f501
-        ora $a9,s
-        brk $40
-        sta $e0
+        cmp #$e41b
+        bne @f57d
+        jsr _c2f588
+        cmp $7ff0,x
+        bne @f582
+        lda #$0000
+        bra @f585
+@f57d:  lda #$8000
+        bra @f585
+@f582:  lda #$4000
+@f585:  sta $e0
         rts
 
 _c2f588:
@@ -11510,12 +11730,12 @@ _f6af:  phb
 @f6ba:  ldy $8e
         lda $2ca9,x
 @f6bf:  asl
-        bcs $f6c9
+        bcs @f6c9
         iny
         cpy #$0006
         bmi @f6bf
         dey
-        tya
+@f6c9:  tya
         sta $2cc4,x
         inx
         cpx #$0007
@@ -11561,10 +11781,11 @@ _f6d6:  phb
 _c2f709:
 _f709:  pha
         php
-        and #$1f
-        brk $e2
-        jsr _c2a69d
-        bit $6828
+        and #$001f
+        shorta
+        sta $2ca6,x
+        plp
+        pla
         lsr5
         inx
         rts
@@ -11682,10 +11903,12 @@ _f7fc:  ldy $2c94
         cpy #$0001
         beq @f809
         cpy #$0002
-        bne $f80c
-@f809:  ora #$00
-        bra @f82d
-        jmp [$60d6]
+        bne @f80c
+@f809:  ora #$8000
+@f80c:  jsr _c2d6dc
+        rts
+
+_c2f810:
         phb
         php
         pea $7e7e
@@ -11892,10 +12115,10 @@ _f984:  ldx #$0080
         lda #$2003
         lda ($f8),y
         lda $2cd3
-        bne $f9a6
-        lda #$2003
-        phd
-        sbc $20c2,y
+        bne @f9a6
+        lda #$03
+        jsr _c2f90b
+@f9a6:  longa
         lda $2cd6
         and #$00ff
         pha
@@ -12706,6 +12929,15 @@ _c2ffc2:
 
 ; ---------------------------------------------------------------------------
 
+        .res 13
+
+_c2ffea:
+        .addr   $c25f, $c261, $c2a4, $c2e8, $c32d, $c26d, $c2cc
+_c2fff8:
+        .addr   $f932, $f949, $f984, $f9d6
+
+; ---------------------------------------------------------------------------
+
 .segment "menu_data"
 
 ; c0/e600
@@ -12780,3 +13012,140 @@ _c0e7c6:
         .addr   $d5d3,$d5ef,$d60b
 
 ; c0/e815
+        .addr   $dcd2,$dcfe,$dd0f,$dcd2,$dd20,$dd5a,$dd6b,$dd8e
+        .addr   $dda8,$ddb5,$ddc6
+
+; c0/e82b
+        .addr   $dcd2,$dcd2,$db66,$db92,$dd20,$dbbd,$dbce,$dcfe
+        .addr   $dbe8,$dbf9,$dc0a
+
+; c0/e841
+        .word   $e861,$01c0
+        .word   $e873,$02c0
+        .word   $e884,$00c0
+        .word   $e891,$01c0
+        .word   $e8a2,$00c0
+        .word   $e8bb,$00c0
+        .word   $e8ce,$00c0
+        .word   $e8dd,$00c0
+
+; c0/e861
+        .byte   $11,$03,$03,$11,$01,$11,$01,$11,$06,$06,$06,$06,$11,$01,$11,$01,$12,$08
+        .byte   $11,$03,$11,$01,$11,$01,$11,$01,$11,$06,$11,$01,$11,$04,$01,$12,$08
+        .byte   $11,$04,$04,$11,$01,$11,$01,$11,$06,$11,$01,$12,$08
+        .byte   $11,$03,$03,$11,$01,$11,$01,$11,$06,$06,$06,$11,$01,$11,$01,$11,$08
+        .byte   $11,$03,$03,$11,$01,$11,$01,$11,$01,$11,$01,$11,$01,$04,$06,$11,$01,$11,$04,$11,$01,$11,$02,$12,$08
+        .byte   $11,$05,$11,$04,$04,$03,$03,$11,$01,$11,$01,$11,$01,$11,$01,$11,$06,$12,$08
+        .byte   $11,$05,$11,$01,$04,$04,$03,$11,$01,$11,$01,$03,$01,$11,$06,$12,$08
+
+; c0/e8df
+        .byte   $01,$00,$00,$80,$00,$00,$00,$80,$80,$00,$00,$00,$00,$00,$00,$08,$08
+
+; c0/e8f0
+        .byte   $15,$0A,$0A,$0A,$09,$15,$15,$15
+
+; c0/e8f8
+        .byte   $0E,$83,$8B,$9C,$03,$31,$89,$A7,$00
+
+; c0/e901
+        .word   $4306,$431A,$432C,$4386,$439A,$43AC,$4406,$441A
+        .word   $442C,$4486,$449A,$44AC,$4506,$451A,$452C,$4586
+        .word   $459A,$45AC,$4606,$461A,$462C
+
+; c0/e92b
+        .byte   $18,$18,$18,$18,$00,$00
+
+; c0/e931
+        .byte   $01,$02,$03,$04,$05,$06,$11,$12,$13,$14,$15,$16,$21,$22,$23,$24
+        .byte   $25,$26,$31,$32,$33,$34,$35,$36,$41,$42,$43,$44,$45
+
+; c0/e94e
+        .byte   $c4,$51,$1c,$00,$38,$00
+
+; c0/e954
+        .byte   $c4,$44,$17,$00,$45,$00
+
+; c0/e95a
+        .byte   $44,$66,$1c,$00,$38,$00
+
+; c0/e960
+        .byte   $04,$57,$1c,$00,$54,$00
+
+; c0/e966
+        .addr   $e974,$e974,$e974,$e974,$e974,$e974,$e9b6
+
+; c0/e974
+        .word   $6388,$639a,$63ac,$6408,$641a,$642c,$6488,$649a
+        .word   $64ac,$6508,$651a,$652c,$6588,$659a,$65ac,$6608
+        .word   $661a,$662c,$6688,$669a,$66ac,$6708,$671a,$672c
+        .word   $6788,$679a,$67ac,$6808,$681a,$682c,$6888,$689a
+        .word   $68ac
+
+; c0/e9b6
+        .word   $638a,$63a6,$640a,$6426,$648a,$64a6,$650a,$6526
+
+; c0/e9c6
+        .word   $52fc,$55fc,$545c,$585c,$537c,$573c,$52fc,$57fc
+
+; c0/e9d6
+        .byte   $05,$00,$E0,$80,$E0,$00,$05,$00,$E0,$00,$E0,$80
+
+; c0/e9e2
+        .byte   $00,$02,$08,$0C,$00,$04,$00,$00,$05,$00,$00,$00,$00,$00,$00,$00
+        .byte   $04
+
+; c0/e9f3
+        .byte   $00,$59,$5A,$5A,$00,$60,$00,$5E,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00
+
+; c0/ea04
+        .byte   $07,$B8,$00,$00,$03,$00,$82,$00,$82,$01
+
+; c0/ea0e
+        .byte   $42,$41,$42,$43,$42,$45,$42,$47
+
+; c0/ea16
+; A0 00 16 01 2A 01 A0 01 44 24 40 20 44 2C 50 20
+; 44 50 70 22 44 58 80 22 44 7C A0 24 44 84 B0 24
+; 44 A8 D0 26 44 B0 E0 26
+
+; c0/ea3e
+; 16 B0 1D B0 24 B0
+
+; c0/ea44
+; 84 51 04 52
+
+; c0/ea48
+; 02 05 52 05 A2 05 F2 05
+
+; c0/ea50
+; 90 09 96 09 9C 09 A2 09 A8 09 AE 09
+
+; c0/ea5c
+; 84 50 44 52 04 54 C4 55
+
+; c0/ea64
+; 00 00 50 00 A0 00 F0 00
+
+; c0/ea6c
+; DB D3 DD DF D9 D8 C9 00
+
+; c0/ea74
+; D7 35 FF FF C5 FF FF FF CE FF FF FF 00
+
+; c0/ea81
+; FF FF FF FF FF FF FF FF FF FF FF FF 00
+
+; c0/ea8e
+; C8 42 48 43 C8 43 48 44
+
+; c0/ea96
+; FF 00 FF 00 FF 00 FF 00 FF 00 FF 00 FF 00 FF 00 FF 00 FF 00 FF 00 FF 00 FF 00 FF 00 FF 00 FF 00 FF 00 FF 00 FF 00 FF 00 FF 00 FF 00 FF 00 FF 00 FF 00
+
+; c0/eac8
+; 04 00 04 08 00 08 08 08 04 08 04 08 04 10 04 10
+
+; c0/ead8
+; 40 50 42 52 44 54 46 47 70 80 72 82 74 84 76 77 A0 B0 A2 B2 A4 B4 A6 A7 D0 E0 D2 E2 D4 E4 D6 D7 08 08 0A 0A 0C 0C 0E 0E 28 28 2A 2A 2C 2C 2E 2E
+
+; c0/eb08
