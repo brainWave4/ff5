@@ -23,7 +23,8 @@
 | C0D380-C0D980 | menu window graphics (4bpp)                               |
 | C0D980-C0D9B8 | pointers to overlay properties (+$C0D980)                 |
 | C0D9B8-C0DF00 | overlay properties (compressed)                           |
-| C0DF00-C0E600 | overlay sprite graphics (1bpp)                            |
+| C0DF00-C0E500 | overlay sprite graphics (1bpp)                            |
+| C0E500-C0E600 | key item names                                            |
 | C0E600-C0FEC0 | menu data                                                 |
 |               |                                                           |
 | C0E841-C0E861 | pointers to menu tutorial scripts                         |

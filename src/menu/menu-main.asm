@@ -5342,7 +5342,7 @@ _c73d:  phb
         tya
         asl3
         clc
-        adc #$e500
+        adc #$e500                      ; key item names
         tay
         lda #$c008
         jsr _c2e59d
@@ -7215,7 +7215,7 @@ _d533:  ldx $80
         and #$0007
         asl
         tax
-        lda $c0ea50,x
+        lda $c0ea50,x                   ; pointers to character names (RAM)
         tyx
         tay
         lda #$0006
@@ -12538,7 +12538,7 @@ _faf0:  phb
 
 ; [ menu nmi ]
 
-_c2fb0c:
+MenuNMI:
 _fb0c:  phb
         phd
         php
@@ -12668,12 +12668,13 @@ _fb0c:  phb
         plp
         pld
         plb
+; fallthrough
 
 ; ---------------------------------------------------------------------------
 
 ; [ menu irq ]
 
-_c2fc2e:
+MenuIRQ:
 _fc2e:  rti
 
 ; ---------------------------------------------------------------------------
@@ -13181,6 +13182,44 @@ _c2fff8:
 
 ; ---------------------------------------------------------------------------
 
+.segment "key_item_name"
+
+; c0/e500: key item names
+        .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+        .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+        .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+        .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+        .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+        .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+        .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+        .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+        .byte   $2a,$a6,$64,$9b,$89,$45,$b7,$ff  ; "ガラフのうでわ" (galuf's bracelet)
+        .byte   $6b,$7f,$9f,$9b,$65,$6f,$af,$ff  ; "かたみのふくろ"
+        .byte   $77,$af,$9b,$6a,$2c,$ff,$ff,$ff  ; "しろのカギ" (white key)
+        .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+        .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+        .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+        .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+        .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+        .byte   $4f,$b8,$3e,$b8,$86,$ff,$ff,$ff
+        .byte   $4f,$b8,$3e,$b8,$86,$ff,$ff,$ff
+        .byte   $89,$b9,$2b,$9b,$6b,$2d,$ff,$ff
+        .byte   $63,$a9,$c1,$89,$7d,$89,$ff,$ff
+        .byte   $79,$39,$ff,$ff,$ff,$ff,$ff,$ff
+        .byte   $8a,$3e,$9c,$b8,$7e,$8c,$86,$ff
+        .byte   $a4,$c5,$2e,$a8,$9b,$71,$ff,$00
+        .byte   $63,$7d,$63,$7d,$89,$ff,$ff,$ff
+        .byte   $81,$c3,$89,$af,$89,$9b,$8f,$3f
+        .byte   $65,$89,$8d,$b9,$9b,$77,$c3,$ff
+        .byte   $7b,$6d,$21,$b9,$54,$ff,$ff,$ff
+        .byte   $7b,$6d,$21,$b9,$55,$ff,$ff,$ff
+        .byte   $7b,$6d,$21,$b9,$56,$ff,$ff,$ff
+        .byte   $7b,$6d,$21,$b9,$57,$ff,$ff,$ff
+        .byte   $7b,$6b,$8d,$81,$39,$ff,$ff,$ff
+        .byte   $87,$31,$ff,$ff,$ff,$ff,$ff,$ff
+
+; ---------------------------------------------------------------------------
+
 .segment "menu_data"
 
 ; c0/e600
@@ -13369,7 +13408,7 @@ _c0e7c6:
 ; c0/ea48
         .word   $0502,$0552,$05a2,$05f2
 
-; c0/ea50
+; c0/ea50: pointers to character names (RAM)
         .word   $0990,$0996,$099c,$09a2,$09a8,$09ae
 
 ; c0/ea5c
@@ -13381,10 +13420,10 @@ _c0e7c6:
 ; c0/ea6c
         .byte   $db,$d3,$dd,$df,$d9,$d8,$c9,$00
 
-; c0/ea74
+; c0/ea74: "Ｌざ　　ー　　　／　　　"
         .byte   $d7,$35,$ff,$ff,$c5,$ff,$ff,$ff,$ce,$ff,$ff,$ff,$00
 
-; c0/ea81
+; c0/ea81: blank text for ??
         .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$00
 
 ; c0/ea8e
@@ -13480,35 +13519,168 @@ DeadCharGfxPtrs:
 ; ---------------------------------------------------------------------------
 
 ; c0/ecab
-; 00 00 C0 00 20 00 E0 00 40 00 00 01 60 00 C0 02 80 00 E0 02 A0 00 00 03
+        .word   $0000,$00c0,$0020,$00e0,$0040,$0100
+        .word   $0060,$02c0,$0080,$02e0,$00a0,$0300
+
+; ---------------------------------------------------------------------------
 
 ; c0/ecc3
+        .dword  $d497c0
+        .word   $9100,$ecf9,$000e
+        .dword  $d49b50
+        .word   $9500,$ecf9,$000e
+        .dword  $d49f40
+        .word   $9000,$ece1,$0006
+
+; c0/ece1
+        .byte   $00,$00,$40,$00
+        .byte   $18,$00,$60,$00
+        .byte   $80,$01,$40,$02
+        .byte   $98,$01,$60,$02
+        .byte   $f0,$00,$00,$04
+        .byte   $08,$01,$20,$04
+
+; c0/ecf9
+        .byte   $00,$00,$00,$00
+        .byte   $18,$00,$20,$00
+        .byte   $30,$00,$00,$02
+        .byte   $48,$00,$20,$02
+        .byte   $e0,$01,$40,$00
+        .byte   $f8,$01,$60,$00
+        .byte   $10,$02,$40,$02
+        .byte   $28,$02,$60,$02
+        .byte   $20,$01,$80,$00
+        .byte   $38,$01,$a0,$00
+        .byte   $50,$01,$80,$02
+        .byte   $68,$01,$a0,$02
+        .byte   $a0,$02,$c0,$00
+        .byte   $b8,$02,$e0,$00
+
+; ---------------------------------------------------------------------------
+
 ; c0/ed31
-; c0/ed61
+        .byte   $00,$00,$00,$00
+        .byte   $20,$00,$20,$00
+        .byte   $40,$00,$00,$02
+        .byte   $60,$00,$20,$02
+        .byte   $80,$00,$00,$04
+        .byte   $a0,$00,$20,$04
+
+        .byte   $c0,$03,$40,$00
+        .byte   $e0,$03,$60,$00
+        .byte   $00,$04,$40,$02
+        .byte   $20,$04,$60,$02
+        .byte   $40,$04,$40,$04
+        .byte   $60,$04,$60,$04
+
+; c0/ed61: ability menu to use for each job
+        .byte   0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2
+
 ; c0/ed77
+        .byte   2,0
+        .addr   $ed83
+        .byte   0,1
+        .addr   $ed8b
+        .byte   1,2
+        .addr   $ed87
+
+; c0/ed83
+        .byte   1,1,0,0
+        .byte   1,0,0,0
+        .byte   0,0,0,0
+
 ; c0/ed8f
+        .word   $62c6,$62e2,$6346,$6362,$63c6,$63e2,$6446,$6462
+        .word   $64c6,$64e2,$6546,$6562,$65c6,$65e2,$6646,$6662
+        .word   $66c6,$66e2,$6746,$6762,$67c6,$67e2,$6846,$6862
+
 ; c0/edbf
+        .word   $0528,$0529,$052a,$052b,$0544,$052d,$052c,$052f,$0523
+
 ; c0/edd1
+        .word   $5470,$54f0,$5570,$55f0,$566e,$56ee,$5770,$57ee,$5870
+
 ; c0/ede3
+        .word   $5478,$54f8,$5578,$55f8,$5676,$56f6,$5776,$57f6,$5878
+
 ; c0/edf5
+        .byte   $ff,$00,$ff,$00,$ff,$00,$c5,$00,$c5,$00,$c5,$00,$c5,$00
+
 ; c0/ee03
+        .word   $274a,$2746,$2703
+
 ; c0/ee09
-; c0/ee21
+        .word   $2728,$2729,$272a,$272b,$2744,$272d,$272c,$272f,$2723
+
 ; c0/ee1b
+        .word   $7e31,$7e73,$7e73
+
+; c0/ee21
+        .word   $7e21,$7e21,$7e21,$7e21,$7e32,$7e31,$7e21,$7e31,$7e21
+
 ; c0/ee33
+        .word   $55d8,$5510,$5450,$6438
+        .word   $64b8,$6538,$65b8,$6636
+        .word   $66b6,$6736,$67b6,$6838
+
 ; c0/ee4b
+        .word   $61e6,$6266,$62e6,$6366
+
+; c0/ee53
+        .byte   $c0,$38,$01,$18,$80,$c1,$7e,$80,$06
+
+; c0/ee5c:
+        .byte   $ff,$00,$ff,$00,$ff,$00,$ff,$00,$ff,$00,$ff,$00,$ff,$00
+
 ; c0/ee6a
-; c0/ee82
-; c0/eeae: spells learned from items
+        .byte   $00,$02,$04,$06,$08,$0a,$0c,$0e
+        .byte   $40,$42,$44,$46,$48,$4a,$4c,$4e
+        .byte   $80,$82,$84,$86,$88,$8a,$8c,$8e
+
+; c0/ee82: job sprite xy positions
+        .byte   $24,$3e,$40,$3e,$5c,$3e,$78,$3e,$94,$3e,$b0,$3e,$cc,$3e
+        .byte   $16,$62,$32,$62,$4e,$62,$6a,$62,$86,$62,$a2,$62,$be,$62,$da,$62
+        .byte   $24,$86,$40,$86,$5c,$86,$78,$86,$94,$86,$b0,$86,$cc,$86
+
+; c0/eeae: spells learned from items (ifrit, ramuh, shoat, golem)
+        .byte   $4d,$4c,$50,$4f
+
 ; c0/eeb2: sound effects for spells learned from items
-; c0/eeba: spc commands for spells learned from items
+        .byte   $76,$44,$47,$4b
+
+; c0/eeb6: spc commands for spells learned from items
+        .byte   $02,$5b,$0f,$88
+
+; c0/eeba
+        .word   $1312,$1314,$1317,$1318,$1319,$131D,$131E,$1321
+        .word   $1323,$1329,$133B,$0000
+
 ; c0/eed2
-; c0/eef5
+        .word   $13E0,$13E1,$13E2,$13E3,$13E4,$13E5,$13E6,$13E8
+        .word   $13E9,$13EC,$13ED,$00F0,$00F1,$44F9,$47FA,$4BFB
+        .word   $0000
+
+; c0/eef4
+        .byte   $12,$01,$03
+        .byte   $14,$01,$03
+        .byte   $17,$01,$06
+        .byte   $18,$01,$09
+        .byte   $19,$01,$09
+        .byte   $1d,$01,$0c
+        .byte   $1e,$01,$0f
+        .byte   $21,$01,$12
+        .byte   $23,$01,$12
+        .byte   $29,$02,$06
+        .byte   $3b,$03,$06
+        .byte   $3e,$03,$09
+        .byte   $ff
+
 ; c0/ef19
 ; c0/ef35
 ; c0/ef43
 ; c0/ef53
-; c0/ef59
+; c0/ef59:
+
 ; c0/ef65
 ; c0/ef6d
 ; c0/ef85
@@ -13519,3 +13691,257 @@ DeadCharGfxPtrs:
 ; c0/efe2
 ; c0/efeb
 ; c0/eff4
+; c0/f053
+; c0/f069
+; c0/f076
+; c0/f0a5
+; c0/f0bd
+; c0/f0c3
+; c0/f0f2
+; c0/f18e
+; c0/f1bd
+; c0/f1ec
+; c0/f1f4
+; c0/f204
+; c0/f208
+; c0/f21a
+; c0/f21e
+; c0/f22e
+; c0/f23e
+; c0/f246: pointers to battle character palettes
+; c0/f250
+; c0/f292
+; c0/f2d4
+; c0/f316
+; c0/f33a
+; c0/f342
+; c0/f352
+; c0/f362
+; c0/f36a
+; c0/f37c
+; c0/f384
+; c0/f394
+; c0/f3a4
+; c0/f3ab
+; c0/f3b3
+; c0/f3c1
+; c0/f3c5
+; c0/f3cd
+; c0/f3f9
+; c0/f402
+; c0/f40b
+; c0/f414
+; c0/f478
+
+; ---------------------------------------------------------------------------
+
+; c0/f498: "Ｌ　ー　　　／　　　"
+        .byte   $d7,$ff,$c5,$ff,$ff,$ff,$ce,$ff,$ff,$ff,$00
+
+; c0/f4a3: blank text for ???
+        .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$00
+
+; ---------------------------------------------------------------------------
+
+; c0/f4ae
+        .addr   $f4b4,$f4d4,$f4f4
+
+; ---------------------------------------------------------------------------
+
+; c0/f4b4
+        .byte   $e2,$48,$40,$00
+        .byte   $e2,$50,$50,$00
+        .byte   $e2,$64,$70,$02
+        .byte   $e2,$6c,$80,$02
+        .byte   $e2,$80,$a0,$04
+        .byte   $e2,$88,$b0,$04
+        .byte   $e2,$9c,$d0,$06
+        .byte   $e2,$a4,$e0,$06
+
+        .byte   $e4,$46,$4a,$00
+        .byte   $e4,$4e,$5a,$00
+        .byte   $e4,$62,$7a,$02
+        .byte   $e4,$6a,$8a,$02
+        .byte   $e4,$7e,$aa,$04
+        .byte   $e4,$86,$ba,$04
+        .byte   $e4,$9a,$da,$06
+        .byte   $e4,$a2,$ea,$06
+
+        .byte   $e2,$48,$44,$00
+        .byte   $e2,$50,$54,$00
+        .byte   $e2,$64,$74,$02
+        .byte   $e2,$6c,$84,$02
+        .byte   $e2,$80,$a4,$04
+        .byte   $e2,$88,$b4,$04
+        .byte   $e2,$9c,$d4,$06
+        .byte   $e2,$a4,$e4,$06
+
+; ---------------------------------------------------------------------------
+
+; c0/f514: "うる" (sell)
+        .byte   $89,$ab,$00
+
+; ---------------------------------------------------------------------------
+
+; c0/f517: shop price multipliers
+        .dword  1
+        .dword  10
+        .dword  100
+        .dword  1000
+        .dword  10000
+        .dword  100000
+        .dword  1000000
+
+; ---------------------------------------------------------------------------
+
+; c0/f533: interrupt jump code
+        jml     MenuNMI
+        jml     MenuIRQ
+
+; ---------------------------------------------------------------------------
+
+; c0/f53b
+; c0/f547
+; c0/f573
+; c0/f58b
+; c0/f592
+; c0/f5b2
+; c0/f5b9
+; c0/f5c0
+; c0/f5c9
+; c0/f5cf
+; c0/f5e7
+; c0/f601
+; c0/f739
+
+; c0/f7a8: "なんで" (why)
+        .byte   $93,$b9,$45
+
+; c0/f7ad
+        .byte   $03,$00,$00,$00,$e7
+        .byte   $0c,$00,$00,$00,$e3
+        .byte   $10,$00,$00,$00,$e8
+        .byte   $60,$00,$00,$00,$e9
+        .byte   $80,$00,$00,$00,$ea
+        .byte   $00,$01,$00,$00,$eb
+        .byte   $00,$06,$00,$00,$ec
+        .byte   $00,$08,$00,$00,$ed
+        .byte   $00,$10,$00,$00,$ee
+        .byte   $00,$20,$00,$00,$ef
+        .byte   $00,$40,$00,$00,$f0
+        .byte   $00,$80,$00,$00,$00
+        .byte   $00,$00,$01,$00,$f1
+        .byte   $00,$00,$0e,$00,$f2
+        .byte   $00,$00,$70,$00,$f3
+        .byte   $00,$00,$80,$00,$00
+        .byte   $00,$00,$00,$03,$f4
+        .byte   $00,$00,$00,$04,$00
+
+; c0/f807: grayscale battle character palette ???
+        .word   $0000,$1084,$7fff,$18c6,$6b5a,$4210,$318c,$2108
+        .word   $5294,$294a,$6318,$7fff,$4210,$5294,$318c,$294a
+
+; c0/f827: ??? colors palettes
+        .word   $0000,$4000,$39ce,$7fff,$0000,$4000,$2108,$3def
+        .word   $0000,$4000,$0280,$037f,$0000,$4000,$40ff,$2e7f
+        .word   $0000,$4000,$39ce,$7fff,$0000,$4000,$39ce,$7fff
+        .word   $0000,$4000,$39ce,$7fff,$0000,$4000,$39ce,$7fff
+
+; c0/f867: ??? color palette
+        .word   $0000,$1084,$7fff,$0cec,$67df,$5255,$3dd1,$292e
+        .word   $571a,$2d4e,$5af8,$4a77,$35b0,$4a77,$210c,$188a
+
+; c0/f887
+        .dword  $00000001
+        .dword  $00000002
+        .dword  $00000004
+        .dword  $00000008
+        .dword  $00000016
+        .dword  $00000032
+        .dword  $00000064
+        .dword  $00000128
+        .dword  $00000256
+        .dword  $00000512
+        .dword  $00001024
+        .dword  $00002048
+        .dword  $00004096
+        .dword  $00008192
+        .dword  $00016384
+        .dword  $00032768
+        .dword  $00065536
+        .dword  $00131072
+        .dword  $00262144
+        .dword  $00524288
+        .dword  $01048576
+        .dword  $02097152
+        .dword  $04194304
+        .dword  $08388608
+
+; c0/f8e7
+        .word   $0000,$0700,$0e00,$1500
+
+; c0/f8ef
+        .word   $6000,$6700,$6e00,$7500
+
+; c0/f8f7
+        .word   $2c14,$2c34,$2c54,$2c74
+
+; c0/f8ff
+        .word   $b000,$b100,$b800,$b900
+
+; c0/f907: ??? sprite data
+        .byte   $48,$34,$00,$2d
+        .byte   $48,$44,$20,$2d
+        .byte   $60,$34,$02,$2d
+        .byte   $60,$44,$22,$2d
+        .byte   $78,$34,$04,$2d
+        .byte   $78,$44,$24,$2d
+        .byte   $90,$34,$06,$2d
+        .byte   $90,$44,$26,$2d
+        .byte   $48,$60,$08,$2d
+        .byte   $48,$70,$28,$2d
+        .byte   $60,$60,$0a,$2d
+        .byte   $60,$70,$2a,$2d
+        .byte   $78,$60,$0c,$2d
+        .byte   $78,$70,$2c,$2d
+        .byte   $90,$60,$0e,$2d
+        .byte   $90,$70,$2e,$2d
+        .byte   $48,$8c,$40,$2d
+        .byte   $48,$9c,$60,$2d
+        .byte   $60,$8c,$42,$2d
+        .byte   $60,$9c,$62,$2d
+        .byte   $78,$8c,$44,$2d
+        .byte   $78,$9c,$64,$2d
+        .byte   $90,$8c,$46,$2d
+        .byte   $90,$9c,$66,$2d
+        .byte   $48,$b8,$48,$2d
+        .byte   $48,$c8,$68,$2d
+        .byte   $60,$b8,$4a,$2d
+        .byte   $60,$c8,$6a,$2d
+        .byte   $78,$b8,$4c,$2d
+        .byte   $78,$c8,$6c,$2d
+        .byte   $90,$b8,$4e,$2d
+        .byte   $90,$c8,$6e,$2d
+
+; c0/f987: pointers to menu text at c0/fa9d
+        .addr   $fa9d,$fa9e,$faa1,$faae,$fab7,$fac0,$fac4,$faca
+        .addr   $facf,$fad3,$fad7,$fadd,$fae3,$fae7,$faec,$faf2
+        .addr   $faf5,$fafa,$fafe,$fb03,$fb0a,$fb10,$fb14,$fb1d
+        .addr   $fb1f,$fb25,$fb29,$fb2d,$fb32,$fb37,$fb3c,$fb40
+        .addr   $fb44,$fb4a,$fb4e,$fb53,$fb59,$fb5e,$fb63,$fb68
+        .addr   $fb6e,$fb73,$fb75,$fb77,$fb82,$fb8e,$fb92,$fb93
+        .addr   $fb97,$fb99,$fb9d,$fbb2,$fbb5,$fbb8,$fbbb,$fbbf
+        .addr   $fbc6,$fbca,$fbda,$fbea,$fbfd,$fc11,$fc20,$fc2b
+        .addr   $fc37,$fc3c,$fc43,$fc46,$fc49,$fc4d,$fc53,$fc56
+        .addr   $fc59,$fc65,$fc6a,$fc6e,$fc73,$fc77,$fc7b,$fc80
+        .addr   $fc85,$fc89,$fc8c,$fc8f,$fc94,$fc99,$fca4,$fcad
+        .addr   $fcb6,$fcbb,$fcc0,$fcc6,$fccd,$fce4,$fcf1,$fcf6
+        .addr   $fcfc,$fd08,$fd14,$fd2a,$fd3d,$fd54,$fd66,$fd7c
+        .addr   $fd85,$fd8b,$fda2,$fda6,$fdb1,$fdba,$fdbc,$fdbe
+        .addr   $fdc0,$fdcb,$fdd3,$fde2,$fde4,$fde6,$fde8,$fdea
+        .addr   $fdec,$fdee,$fdf5,$fe0e,$fe1a,$fe29,$fe2d,$fe35
+        .addr   $fe3c,$fe43,$fe4a,$fe4d,$fe51,$fe58,$fe67,$fe75
+        .addr   $fe7f,$fe89,$fea3
+
+; c0/fa9d: menu text ???
+;

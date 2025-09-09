@@ -94,7 +94,7 @@
     },
     {
       "file_path": "src/gfx/map_overlay.1bpp",
-      "asset_range": "0xC0DF00-0xC0E5FF"
+      "asset_range": "0xC0DF00-0xC0E4FF"
     },
     {
       "file_path": "src/field/rng_tbl.dat",
