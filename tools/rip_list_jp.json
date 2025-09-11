@@ -1,6 +1,12 @@
 {
   "text": [
     {
+      "json_path": "src/text/menu_text_jp.json",
+      "asset_range": "0xC0FA9D-0xC0FEB9",
+      "ptr_range": "0xC0F987-0xC0FA9C",
+      "ptr_offset": "0xC00000"
+    },
+    {
       "json_path": "src/text/dlg_jp.json",
       "asset_range": "0xCA0000-0xCAFFF4",
       "ptr_range": "0xC82220-0xC832FF",
