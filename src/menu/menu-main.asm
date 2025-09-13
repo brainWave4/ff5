@@ -1203,7 +1203,7 @@ _a79c:  lda $55
         bra @a7fb
 @a7ed:  longa
         lda #$b77a
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
 @a7f5:  jsr _c2a693
         .a8
         jsr _c2f71c     ; update config settings
@@ -1353,7 +1353,7 @@ _a8cb:  lda $50
 _c2a8f0:
 _a8f0:  longa
         txa
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2a693
         .a8
         rts
@@ -1413,7 +1413,7 @@ _c2a948:
 _c2a958:
         .a16
         lda #$ae62
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2e367
         jsr _c2a698
         .a8
@@ -1489,7 +1489,7 @@ _c2a9d9:
 _a9d9:  php
         longa
         lda #$af1a
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         lda $55         ; cursor position ???
         and #$00ff
         dec
@@ -1509,7 +1509,7 @@ _a9d9:  php
 _c2a9fd:
         .a16
         lda #$b036
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         lda #$0002
         tsb $7500
         lda #$0004
@@ -1555,7 +1555,7 @@ _c2aa4e:
         stz $0208
         stz $020a
         lda #$affa
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2a698
         .a8
         stz $70
@@ -1602,7 +1602,7 @@ _c2aa89:
         bra @aab7
 @aaaf:  longa
         lda #$b005
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
 @aab7:  jsr _c2a698
         .a8
         rts
@@ -1610,7 +1610,7 @@ _c2aa89:
 _c2aabb:
         .a16
         lda #$b26a
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         lda #$0004
         jsr _c2eee7
         jsr _c2a16e     ; reset sprite data
@@ -1636,7 +1636,7 @@ _c2aad1:
 _c2aae9:
         .a16
         lda #$b242
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         shorta
         lda $2801
         and #$03
@@ -1649,7 +1649,7 @@ _c2aae9:
         jsr _c2ef89
         jsr _c2ef16
         lda #$b25f
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
 @ab0f:  jsr _c2f10e
         lda #$0000
         jsr _c2eee7
@@ -1658,7 +1658,7 @@ _c2aae9:
 _c2ab19:
         .a16
         lda #$b254
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         rts
 
 _c2ab20:
@@ -1694,7 +1694,7 @@ _ab4c:  jsr _c2a67a
         ldy #$2812
         jsr _c2e4ed
         lda #$b1e0
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         lda $2810
         and #$00ff
         asl
@@ -1744,7 +1744,7 @@ _c2abb2:
 _c2abc1:
         .a16
         lda #$b275
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2f10e
         lda #$0000
         jsr _c2eee7
@@ -1753,7 +1753,7 @@ _c2abc1:
 _c2abd1:
         .a16
         lda #$b254
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2a698
         .a8
         rts
@@ -1765,7 +1765,7 @@ _c2abdb:
 _c2abdf:
         .a16
         lda #$b3a9
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2a698
         .a8
         lda #$08
@@ -1797,7 +1797,7 @@ _c2ac01:
 _c2ac0e:
         .a16
         lda #$b3b4
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2c7bd
         jsr _c2a69d
         .a8
@@ -1838,7 +1838,7 @@ _c2ac5e:
 _ac5e:  php
         longa
         lda #$b3a9
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         lda $55
         and #$00ff
         dec
@@ -1890,7 +1890,7 @@ _c2ac90:
 _c2acc3:
         .a16
         lda #$b434
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2a693
         .a8
         jsr _c2a69d
@@ -1903,15 +1903,15 @@ _c2acc3:
 _c2acd6:
         .a16
         lda #$b499
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         lda #$b4a4
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         lda $7e29e2
         and #$0007
         asl
         tax
         lda $c0f3b3,x
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2a693
         .a8
         jsr _c2a698
@@ -1924,7 +1924,7 @@ _c2acd6:
 _c2acff:
         .a16
         lda #$b3fe
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2de3e
         jsr _c2df4d
         jsr _c2a69d
@@ -1958,7 +1958,7 @@ _c2acff:
 _c2ad3e:
         .a16
 _ad3e:  lda #$b413
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2a69d
         .a8
         lda $51
@@ -1991,7 +1991,7 @@ _ad5b:
         beq @ada9
         pha
         lda #$b48e
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         pla
         cmp #$00fe
         beq @ada4
@@ -2000,7 +2000,7 @@ _ad5b:
         ldy #$60d2      ; destination: 7E/60D2
         jsr _c2e42c     ; draw spell name
         lda #$b409
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         pla
         clc
         adc #$2a9d
@@ -2021,7 +2021,7 @@ _ad5b:
 _c2adb0:
         .a16
         lda #$b41e
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2de3e
         jsr _c2df4d
         ldx #$b8ec
@@ -2035,7 +2035,7 @@ _c2adb0:
 _c2adcc:
         .a16
         lda #$b429
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         ldx #$b8e6
         ldy #$7180
         jsr _c2c1fd
@@ -2046,7 +2046,7 @@ _c2adcc:
 _c2addf:
         .a16
         lda #$b2fe
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2c7bd
         jsr _c2a69d
         .a8
@@ -2070,7 +2070,7 @@ _c2addf:
 _c2ae11:
         .a16
         lda #$b310
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         shorta
         lda #$08
         trb $7500
@@ -2156,7 +2156,7 @@ _ae6f:  jsr _c2b2bd
         ldy #$094a
         jsr _c2d662
         lda #$b5b8
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         lda $43         ; menu state
         and #$00ff
         cmp #$000c
@@ -2164,7 +2164,7 @@ _ae6f:  jsr _c2b2bd
         lda #$b5df
         bra @aecb
 @aec8:  lda #$b5cf
-@aecb:  jsr _c2c1b8
+@aecb:  jsr LoadMenuTilemap
         ldx #$2000
         ldy #$0500
         lda #$05ff
@@ -2216,7 +2216,7 @@ _af1b:  phb
         cpx #$0020
         bne @af25
         lda #$b50d
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         ldx #$f36a
         lda #$0011
         jsr _c2da9d
@@ -2257,7 +2257,7 @@ _c2af87:
 
 _c2af91:
         lda #$b518
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2a693
         .a8
         stz $7510
@@ -2363,7 +2363,7 @@ _c2af91:
 
 _c2b079:
         lda #$b7e9
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         ldx #$ea04
         lda #$0009
         jsr _c2da9d
@@ -2403,7 +2403,7 @@ _c2b079:
 _c2b0d6:
         .a16
 _b0d6:  lda #$b739
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2a693
         .a8
         lda #$02
@@ -2425,7 +2425,7 @@ _b0d6:  lda #$b739
 _c2b106:
         .a16
         lda #$b710
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         lda #$0014
         sta $2c94
         stz $7e
@@ -2500,7 +2500,7 @@ _c2b16e:
 _c2b19a:
         .a16
         lda #$b740
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         ldx #$b935
         ldy #$7080
         jsr _c2c1fd
@@ -2512,7 +2512,7 @@ _c2b19a:
         cmp #$002f
         bmi @b1af
         lda #$b77a
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         lda #$0020
         jsr _c2b154
         .a8
@@ -2541,7 +2541,7 @@ _c2b1ca:
 _c2b1ec:
         .a16
 _b1ec:  lda #$b3c2
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         lda $2d1b
         ldy #$4284
         jsr _c2e44e
@@ -3070,7 +3070,7 @@ _c2b5ea:
         beq @b62f
         longa
         lda #$af2b
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2a693
         .a8
         lda #$02
@@ -3124,7 +3124,7 @@ _c2b676:
         lda #$aec8
         bra @b68a
 @b687:  lda #$aed9
-@b68a:  jsr _c2c1b8
+@b68a:  jsr LoadMenuTilemap
         jsr _c2a693
         .a8
         lda #$02
@@ -3284,7 +3284,7 @@ _c2b7ad:
         jsr _c2e18f
         longa
         lda #$b005
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2b7a0
         .a8
         stz $2d11
@@ -3303,7 +3303,7 @@ _c2b7ad:
 _c2b7fc:
         longa
         lda #$b005
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2a698
         .a8
         stz $70
@@ -3326,9 +3326,9 @@ _c2b811:
         bne @b811
         longa
         lda #$b095
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         lda #$b0d3
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2c8a0
         jsr _c2fad4     ; copy sprite data to vram
         jsr _c2a698
@@ -3429,7 +3429,7 @@ _c2b8ae:
         jsr _c2e0c0     ; play sound effect (error)
         longa
         lda #$b349
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2a698
         .a8
         lda #$00
@@ -3570,9 +3570,9 @@ _c2ba0a:
         jmp _c2a47c
 @ba44:  longa
         lda #$b3b4
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         lda #$b360
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2c73d
         jsr _c2a69d
         .a8
@@ -4365,7 +4365,7 @@ _c2c071:
 @c097:  jsr _c2e0c0
         longa
         lda #$b7d2
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2a693
         jsr _c2a16e     ; reset sprite data
         jsr _c2fad4     ; copy sprite data to vram
@@ -4503,7 +4503,7 @@ _c16a:  phb
         tax
         lda $c0f5e7,x   ; pointer to ??? ($+C00000)
         tax
-        ldy #$2bdc      ; copy 24 bytes to 7E/BD2C
+        ldy #$2bdc      ; copy 24 bytes to 7E/2BDC
         lda #$0017
         mvn #$c0,#$7e
         ldx $8e
@@ -4527,6 +4527,8 @@ _c183:  lda $c0f5cf,x   ; mvn destination address (+$7E0000)
 
 ; [ load menu cursor/??? data ]
 
+;
+
 _c2c1a6:
 _c1a6:  phb
         tax
@@ -4543,7 +4545,9 @@ _c1a6:  phb
 
 ; [ load menu tilemap ]
 
-_c2c1b8:
+; +A: address of tilemap data (+$C30000)
+
+LoadMenuTilemap:
         .a16
 _c1b8:  phb
         pea $c3c3
@@ -5067,7 +5071,7 @@ _c551:  php
         phb
         longa
         lda #$b62b
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         plb
         longa
         lda $2b92
@@ -5123,7 +5127,7 @@ _c59c:  jsr _c2d210
         lda #$6000
         sta $e6
         lda #$ada6
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         rts
 
 ; ---------------------------------------------------------------------------
@@ -5151,7 +5155,7 @@ _c5c8:  lda $71
         jsr _c2d4c5
         jsr _c2c6ba
         lda #$b434
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         pea $7e7e
         plb
         plb
@@ -5672,7 +5676,7 @@ _c954:  phb
         beq @ca18
         pha
         lda #$b195
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         pla
         asl3
         clc
@@ -5683,7 +5687,7 @@ _c954:  phb
         jsr _c2e59d
         bra @ca34
 @ca18:  lda #$b185
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         lda $2740
         sta $f9
         lda $2742
@@ -5720,7 +5724,7 @@ _ca37:  lda $71
         jsr _c2e6ab     ; update cursor sprite
         longa
         lda #$b036
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         lda #$1e98
         jsr _c2c8de
         ldy #$51ac
@@ -5897,7 +5901,7 @@ _c2cb95:
         asl
         tax
         lda $c0ea3e,x
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         pla
         and #$ff00
         ora #$0004
@@ -7493,7 +7497,7 @@ _d717:  phb
         tax
         lda $c0f316,x
         phx
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         plx
         lda $c0f318,x
         tax
@@ -7524,7 +7528,7 @@ _d717:  phb
 _c2d760:
         .a16
         lda #$ae53
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         lda $55
         and #$00ff
         dec
@@ -7568,7 +7572,7 @@ _c2d760:
         lda #$0011
         jsr _c2e4ed
         lda #$ae37
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
 @d7c9:  rts
         .a8
 
@@ -8406,7 +8410,7 @@ _ddd7:  phb
         sta $e6
         lda $2bbe
         beq @dded
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
 @dded:  jsr _c2d4c5
         jsr _c2d503
         ldx $80
@@ -8417,7 +8421,7 @@ _ddd7:  phb
         sta $e6
         lda $2bc0
         beq @de0a
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
 @de0a:  lda $2bc2
         sta $2bbc
         ldx $8e
@@ -10886,7 +10890,7 @@ _eee7:  phb
         asl
         tax
         lda $c0f208,x
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         jsr _c2a698
         .a8
         plp
@@ -11485,7 +11489,7 @@ _f32a:  phb
         lda $2bf4
         bne @f393
         lda #$b59e
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
         ldx $e6
         ldy #$2c04
         lda #$7e06
@@ -11526,7 +11530,7 @@ _f32a:  phb
         jsr _c2d6dc
         bra @f399
 @f393:  lda #$b5b1
-        jsr _c2c1b8
+        jsr LoadMenuTilemap
 @f399:  plp
         plb
         rts
@@ -13290,7 +13294,8 @@ _c0e7c6:
         .byte   $00,$00,$00
 
 ; c0/e7e7
-        .addr   _c2c1b8,_c2c1b8,_c2c1b8,_c2c1b8,_c2c1f7,_c2c1f7,_c2c1f7,_c2c1f7
+        .addr   LoadMenuTilemap,LoadMenuTilemap,LoadMenuTilemap,LoadMenuTilemap
+        .addr   _c2c1f7,_c2c1f7,_c2c1f7,_c2c1f7
         .addr   _c2c1a6,_c2c1a6,_c2c1a6,_c2c1a6
 
 ; c0/e7ff
@@ -13867,9 +13872,9 @@ DeadCharGfxPtrs:
 ; ---------------------------------------------------------------------------
 
 ; c0/f316
-        .byte   $6d,$ae,$2f,$b8
-        .byte   $98,$ae,$3f,$b8
-        .byte   $b0,$ae,$3f,$b8
+        .word   $ae6d,$b82f
+        .word   $ae98,$b83f
+        .word   $aeb0,$b83f
 
 ; c0f322
         .word   $0000,$53c6,$5586,$0000
@@ -13888,56 +13893,62 @@ DeadCharGfxPtrs:
 ; c0/f362
         .word   $42c8,$43c8,$44c8,$45c8
 
-; c0/f36a:                      00 00 23 B5 0B 07
-; 06 00 86 00 2C 00 5E 00 A0 00 86 00
+; c0/f36a
+        .byte   $00,$00,$23,$B5,$0B,$07,$06,$00,$86,$00,$2C,$00,$5E,$00,$A0,$00
+        .byte   $86,$00
 
-; c0/f37c:                            08 60 08 80
-; 08 A0 08 C0
+; c0/f37c
+        .word   $6008,$8008,$a008,$c008
 
-; c0/f384:    18 58 18 58 18 78 18 78 18 98 18 98
-; 18 B8 18 B8
+; c0/f384:
+        .word   $5818,$5818,$7818,$7818,$9818,$9818,$b818,$b818
 
-; c0/f394:    14 24 2C 24 14 54 2C 54 14 84 2C 84
-; 14 B4 2C B4
+; c0/f394:
+        .word   $2414,$242c,$5414,$542c,$8414,$842c,$b414,$b42c
 
-; c0/f3a4:    07 07 07 07 07 19 1A
+; c0/f3a4:
+        .byte   $07,$07,$07,$07,$07,$19,$1a
 
-; c0/f3ab:                         00 FF 00 01 FF
-; 00 01 00
+; c0/f3ab
+        .word   $ff00,$0100,$00ff,$0001
 
-; c0/f3b3: FD B4 AF B4 BF B4 CF B4 D9 B4 E3 B4 F3
-; B4
+; c0/f3b3
+        .word   $b4fd,$b4af,$b4bf,$b4cf,$b4d9,$b4e3,$b4f3
 
 ; c0/f3c1
-;    01 FF 0A F6
+        .byte   $01,$ff,$0a,$f6
 
-; c0/f3c5:       04 42 84 43 04 45 84 46
+; c0/f3c5
+        .word   $4204,$4384,$4504,$4684
 
-; c0/f3cd:                               D5 F3 DE
-; F3 E7 F3 F0 F3 00 24 01 18 00 98 7E 00 06 00 27
-; 01 18 00 9E 7E 00 06 00 2A 01 18 00 A4 7E 00 06
-; 00 2D 01 18 00 AA 7E 00 06
+; c0/f3cd
+        .addr   $f3d5,$f3de,$f3e7,$f3f0
+        .byte   $00,$24,$01,$18,$00,$98,$7e,$00,$06
+        .byte   $00,$27,$01,$18,$00,$9e,$7e,$00,$06
+        .byte   $00,$2a,$01,$18,$00,$a4,$7e,$00,$06
+        .byte   $00,$2d,$01,$18,$00,$aa,$7e,$00,$06
 
-; c0/f3f9:                   20 08 01 18 40 40 7E
-; 00 09
+; c0/f3f9
+        .byte   $20,$08,$01,$18,$40,$40,$7e,$00,$09
 
 ; c0/f402
-;       20 10 01 18 40 50 7E 00 09
+        .byte   $20,$10,$01,$18,$40,$50,$7e,$00,$09
 
-; c0/f40b:                         20 18 01 18 40
-; 60 7E 00 09
+; c0/f40b
+        .byte   $20,$18,$01,$18,$40,$60,$7e,$00,$09
 
-; c0/f414:    8A 8C 88 8E 90 34 36 38 3A 3C 6A 6C
-; 6E 70 72 3E 40 42 44 46 74 76 78 7A 7C 20 22 24
-; 26 28 7E 80 82 84 86 49 4B 4D 4F 51 92 94 96 98
-; 9A BC BE C0 C2 BA 60 62 64 66 68 C4 C6 C8 CA CC
-; 9C 9E A0 A2 A4 C5 48 C9 CB C7 B0 B2 B4 B6 B8 53
-; 54 55 56 57 A6 A8 AA AC AE 58 59 5A 5B 5C 2A 2C
-; 2E 30 32 CE D0 D1 FF FF
+; c0/f414:
+        .byte   $8a,$8c,$88,$8e,$90,$34,$36,$38,$3a,$3c,$6a,$6c,$6e,$70,$72,$3e
+        .byte   $40,$42,$44,$46,$74,$76,$78,$7a,$7c,$20,$22,$24,$26,$28,$7e,$80
+        .byte   $82,$84,$86,$49,$4b,$4d,$4f,$51,$92,$94,$96,$98,$9a,$bc,$be,$c0
+        .byte   $c2,$ba,$60,$62,$64,$66,$68,$c4,$c6,$c8,$ca,$cc,$9c,$9e,$a0,$a2
+        .byte   $a4,$c5,$48,$c9,$cb,$c7,$b0,$b2,$b4,$b6,$b8,$53,$54,$55,$56,$57
+        .byte   $a6,$a8,$aa,$ac,$ae,$58,$59,$5a,$5b,$5c,$2a,$2c,$2e,$30,$32,$ce
+        .byte   $d0,$d1,$ff,$ff
 
-; c0/f478:                9A 62 AC 62 1A 63 2C 63
-; 9A 63 AC 63 1A 64 2C 64 9A 64 AC 64 1A 65 2C 65
-; 9A 65 AC 65 1A 66 2C 66
+; c0/f478:
+        .word   $629a,$62ac,$631a,$632c,$639a,$63ac,$641a,$642c
+        .word   $649a,$64ac,$651a,$652c,$659a,$65ac,$661a,$662c
 
 ; ---------------------------------------------------------------------------
 
@@ -14006,77 +14017,120 @@ DeadCharGfxPtrs:
 
 ; ---------------------------------------------------------------------------
 
-; c0/f53b:                         02 0A 12 1A 77
-; 77 00 00 00 00 00 00
+; c0/f53b
+        .byte   $02,$0a,$12,$1a,$77,$77
+        .byte   $00,$00,$00,$00,$00,$00
 
-; c0/f547:             40 43 02 0E 00 70 7E 50 43
-; 02 10 80 70 7E 60 43 02 12 00 71 7E 70 43 02 14
-; 80 71 7E 20 43 01 26 00 72 7E 30 43 01 28 80 72
-; 7E 00 00
+; c0/f547
+        .byte   $40,$43,$02,$0e,$00,$70,$7e
+        .byte   $50,$43,$02,$10,$80,$70,$7e
+        .byte   $60,$43,$02,$12,$00,$71,$7e
+        .byte   $70,$43,$02,$14,$80,$71,$7e
+        .byte   $20,$43,$01,$26,$00,$72,$7e
+        .byte   $30,$43,$01,$28,$80,$72,$7e
+        .byte   $00,$00
 
-; c0/f573: 00 00 00 00 00 00 00 01 18 00 30 7E 00
-; 10 01 00 01 00 00 00 00 00 00 00
+; c0/f573:
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$01
+        .byte   $18,$00,$30,$7e
+        .byte   $00,$10,$01,$00
+        .byte   $01,$00,$00,$00
+        .byte   $00,$00,$00,$00
 
-; c0/f58b:                         01 18 00 30 7E
-; 00 40
+; c0/f58b:
+        .byte   $01,$18,$00,$30,$7e,$00,$40
 
-; c0/f592
-;       19 00 28 00 64 00 B4 00 F0 00 2C 01 68 01
-; A4 01 E0 01 1C 02 58 02 94 02 D0 02 0C 03 48 03
-; 84 03
+; c0/f592: pause duration for tutorial scripts
+        .word   $0019,$0028,$0064,$00b4,$00f0,$012c,$0168,$01a4
+        .word   $01e0,$021c,$0258,$0294,$02d0,$030c,$0348,$0384
 
 ; c0/f5b2
-;       02 04 00 02 00 20 02
+        .byte   $02,$04,$00,$02,$00,$20,$02
 
-; c0/f5b9:                   02 22 00 73 7E 00 02
+; c0/f5b9
+        .byte   $02,$22,$00,$73,$7e,$00,$02
 
 ; c0/f5c0
-; 18 1B 01 18 30 66 7E 0C 00
+        .byte   $18,$1b,$01,$18,$30,$66,$7e,$0c,$00
 
-; c0/f5c9:
+; c0/f5c9
         .word   $0004,$0002,$0001
 
-; c0/f5cf:                                     00
-; 30 00 40 00 50 00 60 00 70 80 70 00 71 80 71 00
-; 72 80 72 00 76 00 75
+; c0/f5cf
+        .word   $3000,$4000,$5000,$6000
+        .word   $7000,$7080,$7100,$7180
+        .word   $7200,$7280,$7600,$7500
 
-; c0/f5e7:             01 F6 19 F6 31 F6 49 F6 61
-; F6 79 F6 91 F6 A9 F6 C1 F6 D9 F6 F1 F6 09 F7 21
-; F7
+; c0/f5e7
+        .addr   $f601,$f619,$f631,$f649,$f661,$f679,$f691,$f6a9
+        .addr   $f6c1,$f6d9,$f6f1,$f709,$f721
 
 ; c0/f601
-;    00 00 00 00 3F AD 65 AD 00 00 00 00 16 B8 22
-; B8 86 AC 98 AC 00 A3 BA AB 00 00 E3 AD F4 AD 5E
-; AE 00 00 2C B8 2F B8 4F B8 CE AC 00 00 82 A3 CB
-; AB 00 00 00 00 EA AE 0F AF 00 00 00 00 5C B8 62
-; B8 00 00 00 00 34 A4 DC AB 00 00 3C AF 4D AF 2B
-; B0 00 00 68 B8 7A B8 8C B8 DA AC 00 00 EE A4 ED
-; AB 00 00 00 00 95 B0 D3 B0 00 00 00 00 9A B8 A0
-; B8 E6 AC 00 00 98 A5 FE AB 00 00 9F B1 EB B1 37
-; B2 00 00 B0 B8 BB B8 D1 B8 F2 AC 00 00 A2 A5 0F
-; AC 00 00 00 00 63 B3 B7 B3 00 00 00 00 C9 B8 D1
-; B8 F2 AC 01 AD 3C A7 20 AC 00 00 00 00 D6 B3 F3
-; B3 00 00 00 00 E0 B8 E6 B8 00 00 00 00 56 A8 31
-; AC 00 00 00 00 6E B6 00 00 00 00 00 00 3E B9 00
-; 00 00 00 00 00 38 AA 75 AC 00 00 00 00 36 B6 00
-; 00 00 00 00 00 19 B9 00 00 00 00 00 00 26 AA 64
-; AC 00 00 36 B5 3F AD 00 00 00 00 FD B8 16 B8 05
-; B9 1F AD 00 00 78 A9 42 AC 00 00 6A B5 3F AD 00
-; 00 00 00 FD B8 16 B8 05 B9 1F AD 00 00 AA A9 42
-; AC 00 00 00 00 F5 B5 20 B6 00 00 00 00 0F B9 00
-; 00 10 AD 00 00 E4 A9 53 AC
+        .word   $0000,$0000,$ad3f,$ad65
+        .word   $0000,$0000,$b816,$b822
+        .word   $ac86,$ac98,$a300,$abba
 
-; c0/f739:                   00 00 00 00 00 00 40
-; 00 21 61 42 82 C2 23 43 24 44 84 25 45 A5 27 47
-; 87 CC 2D 8D 2F 4F 8F 00 50 70 90 B0 31 00 32 00
-; 00 72 33 53 34 48 68 88 A8 C8 E8 29 49 69 89 A9
-; C9 2A 4A 6A 8A AA CA 2B 4B 6B 8B AB CB 2C 4C 6C
-; 8C AC 2E 4E 6E 8E 6D 80 A0 73 C0 63 85 46 67 6F
-; 52 E2 A1 C1 E1 E9 EA 41 60 A4 30 20 81 65 4D 28
-; 26 A2 64 22 71 51 EB 62
+        .word   $0000,$ade3,$adf4,$ae5e
+        .word   $0000,$b82c,$b82f,$b84f
+        .word   $acce,$0000,$a382,$abcb
 
-; c0/f7a8: "なんで" (why)
-        .byte   $93,$b9,$45
+        .word   $0000,$0000,$aeea,$af0f
+        .word   $0000,$0000,$b85c,$b862
+        .word   $0000,$0000,$a434,$abdc
+
+        .word   $0000,$af3c,$af4d,$b02b
+        .word   $0000,$b868,$b87a,$b88c
+        .word   $acda,$0000,$a4ee,$abed
+
+        .word   $0000,$0000,$b095,$b0d3
+        .word   $0000,$0000,$b89a,$b8a0
+        .word   $ace6,$0000,$a598,$abfe
+
+        .word   $0000,$b19f,$b1eb,$b237
+        .word   $0000,$b8b0,$b8bb,$b8d1
+        .word   $acf2,$0000,$a5a2,$ac0f
+
+        .word   $0000,$0000,$b363,$b3b7
+        .word   $0000,$0000,$b8c9,$b8d1
+        .word   $acf2,$ad01,$a73c,$ac20
+
+        .word   $0000,$0000,$b3d6,$b3f3
+        .word   $0000,$0000,$b8e0,$b8e6
+        .word   $0000,$0000,$a856,$ac31
+
+        .word   $0000,$0000,$b66e,$0000
+        .word   $0000,$0000,$b93e,$0000
+        .word   $0000,$0000,$aa38,$ac75
+
+        .word   $0000,$0000,$b636,$0000
+        .word   $0000,$0000,$b919,$0000
+        .word   $0000,$0000,$aa26,$ac64
+
+        .word   $0000,$b536,$ad3f,$0000
+        .word   $0000,$b8fd,$b816,$b905
+        .word   $ad1f,$0000,$a978,$ac42
+
+        .word   $0000,$b56a,$ad3f,$0000
+        .word   $0000,$b8fd,$b816,$b905
+        .word   $ad1f,$0000,$a9aa,$ac42
+
+        .word   $0000,$0000,$b5f5,$b620
+        .word   $0000,$0000,$b90f,$0000
+        .word   $ad10,$0000,$a9e4,$ac53
+
+
+; c0/f739:
+        .byte   $00,$00,$00,$00,$00,$00,$40,$00,$21,$61,$42,$82,$c2,$23,$43,$24
+        .byte   $44,$84,$25,$45,$a5,$27,$47,$87,$cc,$2d,$8d,$2f,$4f,$8f,$00,$50
+        .byte   $70,$90,$b0,$31,$00,$32,$00,$00,$72,$33,$53,$34,$48,$68,$88,$a8
+        .byte   $c8,$e8,$29,$49,$69,$89,$a9,$c9,$2a,$4a,$6a,$8a,$aa,$ca,$2b,$4b
+        .byte   $6b,$8b,$ab,$cb,$2c,$4c,$6c,$8c,$ac,$2e,$4e,$6e,$8e,$6d,$80,$a0
+        .byte   $73,$c0,$63,$85,$46,$67,$6f,$52,$e2,$a1,$c1,$e1,$e9,$ea,$41,$60
+        .byte   $a4,$30,$20,$81,$65,$4d,$28,$26,$a2,$64,$22,$71,$51,$eb,$62
+
+; c0/f7a8: "なんでも" (anything)
+        .byte   $93,$b9,$45,$a5,$00
 
 ; c0/f7ad
         .byte   $03,$00,$00,$00,$e7

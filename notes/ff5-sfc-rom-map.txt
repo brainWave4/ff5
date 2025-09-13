@@ -99,9 +99,9 @@
 | C37A07-C37A69 | (lzss)                                                    |
 | C37A69-C37B92 | (lzss)                                                    |
 | C37B92-C37E4D | (lzss)                                                    |
-| C37E4D-C3A2ED | cinematic code (compressed)                               |
-|               |                                                           |
-| C3AE37-C3BA20 | menu tilemaps and cursor data                             |
+| C37E4D-C3A06F | cinematic code (compressed)                               |
+| C3A06F-C3A300 | stale data ???                                            |
+| C3A300-C3BA20 | menu tilemaps and cursor data                             |
 | C3BB00-C3E700 | map palettes (44 items, 256 bytes each)                   |
 | C3E700-C3EB00 | unused space (1024 bytes)                                 |
 | C3EB00-C3FE00 | kana graphics (1bpp)                                      |
@@ -234,7 +234,7 @@
 | D0EF06-D0EF26 | magic spell levels                                        |
 | D0EF26-D0EF58 |                                                           |
 | D0EF58-D0EF78 | commands that can be used as toad                         |
-| D0EF78-D0EF92 | validate inventory (menu code)                            |
+| D0EF78-D0EF92 | validate inventory (battle code)                          |
 | D0EF92-D0F000 | unused space (110 bytes)                                  |
 | D0F000-D0F1D4 | pointers to battle dialogue (+$D00000/+$E70000)           |
 | D0F1D4-D0FEBC | battle dialogue (234 items, variable size) jap ver. only  |
