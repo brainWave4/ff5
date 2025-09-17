@@ -101,7 +101,10 @@
 | C37B92-C37E4D | (lzss)                                                    |
 | C37E4D-C3A06F | cinematic code (compressed)                               |
 | C3A06F-C3A300 | stale data ???                                            |
-| C3A300-C3BA20 | menu tilemaps and cursor data                             |
+| C3A300-C3B94A | menu tilemaps and cursor data                             |
+| C3B94A-C3B960 | unused space (23 bytes)                                   |
+| C3B960-C3BA00 | menu palettes                                             |
+| C3BA00-C3BB00 | unused space (256 bytes)                                  |
 | C3BB00-C3E700 | map palettes (44 items, 256 bytes each)                   |
 | C3E700-C3EB00 | unused space (1024 bytes)                                 |
 | C3EB00-C3FE00 | kana graphics (1bpp)                                      |
