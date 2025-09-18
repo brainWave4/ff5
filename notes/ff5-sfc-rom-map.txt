@@ -310,8 +310,10 @@
 | D16EF9-D16F89 | item combination data for mix ability (144 * 1 byte)      |
 | D16F89-D17000 | unused space (119 bytes)                                  |
 | D17000-D17140 | initial character data (4 items, 80 bytes each)           |
-| D17140-D1724A | pointers to job/ability descriptions (+$D10000)           |
-| D1724A-D177BA | job/ability descriptions (133 items, variable size)       |
+| D17140-D1716C | pointers to job descriptions (+$D10000)                   |
+| D1716C-D1724A | pointers to ability descriptions (+$D10000)               |
+| D1724A-D17337 | job descriptions (22 items, variable size)               |
+| D17337-D177BA | ability descriptions (111 items, variable size)           |
 | D177BA-D17FA0 | unused space (2022 bytes)                                 |
 | D17FA0-D187A0 | attack tilemaps 1                                         |
 | D187A0-D18FA0 | attack tilemaps 2                                         |

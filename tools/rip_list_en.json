@@ -17,6 +17,10 @@
       "asset_range": "0xD128B6-0xD12975"
     },
     {
+      "json_path": "src/text/shop_name_en.json",
+      "asset_range": "0xD12D00-0xD12D3F"
+    },
+    {
       "json_path": "src/text/job_name_en.json",
       "asset_range": "0xD15600-0xD156AF"
     },

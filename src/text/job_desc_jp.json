@@ -1,0 +1,11 @@
+{
+  "asset_label": "JobDesc",
+  "inc_path": "include/text/job_desc_jp.inc",
+  "char_tables": [
+    "battle_escape",
+    "big_symbols_jp",
+    "kana",
+    "kanji"
+  ],
+  "text": []
+}

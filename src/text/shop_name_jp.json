@@ -1,0 +1,10 @@
+{
+  "asset_label": "ShopName",
+  "item_size": 8,
+  "char_tables": [
+    "small_symbols_jp",
+    "kana",
+    "fixed_length_jp"
+  ],
+  "text": []
+}

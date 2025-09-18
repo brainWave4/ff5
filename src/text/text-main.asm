@@ -20,6 +20,9 @@ inc_lang "text/dlg_%s.inc"
 inc_lang "text/map_title_%s.inc"
 inc_lang "text/battle_dlg_%s.inc"
 inc_lang "text/battle_msg_%s.inc"
+inc_lang "text/item_desc_%s.inc"
+inc_lang "text/job_desc_%s.inc"
+inc_lang "text/ability_desc_%s.inc"
 
 .export ItemName, JobName, MagicName, AttackName, MonsterName
 .export MonsterSpecialName, StatusName, BattleCmdName
@@ -179,6 +182,26 @@ BattleMsg:
 
 ; ------------------------------------------------------------------------------
 
+.segment "item_desc"
+
+; d1/4000
+ItemDescPtrs:
+        ptr_tbl ItemDesc
+
+; d1/4100
+ItemDesc:
+        .incbin "item_desc_jp.dat"
+
+; ------------------------------------------------------------------------------
+
+.segment "char_name"
+
+; d1/5500
+CharName:
+        .incbin "char_name_jp.dat"
+
+; ------------------------------------------------------------------------------
+
 .segment "job_name"
 
 ; d1/5600
@@ -218,6 +241,26 @@ PassiveAbilityName:
 SpecialAbilityName:
         .incbin "special_ability_name_jp.dat"
 .endif
+
+; ------------------------------------------------------------------------------
+
+.segment "job_ability_desc"
+
+; d1/7140: pointers to job descriptions (+$D10000)
+JobDescPtrs:
+        ptr_tbl JobDesc
+
+; d1/716c: pointers to ability descriptions (+$D10000)
+AbilityDescPtrs:
+        ptr_tbl AbilityDesc
+
+; d1/724a: job descriptions (22 items, variable size)
+JobDesc:
+        .incbin "job_desc_jp.dat"
+
+; d1/7337: ability descriptions (111 items, variable size)
+AbilityDesc:
+        .incbin "ability_desc_jp.dat"
 
 ; ------------------------------------------------------------------------------
 
