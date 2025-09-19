@@ -1,0 +1,11 @@
+{
+  "asset_label": "JobDesc",
+  "inc_path": "include/text/ability_desc_en.inc",
+  "char_tables": [
+    "battle_escape",
+    "battle_symbols_en",
+    "text_en",
+    "dte_en"
+  ],
+  "text": []
+}

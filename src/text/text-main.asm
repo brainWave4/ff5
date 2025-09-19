@@ -23,6 +23,7 @@ inc_lang "text/battle_msg_%s.inc"
 inc_lang "text/item_desc_%s.inc"
 inc_lang "text/job_desc_%s.inc"
 inc_lang "text/ability_desc_%s.inc"
+inc_lang "text/menu_text_%s.inc"
 
 .export ItemName, JobName, MagicName, AttackName, MonsterName
 .export MonsterSpecialName, StatusName, BattleCmdName
@@ -31,6 +32,11 @@ inc_lang "text/ability_desc_%s.inc"
 ; ------------------------------------------------------------------------------
 
 .segment "dlg_ptrs"
+
+; In the RPGe translation, this pointer table is unchanged from the original,
+; but since the Japanese dialogue is not loaded, there's no simple way to
+; output the pointers to the Japanese dialogue. For now, this simply
+; outputs 16-bit points to the English dialogue instead.
 
 ; c8/2220
 .if !LANG_EN
@@ -47,6 +53,11 @@ DlgPtrs:
 Dlg:
 .endif
         .incbin "dlg_jp.dat"
+
+; Extra text in the RPGe translation (pretty sure these are all unused)
+; ca/00ee: "Lenna: Do you really have to go?"
+; ca/01ba: "Lenna"
+; ca/eca2: "What is going on in here?"
 
 ; ------------------------------------------------------------------------------
 
@@ -185,12 +196,19 @@ BattleMsg:
 .segment "item_desc"
 
 ; d1/4000
+.if !LANG_EN
 ItemDescPtrs:
+.endif
         ptr_tbl ItemDesc
 
 ; d1/4100
+.if !LANG_EN
 ItemDesc:
+.endif
         .incbin "item_desc_jp.dat"
+
+; At d1/4658 in the RPGe translation
+; "of `Doom'!"
 
 ; ------------------------------------------------------------------------------
 
@@ -228,7 +246,7 @@ BattleCmdName:
 .if !LANG_EN
 PassiveAbilityName:
 .endif
-        .incbin "passive_ability_name_jp.dat"
+        incbin_lang "passive_ability_name_%s.dat"
 
 ; ------------------------------------------------------------------------------
 
@@ -318,6 +336,25 @@ AttackNameLong:
 BattleMsg:
         .incbin "battle_msg_en.dat"
 
+.segment "menu_text_en"
+
+; e7/2f00
+MenuText:
+        .incbin "menu_text_en.dat"
+
+.segment "key_item_name_en"
+
+; e7/3568
+KeyItemName:
+        .incbin "key_item_name_en.dat"
+
+        .word   $6388,$63a4,$6408,$6424,$6488,$64a4,$6508,$6524
+        .word   $6588,$65a4,$6608,$6624,$6688,$66a4,$6708,$6724
+        .word   $6788,$67a4,$6808,$6824,$6888,$68a4,$68a4,$68a4
+        .word   $68a4,$68a4,$68a4,$68a4,$68a4,$68a4,$68a4,$68a4
+        .word   $68a4,$68a4,$68a4,$68a4,$68a4,$68a4,$68a4,$68a4
+        .word   $68a4
+
 .segment "monster_special_name_en"
 
 ; e7/3700
@@ -329,6 +366,16 @@ MonsterSpecialName:
 ; e7/3b00
 BattleDlg:
         .incbin "battle_dlg_en.dat"
+
+.segment "item_desc_en"
+
+; e7/5100
+ItemDescPtrs:
+        ptr_tbl ItemDesc
+
+; e7/5200
+ItemDesc:
+        .incbin "item_desc_en.dat"
 
 .segment "map_title_en"
 
@@ -346,6 +393,6 @@ ItemName:
 
 ; e7/7060
 PassiveAbilityName:
-        .incbin "passive_ability_name_en.dat"
+        .incbin "passive_ability_name_long_en.dat"
 
 .endif

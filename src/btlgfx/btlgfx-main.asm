@@ -33711,7 +33711,7 @@ _c1f82b:
 @f82b:  lda     #$02
         sta     $dbf1
 .if LANG_EN
-        ldx     #$73a0
+        ldx     #$73a0                  ; crystal prophecy text
 .else
         ldx     #near _d0e340
 .endif

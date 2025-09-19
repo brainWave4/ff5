@@ -1,0 +1,12 @@
+{
+  "asset_label": "MenuText",
+  "inc_path": "include/text/menu_text_en.inc",
+  "char_tables": [
+    "small_symbols_en",
+    "text_en",
+    "menu_escape_en",
+    "battle_symbols_en",
+    "dte_en"
+  ],
+  "text": []
+}

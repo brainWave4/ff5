@@ -1508,7 +1508,11 @@ _a9d9:  php
         and #$001f
         asl
         tax
+.if LANG_EN
+        jml $e0315b
+.else
         lda f:JobDescPtrs,x   ; pointers to job descriptions
+.endif
         sta $2ceb
         jsr _c2da16
         plp
@@ -1709,7 +1713,11 @@ _ab4c:  jsr _c2a67a
         and #$00ff
         asl
         tax
+.if LANG_EN
+        jml $e03149
+.else
         lda f:ItemDescPtrs,x
+.endif
         sta $2ceb
         jsr _c2da16
         shorta
@@ -1864,7 +1872,11 @@ _ac5e:  php
         and #$007f
         asl
         tax
+.if LANG_EN
+        jml $e0316d
+.else
         lda f:ItemDescPtrs,x
+.endif
         sta $2ceb
         jsr _c2da16
 @ac8e:  plp
@@ -4827,11 +4839,17 @@ _c2c32d:
         tax
         lda f:MenuTextPtrs,x
         tay
+.if LANG_EN
+        jml $e02ff0
+        jsr _c2e59d
+        nop6
+.else
         ldx $e8
         lda $e4
         and #$00ff
         ora #$c000
         jsr _c2e59d
+.endif
         rts
 
 ; ---------------------------------------------------------------------------
@@ -4992,13 +5010,24 @@ _c442:  pea $7e7e
         stz $53
         jsr _c2d210
         jsr _c2c4da
+.if LANG_EN
+        jml $e0311e
+        .a16
+        nop
+.else
         longa
         stz $2b92
+.endif
         jsr _c2c551
         lda #$ffff
+.if LANG_EN
+        jml $e0312a
+        nop5
+.else
         sta $0990
         sta $0992
         sta $0994
+.endif
         ldx #$51c4
         ldy #$0990
         lda #$0006
@@ -5079,7 +5108,11 @@ _c51d:  php
         cmp #$00c4
         bpl @c53f
 @c53b:  clc
+.if LANG_EN
+        nop3
+.else
         adc $2b65
+.endif
 @c53f:  and #$00ff
         plp
         rts
@@ -5368,18 +5401,30 @@ _c73d:  phb
         beq @c776
         longa
         ldx $85
+.if LANG_EN
+        lda $e736a0,x
+.else
         lda $c0e974,x
+.endif
         sec
         sbc #$00c2
         inx2
         stx $85
         tax
+.if LANG_EN
+        jml $e02fd3
+        clc
+        adc #$3500                      ; key item names
+        tay
+        lda #$e70d
+.else
         tya
         asl3
         clc
         adc #$e500                      ; key item names
         tay
         lda #$c008
+.endif
         jsr _c2e59d
 @c776:  ply
         iny
@@ -5931,7 +5976,11 @@ _c2cb95:
         jsr LoadMenuTilemap
         pla
         and #$ff00
+.if LANG_EN
+        ora #$0006
+.else
         ora #$0004
+.endif
         ldx $e6
         jsr _c2d6dc
         plx
@@ -6500,7 +6549,11 @@ _cfdc:  jsr _c2d230
         and #$0080
         bne @d00a
         ldx #$64f2
+.if LANG_EN
+        lda #$0104
+.else
         lda #$0103
+.endif
         jsr _c2d6dc
 @d00a:  pea $7e7e
         plb
@@ -7575,7 +7628,11 @@ _c2d760:
         pha
         asl
         tax
+.if LANG_EN
+        jml $e0317f
+.else
         lda $d1716c,x           ; pointers to ability descriptions
+.endif
         sta $7e2ceb
         jsr _c2da16
         pla
@@ -7822,10 +7879,16 @@ _d8e4:  phb
         lda #$00c9
         sta $2b3f
 @d926:  phx
+.if LANG_EN
+        jsl $e00f50
+        lda #$0006
+        mvn #$e0,#$7e
+.else
         tyx
         ldy #$2b40
         lda #$0004
         mvn #$d1,#$7e
+.endif
         plx
         ldy #$2b3f
         lda #$7e08
@@ -7971,8 +8034,12 @@ _da16:  phb
 @da28:  ldx $2ceb
         ldy #$2cf1
         lda $2ce7
+.if LANG_EN
+        jsl $e03191
+.else
         dec
         mvn #$d1,#$7e
+.endif
         inc
         sta a:$0000,y
         ldx $8e
@@ -9457,7 +9524,11 @@ _e4c7:  php
         tax
         tyx
         tay
+.if LANG_EN
+        lda #$d108
+.else
         lda #$d107
+.endif
         jsr _c2e59d
         plp
         rts
@@ -11289,8 +11360,13 @@ _f15b:  phb
         bit $2802
         bmi @f18c
         ldx #$51ce
+.if LANG_EN
+        ldy #$faa0
+        lda #$c003
+.else
         ldy #$f514
         lda #$c002
+.endif
         jsr _c2e59d
 @f18c:  plp
         plb
@@ -13220,6 +13296,9 @@ _c2fff8:
 .segment "key_item_name"
 
 ; c0/e500: key item names
+.if LANG_EN
+        .res    256,$ff
+.else
         .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
         .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
         .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
@@ -13252,6 +13331,7 @@ _c2fff8:
         .byte   $7b,$6d,$21,$b9,$57,$ff,$ff,$ff
         .byte   $7b,$6b,$8d,$81,$39,$ff,$ff,$ff
         .byte   $87,$31,$ff,$ff,$ff,$ff,$ff,$ff
+.endif
 
 ; ---------------------------------------------------------------------------
 
@@ -13526,10 +13606,18 @@ _c0e7c6:
         .word   $0000,$0050,$00a0,$00f0
 
 ; c0/ea6c
+.if LANG_EN
+        .byte   $6c,$60,$72,$73,$64,$71,$c9,$00
+.else
         .byte   $db,$d3,$dd,$df,$d9,$d8,$c9,$00
+.endif
 
 ; c0/ea74: "Ｌざ　　ー　　　／　　　"
+.if LANG_EN
+        .byte   $6b,$75,$ff,$ff,$c5,$ff,$ff,$ff,$ce,$ff,$ff,$ff,$00
+.else
         .byte   $d7,$35,$ff,$ff,$c5,$ff,$ff,$ff,$ce,$ff,$ff,$ff,$00
+.endif
 
 ; c0/ea81: blank text for ??
         .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$00
@@ -13885,14 +13973,26 @@ DeadCharGfxPtrs:
         .word   $4688,$4690,$4698,$46a0,$46a8,$46b0
 
 ; c0/f18e
+.if LANG_EN
+        .byte   $06,$01,$01,$06,$06,$06,$06,$06,$06,$06,$01,$01,$01,$04,$04,$04
+        .byte   $04,$04,$04,$04,$08,$08,$08,$08,$01,$01,$01,$01,$01,$01,$01,$01
+        .byte   $01,$01,$01,$01,$01,$01,$01,$01,$04,$04,$04,$04,$04,$04,$04
+.else
         .byte   $05,$01,$01,$05,$02,$04,$03,$06,$04,$04,$01,$01,$01,$04,$04,$04
         .byte   $04,$04,$04,$04,$08,$08,$08,$08,$01,$01,$01,$01,$01,$01,$01,$01
         .byte   $01,$01,$01,$01,$01,$01,$01,$01,$04,$04,$04,$04,$04,$04,$04
+.endif
 
 ; c0/f1bd
+.if LANG_EN
+        .byte   $0d,$0d,$0d,$0d,$0d,$0d,$0d,$0d,$0d,$0d,$01,$01,$01,$18,$18,$18
+        .byte   $18,$18,$18,$18,$11,$11,$11,$11,$01,$01,$01,$01,$01,$01,$01,$01
+        .byte   $01,$01,$01,$01,$01,$01,$01,$01,$18,$18,$18,$18,$18,$18,$18
+.else
         .byte   $0b,$0b,$0b,$0c,$09,$0b,$0a,$0d,$0b,$0a,$01,$01,$01,$18,$18,$18
         .byte   $18,$18,$18,$18,$11,$11,$11,$11,$01,$01,$01,$01,$01,$01,$01,$01
         .byte   $01,$01,$01,$01,$01,$01,$01,$01,$18,$18,$18,$18,$18,$18,$18
+.endif
 
 ; c0/f1ec
         .byte   $80,$00,$00,$00,$00,$00,$00,$00
@@ -14038,14 +14138,50 @@ DeadCharGfxPtrs:
 ; c0/f40b
         .byte   $20,$18,$01,$18,$40,$60,$7e,$00,$09
 
-; c0/f414:
-        .byte   $8a,$8c,$88,$8e,$90,$34,$36,$38,$3a,$3c,$6a,$6c,$6e,$70,$72,$3e
-        .byte   $40,$42,$44,$46,$74,$76,$78,$7a,$7c,$20,$22,$24,$26,$28,$7e,$80
-        .byte   $82,$84,$86,$49,$4b,$4d,$4f,$51,$92,$94,$96,$98,$9a,$bc,$be,$c0
-        .byte   $c2,$ba,$60,$62,$64,$66,$68,$c4,$c6,$c8,$ca,$cc,$9c,$9e,$a0,$a2
-        .byte   $a4,$c5,$48,$c9,$cb,$c7,$b0,$b2,$b4,$b6,$b8,$53,$54,$55,$56,$57
-        .byte   $a6,$a8,$aa,$ac,$ae,$58,$59,$5a,$5b,$5c,$2a,$2c,$2e,$30,$32,$ce
-        .byte   $d0,$d1,$ff,$ff
+; c0/f414: letters for name menu
+.if LANG_EN
+        .byte   $60,$61,$62,$63,$64
+        .byte   $7a,$7b,$7c,$7d,$7e
+        .byte   $65,$66,$67,$68,$69
+        .byte   $7f,$80,$81,$82,$83
+        .byte   $6a,$6b,$6c,$6d,$6e
+        .byte   $84,$85,$86,$87,$88
+        .byte   $6f,$70,$71,$72,$73
+        .byte   $89,$8a,$8b,$8c,$8d
+        .byte   $74,$75,$76,$77,$78
+        .byte   $8e,$8f,$90,$91,$92
+        .byte   $79,$c5,$9e,$9f,$a3
+        .byte   $93,$95,$94,$97,$98
+        .byte   $9b,$9c,$9d,$99,$9a
+        .byte   $a0,$a1,$a2,$d0,$d1
+        .byte   $ff,$ff,$ff,$ff,$ff
+        .byte   $ff,$ff,$ff,$ff,$ff
+        .byte   $ff,$ff,$ff,$ff,$ff
+        .byte   $ff,$ff,$ff,$ff,$ff
+        .byte   $ff,$ff,$ff,$ff,$ff
+        .byte   $ff,$ff,$ff,$ff,$ff
+.else
+        .byte   $8a,$8c,$88,$8e,$90
+        .byte   $34,$36,$38,$3a,$3c
+        .byte   $6a,$6c,$6e,$70,$72
+        .byte   $3e,$40,$42,$44,$46
+        .byte   $74,$76,$78,$7a,$7c
+        .byte   $20,$22,$24,$26,$28
+        .byte   $7e,$80,$82,$84,$86
+        .byte   $49,$4b,$4d,$4f,$51
+        .byte   $92,$94,$96,$98,$9a
+        .byte   $bc,$be,$c0,$c2,$ba
+        .byte   $60,$62,$64,$66,$68
+        .byte   $c4,$c6,$c8,$ca,$cc
+        .byte   $9c,$9e,$a0,$a2,$a4
+        .byte   $c5,$48,$c9,$cb,$c7
+        .byte   $b0,$b2,$b4,$b6,$b8
+        .byte   $53,$54,$55,$56,$57
+        .byte   $a6,$a8,$aa,$ac,$ae
+        .byte   $58,$59,$5a,$5b,$5c
+        .byte   $2a,$2c,$2e,$30,$32
+        .byte   $ce,$d0,$d1,$ff,$ff
+.endif
 
 ; c0/f478:
         .word   $629a,$62ac,$631a,$632c,$639a,$63ac,$641a,$642c
@@ -14054,7 +14190,11 @@ DeadCharGfxPtrs:
 ; ---------------------------------------------------------------------------
 
 ; c0/f498: "Ｌ　ー　　　／　　　"
+.if LANG_EN
+        .byte   $6b,$ff,$c5,$ff,$ff,$ff,$ce,$ff,$ff,$ff,$00
+.else
         .byte   $d7,$ff,$c5,$ff,$ff,$ff,$ce,$ff,$ff,$ff,$00
+.endif
 
 ; c0/f4a3: blank text for ???
         .byte   $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$00
@@ -14240,7 +14380,11 @@ DeadCharGfxPtrs:
         .byte   $a4,$30,$20,$81,$65,$4d,$28,$26,$a2,$64,$22,$71,$51,$eb,$62
 
 ; c0/f7a8: "なんでも" (anything)
+.if LANG_EN
+        .byte   $60,$87,$92,$ff,$00
+.else
         .byte   $93,$b9,$45,$a5,$00
+.endif
 
 ; c0/f7ad
         .byte   $03,$00,$00,$00,$e7
@@ -14352,13 +14496,19 @@ DeadCharGfxPtrs:
 
         inc_lang "text/menu_text_%s.inc"
 
-; c0/f987: pointers to menu text at c0/fa9d
+; c0/f987: pointers to menu text
 MenuTextPtrs:
         ptr_tbl MenuText
 
-; c0/fa9d: menu text ???
+.if LANG_EN
+        .res 3
+; c0/faa0: "Sell"
+        .byte   $72,$7e,$98,$00
+.else
+; c0/fa9d: menu text
 MenuText:
-        incbin_lang "src/text/menu_text_%s.dat"
+        .incbin "src/text/menu_text_jp.dat"
+.endif
 
 ; ---------------------------------------------------------------------------
 
