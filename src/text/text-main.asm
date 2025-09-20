@@ -196,16 +196,12 @@ BattleMsg:
 .segment "item_desc"
 
 ; d1/4000
-.if !LANG_EN
 ItemDescPtrs:
-.endif
         ptr_tbl ItemDesc
 
 ; d1/4100
-.if !LANG_EN
 ItemDesc:
-.endif
-        .incbin "item_desc_jp.dat"
+        incbin_lang "item_desc_%s.dat"
 
 ; At d1/4658 in the RPGe translation
 ; "of `Doom'!"
@@ -224,7 +220,7 @@ CharName:
 
 ; d1/5600
 JobName:
-        .incbin "job_name_jp.dat"
+        incbin_lang "job_name_%s.dat"
 
 ; ------------------------------------------------------------------------------
 
@@ -291,6 +287,12 @@ MonsterName:
         .incbin "monster_name_en.dat"
 
 .segment "battle_cmd_name_en"
+
+; e0/0f70: 5-byte pointers to battle command names
+.repeat 96, i
+        .dword i*7
+        .byte 0
+.endrep
 
 ; e0/1150
 BattleCmdName:
@@ -370,11 +372,9 @@ BattleDlg:
 .segment "item_desc_en"
 
 ; e7/5100
-ItemDescPtrs:
         ptr_tbl ItemDesc
 
 ; e7/5200
-ItemDesc:
         .incbin "item_desc_en.dat"
 
 .segment "map_title_en"

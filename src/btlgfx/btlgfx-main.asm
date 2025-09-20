@@ -5746,13 +5746,11 @@ _c12bdb:
 @2c01:  jsr     $2bcf
 .if LANG_EN
         lda     #$07
-        sta     $70
-@2c08:  lda     $e01150,x
 .else
         lda     #$05
+.endif
         sta     $70
 @2c08:  lda     f:BattleCmdName,x
-.endif
         jsr     $2cf1
         inx
         dec     $70
@@ -6787,12 +6785,7 @@ _c13231:
 .endif
         sta     $70
         stz     $72
-@3268:
-.if LANG_EN
-        lda     $e01150,x
-.else
-        lda     f:BattleCmdName,x
-.endif
+@3268:  lda     f:BattleCmdName,x
         cmp     #$ff
         beq     @327a
         inc     $72
@@ -9187,13 +9180,11 @@ _c14336:
 @4336:  ldx     $82
 .if LANG_EN
         lda     #$07
-        sta     $74
-@433c:  lda     $e01150,x
 .else
         lda     #$05
+.endif
         sta     $74
 @433c:  lda     f:BattleCmdName,x
-.endif
         sta     $dbf6,y
         inx
         iny

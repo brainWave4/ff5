@@ -433,7 +433,7 @@
 | E00000-E00050 | code                                                      |
 | E00050-E00F50 | monster names (10 bytes each)                             |
 | E00F50-E00F70 | code                                                      |
-| E00F70-E01150 | multiples of 7 (40-bits each) ???                         |
+| E00F70-E01150 | multiples of 7 for battle command names (5 bytes each)    |
 | E01150-E013F0 | battle command names (7 bytes each)                       |
 | E013F0-E02D40 | pointers to dialog (absolute)                             |
 | E02D40-E03225 | code                                                      |
