@@ -161,7 +161,21 @@ class TextCodec:
 
             escape_str = escape_match.group(0)
 
-            if escape_str == '{0}':
+            if re.match(r'{0x[\dA-Fa-f]+}', escape_str):
+                # parse raw hex value
+                value = escape_match.group(1)
+                text_codes.append(int(value, 16))
+                i += len(escape_str)
+                continue
+
+            elif re.match(r'{\d+}', escape_str):
+                # parse raw decimal value
+                value = escape_match.group(1)
+                text_codes.append(int(value))
+                i += len(escape_str)
+                continue
+
+            elif escape_str == '{0}':
                 # force end of string if terminator found
                 break
 
@@ -170,33 +184,31 @@ class TextCodec:
                 escape_param = int(escape_match.group(2))
 
                 b_code = re.sub(ESCAPE_REGEX, r'{\1:b}', escape_str)
-                w_code = re.sub(ESCAPE_REGEX, r'{\1:w}', escape_str)
                 if b_code in key_list:
                     # escape code with no parameter
                     i += len(escape_str)
                     text_codes.append(self.encoding_table[b_code])
                     text_codes.append(escape_param)
+                    continue
 
-                elif w_code in key_list:
+                w_code = re.sub(ESCAPE_REGEX, r'{\1:w}', escape_str)
+                if w_code in key_list:
                     # escape code with no parameter
                     i += len(escape_str)
                     text_codes.append(self.encoding_table[w_code])
                     text_codes.append(escape_param & 0xFF)
                     text_codes.append(escape_param >> 8)
+                    continue
 
             elif escape_str in key_list:
                 # escape code with no parameter
-                i += len(escape_match.group(0))
-                text_codes.append(self.encoding_table[escape_str])
-
-            elif escape_match.group(1).startswith('0x'):
-                # parse raw hex value
-                value = escape_match.group(1)
-                text_codes.append(int(value, 0))
                 i += len(escape_str)
+                text_codes.append(self.encoding_table[escape_str])
+                continue
 
             else:
-                raise ValueError('Invalid escape sequence:', escape_str)
+                # invalid escape code
+                raise ValueError('Invalid escape code:', escape_str)
 
         text_bytes = bytearray()
         for code in text_codes:
