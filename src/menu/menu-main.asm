@@ -16,6 +16,7 @@
 
 inc_lang "text/item_desc_%s.inc"
 inc_lang "text/job_desc_%s.inc"
+inc_lang "text/ability_desc_%s.inc"
 
 .export ExecMenu_ext, UpdateJoypad_ext, _c2a006, _c2a008
 .import ExecSound_ext, _c10009
@@ -413,24 +414,24 @@ _a247:  php
         ldx #$000c
         stx $e4
         ldy $8e
-        lda #$0000
+        lda #$0000                      ; weapon properties
         jsr _c2a23b
         ldx #$01c0
         stx $e2
-        lda #$0600
+        lda #$0600                      ; armor properties
         jsr _c2a23b
         ldx #$0008
         stx $e4
         ldx #$0200
         stx $e2
-        lda #$0a80
+        lda #$0a80                      ; item properties
         jsr _c2a23b
         ldx #$d200
         stx $e0
         ldx #$0009
         stx $e4
         ldy $8e
-        lda #$1380      ; D1/1380 (item names)
+        lda #$1380                      ; D1/1380 (item names)
         jsr _c2a23b
         ldx #$d400
         stx $e0
@@ -439,7 +440,7 @@ _a247:  php
         ldx #$0006
         stx $e4
         ldy $8e
-        lda #$1c80      ; D1/1C80 (spell names)
+        lda #$1c80                      ; D1/1C80 (spell names)
         jsr _c2a23b
         ldx #$0200
         stx $e2
@@ -453,7 +454,7 @@ _a247:  php
         ldx #$0005
         stx $e4
         ldy $8e
-        lda #$5800
+        lda #$5800                      ; battle command names
         jsr _c2a23b
         ldx #$0100
         stx $e2
@@ -465,7 +466,7 @@ _a247:  php
         stx $e2
         ldx #$0008
         stx $e4
-        lda #$6200
+        lda #$6200                      ; passive ability names
         jsr _c2a23b
         plp
         rts
@@ -1509,7 +1510,9 @@ _a9d9:  php
         asl
         tax
 .if LANG_EN
-        jml $e0315b
+        .import _e0315b
+        jml _e0315b
+        .export _c2a9f5 := *
 .else
         lda f:JobDescPtrs,x   ; pointers to job descriptions
 .endif
@@ -1714,7 +1717,9 @@ _ab4c:  jsr _c2a67a
         asl
         tax
 .if LANG_EN
-        jml $e03149
+        .import _e03149
+        jml _e03149
+        .export _c2ab73 := *
 .else
         lda f:ItemDescPtrs,x
 .endif
@@ -1865,21 +1870,23 @@ _ac5e:  php
         tax
         shorta
         lda $7a00,x
-        beq @ac8e
+        beq _ac8e
         lda $288a,x
-        beq @ac8e
+        beq _ac8e
         longa
         and #$007f
         asl
         tax
 .if LANG_EN
-        jml $e0316d
+        .import _e0316d
+        jml _e0316d
+        .export _c2ac88 := *
 .else
         lda f:ItemDescPtrs,x
 .endif
         sta $2ceb
         jsr _c2da16
-@ac8e:  plp
+_ac8e:  plp
         rts
 
 _c2ac90:
@@ -4840,9 +4847,12 @@ _c2c32d:
         lda f:MenuTextPtrs,x
         tay
 .if LANG_EN
-        jml $e02ff0
+        .import _e02ff0
+        jml _e02ff0
+        .export _c2c340 := *
         jsr _c2e59d
         nop6
+        .export _c2c349 := *
 .else
         ldx $e8
         lda $e4
@@ -5011,9 +5021,11 @@ _c442:  pea $7e7e
         jsr _c2d210
         jsr _c2c4da
 .if LANG_EN
-        jml $e0311e
+        .import _e0311e
+        jml _e0311e
         .a16
         nop
+        .export _c2c477 := *
 .else
         longa
         stz $2b92
@@ -5021,8 +5033,10 @@ _c442:  pea $7e7e
         jsr _c2c551
         lda #$ffff
 .if LANG_EN
-        jml $e0312a
+        .import _e0312a
+        jml _e0312a
         nop5
+        .export _c2c486 := *
 .else
         sta $0990
         sta $0992
@@ -5393,12 +5407,12 @@ _c73d:  phb
         longa
         ldy $8e
         stz $85
-@c74a:  phy
+_c74a:  phy
         tya
         shorta
         jsr _c2f01d
         and $0a4a,x
-        beq @c776
+        beq _c776
         longa
         ldx $85
 .if LANG_EN
@@ -5412,7 +5426,9 @@ _c73d:  phb
         stx $85
         tax
 .if LANG_EN
-        jml $e02fd3
+        .import _e02fd3
+        jml _e02fd3
+        .export _c2c76b := *
         clc
         adc #$3500                      ; key item names
         tay
@@ -5426,10 +5442,10 @@ _c73d:  phb
         lda #$c008
 .endif
         jsr _c2e59d
-@c776:  ply
+_c776:  ply
         iny
         cpy #$0020
-        bne @c74a
+        bne _c74a
         plp
         plb
         rts
@@ -5995,7 +6011,7 @@ _c2cbe1:
         phx
         asl
         tax
-        lda $7ed600,x
+        lda $7ed600,x                   ; pointers to battle command names
         tay
         plx
         lda #$d108
@@ -7629,9 +7645,11 @@ _c2d760:
         asl
         tax
 .if LANG_EN
-        jml $e0317f
+        .import _e0317f
+        jml _e0317f
+        .export _c2d78d := *
 .else
-        lda $d1716c,x           ; pointers to ability descriptions
+        lda f:AbilityDescPtrs,x
 .endif
         sta $7e2ceb
         jsr _c2da16
@@ -7855,7 +7873,7 @@ _d8e4:  phb
         phx
         asl
         tax
-        lda $7ed600,x
+        lda $7ed600,x                   ; pointers to battle command names
         tay
         plx
         pla
@@ -7880,7 +7898,8 @@ _d8e4:  phb
         sta $2b3f
 @d926:  phx
 .if LANG_EN
-        jsl $e00f50
+        .import _e00f50
+        jsl _e00f50
         lda #$0006
         mvn #$e0,#$7e
 .else
@@ -8035,7 +8054,8 @@ _da16:  phb
         ldy #$2cf1
         lda $2ce7
 .if LANG_EN
-        jsl $e03191
+        .import _e03191
+        jsl _e03191
 .else
         dec
         mvn #$d1,#$7e
@@ -13822,8 +13842,9 @@ DeadCharGfxPtrs:
 ; c0/ee4b
         .word   $61e6,$6266,$62e6,$6366
 
-; c0/ee53
-        .byte   $c0,$38,$01,$18,$80,$c1,$7e,$80,$06
+; c0/ee53: dma data for vram transfer
+        .word   $38c0  ; vram destination
+        .byte   $01,$18,$80,$c1,$7e,$80,$06  ; copied to $4300-$4306
 
 ; c0/ee5c:
         .byte   $ff,$00,$ff,$00,$ff,$00,$ff,$00,$ff,$00,$ff,$00,$ff,$00
@@ -13918,13 +13939,16 @@ DeadCharGfxPtrs:
         .word   $0000,$0000,$00ed,$00cc,$00da,$0152,$015a,$015c,$0160
 
 ; c0/efd9
-        .byte   $00,$30,$01,$18,$00,$b0,$7e,$00,$20
+        .word   $3000  ; vram destination
+        .byte   $01,$18,$00,$b0,$7e,$00,$20
 
 ; c0/efe2
-        .byte   $00,$70,$01,$18,$00,$f0,$d1,$00,$10
+        .word   $7000  ; vram destination
+        .byte   $01,$18,$00,$f0,$d1,$00,$10
 
 ; c0/efeb
-        .byte   $00,$20,$01,$18,$00,$90,$7e,$00,$20
+        .word   $2000  ; vram destination
+        .byte   $01,$18,$00,$90,$7e,$00,$20
 
 ; c0/eff4: copied to DMA0 registers ($4300-$4306)
         .byte   $02,$22,$00,$73,$7e,$00,$02
@@ -13938,7 +13962,7 @@ DeadCharGfxPtrs:
         .word   $05f0,$08c7,$08f6,$0933,$098c,$aa00,$ac00,$ae00,$7460,$097f
 
 ; c0/f053
-        .word   $0050,$002C,$0001,$0014,$0004,$0180,$0180,$0180,$0020,$0001,$0000
+        .word   $0050,$002c,$0001,$0014,$0004,$0180,$0180,$0180,$0020,$0001,$0000
 
 ; c0/f069
         .byte   $00,$00,$00,$1b,$00,$00,$00,$00,$13,$0f,$00,$00,$00

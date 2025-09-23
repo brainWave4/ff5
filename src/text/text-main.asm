@@ -270,11 +270,11 @@ AbilityDescPtrs:
 
 ; d1/724a: job descriptions (22 items, variable size)
 JobDesc:
-        .incbin "job_desc_jp.dat"
+        incbin_lang "job_desc_%s.dat"
 
 ; d1/7337: ability descriptions (111 items, variable size)
 AbilityDesc:
-        .incbin "ability_desc_jp.dat"
+        incbin_lang "ability_desc_%s.dat"
 
 ; ------------------------------------------------------------------------------
 
@@ -288,7 +288,10 @@ MonsterName:
 
 .segment "battle_cmd_name_en"
 
+.export BattleCmdNameOffsets
+
 ; e0/0f70: 5-byte pointers to battle command names
+BattleCmdNameOffsets:
 .repeat 96, i
         .dword i*7
         .byte 0
@@ -371,11 +374,16 @@ BattleDlg:
 
 .segment "item_desc_en"
 
+; unused item descriptions (likely from early in translation development)
+
+inc_lang "text/item_desc_old_%s.inc"
+
 ; e7/5100
-        ptr_tbl ItemDesc
+        ptr_tbl ItemDescOld
 
 ; e7/5200
-        .incbin "item_desc_en.dat"
+ItemDescOld:
+        .incbin "item_desc_old_en.dat"
 
 .segment "map_title_en"
 

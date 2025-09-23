@@ -5323,6 +5323,10 @@ _c12971:
         jmp     @297b
 @2999:  rts
 
+.if LANG_EN
+        .export _c12999 := @2999
+.endif
+
 ; ---------------------------------------------------------------------------
 
 ; [ get next byte of string ]
@@ -5538,21 +5542,29 @@ _c12af9:
         lda     ($f4)
         jsr     $2c75
 .if LANG_EN
+        .import _e02f25
         lda     #$18
         sta     $70
-@2b02:  lda     $e75860,x
-        jml     $e02f25
+_2b02:  lda     $e75860,x
+        jml     _e02f25
+        .export _c12b0a := *
+        jsr     $2cf1
+        .export _c12b0d := *
+        inx
+        dec     $70
+        bne     _2b02
+        .export _c12b12 := *
 .else
         lda     #$08
         sta     $70
 @2b02:  lda     f:ItemName+1,x
         cmp     #$ff
         beq     @2b12
-.endif
         jsr     $2cf1
         inx
         dec     $70
         bne     @2b02
+.endif
 @2b12:  rts
 
 ; ---------------------------------------------------------------------------
@@ -5836,10 +5848,13 @@ _c12c81:
         lda     [$b8]
         jsr     $2c75
 .if LANG_EN
-        jml     $e00000
+        .import _e00000, _e00014
+        jml     _e00000
+        .export _c12c8d := *
         jsr     $2cf1
-        jml     $e00014
+        jml     _e00014
         nop5
+        .export _c12c99 := *
 .else
         lda     #$08
         sta     $70
@@ -5913,7 +5928,9 @@ _c12cf1:
 @2cf1:  phy
         phx
 .if LANG_EN
-        jml     $e02e52
+        .import _e02e52
+        jml     _e02e52
+        .export _c12cf7 := *
 .else
         sec
         sbc     #$20
@@ -5927,9 +5944,10 @@ _c12cf1:
         ldy     #$0000
 @2d06:
 .if LANG_EN
-        jsl     $e03201
+        .import _e03201, _e03213
+        jsl     _e03201
         sta     $f508,y
-        jsl     $e03213
+        jsl     _e03213
         sta     $f514,y
 .else
         lda     f:BigFontGfx,x   ; kana graphics
@@ -5997,8 +6015,10 @@ _2d1f:  lda     $f507       ; text horizontal position
 @2da0:  lda     $f507
         clc
 .if LANG_EN
-        jml     $e02e5e
+        .import _e02e5e
+        jml     _e02e5e
         nop
+        .export _c12da9 := *
 .else
         adc     #$0d        ; all characters are 13 pixels wide
         sta     $f507
@@ -6321,12 +6341,14 @@ _c12fa3:
         jsr     $299a       ; get next byte
         lda     ($b8)
         cmp     #$57
-        bcc     @2fc9
+        bcc     _2fc9
         sec
         sbc     #$57
         sta     $7e
 .if LANG_EN
-        jml     $e02fc9
+        .import _e02fc9
+        jml     _e02fc9
+        .export _c12fb5 := *
 .else
         lda     #$09
         sta     $70
@@ -6345,7 +6367,7 @@ _c12fa3:
         dec     $70
         bne     @2fbc
         rts
-@2fc9:  sta     $7e
+_2fc9:  sta     $7e
         lda     #$06
         sta     $70
         sta     $80
@@ -6396,7 +6418,8 @@ _c13004:
         longa
         lda     $4038,x
 .if LANG_EN
-        jsl     $e00030
+        .import _e00030
+        jsl     _e00030
         shorta0
         lda     #$0a
 .else
@@ -6420,8 +6443,7 @@ _c13004:
         dec     $70
         bne     @3024
         rts
-@3031:
-        lda     f:MonsterName,x
+@3031:  lda     f:MonsterName,x
         jsr     $2dea       ; draw small text character
         inx
         dec     $70
@@ -6445,7 +6467,8 @@ _c1303e:
         lda     $403a,x
         cmp     #$02
 .if LANG_EN
-        jsl     $e00020
+        .import _e00020
+        jsl     _e00020
         nop4
 .else
         bcc     @3060
@@ -8031,7 +8054,8 @@ _c13b87:
         stz     $80
 @3ba2:
 .if LANG_EN
-        jml     $e02f39
+        .import _e02f39
+        jml     _e02f39
 .else
         lda     f:AttackName,x   ; short attack names
 .endif
@@ -8055,7 +8079,8 @@ _c13b87:
         stz     $80
 @3bcb:
 .if LANG_EN
-        jml     $e02f40
+        .import _e02f40
+        jml     _e02f40
 .else
         lda     f:MagicName,x   ; spell type
 .endif
@@ -8076,7 +8101,8 @@ _c13b87:
         stz     $80
 @3bee:
 .if LANG_EN
-        jml     $e02f47
+        .import _e02f47
+        jml     _e02f47
 .else
         lda     f:MagicName+1,x   ; spell names
 .endif
@@ -8105,7 +8131,8 @@ _c13c02:
         stz     $80
 @3c0e:
 .if LANG_EN
-        jml     $e02f4e
+        .import _e02f4e
+        jml     _e02f4e
 .else
         lda     f:BattleCmdName,x
 .endif
@@ -8122,7 +8149,8 @@ _c13c02:
 
 _c13c22:
 .if LANG_EN
-        jsl     $e02fb6
+        .import _e02fb6
+        jsl     _e02fb6
         nop2
         lda     #$10
 .else
@@ -8134,7 +8162,8 @@ _c13c22:
         stz     $80
 @3c2e:
 .if LANG_EN
-        jml     $e02f55
+        .import _e02f55
+        jml     _e02f55
 .else
         lda     f:SpecialAbilityName,x
 .endif
@@ -8161,7 +8190,8 @@ _c13c42:
         stz     $80
 @3c4e:
 .if LANG_EN
-        jml     $e02f5c
+        .import _e02f5c
+        jml     _e02f5c
 .else
         lda     f:MonsterSpecialName,x
 .endif
@@ -8188,7 +8218,8 @@ _c13c62:
         stz     $80
 @3c6e:
 .if LANG_EN
-        jml     $e02f63
+        .import _e02f63
+        jml     _e02f63
 .else
         lda     f:ItemName+1,x
 .endif
@@ -8204,6 +8235,9 @@ _c13c7f:
 @3c7f:  tax
         lda     f:_d83302,x
         sta     $f507
+.if LANG_EN
+        .export _c13c87 := *
+.endif
         rts
 
 ; ---------------------------------------------------------------------------
@@ -33711,11 +33745,13 @@ _c1f82b:
         stx     $f9dd
         inc     $dbf4
         lda     #$28
+        .export _c1f840 := *
 @f840:  pha
         clr_ax
 @f843:
 .if LANG_EN
-        jsl     $e031e6
+        .import _e031e6, _e031f7
+        jsl     _e031e6
         nop5
         ldx     $f9df
         stx     $bca0
@@ -33723,7 +33759,7 @@ _c1f82b:
         sta     $bca2
         jsr     $f7f1
         jsr     $2971       ; draw big text string
-        jsl     $e031f7
+        jsl     _e031f7
 .else
         sta     $a937,x
         inx

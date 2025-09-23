@@ -101,6 +101,18 @@
     },
     {
       "json_path": "src/text/item_desc_en.json",
+      "asset_range": "0xD14100-0xD14607",
+      "ptr_range": "0xD14000-0xD140FF",
+      "ptr_offset": "0xD10000"
+    },
+    {
+      "json_path": "src/text/item_desc_en.json",
+      "asset_range": "0xD14100-0xD14607",
+      "ptr_range": "0xD14000-0xD140FF",
+      "ptr_offset": "0xD10000"
+    },
+    {
+      "json_path": "src/text/item_desc_old_en.json",
       "asset_range": "0xE75200-0xE757BD",
       "ptr_range": "0xE75100-0xE751FF",
       "ptr_offset": "0xE70000"
