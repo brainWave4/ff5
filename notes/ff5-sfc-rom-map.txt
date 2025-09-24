@@ -23,8 +23,9 @@
 | C0D380-C0D980 | menu window graphics (4bpp)                               |
 | C0D980-C0D9B8 | pointers to overlay properties (+$C0D980)                 |
 | C0D9B8-C0DF00 | overlay properties (compressed)                           |
-| C0DF00-C0E600 | overlay sprite graphics (1bpp)                            |
-| C0E600-       | menu data                                                 |
+| C0DF00-C0E500 | overlay sprite graphics (1bpp)                            |
+| C0E500-C0E600 | key item names                                            |
+| C0E600-C0FEC0 | menu data                                                 |
 |               |                                                           |
 | C0E841-C0E861 | pointers to menu tutorial scripts                         |
 | C0E861-C0E8DF | menu tutorial scripts                                     |
@@ -98,8 +99,12 @@
 | C37A07-C37A69 | (lzss)                                                    |
 | C37A69-C37B92 | (lzss)                                                    |
 | C37B92-C37E4D | (lzss)                                                    |
-| C37E4D-C3A2ED | cinematic code (compressed)                               |
-|               |                                                           |
+| C37E4D-C3A06F | cinematic code (compressed)                               |
+| C3A06F-C3A300 | stale data ???                                            |
+| C3A300-C3B94A | menu tilemaps and cursor data                             |
+| C3B94A-C3B960 | unused space (23 bytes)                                   |
+| C3B960-C3BA00 | menu palettes                                             |
+| C3BA00-C3BB00 | unused space (256 bytes)                                  |
 | C3BB00-C3E700 | map palettes (44 items, 256 bytes each)                   |
 | C3E700-C3EB00 | unused space (1024 bytes)                                 |
 | C3EB00-C3FE00 | kana graphics (1bpp)                                      |
@@ -232,7 +237,7 @@
 | D0EF06-D0EF26 | magic spell levels                                        |
 | D0EF26-D0EF58 |                                                           |
 | D0EF58-D0EF78 | commands that can be used as toad                         |
-| D0EF78-D0EF92 | validate inventory (menu code)                            |
+| D0EF78-D0EF92 | validate inventory (battle code)                          |
 | D0EF92-D0F000 | unused space (110 bytes)                                  |
 | D0F000-D0F1D4 | pointers to battle dialogue (+$D00000/+$E70000)           |
 | D0F1D4-D0FEBC | battle dialogue (234 items, variable size) jap ver. only  |
@@ -305,8 +310,10 @@
 | D16EF9-D16F89 | item combination data for mix ability (144 * 1 byte)      |
 | D16F89-D17000 | unused space (119 bytes)                                  |
 | D17000-D17140 | initial character data (4 items, 80 bytes each)           |
-| D17140-D1724A | pointers to job/ability descriptions (+$D10000)           |
-| D1724A-D177BA | job/ability descriptions (133 items, variable size)       |
+| D17140-D1716C | pointers to job descriptions (+$D10000)                   |
+| D1716C-D1724A | pointers to ability descriptions (+$D10000)               |
+| D1724A-D17337 | job descriptions (22 items, variable size)               |
+| D17337-D177BA | ability descriptions (111 items, variable size)           |
 | D177BA-D17FA0 | unused space (2022 bytes)                                 |
 | D17FA0-D187A0 | attack tilemaps 1                                         |
 | D187A0-D18FA0 | attack tilemaps 2                                         |
@@ -426,7 +433,7 @@
 | E00000-E00050 | code                                                      |
 | E00050-E00F50 | monster names (10 bytes each)                             |
 | E00F50-E00F70 | code                                                      |
-| E00F70-E01150 |                                                           |
+| E00F70-E01150 | multiples of 7 for battle command names (5 bytes each)    |
 | E01150-E013F0 | battle command names (7 bytes each)                       |
 | E013F0-E02D40 | pointers to dialog (absolute)                             |
 | E02D40-E03225 | code                                                      |
@@ -434,16 +441,18 @@
 | E03725-E04C25 | prophecy text graphics                                    |
 | E04C25-E10000 | unused                                                    |
 | E10000-E36FBB | dialog (2160 items, variable size)                        |
-| E36FBB-E70000 | unused                                                    |
-| E70000-E70763 | map titles (163 items, variable size)                     |
-| E70763-E70900 | unused                                                    |
+| E36FBB-E372B7 | stale dialog                                              |
+| E372B7-E70000 | unused                                                    |
+| E70000-E70673 | map titles (163 items, variable size)                     |
+| E70673-E707D9 | stale map titles                                          |
+| E707D9-E70900 | unused                                                    |
 | E70900-E70F90 | special ability names (105 items, 16 bytes each)          |
 | E70F90-E71780 | short attack names (168 items, 12 bytes each)             |
 | E71780-E72740 | long attack names (168 items, 24 bytes each)              |
 | E72760-E72F00 | battle messages (256 items, variable size)                |
 | E72F00-E733EC | menu strings                                              |
 | E733EC-E73568 | unused                                                    |
-| E73568-E736A0 | rare item names (13 bytes each)                           |
+| E73568-E736A0 | rare item names (24 items, 13 bytes each)                 |
 | E736A0-E73700 |                                                           |
 | E73700-E73B00 | monster special attack names (64 items, 16 bytes each)    |
 | E73B00-E74FAD | battle dialogue (234 items, variable size)                |

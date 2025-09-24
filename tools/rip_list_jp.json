@@ -1,6 +1,12 @@
 {
   "text": [
     {
+      "json_path": "src/text/menu_text_jp.json",
+      "asset_range": "0xC0FA9D-0xC0FEB9",
+      "ptr_range": "0xC0F987-0xC0FA9C",
+      "ptr_offset": "0xC00000"
+    },
+    {
       "json_path": "src/text/dlg_jp.json",
       "asset_range": "0xCA0000-0xCAFFF4",
       "ptr_range": "0xC82220-0xC832FF",
@@ -43,10 +49,24 @@
       "asset_range": "0xD128B6-0xD12975"
     },
     {
+      "json_path": "src/text/shop_name_jp.json",
+      "asset_range": "0xD12D00-0xD12D3F"
+    },
+    {
       "json_path": "src/text/battle_msg_jp.json",
       "asset_range": "0xD13BA9-0xD13F0D",
       "ptr_range": "0xD139A9-0xD13BA8",
       "ptr_offset": "0xD10000"
+    },
+    {
+      "json_path": "src/text/item_desc_jp.json",
+      "asset_range": "0xD14100-0xD143FD",
+      "ptr_range": "0xD14000-0xD140FF",
+      "ptr_offset": "0xD10000"
+    },
+    {
+      "json_path": "src/text/char_name_jp.json",
+      "asset_range": "0xD15500-0xD1551D"
     },
     {
       "json_path": "src/text/job_name_jp.json",
@@ -63,6 +83,18 @@
     {
       "json_path": "src/text/special_ability_name_jp.json",
       "asset_range": "0xD16700-0xD16AB0"
+    },
+    {
+      "json_path": "src/text/job_desc_jp.json",
+      "asset_range": "0xD1724A-0xD17336",
+      "ptr_range": "0xD17140-0xD1716B",
+      "ptr_offset": "0xD10000"
+    },
+    {
+      "json_path": "src/text/ability_desc_jp.json",
+      "asset_range": "0xD17337-0xD177B9",
+      "ptr_range": "0xD1716C-0xD17249",
+      "ptr_offset": "0xD10000"
     }
   ],
   "data": [
@@ -94,7 +126,7 @@
     },
     {
       "file_path": "src/gfx/map_overlay.1bpp",
-      "asset_range": "0xC0DF00-0xC0E5FF"
+      "asset_range": "0xC0DF00-0xC0E4FF"
     },
     {
       "file_path": "src/field/rng_tbl.dat",

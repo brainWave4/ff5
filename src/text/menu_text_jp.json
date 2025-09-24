@@ -1,0 +1,10 @@
+{
+  "asset_label": "MenuText",
+  "inc_path": "include/text/menu_text_jp.inc",
+  "char_tables": [
+    "small_symbols_jp",
+    "kana",
+    "menu_escape_jp"
+  ],
+  "text": []
+}

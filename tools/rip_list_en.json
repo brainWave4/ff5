@@ -17,12 +17,28 @@
       "asset_range": "0xD128B6-0xD12975"
     },
     {
+      "json_path": "src/text/shop_name_en.json",
+      "asset_range": "0xD12D00-0xD12D3F"
+    },
+    {
       "json_path": "src/text/job_name_en.json",
       "asset_range": "0xD15600-0xD156AF"
     },
     {
       "json_path": "src/text/passive_ability_name_en.json",
       "asset_range": "0xD16200-0xD16307"
+    },
+    {
+      "json_path": "src/text/job_desc_en.json",
+      "asset_range": "0xD1724A-0xD17411",
+      "ptr_range": "0xD17140-0xD1716B",
+      "ptr_offset": "0xD10000"
+    },
+    {
+      "json_path": "src/text/ability_desc_en.json",
+      "asset_range": "0xD17411-0xD17C55",
+      "ptr_range": "0xD1716C-0xD17249",
+      "ptr_offset": "0xD10000"
     },
     {
       "json_path": "src/text/monster_name_en.json",
@@ -64,6 +80,16 @@
       "ptr_offset": "0xE70000"
     },
     {
+      "json_path": "src/text/menu_text_en.json",
+      "asset_range": "0xE72F00-0xE733EB",
+      "ptr_range": "0xC0F987-0xC0FA9C",
+      "ptr_offset": "0xE70000"
+    },
+    {
+      "json_path": "src/text/key_item_name_en.json",
+      "asset_range": "0xE73568-0xE7369F"
+    },
+    {
       "json_path": "src/text/monster_special_name_en.json",
       "asset_range": "0xE73700-0xE73AFF"
     },
@@ -71,6 +97,24 @@
       "json_path": "src/text/battle_dlg_en.json",
       "asset_range": "0xE73B00-0xE74FAC",
       "ptr_range": "0xD0F000-0xD0F1D3",
+      "ptr_offset": "0xE70000"
+    },
+    {
+      "json_path": "src/text/item_desc_en.json",
+      "asset_range": "0xD14100-0xD14607",
+      "ptr_range": "0xD14000-0xD140FF",
+      "ptr_offset": "0xD10000"
+    },
+    {
+      "json_path": "src/text/item_desc_en.json",
+      "asset_range": "0xD14100-0xD14607",
+      "ptr_range": "0xD14000-0xD140FF",
+      "ptr_offset": "0xD10000"
+    },
+    {
+      "json_path": "src/text/item_desc_old_en.json",
+      "asset_range": "0xE75200-0xE757BD",
+      "ptr_range": "0xE75100-0xE751FF",
       "ptr_offset": "0xE70000"
     },
     {
