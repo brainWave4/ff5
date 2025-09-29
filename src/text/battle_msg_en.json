@@ -1,0 +1,10 @@
+{
+  "asset_label": "BattleMsg",
+  "inc_path": "include/text/battle_msg_en.inc",
+  "char_tables": [
+    "battle_escape",
+    "battle_symbols_en",
+    "text_en"
+  ],
+  "text": []
+}

@@ -22,6 +22,8 @@
 .import ExecSound_ext, ExecBtlGfx_ext
 .export ExecBattle_ext
 
+.import RNGTbl, AttackMessageTbl
+
 ; ===========================================================================
 
 .segment "battle_code"
@@ -34,78 +36,49 @@ _0000:
         jmp     ExecBattle
 .endproc
 
-.proc BackgroundEnablingRoutine_ext
-_0003:
-        jmp $F75F ; bg enabling routine
-.endproc
-
-
-.proc UnknownRoutine1_ext
-_0006:
-        jmp $E999 ; unknown routine
-.endproc
-
-.proc DAphx_ext
-_0009:
-        jmp $003F
-.endproc
-
-
-.proc JumpTable_ext
-_000C:
-        asl A
-        tax
-        lda $C10021,X ; jump table
-        sta $7A
-        lda $C10022,X
-        sta $7B
-        jsr $001E
-        rtl
- .endproc
-
 ; ---------------------------------------------------------------------------
 
 ; [ execute battle ]
 
 .proc ExecBattle
 
-; _0003:  php
-;         longai
-;         phb
-;         phd
-;         pha
-;         phx
-;         phy
-;         lda     #0
-;         shorta
-;         longi
-;         jsr     SetupRegisters
-;         longa
-;         clc
-;         lda     $09c0
-;         adc     #1                      ; increment battle count
-;         bcc     _0023
-;         lda     #$ffff
-; _0023:  sta     $09c0
-;         shorta0
-;         stz     $7cd8
-; _002c:  jsr     $4ce0
-;         lda     #0
-;         sta     f:hINIDISP
-;         sta     f:hHDMAEN
-;         sta     f:hMDMAEN
-;         sta     f:hNMITIMEN
-;         lda     $7cd8
-;         bne     _002c
-;         sei
-;         jsr     $0053
-;         longai
-;         ply
-;         plx
-;         pla
-;         pld
-;         plb
-;         plp
+_0003:  php
+        longai
+        phb
+        phd
+        pha
+        phx
+        phy
+        lda     #0
+        shorta
+        longi
+        jsr     SetupRegisters
+        longa
+        clc
+        lda     $09c0
+        adc     #1                      ; increment battle count
+        bcc     _0023
+        lda     #$ffff
+_0023:  sta     $09c0
+        shorta0
+        stz     $7cd8
+_002c:  jsr     StartBattle
+        lda     #0
+        sta     f:hINIDISP
+        sta     f:hHDMAEN
+        sta     f:hMDMAEN
+        sta     f:hNMITIMEN
+        lda     $7cd8
+        bne     _002c
+        sei
+        jsr     SetupRegisters
+        longai
+        ply
+        plx
+        pla
+        pld
+        plb
+        plp
         rtl
 
 .endproc
@@ -181,13 +154,13 @@ _007C:  shorti
         sbc $3c
         cmp #$ff
         bne :+
-        lda ROMRNG,X
+        lda f:RNGTbl,X
         bra _Finish
 :
         inc
         sta Divisor
         stz Divisor+1
-        lda ROMRNG,X
+        lda f:RNGTbl,X
         tax
         stx Dividend
         longi
@@ -393,7 +366,7 @@ _01C3:
 .proc ClearBit_X
 
 _01D1:
-        and ROMBitUnset,X
+        and f:BitAndTbl,X
         rts
 
 .endproc
@@ -404,7 +377,7 @@ _01D1:
 .proc SetBit_X
 
 _01D6:
-        ora ROMBitSet,X
+        ora f:BitOrTbl,X
         rts
 
 .endproc
@@ -415,7 +388,7 @@ _01D6:
 .proc SelectBit_X
 
 _01DB:
-        and ROMBitSet,X
+        and f:BitOrTbl,X
         rts
 
 .endproc
@@ -464,7 +437,7 @@ _01F8:
         asl
         tax
         longa
-        lda ROMTimes650w,X
+        lda f:_d0ed59,X
         sta SpellOffset
         tay
         shorta0
@@ -482,7 +455,7 @@ _0207:
         asl
         tax
         longa
-        lda ROMTimes11w,X	;from ROM
+        lda f:_d0ed61,X	;from ROM
         sta TimerOffset
         tay
         shorta0
@@ -574,7 +547,7 @@ AddCopyStats:			;adds/copies Str/Agi/Vit/Mag
 
 _0276:
         tax
-        lda ROMCombatantReorder,X	;party members after monsters
+        lda f:_d0ed79,X	;party members after monsters
         asl
         tax
         lda TempDisplayDamage
@@ -728,7 +701,7 @@ _0324:
         shorta0
         stz $3D
 CopyFirst5:
-        lda ROMMagicInfo,X
+        lda f:AttackProp,X
         sta AttackInfo,Y
         inx
         iny
@@ -741,7 +714,7 @@ CopyFirst5:
         iny
         iny
 CopyLast3:
-        lda ROMMagicInfo,X
+        lda f:AttackProp,X
         sta AttackInfo,Y
         inx
         iny
@@ -802,7 +775,7 @@ Equipment:		;**optimize: this whole section is basically a copy of the GetItemUs
         tdc
         tay
         									;:
-:	lda ROMItemEquippable,X
+:	lda f:EquipTypeTbl,X
         sta TempEquippable,Y
         inx
         iny
@@ -895,10 +868,10 @@ Armor:				;otherwise it's armor
         adc $0E			;armor *12 (size of equipment struct)
         tax
         shorta0
-        lda ROMArmor,X
+        lda f:ArmorProp,X
         and #$08		;target enemy?
         beq ItemZero
-        lda ROMArmor+2,X
+        lda f:ArmorProp+2,X
         and #$3F		;mask to equip info
         sta Temp,Y
         lda #$5A
@@ -920,13 +893,13 @@ Weapon:
         adc $0E         	;weapon *12
         tax
         shorta0
-        lda ROMWeapons+4,X
+        lda f:WeaponProp+4,X
         and #$80
         jsr ShiftDivide_32	;shift to 04h bit
         sta InventoryFlags,Y
-        lda ROMWeapons,X
+        lda f:WeaponProp,X
         sta InventoryTargetting,Y
-        lda ROMWeapons+2,X
+        lda f:WeaponProp+2,X
         pha
         and #$C0		;flag bits from equipment type(? and throwable)
         ora #$1A		;set some more bits (??)
@@ -945,9 +918,9 @@ Consumable:
         asl
         tax
         shorta0
-        lda ROMConsumables::Targetting,X
+        lda f:ConsumableItemProp,X
         sta InventoryTargetting,Y
-        lda ROMConsumables::Misc,X
+        lda f:ConsumableItemProp+2,X
         sta InventoryFlags,Y
         lda #$40		;consumable
         sta Temp,Y
@@ -1072,9 +1045,9 @@ Monster:
         sbc #$04		;now monster index
         asl
         tax
-        lda ROMTimes100w,X	;*100
+        lda f:_d0ee95,X	;*100
         sta $0E
-        lda ROMTimes100w+1,X
+        lda f:_d0ee95+1,X
         sta $0F
         tdc
         tay
@@ -1144,7 +1117,7 @@ ConsumableItem:
         shorta0
         ldy $0C		;ProcSequence*12
         stz $0A
-:       lda ROMConsumables,X
+:       lda f:ConsumableItemProp,X
         sta AttackInfo,Y
         inx
         iny
@@ -1156,7 +1129,7 @@ ConsumableItem:
         iny
         iny
         iny
-:	lda ROMConsumables,X
+:	lda f:ConsumableItemProp,X
         sta AttackInfo,Y
         inx
         iny
@@ -1217,7 +1190,7 @@ _0632:
         stz TempHand
         lda AttackerIndex
         tax
-        lda ROMTimes84,X	;size of one character's gear offset
+        lda f:_d0ed85,X	;size of one character's gear offset
         tay
         ldx AttackerOffset
         lda CharStruct::SelectedItem,X
@@ -1373,7 +1346,7 @@ EggChop:
         lda #$0E	;egg chop
 Continue:
         tax
-        lda ROMMagicLamp,X
+        lda f:_d0eee7,X
         sta TempSpell
         stz TempIsEffect
         clc
@@ -1467,7 +1440,7 @@ _07CF:
         sta CharStruct::DamageMod,X
         lda #$4E
         tax
-        lda ROMCommandDelay,X
+        lda f:BattleCmdDelay,X
         pha
         lda AttackerIndex
         jsr GetTimerOffset
@@ -1500,7 +1473,7 @@ CommandTable2C:
         jsr BuildTargetBitmask
         lda AttackerIndex
         tax
-        lda ROMTimes84,X	;size of combined gear stats struct
+        lda f:_d0ed85,X	;size of combined gear stats struct
         tax
         stx $0E			;gear stats offset
         ldx AttackerOffset
@@ -1720,7 +1693,7 @@ Anim:			;routine is called here by command $52
          sta CharStruct::DamageMod,X
          lda #$4F	;jump landing command
          tax
-         lda ROMCommandDelay,X
+         lda f:BattleCmdDelay,X
          pha
          lda AttackerIndex
          jsr GetTimerOffset
@@ -1753,7 +1726,7 @@ _09DD:
         jsr BuildTargetBitmask
         lda AttackerIndex
         tax
-        lda ROMTimes84,X	;size of combined gearstats struct
+        lda f:_d0ed85,X	;size of combined gearstats struct
         tax
         stx $0E			;gear stats offset
         ldx AttackerOffset
@@ -2065,7 +2038,7 @@ Chosen:
         shorta0
         tdc
         tay
-:	lda ROMEffectInfo,X
+:	lda f:SpecialAbilityAttackProp,X
         sta Temp,Y
         inx
         iny
@@ -2174,7 +2147,7 @@ AttackLoop:
         sta TempTargetBitmask+1
         lda AttackerIndex
         tax
-        lda ROMTimes84,X	;combined size of gearstats structs
+        lda f:_d0ed85,X	;combined size of gearstats structs
         tax
         stx $0E			;gearstats offset
         ldx AttackerOffset
@@ -2377,7 +2350,7 @@ MagicLamp:			;Magic Lamp use jumps in here
         shorta0
         tdc
         tay
-:	lda ROMMagicInfo,X
+:	lda f:AttackProp,X
         sta Temp,Y
         inx
         iny
@@ -2535,7 +2508,7 @@ _0F40:
         sta CharStruct::CaughtMonster,X
         pla
         tax
-        lda ROMMonsterReleaseActions,X
+        lda f:MonsterRelease,X
         sta TempSpell
         longa
         jsr ShiftMultiply_8
@@ -2543,7 +2516,7 @@ _0F40:
         shorta0
         tdc
         tay
-:  	lda ROMMagicInfo,X
+:  	lda f:AttackProp,X
         sta TempMagicInfo,Y
         inx
         iny
@@ -2746,13 +2719,13 @@ CopyMisc:
         lda CharStruct::CharRow,Y
         and #$7F		;always front row
         sta CharStruct::CharRow,Y
-        lda ROMMonsterStats::Level,X
+        lda f:MonsterProp + 31,X
         sta CharStruct::Level,Y
-        lda ROMMonsterStats::AttackPower,X
+        lda f:MonsterProp + 1,X
         sta CharStruct::MonsterAttack,Y
-        lda ROMMonsterStats::AttackMult,X
+        lda f:MonsterProp + 2,X
         sta CharStruct::MonsterM,Y
-        lda ROMMonsterStats::MagicPower,X
+        lda f:MonsterProp + 5,X
         sta CharStruct::EquippedMag,Y
         lda #$01
         sta WasMonsterReleased	;causes stats to be restored later
@@ -2790,7 +2763,7 @@ _1125:
         adc $0E			;+ first item
         tax
         shorta0
-        lda ROMCombineSpells,X
+        lda f:MixComboTbl,X
         sta TempSpell
         stz TempAttachedSpell
         stz TempSkipNaming
@@ -2875,7 +2848,7 @@ Chosen:
         clc
         adc $0E
         tax
-        lda ROMTerrainSpells,X
+        lda f:TerrainAttackTbl,X
         sta TempSpell
         lda TempSpell	;pointless load?
         longa
@@ -2884,7 +2857,7 @@ Chosen:
         shorta0
         tdc
         tay
-:	lda ROMEffectInfo,X
+:	lda f:SpecialAbilityAttackProp,X
         sta Temp,Y
         inx
         iny
@@ -3325,7 +3298,7 @@ _14B8:
         sta TempTargetBitmask+1
         lda AttackerIndex
         tax
-        lda ROMTimes84,X	;size of one character's gear structs
+        lda f:_d0ed85,X	;size of one character's gear structs
         tax
         stx $0E			;GearStruct offset
         ldx AttackerOffset
@@ -3533,7 +3506,7 @@ _16AA:
         tax
         shorta0
         stz $0A
-:	lda ROMAbilityInfo,X
+:	lda f:BattleCmdProp,X
         sta AttackInfo,Y
         inx
         iny
@@ -3545,7 +3518,7 @@ _16AA:
         iny
         iny
         iny
-:	lda ROMAbilityInfo,X
+:	lda f:BattleCmdProp,X
         sta AttackInfo,Y
         inx
         iny
@@ -3952,7 +3925,7 @@ WaitForever:
         lda DisplayInfo::CurrentChar
         tax
         clc
-        lda ROMTimes20,X	;size of CharControl struct
+        lda f:_d0eedb,X	;size of CharControl struct
         adc MenuData::SelectedItem	;action 0-3
         tax
         lda CharControl::Actions,X
@@ -4045,9 +4018,9 @@ CheckCommand:
         jsr Multiply_8bit
         ldx $26		;command * 8
         ldy AttackerOffset
-        lda ROMAbilityInfo::CmdStatus,X
+        lda f:BattleCmdProp+2,X
         sta CharStruct::CmdStatus,Y
-        lda ROMAbilityInfo::DamageMod,X
+        lda f:BattleCmdProp+3,X
         sta CharStruct::DamageMod,Y
         lda MenuData::Command
         cmp #$2C	;first magic command
@@ -4060,7 +4033,7 @@ CheckCommand:
 NotMagicCommand:
         lda MenuData::Command
         tax
-        lda ROMCommandDelay,X
+        lda f:BattleCmdDelay,X
         bmi CalculateDelay
         pha
         lda MenuData::Command
@@ -4121,7 +4094,7 @@ WeaponAttackDelay:	;despite the calculation, I don't think any weapons have dela
         lda RHWeapon::Targetting,Y
         and #$03	;delay bits (delay/10)
         tax
-        lda ROMTimes10,X
+        lda f:AttackDelayTbl,X
         sta $0E		;attack delay
 :       ldx AttackerOffset
         lda CharStruct::LHWeapon,X
@@ -4130,7 +4103,7 @@ WeaponAttackDelay:	;despite the calculation, I don't think any weapons have dela
         and #$03	;delay bits (delay/10)
         tax
         clc
-        lda ROMTimes10,X
+        lda f:AttackDelayTbl,X
         adc $0E		;add other weapon's delay
         sta $0E
 :	lda $0E		;attack delay
@@ -4147,15 +4120,15 @@ ItemDelay:
         jsr ShiftMultiply_8
         tax
         shorta0
-        lda ROMConsumables::Misc,X
+        lda f:ConsumableItemProp+2,X
         and #$08
         bne :+
         lda MenuData::SelectedItem
         jsr ConsumeItem
-:	lda ROMConsumables::Targetting,X
+:	lda f:ConsumableItemProp,X
         and #$03	;delay bits (delay/10)
         tax
-        lda ROMTimes10,X
+        lda f:AttackDelayTbl,X
         bra Finish
 MagicDelay:
         stz $0E
@@ -4164,10 +4137,10 @@ MagicDelay:
         jsr ShiftMultiply_8
         tax
         shorta0
-        lda ROMMagicInfo::Targetting,X
+        lda f:AttackProp,X
         and #$03	;delay bits (delay/10)
         tax
-        lda ROMTimes10,X
+        lda f:AttackDelayTbl,X
         sta $0E		;attack delay
         lda MenuData::ActionFlag
         and #$08	;X-Magic
@@ -4177,11 +4150,11 @@ MagicDelay:
         jsr ShiftMultiply_8
         tax
         shorta0
-        lda ROMMagicInfo::Targetting,X
+        lda f:AttackProp,X
         and #$03	;delay bits (delay/10)
         tax
         clc
-        lda ROMTimes10,X
+        lda f:AttackDelayTbl,X
         adc $0E		;add other spell's delay
         sta $0E
 FinishMagic:
@@ -4209,10 +4182,10 @@ WeaponUseDelay:
         jsr ShiftMultiply_8
         tax
         shorta0
-        lda ROMMagicInfo::Targetting,X
+        lda f:AttackProp,X
         and #$03	;delay bits (delay/10)
         tax
-        lda ROMTimes10,X
+        lda f:AttackDelayTbl,X
 Finish:
         pha
         lda DisplayInfo::CurrentChar
@@ -4438,7 +4411,7 @@ DisableCommands:
         beq DisableCommand
         asl
         tax
-        lda ROMStatusDisableCommands,X
+        lda f:BattleCmdDisableStatus,X
         and $10		;status 1/2
         bne DisableCommand
         lda $12		;command id
@@ -4639,7 +4612,7 @@ TryRandomSpell:
         jsr ShiftMultiply_8
         tax
         shorta0
-        lda ROMMagicInfo::Targetting,X
+        lda f:AttackProp,X
         sta TempTargetting	;temp area
         tdc
         tay
@@ -4922,7 +4895,7 @@ DecTimer:
 Triggered:
         lda #$01
         sta ProcessTimer,X		;flag timer for processing
-        lda ROMGlobalTimer,X		;reset timer from rom
+        lda f:TimerDurTbl,X		;reset timer from rom
         sta GlobalTimer,X
         							;:
 :	inx
@@ -5936,9 +5909,9 @@ _25D3:
         lda MonsterIndex
         asl
         tax
-        lda ROMTimes100w,X
+        lda f:_d0ee95,X
         sta $0E
-        lda ROMTimes100w+1,X
+        lda f:_d0ee95+1,X
         sta $0F
         tdc
         tay
@@ -5994,7 +5967,7 @@ TryRandomAction:
         adc $0E		;random number 0..3
         tax 		;offset into control actions table
         shorta0
-        lda ROMControlActions,X
+        lda f:MonsterControl,X
         cmp #$FF
         beq TryRandomAction	;no action in this slot, try again
         sta AIBuffer
@@ -6058,7 +6031,7 @@ Normal:
         tax
         longa
         clc
-        lda ROMTimes1620w,X	;*1620, size of MonsterAI struct
+        lda f:_d0eea5,X	;*1620, size of MonsterAI struct
         adc #MonsterAI
         sta AIOffset
         shorta0
@@ -6066,7 +6039,7 @@ Normal:
 CheckAIConditions:
         lda AICurrentCheckedSet
         tax
-        lda ROMTimes17,X	;size of a MonsterAI condition
+        lda f:_d0eec9,X	;size of a MonsterAI condition
         tay
         sty AIConditionOffset
         stz AICheckIndex
@@ -6112,9 +6085,9 @@ AIActions:
         lda AICurrentCheckedSet
         asl
         tax
-        lda ROMTimes64w,X
+        lda f:_d0eeb5,X
         sta AICurrentOffset,Y
-        lda ROMTimes64w+1,X
+        lda f:_d0eeb5+1,X
         sta AICurrentOffset+1,Y
 ConditionOK:
         jsr ProcessAIScript
@@ -6125,10 +6098,10 @@ Finish:
         jsr ShiftMultiply_8
         tax
         shorta0
-        lda ROMMagicInfo::Targetting,X
+        lda f:AttackProp,X
         and #$03       	;delay values
         tax
-        lda ROMTimes10,X
+        lda f:AttackDelayTbl,X
         pha
         lda AttackerIndex
         jsr GetTimerOffset
@@ -7988,9 +7961,9 @@ EndSequence:	;FE or FF, resets offset to start of set
         lda AICurrentCheckedSet
         asl
         tax
-        lda ROMTimes64w,X
+        lda f:_d0eeb5,X
         sta AICurrentOffset,Y
-        lda ROMTimes64w+1,X
+        lda f:_d0eeb5+1,X
         sta AICurrentOffset+1,Y
 ;continues into next routine
 
@@ -8021,9 +7994,9 @@ InitMMTargets:
         lda MonsterIndex
         asl
         tax
-        lda ROMTimes100w,X
+        lda f:_d0ee95,X
         sta AIScriptOffset
-        lda ROMTimes100w+1,X
+        lda f:_d0ee95+1,X
         sta AIScriptOffset+1
         tdc
         tay
@@ -8440,7 +8413,7 @@ FindFirstSetBit:
 Found:		;now set this status if not set, or clear it if already set
         phx
         tyx
-        lda ROMBitUnset,X
+        lda f:BitAndTbl,X
         sta $0E
         plx
         lda CharStruct,X
@@ -8523,7 +8496,7 @@ SpellTargetting:
         jsr ShiftMultiply_8
         tax
         shorta0
-        lda ROMMagicInfo::Targetting,X
+        lda f:AttackProp,X
         sta TempTargetting
         tdc
         tay
@@ -9372,7 +9345,7 @@ _3C10:
         tax
         longa
         clc
-        lda ROMTimes1620w,X	;size of MonsterAI struct
+        lda f:_d0eea5,X	;size of MonsterAI struct
         adc #MonsterAI::ReactConditions
         sta AIOffset
         shorta0
@@ -9380,7 +9353,7 @@ _3C10:
 CheckSets:		;10 sets of 4 conditions
         lda AICurrentCheckedSet
         tax
-        lda ROMTimes17,X	;size of a condition set
+        lda f:_d0eec9,X	;size of a condition set
         tay
         sty AIConditionOffset
         stz AICheckIndex
@@ -9431,9 +9404,9 @@ _3C7F:
         sta $10
         asl
         tax
-        lda ROMTimes100w,X	;size of MonsterAIScript
+        lda f:_d0ee95,X	;size of MonsterAIScript
         sta $0E
-        lda ROMTimes100w+1,X
+        lda f:_d0ee95+1,X
         sta $0F
         tdc
         tay
@@ -9477,7 +9450,7 @@ Finish:		;party target, or finishing up after a monster target
         lda ReactingIndex
         asl
         tax
-        lda ROMTimes11w,X	;**bug: 16 bit table accessed in 8 bit
+        lda f:_d0ed61,X	;**bug: 16 bit table accessed in 8 bit
         tax
         lda EnableTimer::ATB,X	;.. so this is for the wrong character
         sta SavedEnableATB	;.. mitigated by the restore being bugged
@@ -9512,9 +9485,9 @@ _3D08:
         sta $10		;monster index
         asl
         tax
-        lda ROMTimes100w,X
+        lda f:_d0ee95,X
         sta $0E
-        lda ROMTimes100w+1,X
+        lda f:_d0ee95+1,X
         sta $0F
         tdc
         tay
@@ -9558,7 +9531,7 @@ Finish:		;either a party target, or after monster data is restored
         lda ReactingIndex
         asl
         tax
-        lda ROMTimes11w,X	;**bug: this is a 16 bit table accessed 8-bit
+        lda f:_d0ed61,X	;**bug: this is a 16 bit table accessed 8-bit
         tax 			;.. so X is almost always wrong
         lda SavedEnableATB	;.. the save was also bugged the same way
         sta EnableTimer::ATB,X	;.. which mitigates the effects
@@ -9654,9 +9627,9 @@ _3DC7:
         lda AICurrentCheckedSet
         asl
         tax
-        lda ROMTimes64w,X	;size of one MonsterAI ReactActions entry
+        lda f:_d0eeb5,X	;size of one MonsterAI ReactActions entry
         sta $0E
-        lda ROMTimes64w+1,X
+        lda f:_d0eeb5+1,X
         sta $0F
         tdc
         tax
@@ -9808,10 +9781,10 @@ DoneLenna:
         stx $0E			;MonsterStats offset
         stx $10			;Monster CharStruct offset
         stx $12			;current monster index
-        lda #$D0
+        lda #^AIScriptPtr
         sta $22
         sta $1E
-        ldx #$9C00
+        ldx #near AIScriptPtr
         stx $20			;$D09C00, ROMAIScriptOffsets
         									;:
 LoadMonsterStatsAI:
@@ -9914,9 +9887,9 @@ ApplyStatus:
         asl
         tax
         shorta0
-        lda ROMSpecialtyData::Properties,X
+        lda f:MonsterSpecialProp,X
         sta $1C
-        lda ROMSpecialtyData::Name,X
+        lda f:MonsterSpecialProp + 1,X
         sta $1D
         ply
         lda $1C
@@ -10229,7 +10202,7 @@ CopyEquipInfo:
         cmp #$04	;4 chars
         bne CopyEquipInfo
 
-        jsl $D0EF78	        ;wtf, code in the data bank
+        jsl _d0ef78	        ;wtf, code in the data bank
         tdc 			;it sets items with qty 0 to id 0
         tax 			;and sets items with id 0 to qty 0
         tay
@@ -10336,9 +10309,9 @@ SetupSpell:
         jsr ShiftMultiply_8
         tax
         shorta0
-        lda ROMMagicInfo::Targetting,X
+        lda f:AttackProp,X
         pha
-        lda ROMMagicInfo::MPCost,X
+        lda f:AttackProp+3,X
         and #$7F	;just MP Cost
         ldx $20
         StoreOffsetX CharSpells, MP, 0
@@ -10554,7 +10527,7 @@ OtherCmd:
         jsr ShiftMultiply_8
         tax
         shorta0
-        lda ROMAbilityInfo::Targetting,X
+        lda f:BattleCmdProp,X
         sta CharCommands::Targetting,Y
 NextCmd:
         plx 			;CharStruct offset
@@ -10608,7 +10581,7 @@ SetupHandItems:
         shorta0
         lda #$5A
         sta HandItems::Flags,Y
-        lda ROMArmor::EquipmentType,X
+        lda f:ArmorProp+2,X
         bra SetHandUsable
 Weapon:
         longa
@@ -10619,13 +10592,13 @@ Weapon:
         adc $12
         tax              	;Weapon ID *12
         shorta0
-        lda ROMWeapons::Targetting,X
+        lda f:WeaponProp,X
         sta HandItems::Targetting,Y
-        lda ROMWeapons::DoubleGrip,X
+        lda f:WeaponProp+4,X
         and #$80		;double grip bit
         jsr ShiftDivide_32	;shift to 3rd bit
         sta HandItems::Flags,Y
-        lda ROMWeapons::EquipmentType,X
+        lda f:WeaponProp+2,X
         pha
         and #$C0			;usable? and throwable
         ora #$1A			;set some more bits ?
@@ -10679,7 +10652,7 @@ _455E:
         tdc
         tay
         									;:
-:       lda ROMItemEquippable,X
+:       lda f:EquipTypeTbl,X
         sta TempEquippable,Y
         inx
         iny
@@ -10808,7 +10781,7 @@ CommandTable04:
         sta TempTargetBitmask+1	;targets 2nd byte, MMMM 0000
         lda AttackerIndex
         tax
-        lda ROMTimes84,X		;multiplies by 84
+        lda f:_d0ed85,X		;multiplies by 84
         tax
         stx $0E				;offset into character equipment
         ldx AttackerOffset
@@ -11259,13 +11232,13 @@ CommandReady:		;routine can be called from here directly.  If so, A is a command
         longa
         jsr ShiftMultiply_8
         tax
-        lda ROMAbilityInfo::CmdStatus,X	;holds command status and damage mod
+        lda f:BattleCmdProp+2,X	;holds command status and damage mod
         ldx AttackerOffset
         sta CharStruct::CmdStatus,X
         shorta0
         pla
         tax
-        lda ROMCommandMap,X	;maps commands to command table..
+        lda f:_d0ed02,X	;maps commands to command table..
         sta CommandOffset	;mostly just decrements by 1,
         asl 			;except for magic or internal commands after
         tax
@@ -11577,7 +11550,7 @@ ValidBlue:
         stz $0E
         lda $3F			;spell table index
         tax
-        lda ROMTimes7,X  	;*7, size of ActionAnim struct
+        lda f:_d0ee85,X  	;*7, size of ActionAnim struct
         tax
         lda ActionAnim0::TargetBits,X
         sta $0F			;target bits
@@ -11618,7 +11591,7 @@ TargetHit:
         jsr ShiftMultiply_8
         tax
         shorta0
-        lda ROMMagicInfo::Misc,X
+        lda f:AttackProp+2,X
         and #$F0	;flags
         sta $10
         bmi NextSpell  ;monster bit (monster only?)
@@ -11680,7 +11653,7 @@ _4CE0:
         sta RNGB
         tdc
         tax
-:       lda ROMGlobalTimer,X		;copies table of constants for status timers
+:       lda f:TimerDurTbl,X		;copies table of constants for status timers
         sta GlobalTimer,X
         inx
         cpx #$000B
@@ -11689,7 +11662,7 @@ _4CE0:
         lda Config1
         and #$0F		;battle mode and speed
         tax
-        lda ROMBattleSpeedTable,X
+        lda f:BattleSpeedTbl,X
         sta ATBWaitTime
         longa
         lda EncounterIndex
@@ -11698,7 +11671,7 @@ _4CE0:
         shorta0
         tay
         										;
-:       lda ROMEncounterInfo,X
+:       lda f:BattleProp,X
         sta EncounterInfo,Y	;copy encounter info from rom
         iny
         inx
@@ -11729,16 +11702,16 @@ CopyMonsterIDs:
         tay
         tax
         stx $10
-        lda #$D0
+        lda #^MonsterProp
         sta $14
-        ldy #$0000
+        ldy #near MonsterProp
         sty $12			;$12 now holds $D00000 address
         ldy $10
         lda BattleMonsterID+1,Y
         beq CopyMonsterStats
-        lda #$D0
+        lda #^MonsterProp
         sta $14			;set this again, for some reason
-        ldy #$2000		;shift to boss section of the table
+        ldy #near MonsterProp + $2000   ;shift to boss section of the table
         sty $12
 CopyMonsterStats:
         ldy $10
@@ -11748,8 +11721,8 @@ CopyMonsterStats:
         tay
         shorta0
         stz $0E
-        										;
-:       lda [$12],Y		;ROMMonsterStats
+;
+:       lda [$12],Y		; MonsterProp
         sta MonsterStats,X
         iny
         inx
@@ -11789,7 +11762,7 @@ CopyMonsterStats:
         tdc
         tay
 ;set up monster X/Y coordinates on screen
-:       lda ROMMonsterCoordinates,X
+:       lda f:MonsterPos,X
         sta MonsterCoordinates,Y
         inx
         iny
@@ -11846,14 +11819,14 @@ OneTimeEncounters:
 CheckEncountersLoop:
         ldx $10
         lda EncounterIndex
-        cmp ROMOneTime::Encounter,X
+        cmp f:AltBattleTbl,X
         bne Next
         lda EncounterIndex+1
-        cmp ROMOneTime::Encounter+1,X
+        cmp f:AltBattleTbl+1,X
         bne Next
-        lda ROMOneTime::Replacement,X
+        lda f:AltBattleTbl+2,X
         sta $12
-        lda ROMOneTime::Replacement+1,X
+        lda f:AltBattleTbl+3,X
         sta $13
         txa 			;always 0-28 and a multiple of 4
         jsr ShiftDivide_4	;0-7
@@ -11888,7 +11861,7 @@ ChangeEncounter:
         tax
         shorta0
         tay
-:       lda ROMEncounterInfo,X
+:       lda f:BattleProp,X
         sta EncounterInfo,Y
         iny
         inx
@@ -12196,7 +12169,7 @@ _505C:
         lda EncounterInfo::Music
         jsr ShiftDivide_8
         tax
-        lda ROMMusicTable,X
+        lda f:_d0eedf,X
         jsr MusicChange
 Ret:	rts
 
@@ -12282,7 +12255,7 @@ MessageDisplay:			;maybe also item drop window?
         lda #$0A		;C1 routine: execute graphics script
         jsr CallC1
 CleanupItems:
-        jsl $D0EF78 ;CleanupFieldItems_D0 ; very strange code, its code in the data bank
+        jsl _d0ef78 ;CleanupFieldItems_D0 ; very strange code, its code in the data bank
         jsr MergeItemDupes
         tdc
         tax
@@ -12797,10 +12770,10 @@ LevelLoop:		;will run multiple times for a single character if they gain multipl
         clc
         adc $0E				;level *3
         tax
-        lda ROMLevelExp,X
+        lda f:LevelUpExp,X
         sta $0E				;required exp (low bytes)
         shorta0
-        lda ROMLevelExp+2,X
+        lda f:LevelUpExp+2,X
         sta $12				;required exp (high byte)
         ldx $3F				;char offset
         sec 				;subtract requirement from current exp
@@ -12857,17 +12830,17 @@ JobLevelLoop:	;run multiple times in case we gained more than 1 job level
         asl
         sta $0E
         lda $10
-        cmp ROMJobLevels,X
+        cmp f:JobAbilityCount,X
         bne :+
 GoNextJobCheck: ;***
         jmp NextJobCheck
 :       lda $0E
         tax
-        lda ROMJobPointers,X
+        lda f:JobAbilityListPtrs,X
         sta $12
-        lda ROMJobPointers+1,X
+        lda f:JobAbilityListPtrs+1,X
         sta $13
-        lda #$D1; Bank of ROMJobPointers
+        lda #^JobAbilityListPtrs
         sta $14
         lda $10			;job level
         asl
@@ -12890,7 +12863,7 @@ GoNextJobCheck: ;***
         sbc $11
         bcs :+
         jmp NextJobCheck	;not enough ap
-:	SEC
+:	sec
         lda CharStruct::AP,X
         sbc $10
         sta CharStruct::AP,X
@@ -12901,9 +12874,9 @@ GoNextJobCheck: ;***
         lda $3D			;char index
         asl
         tax
-        lda ROMAbilityListPointers,X
+        lda f:_d0eed3,X
         sta $0E			;now holds address of char's FieldAbilityList
-        lda ROMAbilityListPointers+1,X
+        lda f:_d0eed3+1,X
         sta $0F
         lda $12			;ability learned
         bpl :+
@@ -12912,9 +12885,9 @@ GoNextJobCheck: ;***
         adc #$4E      		;start at slot after the last active ability
 :	ASL
         tax
-        lda RomAbilityBitInfo,X
+        lda f:AbilityBitTbl,X
         tay 			;offset of byte containing ability in list
-        lda RomAbilityBitInfo+1,X
+        lda f:AbilityBitTbl+1,X
         tax 			;bit number of ability
         lda ($0E),Y
         jsr SetBit_X
@@ -12943,7 +12916,7 @@ GoNextJobCheck: ;***
         sec
         sbc #$2C		;adjust first magic command to start at 0
         tax
-        lda ROMJobMagicLevels,X	;look up table for magic level
+        lda f:_d0ef06,X	;look up table for magic level
         sta MessageBoxData1
         lda #$33		;alternate ability learned message
         sta MessageBoxes	;..which shows magic level
@@ -13023,7 +12996,7 @@ Normal:
         tax
         shorta0
         ldy TempMonsterIndex
-        lda ROMLoot::AlwaysDrop,X
+        lda f:MonsterItem + 3,X
         beq CheckRare
         cmp #$80
         beq CheckRare
@@ -13035,7 +13008,7 @@ CheckRare:	;only checked if AlwaysDrop is $00, $80, or $FF (empty or Item FF)
         lda $0E			;random roll
         cmp #$10		;16/256 chance
         bcs Ret
-        lda ROMLoot::RareDrop,X
+        lda f:MonsterItem + 2,X
         beq Ret
         cmp #$80
         beq Ret
@@ -13054,10 +13027,10 @@ Ret:	rts
 
 _56EC:
         ldx $10		;old level*2
-        lda ROMLevelHP,X
+        lda f:LevelUpHP,X
         sta $0E
         sta $2A
-        lda ROMLevelHP+1,X
+        lda f:LevelUpHP+1,X
         sta $0F
         sta $2B
         ldx $3F		;char offset
@@ -13111,10 +13084,10 @@ NextHPCommandCheck:
         lda $09
         sta CharStruct::MaxHP+1,X
         ldx $10		;old level*2
-        lda ROMLevelMP,X
+        lda f:LevelUpMP,X
         sta $0E
         sta $2A
-        lda ROMLevelMP+1,X
+        lda f:LevelUpMP+1,X
         sta $0F
         sta $2B
         ldx $3F		;char offset
@@ -13822,9 +13795,9 @@ Monster:
         sbc #$04
         asl
         tax 		;monster index
-        lda ROMTimes100w,X
+        lda f:_d0ee95,X
         sta $0E		;monster index *100
-        lda ROMTimes100w+1,X
+        lda f:_d0ee95+1,X
         sta $0F
         tdc
         tay
@@ -13915,7 +13888,7 @@ _5CE1:
         shorta0
         tdc
         tay
-:       lda ROMMagicInfo,X
+:       lda f:AttackProp,X
         sta TempMagicInfo,Y
         inx
         iny
@@ -13930,7 +13903,7 @@ LoadEffect:
         shorta0
         tdc
         tay
-:       lda ROMEffectInfo,X
+:       lda f:SpecialAbilityAttackProp,X
         sta TempMagicInfo,Y
         inx
         iny
@@ -14061,7 +14034,7 @@ CheckMagicAnimTable:
         lsr
         ror $0E
         tax 		;high 5 bits of spell, determines byte 0-15
-        lda ROMMagicAnim,X
+        lda f:_d12981,X
         pha
         lda $0E
         jsr ShiftDivide_32
@@ -14187,7 +14160,7 @@ IsToadOK:	;spell is F1, or (spell is >$82 AND we're a frog), or (spell is <$80, 
         jsr ShiftDivide_32
         tay 		;magic bit
         phy
-        lda ROMToadOK,X
+        lda f:ToadCmdTbl,X
         plx
         jsr SelectBit_X
         bne DisplayDamage
@@ -14210,7 +14183,7 @@ DisplayDamage:
         lda TempSpell
         tax
         shorta0
-        lda ROMBattleMessageOffsets,X
+        lda f:AttackMessageTbl,X
         sta MessageBoxes,Y
 Finish:       jsr GFXCmdMessage
         rts
@@ -14459,7 +14432,7 @@ Finish:
         shorta0
         tdc
         tay
-:       lda ROMMagicInfo,X
+:       lda f:AttackProp,X
         sta TempMagicInfo,Y
         inx
         iny
@@ -15150,7 +15123,7 @@ CheckDamageTarget:
         cmp #$2B		;Magic of any kind
         beq Magic
         tax
-        lda ROMFightCommands,X		;per-command table, 0 or 1
+        lda f:_d0ef26,X		;per-command table, 0 or 1
         beq DamageTarget
         bra :+
 Magic:
@@ -15425,7 +15398,7 @@ Ret:	rts
 
 _685C:
         tax
-        lda ROMCombatantReorder,X
+        lda f:_d0ed79,X
         asl
         longa
         clc
@@ -16301,7 +16274,7 @@ Miss:	inc AtkMissed
 
 _6CE4:
         ldx #$0004
-        lda ROMBattleSpeedTable,X
+        lda f:BattleSpeedTbl,X
         sta ATBWaitTime
         rts
 
@@ -17221,8 +17194,8 @@ _7150:
         jsr ShiftMultiply_4
         tax
         shorta0
-        lda ROMLoot::RareSteal,X
-        ora ROMLoot::CommonSteal,X
+        lda f:MonsterItem,X
+        ora f:MonsterItem + 1,X
         bne :+
         inc StealNoItems		;no items to steal
         bra Miss
@@ -18460,7 +18433,7 @@ Success:
         sta ControlTarget,X
         lda AttackerIndex
         tax
-        lda ROMTimes20,X	;*20
+        lda f:_d0eedb,X	;*20
         tay
         sty $10			;attacker index * structure size
         sec
@@ -18475,7 +18448,7 @@ Success:
         shorta0
         stz $0E			;loop index
 CopyActionsLoop:
-        lda ROMControlActions,X
+        lda f:MonsterControl,X
         sta CharControl::Actions,Y
         cmp #$FF
         bne :+
@@ -18497,7 +18470,7 @@ CopyTargettingLoop:
         jsr ShiftMultiply_8
         tax
         shorta0
-        lda ROMMagicInfo::Targetting,X
+        lda f:AttackProp,X
         sta CharControl::Targetting,Y
         iny
         inc $0E
@@ -18680,7 +18653,7 @@ _7964:
         tax
         tay
 CheckEncounterLoop:
-        lda ROMMonsterFormData::Encounter,X
+        lda f:_d0ffa0,X
         cmp EncounterIndex
         beq SpecialEncounter
         clc
@@ -18696,10 +18669,10 @@ SpecialEncounter:	;note we start in 16 bit mode here		;and I had to manually fix
         .a16							;
         clc
         txa
-        adc #$FFA0	;hardcoded address of ROMMonsterFormData
+        adc #near _d0ffa0
         sta $0E
         shorta0
-        lda #$D0
+        lda #^_d0ffa0
         sta $10		;$0E now holds the 24 bit address $D0FFA0,X
 LoadNewFormID:
         lda MonsterNextForm
@@ -18831,9 +18804,9 @@ CopyMonsterStatsLoop:
         asl
         tax
         shorta0
-        lda ROMSpecialtyData::Properties,X
+        lda f:MonsterSpecialProp,X
         sta $1C
-        lda ROMSpecialtyData::Name,X
+        lda f:MonsterSpecialProp + 1,X
         sta $1D
         ply
         lda $1C
@@ -20182,7 +20155,7 @@ _8299:
         adc $0E			;ItemID*12
         tax
         shorta0
-        lda ROMItems::AtkPower,X
+        lda f:WeaponProp+7,X
         sta $0E       		;Item Attack
         jsr ShiftDivide_8     	;Item Attack / 8
         ldx #$0000
@@ -22928,7 +22901,7 @@ _9208:
         cmp #$0A  		;10 out of 255
         bcc Rare
         inx 			;next item is common steal
-Rare:	lda ROMLoot::RareSteal,X
+Rare:	lda f:MonsterItem,X
         beq Miss		;nothing in this steal slot
         sta $0E
         ldy #$00FF		;last item slot
@@ -23319,7 +23292,7 @@ ProcessCommand:
         jsr CalculateCharOffset
         lda MultiCommand
         tax
-        lda ROMTimes12,X
+        lda f:_d0ee55,X
         sta AttackerOffset2
         lda AtkType,X
         bpl ValidAtkType
@@ -23873,7 +23846,7 @@ SingleTarget:
         lsr
         ror $0E			;low 3 bits of message box in high 3 of this
         tax 			;message box data/8 (selects byte in table)
-        lda ROMHideMessages,X
+        lda f:_d0eef6,X
         pha
         lda $0E
         jsr ShiftDivide_32	;5 LSRs, now bit selection for table byte
@@ -23970,7 +23943,7 @@ _98FA:
         asl
         tax
         longa
-        lda ROMTimes5w,X
+        lda f:_d0ed89,X
         tax
         shorta0
         inc NextGFXQueueSlot
@@ -24000,7 +23973,7 @@ Ret:	rts			;return with X as the GFXQueue offset
 _9923:
         lda ProcSequence
         tax
-        lda ROMTimes12,X
+        lda f:_d0ee55,X
         tay
         sty $0C
         rts
@@ -24082,12 +24055,12 @@ _9965:
 _9980:
         lda MultiCommand
         tax
-        lda ROMTimes12,X
+        lda f:_d0ee55,X
         tay
         lda MultiCommand
         inc
         tax
-        lda ROMTimes12,X
+        lda f:_d0ee55,X
         tax
 AttackInfoCopyLoop:		;shifts all of the AttackInfo Structs down, deleting the one indexed by Multicommand
         lda AttackInfo,X
@@ -24236,7 +24209,7 @@ _9A6F:
         shorta0
         lda CurrentChar
         tax
-        lda ROMTimes84,X	;*84,  7*12 byte equipment slots
+        lda f:_d0ed85,X	;*84,  7*12 byte equipment slots
         tax
         stx $10			;GearStats character offset
         stx $0A			;GearStats character offset
@@ -24257,7 +24230,7 @@ CopySevenItemsData:		;copy data for all 7 item slots from ROM
         stz $18
         ldy $10
 CopyOneItemData:		;copy 12 bytes of data for current item
-        lda ROMItems,X
+        lda f:WeaponProp,X
         sta GearStats,Y
         inx
         iny
@@ -24314,9 +24287,9 @@ Stats:
         and #$07		;stat bonus bits
         asl
         tax
-        lda ROMStatBonuses,X
+        lda f:EquipStatBonusTbl,X
         sta $14			;stat bonus 1
-        lda ROMStatBonuses+1,X
+        lda f:EquipStatBonusTbl+1,X
         sta $16			;stat bonus 2
         pla
         asl
@@ -24463,7 +24436,7 @@ CopyArmorElementDef:
         shorta0
         tay
 CopyROMElementDef:
-        lda ROMElementDef,X
+        lda f:ArmorElementTbl,X
         ora Temp,Y
         sta Temp,Y
         inx
@@ -24507,7 +24480,7 @@ CopyROMStatusImmunities:
         tay
         ldx $26		;ROMArmorStatus offset (GearStats::Status*7)
 CopyROMImmunities:
-        lda ROMArmorStatus::Immune1,X
+        lda f:ArmorStatusTbl+4,X
         ora Temp,Y
         sta Temp,Y
         inx
@@ -24556,7 +24529,7 @@ _9D01:
         stz $13		;set to 1 for always status, 0 for initial
         ldy AttackerOffset
         ldx $26		;ROMArmorStatus Offset
-        lda ROMArmorStatus::Status1,X
+        lda f:ArmorStatusTbl,X
         beq Status2
         sta $12		;Status 1 to apply
         bmi AlwaysS1
@@ -24589,7 +24562,7 @@ ApplyS1:									;:
 Status2:
         ldy AttackerOffset
         ldx $26		;ROMArmorStatus Offset
-        lda ROMArmorStatus::Status2,X
+        lda f:ArmorStatusTbl+1,X
         sta $12		;Status 2 to apply
         lda CharStruct::Job,Y
         cmp #$06	;Berserker
@@ -24612,7 +24585,7 @@ Zombie:			;zombie from equipment is bugged, but doesn't exist anyway
         lda CurrentChar
         asl
         tax
-        lda ROMTimes11w,X	;**bug: 16 bit table accessed in 8 bit mode
+        lda f:_d0ed61,X	;**bug: 16 bit table accessed in 8 bit mode
         tax 			;char index*11 (wrong char due to bug)
         tdc
         sta EnableTimer::ATB,X	;disable normal ATB
@@ -24695,7 +24668,7 @@ ApplyS2:
 Status3:
         ldy AttackerOffset
         ldx $26		;ROMArmorStatus Offset
-        lda ROMArmorStatus::Status3,X
+        lda f:ArmorStatusTbl+2,X
         bne :+
         jmp Status4	;no status 3 to apply
 :	sta $12		;status 3 to apply
@@ -24766,7 +24739,7 @@ ApplyS3:
 Status4:
         ldy AttackerOffset
         ldx $26		;ROMArmorStatus Offse
-        lda ROMArmorStatus::Status4,X
+        lda f:ArmorStatusTbl+3,X
         beq Ret
         sta $12		;Status 4 to apply
         lda $13		;always status
@@ -24979,3 +24952,1845 @@ Ret:	rts
 ; ---------------------------------------------------------------------------
 
 .include "ai_script.asm"
+
+; ---------------------------------------------------------------------------
+
+.segment "monster_prop"
+
+; d0/0000
+MonsterProp:
+        .incbin "monster_prop.dat"
+
+; ---------------------------------------------------------------------------
+
+.segment "battle_prop"
+
+; d0/3000
+BattleProp:
+        .incbin "battle_prop.dat"
+
+; ---------------------------------------------------------------------------
+
+.segment "monster_item"
+
+; d0/5000
+MonsterItem:
+        .incbin "monster_item.dat"
+
+; ---------------------------------------------------------------------------
+
+.segment "monster_control"
+
+; d0/5600
+MonsterControl:
+        .incbin "monster_control.dat"
+
+; ---------------------------------------------------------------------------
+
+.segment "monster_release"
+; d0/8600
+MonsterRelease:
+        .incbin "monster_release.dat"
+
+; ---------------------------------------------------------------------------
+
+.segment "monster_pos"
+; d0/8900
+MonsterPos:
+        .incbin "monster_pos.dat"
+
+; ---------------------------------------------------------------------------
+
+.segment "monster_special_prop"
+; d0/9900
+MonsterSpecialProp:
+        .incbin "monster_special_prop.dat"
+
+; ---------------------------------------------------------------------------
+
+.segment "battle_data1"
+
+; ---------------------------------------------------------------------------
+
+.export AbilityBitTbl
+
+; d0/ec00: bit index for each ability
+AbilityBitTbl:
+        .byte   0, 0
+        .byte   0, 0
+        .byte   0, 1
+        .byte   0, 2
+        .byte   0, 3
+        .byte   0, 4
+        .byte   0, 5
+        .byte   0, 6
+        .byte   0, 7
+        .byte   1, 0
+        .byte   1, 1
+        .byte   1, 2
+        .byte   1, 3
+        .byte   1, 4
+        .byte   1, 5
+        .byte   1, 6
+        .byte   1, 7
+        .byte   2, 0
+        .byte   2, 1
+        .byte   2, 2
+        .byte   2, 3
+        .byte   2, 4
+        .byte   2, 5
+        .byte   2, 6
+        .byte   2, 7
+        .byte   3, 0
+        .byte   3, 1
+        .byte   3, 2
+        .byte   3, 3
+        .byte   3, 4
+        .byte   3, 5
+        .byte   3, 6
+        .byte   3, 7
+        .byte   4, 0
+        .byte   4, 1
+        .byte   4, 2
+        .byte   4, 3
+        .byte   4, 4
+        .byte   4, 5
+        .byte   4, 6
+        .byte   4, 7
+        .byte   5, 0
+        .byte   5, 1
+        .byte   5, 2
+        .byte   6, 0
+        .byte   6, 1
+        .byte   6, 2
+        .byte   6, 3
+        .byte   6, 4
+        .byte   6, 5
+        .byte   7, 0
+        .byte   7, 1
+        .byte   7, 2
+        .byte   7, 3
+        .byte   7, 4
+        .byte   7, 5
+        .byte   8, 0
+        .byte   8, 1
+        .byte   8, 2
+        .byte   8, 3
+        .byte   8, 4
+        .byte   8, 5
+        .byte   9, 0
+        .byte   9, 1
+        .byte   9, 2
+        .byte   9, 3
+        .byte   9, 4
+        .byte   9, 5
+        .byte   10, 0
+        .byte   10, 1
+        .byte   10, 2
+        .byte   10, 3
+        .byte   10, 4
+        .byte   11, 0
+        .byte   11, 1
+        .byte   11, 2
+        .byte   12, 0
+        .byte   12, 1
+        .byte   13, 0
+        .byte   13, 1
+        .byte   13, 2
+        .byte   13, 3
+        .byte   13, 4
+        .byte   13, 5
+        .byte   13, 6
+        .byte   13, 7
+        .byte   14, 0
+        .byte   14, 1
+        .byte   14, 2
+        .byte   14, 3
+        .byte   14, 4
+        .byte   14, 5
+        .byte   14, 6
+        .byte   14, 7
+        .byte   15, 0
+        .byte   15, 1
+        .byte   15, 2
+        .byte   15, 3
+        .byte   15, 4
+        .byte   15, 5
+        .byte   15, 6
+        .byte   15, 7
+        .byte   16, 0
+        .byte   16, 1
+        .byte   16, 2
+        .byte   16, 3
+        .byte   16, 4
+        .byte   16, 5
+        .byte   16, 6
+        .byte   16, 7
+        .byte   17, 0
+
+; ---------------------------------------------------------------------------
+
+; d0/ecde: inverse bit mask table
+BitAndTbl:
+        .byte   $7f,$bf,$df,$ef,$f7,$fb,$fd,$fe
+
+; ---------------------------------------------------------------------------
+
+; d0/ece6: bit mask table
+BitOrTbl:
+        .byte   $80,$40,$20,$10,$08,$04,$02,$01
+
+; ---------------------------------------------------------------------------
+
+; d0/ecee: spell casting delays
+AttackDelayTbl:
+        .byte   0, 10, 20, 30
+
+; ---------------------------------------------------------------------------
+
+; d0/ecf2: battle speed constants
+BattleSpeedTbl:
+        .byte   0,15,30,60,120,240,0,0  ; active
+        .byte   0,15,30,60,120,240,0,0  ; wait
+
+; ---------------------------------------------------------------------------
+
+; map from long command list to short command list (for different magic levels)
+_d0ed02:
+        .byte   $00,$00,$01,$02,$03,$04,$05,$06,$07,$08,$09,$0a,$0b,$0c,$0d,$0e
+        .byte   $0f,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$1a,$1b,$1c,$1d,$1e
+        .byte   $1f,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$2a,$2b,$2b,$2b,$2b
+        .byte   $2b,$2b,$2b,$2b,$2b,$2b,$2b,$2b,$2b,$2b,$2b,$2b,$2b,$2b,$2b,$2b
+        .byte   $2b,$2b,$2b,$2b,$2b,$2b,$2b,$2b,$2b,$2b,$2b,$2b,$2b,$2b,$2c,$2d
+        .byte   $2e,$2f,$30,$31,$32,$33,$34
+
+; ---------------------------------------------------------------------------
+
+; spell list offsets
+_d0ed59:
+        .word   $0000,$028a,$0514,$079e
+
+; ---------------------------------------------------------------------------
+
+; timer data offsets
+_d0ed61:
+        .word   0,11,22,33,44,55,66,77,88,99,110,121
+
+; ---------------------------------------------------------------------------
+
+; character/monster order fix for battle mechanics/graphics
+_d0ed79:
+        .byte   $08,$09,$0A,$0B,$00,$01,$02,$03,$04,$05,$06,$07
+
+; ---------------------------------------------------------------------------
+
+; equipment data offsets
+_d0ed85:
+        .byte   $00,$54,$a8,$fc
+
+; ---------------------------------------------------------------------------
+
+; pointers to battle graphics commands (+$384C)
+_d0ed89:
+        .repeat 102, i
+        .word   i * 5
+        .endrep
+
+; ---------------------------------------------------------------------------
+
+; pointers to attack properties (+$79FC)
+_d0ee55:
+        .repeat 16, i
+        .byte   i * 12
+        .endrep
+
+; ---------------------------------------------------------------------------
+
+; unused ???
+_d0ee65:
+        .repeat 16, i
+        .word   i * 24
+        .endrep
+
+; ---------------------------------------------------------------------------
+
+_d0ee85:
+        .repeat 16, i
+        .byte   i * 7
+        .endrep
+
+; ---------------------------------------------------------------------------
+
+; ram pointers to monster script conditions
+_d0ee95:
+        .repeat 8, i
+        .word   i * 100
+        .endrep
+
+; ---------------------------------------------------------------------------
+
+_d0eea5:
+        .repeat 8, i
+        .word   i * $0654
+        .endrep
+
+; ---------------------------------------------------------------------------
+
+; ram pointers to monster script actions
+_d0eeb5:
+        .repeat 10, i
+        .word   i * 64
+        .endrep
+
+; ---------------------------------------------------------------------------
+
+_d0eec9:
+        .repeat 10, i
+        .byte   i * 17
+        .endrep
+
+; ---------------------------------------------------------------------------
+
+; pointers to character abilities in ram
+_d0eed3:
+        .word   $08f7,$090b,$091f,$0933
+
+; ---------------------------------------------------------------------------
+
+; pointers to control ability command lists
+_d0eedb:
+        .byte   0, 20, 40, 60
+
+; ---------------------------------------------------------------------------
+
+; spc commands for battle songs
+_d0eedf:
+        .byte   $71,$72,$73,$74,$76,$77,$78,$79
+
+; ---------------------------------------------------------------------------
+
+; magic lamp spells
+_d0eee7:
+        .byte   $6D,$6C,$6A,$69,$68,$67,$66,$65,$64,$63,$62,$61,$60,$48,$73
+
+; ---------------------------------------------------------------------------
+
+; bitfield, bits are set for messages that are hidden
+; when there's no target data for the attack animation
+_d0eef6:
+        .byte   $00,$00,$00,$07,$a4,$00,$00,$00,$00,$1b,$80,$00,$00,$00,$00,$00
+
+; ---------------------------------------------------------------------------
+
+; magic spell levels
+_d0ef06:
+        .byte   1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4
+        .byte   5,6,1,2,3,4,5,6,1,2,3,4,5,1,2,3
+
+; ---------------------------------------------------------------------------
+
+_d0ef26:
+        .byte   0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0
+        .byte   1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0
+        .byte   0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
+        .byte   1,0
+
+; ---------------------------------------------------------------------------
+
+; d0/ef58: commands that can be used as toad
+ToadCmdTbl:
+        .byte   $00,$00,$00,$00,$00,$40,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$40,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$02,$00,$00
+
+; ---------------------------------------------------------------------------
+
+; [ validate inventory ]
+
+_d0ef78:
+        clr_ax
+@ef7a:  lda     $0640,x     ; item id
+        bne     @ef82
+        stz     $0740,x
+@ef82:  lda     $0740,x     ; item quantity
+        bne     @ef8a
+        stz     $0640,x
+@ef8a:  inx
+        cpx     #$0100
+        bne     @ef7a
+        rtl
+
+; ---------------------------------------------------------------------------
+
+.segment "battle_data2"
+
+; d0/ffa0
+_d0ffa0:
+        .word   $01C4,$0116,$0117,$0118,$0119,$0000,$0000,$0000
+        .word   $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+        .word   $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+        .word   $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+
+; d0/ffe0: alternate battles
+AltBattleTbl:
+        .word   $004c,$004a
+        .word   $00a5,$00d0
+        .word   $00bb,$00b3
+        .word   $01f9,$00b3
+        .word   $0108,$0109
+        .word   $018c,$018c
+        .word   $0195,$0195
+        .word   $0000,$0000
+
+; ---------------------------------------------------------------------------
+
+.segment "item_prop1"
+
+; d1/0000: weapon properties (128 * 12 bytes)
+WeaponProp:
+        .byte   $38,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $38,$80,$40,$80,$00,$00,$78,$03,$30,$08,$00,$00
+        .byte   $00,$80,$02,$80,$16,$04,$78,$07,$32,$00,$00,$00
+        .byte   $00,$80,$02,$80,$16,$04,$78,$0e,$32,$00,$00,$00
+        .byte   $00,$80,$02,$80,$16,$04,$78,$17,$32,$00,$00,$00
+        .byte   $00,$80,$03,$a0,$16,$04,$78,$1d,$32,$00,$00,$00
+        .byte   $00,$80,$02,$88,$16,$0c,$78,$1f,$32,$00,$21,$15
+        .byte   $00,$80,$02,$80,$16,$44,$78,$24,$32,$00,$00,$00
+        .byte   $00,$80,$03,$a0,$16,$04,$78,$2e,$32,$00,$00,$00
+        .byte   $00,$80,$02,$80,$16,$04,$78,$29,$32,$00,$00,$00
+        .byte   $00,$80,$02,$40,$16,$04,$78,$38,$32,$40,$00,$00
+        .byte   $00,$80,$02,$a0,$16,$0c,$78,$51,$32,$00,$19,$34
+        .byte   $00,$80,$03,$a0,$16,$84,$78,$63,$32,$00,$00,$00
+        .byte   $00,$80,$04,$80,$55,$04,$78,$0f,$31,$00,$00,$00
+        .byte   $00,$80,$04,$80,$55,$04,$78,$16,$31,$00,$00,$00
+        .byte   $00,$80,$04,$80,$55,$04,$78,$1f,$31,$00,$00,$00
+        .byte   $00,$80,$04,$80,$55,$04,$78,$25,$31,$04,$00,$00
+        .byte   $00,$80,$04,$80,$55,$0c,$78,$2b,$31,$00,$21,$44
+        .byte   $00,$80,$04,$80,$55,$04,$78,$39,$31,$00,$00,$00
+        .byte   $00,$80,$04,$80,$55,$0c,$78,$31,$31,$00,$32,$28
+        .byte   $30,$80,$05,$80,$55,$84,$16,$63,$31,$00,$00,$00
+        .byte   $00,$80,$05,$c7,$55,$04,$78,$6e,$31,$10,$00,$00
+        .byte   $00,$80,$05,$80,$55,$04,$78,$8c,$31,$00,$00,$00
+        .byte   $38,$80,$06,$c0,$17,$00,$78,$37,$33,$00,$00,$00
+        .byte   $38,$80,$06,$a0,$17,$00,$78,$19,$33,$00,$00,$00
+        .byte   $00,$80,$06,$80,$17,$00,$78,$1e,$33,$00,$00,$00
+        .byte   $00,$80,$06,$80,$17,$00,$78,$26,$33,$04,$00,$00
+        .byte   $00,$80,$06,$80,$17,$00,$78,$2c,$33,$40,$00,$00
+        .byte   $00,$80,$06,$80,$17,$00,$78,$3e,$33,$00,$00,$00
+        .byte   $00,$80,$06,$80,$17,$00,$78,$36,$33,$00,$00,$00
+        .byte   $00,$80,$1e,$80,$00,$02,$78,$3d,$33,$00,$64,$55
+        .byte   $00,$80,$06,$c2,$17,$00,$78,$6d,$33,$10,$00,$00
+        .byte   $00,$80,$06,$80,$17,$00,$78,$77,$73,$10,$00,$00
+        .byte   $00,$80,$07,$80,$59,$00,$78,$17,$34,$50,$00,$00
+        .byte   $38,$80,$48,$80,$59,$00,$78,$1c,$34,$50,$00,$00
+        .byte   $00,$80,$47,$80,$59,$00,$78,$21,$34,$50,$00,$00
+        .byte   $00,$80,$08,$80,$59,$00,$78,$26,$34,$50,$00,$00
+        .byte   $00,$80,$07,$80,$59,$08,$78,$30,$34,$50,$43,$27
+        .byte   $00,$80,$08,$20,$59,$02,$78,$3a,$3a,$50,$19,$56
+        .byte   $00,$04,$07,$8a,$69,$00,$78,$47,$3c,$5a,$0a,$05
+        .byte   $00,$40,$48,$80,$58,$00,$78,$51,$3a,$50,$00,$00
+        .byte   $00,$80,$09,$80,$5a,$00,$78,$2a,$37,$0c,$00,$00
+        .byte   $38,$80,$09,$40,$5a,$02,$78,$2c,$37,$0c,$0c,$53
+        .byte   $00,$80,$09,$80,$5a,$00,$78,$3a,$37,$0c,$00,$00
+        .byte   $00,$80,$09,$80,$5a,$00,$78,$33,$37,$0c,$00,$00
+        .byte   $00,$80,$09,$80,$5a,$00,$78,$57,$37,$0c,$00,$00
+        .byte   $00,$80,$09,$80,$5a,$00,$78,$61,$37,$19,$00,$00
+        .byte   $30,$80,$09,$80,$5a,$20,$3a,$6b,$37,$0f,$00,$00
+        .byte   $00,$80,$09,$80,$5a,$00,$78,$75,$37,$14,$00,$00
+        .byte   $38,$04,$4a,$88,$23,$00,$78,$08,$3b,$46,$00,$00
+        .byte   $48,$04,$4a,$01,$23,$00,$b0,$10,$3b,$50,$00,$01
+        .byte   $48,$04,$4a,$02,$23,$00,$b1,$10,$3b,$50,$00,$02
+        .byte   $48,$04,$4a,$04,$23,$00,$b2,$10,$3b,$50,$00,$04
+        .byte   $38,$04,$4a,$08,$23,$00,$af,$20,$3b,$50,$00,$08
+        .byte   $38,$04,$4a,$8a,$23,$08,$78,$1e,$49,$50,$19,$35
+        .byte   $38,$04,$4a,$6f,$1e,$00,$78,$28,$3b,$50,$00,$07
+        .byte   $38,$80,$4b,$80,$40,$00,$78,$09,$34,$5f,$00,$00
+        .byte   $38,$80,$4b,$80,$00,$00,$78,$13,$34,$5f,$00,$00
+        .byte   $30,$80,$4b,$c7,$00,$08,$78,$00,$7f,$4b,$63,$20
+        .byte   $30,$80,$4b,$89,$00,$08,$78,$00,$7f,$00,$64,$18
+        .byte   $38,$80,$4b,$89,$00,$00,$a2,$2d,$06,$00,$3c,$10
+        .byte   $30,$80,$4b,$10,$1f,$00,$19,$35,$6c,$00,$2d,$01
+        .byte   $38,$80,$4b,$8a,$23,$00,$23,$3c,$06,$00,$5a,$10
+        .byte   $38,$40,$4d,$80,$9b,$00,$78,$27,$36,$46,$00,$01
+        .byte   $38,$40,$4d,$80,$9b,$00,$78,$27,$36,$46,$00,$02
+        .byte   $38,$40,$4d,$80,$9b,$00,$78,$27,$36,$46,$00,$04
+        .byte   $38,$40,$4d,$80,$9b,$00,$78,$2b,$35,$46,$c2,$01
+        .byte   $38,$40,$4d,$80,$9b,$00,$78,$31,$35,$46,$88,$80
+        .byte   $38,$40,$4d,$80,$9b,$00,$78,$38,$36,$5a,$0f,$00
+        .byte   $38,$40,$4d,$e2,$9b,$00,$78,$65,$36,$5a,$1e,$00
+        .byte   $38,$40,$4d,$80,$9b,$00,$78,$6f,$72,$04,$00,$00
+        .byte   $78,$20,$4e,$80,$9b,$08,$78,$0f,$7f,$00,$64,$74
+        .byte   $78,$20,$4e,$80,$9b,$08,$78,$19,$7f,$00,$63,$75
+        .byte   $78,$20,$4e,$80,$9b,$08,$78,$23,$7f,$00,$63,$76
+        .byte   $78,$20,$4e,$80,$9b,$08,$78,$2d,$7f,$00,$63,$77
+        .byte   $38,$40,$4f,$80,$23,$08,$78,$1a,$38,$5a,$32,$7f
+        .byte   $38,$40,$4f,$80,$23,$08,$78,$34,$38,$5a,$32,$7f
+        .byte   $38,$40,$4f,$80,$23,$08,$78,$2a,$38,$5a,$21,$26
+        .byte   $38,$40,$4f,$e1,$23,$08,$78,$52,$38,$5a,$21,$30
+        .byte   $38,$40,$4f,$80,$23,$08,$78,$5c,$72,$10,$32,$7f
+        .byte   $38,$20,$50,$80,$23,$00,$78,$18,$39,$00,$00,$00
+        .byte   $38,$20,$50,$20,$23,$02,$78,$23,$3a,$63,$19,$56
+        .byte   $38,$20,$50,$7f,$23,$00,$78,$2d,$3c,$63,$0a,$05
+        .byte   $38,$20,$50,$80,$23,$00,$78,$37,$39,$00,$00,$00
+        .byte   $38,$80,$40,$80,$00,$00,$78,$00,$00,$00,$00,$00
+        .byte   $38,$80,$45,$8f,$00,$00,$78,$54,$0d,$19,$54,$00
+        .byte   $38,$80,$44,$80,$69,$00,$78,$32,$3c,$63,$14,$08
+        .byte   $38,$80,$45,$80,$55,$04,$78,$3f,$31,$01,$00,$00
+        .byte   $00,$80,$45,$80,$40,$04,$78,$41,$31,$02,$00,$00
+        .byte   $38,$80,$5e,$80,$23,$00,$78,$23,$38,$5f,$00,$00
+        .byte   $38,$80,$00,$80,$00,$00,$78,$32,$00,$00,$00,$00
+        .byte   $38,$80,$00,$80,$00,$00,$78,$75,$00,$00,$00,$00
+        .byte   $38,$80,$04,$80,$40,$00,$78,$64,$28,$80,$01,$00
+        .byte   $38,$40,$4f,$80,$23,$08,$78,$48,$72,$04,$32,$7f
+        .byte   $38,$80,$4b,$80,$58,$00,$78,$10,$3a,$46,$00,$00
+        .byte   $38,$80,$4b,$80,$58,$00,$78,$32,$3a,$5a,$00,$00
+        .byte   $38,$04,$4a,$89,$23,$09,$c1,$00,$7f,$00,$63,$00
+        .byte   $38,$80,$45,$c7,$55,$04,$78,$96,$6e,$00,$00,$00
+        .byte   $38,$80,$00,$80,$00,$00,$78,$19,$00,$00,$00,$00
+        .byte   $38,$80,$42,$a7,$16,$06,$78,$01,$64,$00,$19,$0a
+        .byte   $38,$40,$5e,$80,$23,$00,$78,$47,$38,$5a,$00,$00
+        .byte   $38,$40,$4d,$80,$9b,$00,$78,$26,$35,$46,$00,$00
+        .byte   $38,$40,$4d,$80,$9b,$02,$78,$45,$38,$50,$19,$17
+        .byte   $38,$40,$4d,$80,$1b,$08,$78,$00,$00,$5a,$21,$15
+        .byte   $38,$40,$4d,$80,$9b,$00,$78,$5b,$72,$08,$00,$00
+        .byte   $38,$80,$47,$80,$59,$08,$78,$2b,$34,$55,$21,$34
+        .byte   $38,$80,$47,$80,$59,$00,$78,$5b,$34,$5a,$00,$00
+        .byte   $38,$80,$55,$f9,$00,$00,$78,$59,$73,$80,$00,$00
+        .byte   $38,$80,$42,$a0,$16,$06,$78,$42,$32,$00,$21,$0c
+        .byte   $38,$80,$42,$a8,$16,$06,$78,$33,$32,$00,$32,$2a
+        .byte   $38,$80,$44,$8a,$55,$04,$78,$66,$31,$00,$00,$00
+        .byte   $38,$80,$40,$80,$00,$00,$78,$00,$00,$00,$00,$00
+        .byte   $38,$80,$40,$80,$00,$00,$78,$00,$00,$00,$00,$00
+        .byte   $38,$80,$40,$80,$00,$00,$78,$00,$00,$00,$00,$00
+        .byte   $38,$80,$40,$80,$00,$00,$78,$00,$00,$00,$00,$00
+        .byte   $38,$80,$40,$80,$00,$00,$78,$00,$00,$00,$00,$00
+        .byte   $38,$80,$40,$80,$00,$00,$78,$00,$00,$00,$00,$00
+        .byte   $38,$80,$40,$80,$00,$00,$78,$00,$00,$00,$00,$00
+        .byte   $38,$80,$40,$80,$00,$00,$78,$00,$00,$00,$00,$00
+        .byte   $38,$80,$40,$80,$00,$00,$78,$00,$00,$00,$00,$00
+        .byte   $38,$80,$40,$80,$00,$00,$78,$00,$00,$00,$00,$00
+        .byte   $38,$80,$40,$80,$00,$00,$78,$00,$00,$00,$00,$00
+        .byte   $38,$80,$40,$80,$00,$00,$78,$00,$00,$00,$00,$00
+        .byte   $38,$80,$40,$80,$00,$00,$78,$00,$00,$00,$00,$00
+        .byte   $38,$80,$40,$80,$00,$00,$78,$00,$00,$00,$00,$00
+        .byte   $38,$80,$40,$80,$00,$00,$78,$00,$00,$00,$00,$00
+        .byte   $38,$80,$40,$80,$00,$00,$78,$00,$00,$00,$00,$00
+        .byte   $38,$80,$40,$80,$00,$00,$78,$00,$00,$00,$00,$00
+
+; ---------------------------------------------------------------------------
+
+; d1/0600: armor properties (96 * 12 bytes)
+ArmorProp:
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $08,$02,$11,$80,$00,$00,$0a,$00,$00,$00,$00,$00
+        .byte   $08,$05,$11,$80,$00,$00,$0f,$01,$00,$00,$00,$00
+        .byte   $08,$05,$11,$80,$00,$00,$14,$02,$00,$00,$00,$00
+        .byte   $08,$05,$11,$80,$00,$00,$19,$03,$00,$00,$00,$00
+        .byte   $08,$05,$11,$80,$00,$00,$1e,$04,$00,$00,$00,$00
+        .byte   $08,$04,$11,$88,$00,$80,$21,$05,$00,$00,$00,$04
+        .byte   $08,$05,$11,$80,$00,$00,$23,$06,$00,$00,$01,$00
+        .byte   $08,$05,$11,$80,$00,$00,$2d,$08,$00,$00,$00,$00
+        .byte   $04,$01,$01,$80,$00,$00,$00,$01,$00,$01,$00,$00
+        .byte   $04,$04,$12,$80,$00,$00,$00,$02,$00,$02,$00,$00
+        .byte   $04,$04,$12,$80,$00,$00,$00,$04,$00,$02,$00,$00
+        .byte   $04,$04,$12,$80,$00,$00,$00,$06,$00,$02,$00,$00
+        .byte   $04,$04,$12,$80,$00,$00,$00,$08,$00,$02,$00,$00
+        .byte   $04,$04,$12,$80,$00,$00,$00,$0a,$00,$02,$01,$00
+        .byte   $04,$04,$12,$80,$00,$00,$00,$0d,$00,$02,$00,$00
+        .byte   $04,$02,$01,$80,$00,$00,$00,$02,$05,$02,$00,$00
+        .byte   $04,$02,$14,$88,$00,$00,$00,$04,$05,$02,$00,$00
+        .byte   $04,$02,$14,$89,$00,$00,$00,$06,$05,$02,$00,$00
+        .byte   $04,$02,$14,$8a,$00,$00,$00,$0a,$05,$02,$00,$00
+        .byte   $04,$02,$14,$80,$1c,$08,$00,$00,$05,$02,$00,$00
+        .byte   $04,$02,$15,$ff,$21,$00,$00,$0c,$05,$02,$00,$05
+        .byte   $04,$02,$13,$c2,$00,$00,$00,$06,$00,$00,$00,$00
+        .byte   $04,$02,$13,$e0,$00,$00,$00,$03,$00,$02,$00,$00
+        .byte   $04,$00,$13,$a1,$00,$00,$00,$0c,$00,$02,$00,$00
+        .byte   $04,$02,$14,$8a,$00,$04,$00,$03,$0a,$07,$00,$06
+        .byte   $02,$02,$01,$80,$00,$00,$00,$01,$00,$01,$00,$00
+        .byte   $02,$08,$16,$80,$00,$00,$00,$04,$00,$02,$00,$00
+        .byte   $02,$08,$16,$80,$00,$00,$00,$06,$00,$02,$00,$00
+        .byte   $02,$08,$16,$80,$00,$00,$00,$09,$00,$02,$00,$00
+        .byte   $02,$08,$16,$80,$00,$00,$00,$0c,$00,$02,$00,$00
+        .byte   $02,$08,$16,$80,$00,$00,$00,$0f,$00,$02,$01,$00
+        .byte   $02,$08,$16,$80,$00,$00,$00,$14,$00,$02,$00,$00
+        .byte   $02,$04,$17,$80,$00,$00,$00,$03,$00,$02,$00,$00
+        .byte   $02,$03,$17,$c0,$00,$00,$00,$05,$00,$02,$00,$00
+        .byte   $02,$04,$17,$80,$00,$00,$00,$07,$00,$02,$00,$00
+        .byte   $02,$03,$17,$a0,$00,$00,$00,$09,$00,$02,$00,$00
+        .byte   $02,$04,$17,$80,$00,$00,$00,$0d,$00,$02,$01,$00
+        .byte   $02,$03,$17,$e0,$00,$00,$00,$11,$00,$02,$00,$00
+        .byte   $02,$02,$18,$80,$00,$00,$00,$02,$0f,$04,$00,$00
+        .byte   $02,$02,$18,$80,$00,$00,$00,$04,$10,$06,$00,$00
+        .byte   $02,$02,$18,$20,$00,$00,$00,$08,$12,$0a,$00,$00
+        .byte   $02,$02,$18,$80,$00,$00,$00,$06,$11,$08,$00,$07
+        .byte   $02,$02,$18,$89,$00,$00,$00,$0b,$13,$0c,$00,$00
+        .byte   $02,$02,$18,$8f,$00,$00,$00,$0e,$14,$0e,$00,$00
+        .byte   $02,$02,$18,$9a,$00,$00,$00,$0e,$14,$0e,$00,$00
+        .byte   $02,$03,$17,$80,$00,$00,$00,$0e,$03,$04,$00,$0f
+        .byte   $01,$01,$1b,$97,$00,$00,$00,$0a,$0a,$0a,$00,$01
+        .byte   $01,$01,$1c,$a0,$1d,$10,$00,$04,$00,$00,$00,$00
+        .byte   $01,$0a,$19,$d5,$00,$00,$00,$09,$00,$01,$00,$0c
+        .byte   $01,$01,$1b,$a8,$00,$40,$00,$00,$05,$03,$00,$00
+        .byte   $01,$01,$1b,$80,$2d,$00,$00,$19,$0a,$05,$00,$02
+        .byte   $01,$01,$1b,$80,$00,$00,$00,$01,$03,$01,$00,$08
+        .byte   $01,$01,$1b,$80,$00,$00,$00,$00,$05,$03,$00,$03
+        .byte   $01,$05,$19,$80,$00,$00,$00,$03,$00,$00,$00,$00
+        .byte   $01,$03,$1a,$80,$00,$00,$00,$02,$05,$03,$00,$00
+        .byte   $01,$03,$1a,$80,$00,$00,$00,$04,$05,$05,$00,$00
+        .byte   $02,$00,$17,$c2,$00,$00,$00,$0b,$00,$00,$00,$00
+        .byte   $01,$00,$1a,$c2,$00,$00,$00,$03,$00,$00,$00,$00
+        .byte   $02,$02,$1d,$97,$00,$00,$00,$0a,$19,$0b,$03,$09
+        .byte   $01,$01,$1b,$80,$20,$00,$00,$05,$0a,$0a,$00,$0d
+        .byte   $01,$01,$1b,$80,$00,$00,$00,$05,$05,$05,$04,$00
+        .byte   $01,$01,$1b,$80,$00,$00,$00,$05,$05,$05,$05,$00
+        .byte   $02,$03,$17,$ee,$2b,$02,$00,$1e,$0a,$05,$06,$0a
+        .byte   $01,$01,$01,$80,$00,$00,$00,$01,$00,$01,$00,$00
+        .byte   $01,$01,$1b,$c7,$24,$20,$00,$08,$00,$00,$00,$00
+        .byte   $01,$05,$19,$80,$00,$00,$00,$06,$00,$01,$00,$00
+        .byte   $04,$02,$13,$80,$00,$00,$00,$09,$00,$02,$00,$00
+        .byte   $08,$05,$11,$80,$00,$00,$28,$07,$05,$05,$07,$00
+        .byte   $01,$0f,$1b,$80,$26,$01,$00,$00,$00,$00,$00,$00
+        .byte   $08,$06,$11,$80,$00,$00,$32,$09,$00,$01,$00,$10
+        .byte   $04,$05,$12,$80,$00,$00,$00,$0f,$00,$02,$00,$11
+        .byte   $02,$09,$16,$80,$00,$00,$00,$16,$00,$02,$00,$12
+        .byte   $01,$06,$19,$80,$00,$00,$00,$0c,$00,$01,$00,$13
+        .byte   $01,$01,$1b,$80,$00,$00,$00,$00,$00,$00,$00,$0b
+        .byte   $04,$08,$1b,$88,$25,$00,$00,$05,$05,$04,$00,$00
+        .byte   $04,$04,$12,$f6,$2a,$00,$00,$14,$0a,$05,$00,$0e
+        .byte   $08,$05,$11,$80,$00,$00,$28,$07,$05,$05,$08,$00
+        .byte   $08,$05,$11,$80,$2c,$00,$01,$0f,$0a,$05,$00,$00
+        .byte   $02,$03,$15,$80,$00,$04,$00,$12,$04,$03,$00,$06
+        .byte   $01,$01,$15,$80,$00,$04,$00,$0b,$03,$02,$00,$06
+        .byte   $00,$00,$00,$80,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$80,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$80,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$80,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$80,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$80,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$80,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$80,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$80,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$80,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$80,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$80,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$80,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$80,$00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$80,$00,$00,$00,$00,$00,$00,$00,$00
+
+; ---------------------------------------------------------------------------
+
+; d1/0a80
+ConsumableItemProp:
+        .byte   $30,$00,$50,$81,$24,$0a,$05,$00
+        .byte   $30,$00,$50,$81,$24,$32,$0a,$00
+        .byte   $30,$00,$50,$82,$25,$04,$0a,$00
+        .byte   $30,$00,$50,$83,$26,$c0,$00,$00
+        .byte   $30,$00,$50,$84,$9a,$4b,$00,$04
+        .byte   $30,$00,$50,$85,$99,$df,$ff,$ff
+        .byte   $30,$00,$50,$86,$42,$80,$1e,$fd
+        .byte   $30,$00,$70,$87,$19,$ef,$ff,$ff
+        .byte   $30,$00,$50,$88,$99,$fb,$ff,$ff
+        .byte   $30,$00,$50,$89,$99,$fe,$ff,$ff
+        .byte   $00,$00,$70,$87,$00,$00,$00,$00
+        .byte   $00,$00,$70,$87,$00,$00,$00,$00
+        .byte   $30,$00,$52,$8a,$99,$bf,$ff,$ff
+        .byte   $30,$00,$52,$8b,$99,$ef,$ff,$ff
+        .byte   $00,$00,$72,$80,$00,$00,$00,$00
+        .byte   $08,$00,$5a,$8c,$7f,$00,$00,$00
+        .byte   $00,$00,$72,$8d,$00,$00,$00,$00
+        .byte   $00,$00,$72,$8d,$00,$00,$00,$00
+        .byte   $00,$00,$62,$8e,$59,$00,$00,$04
+        .byte   $00,$00,$62,$8f,$51,$80,$04,$14
+        .byte   $00,$00,$62,$90,$16,$80,$fb,$08
+        .byte   $00,$00,$62,$91,$14,$80,$02,$40
+        .byte   $00,$00,$62,$92,$51,$80,$10,$0a
+        .byte   $00,$00,$72,$a7,$00,$00,$00,$00
+        .byte   $00,$00,$72,$a8,$00,$00,$00,$00
+        .byte   $00,$00,$72,$93,$00,$00,$00,$00
+        .byte   $00,$00,$72,$93,$00,$00,$00,$00
+        .byte   $00,$00,$72,$93,$00,$00,$00,$00
+        .byte   $48,$00,$32,$94,$06,$00,$78,$01
+        .byte   $48,$00,$32,$94,$06,$00,$78,$80
+        .byte   $48,$00,$32,$94,$06,$00,$78,$04
+        .byte   $00,$00,$52,$80,$00,$00,$00,$00
+
+; ---------------------------------------------------------------------------
+
+.segment "attack_prop"
+
+; d1/0b80
+AttackProp:
+        .byte   $00,$04,$00,$82,$03,$01,$01,$00
+        .byte   $00,$04,$00,$82,$03,$02,$02,$00
+        .byte   $00,$04,$00,$82,$03,$03,$04,$00
+        .byte   $00,$04,$00,$81,$03,$04,$08,$04
+        .byte   $00,$02,$00,$81,$04,$05,$00,$04
+        .byte   $00,$04,$00,$82,$04,$06,$00,$40
+        .byte   $00,$04,$00,$85,$04,$07,$01,$00
+        .byte   $00,$04,$00,$85,$04,$08,$02,$00
+        .byte   $00,$04,$00,$85,$04,$09,$04,$00
+        .byte   $00,$04,$00,$86,$05,$0a,$00,$40
+        .byte   $00,$04,$00,$88,$03,$0b,$00,$40
+        .byte   $00,$04,$00,$83,$05,$0c,$08,$00
+        .byte   $00,$04,$00,$8f,$05,$0d,$01,$00
+        .byte   $00,$04,$00,$8f,$05,$0e,$02,$00
+        .byte   $00,$04,$00,$8f,$05,$0f,$04,$00
+        .byte   $00,$02,$00,$8a,$05,$10,$10,$00
+        .byte   $00,$04,$00,$9e,$05,$11,$00,$80
+        .byte   $00,$04,$00,$81,$05,$12,$00,$20
+        .byte   $b0,$02,$00,$04,$10,$00,$0f,$00
+        .byte   $38,$02,$00,$01,$1d,$78,$00,$00
+        .byte   $30,$02,$00,$02,$19,$fb,$ff,$ff
+        .byte   $b8,$02,$00,$02,$13,$4b,$5a,$04
+        .byte   $30,$02,$00,$03,$14,$80,$00,$40
+        .byte   $b8,$02,$00,$05,$15,$5a,$00,$10
+        .byte   $b0,$02,$00,$09,$10,$00,$2d,$00
+        .byte   $30,$02,$00,$1d,$9a,$32,$00,$01
+        .byte   $38,$02,$00,$04,$13,$4b,$00,$10
+        .byte   $30,$02,$00,$06,$13,$80,$00,$02
+        .byte   $30,$02,$00,$05,$14,$80,$00,$20
+        .byte   $30,$02,$00,$0a,$99,$8a,$0b,$ff
+        .byte   $b0,$02,$00,$1b,$11,$00,$b4,$00
+        .byte   $30,$02,$00,$0f,$14,$80,$9a,$80
+        .byte   $30,$02,$00,$08,$13,$80,$a0,$08
+        .byte   $30,$02,$00,$32,$9a,$63,$00,$10
+        .byte   $38,$02,$00,$14,$06,$00,$f1,$10
+        .byte   $38,$02,$00,$8c,$19,$f7,$f4,$02
+        .byte   $b8,$04,$00,$04,$06,$00,$0f,$01
+        .byte   $b8,$04,$00,$04,$06,$00,$0f,$02
+        .byte   $b8,$04,$00,$04,$06,$00,$0f,$04
+        .byte   $38,$04,$00,$02,$12,$63,$00,$04
+        .byte   $b8,$04,$00,$03,$13,$5a,$00,$40
+        .byte   $b8,$04,$00,$08,$15,$50,$00,$20
+        .byte   $b8,$04,$00,$0a,$06,$00,$32,$01
+        .byte   $b8,$04,$00,$0a,$06,$00,$32,$02
+        .byte   $b8,$04,$00,$0a,$06,$00,$32,$04
+        .byte   $38,$04,$00,$8d,$0d,$4b,$2d,$00
+        .byte   $38,$04,$00,$0f,$12,$4b,$00,$40
+        .byte   $b8,$04,$00,$10,$0c,$08,$69,$ff
+        .byte   $b8,$04,$00,$19,$06,$00,$b9,$01
+        .byte   $b8,$04,$00,$19,$06,$00,$b9,$02
+        .byte   $b8,$04,$00,$19,$06,$00,$b9,$04
+        .byte   $38,$04,$00,$27,$08,$00,$fe,$00
+        .byte   $38,$04,$00,$1d,$17,$50,$00,$80
+        .byte   $38,$04,$00,$81,$0e,$63,$08,$00
+        .byte   $00,$08,$00,$81,$1e,$00,$00,$00
+        .byte   $38,$08,$00,$03,$16,$5f,$f7,$04
+        .byte   $30,$08,$00,$03,$14,$80,$00,$01
+        .byte   $40,$08,$00,$83,$1f,$64,$00,$00
+        .byte   $30,$08,$00,$05,$16,$80,$fb,$08
+        .byte   $b0,$08,$00,$0a,$12,$80,$80,$08
+        .byte   $38,$08,$00,$09,$07,$63,$08,$00
+        .byte   $38,$08,$00,$08,$14,$5a,$5a,$10
+        .byte   $00,$08,$00,$8f,$20,$64,$00,$00
+        .byte   $38,$08,$00,$87,$09,$00,$08,$00
+        .byte   $48,$08,$00,$09,$16,$50,$f7,$04
+        .byte   $00,$08,$00,$81,$21,$64,$00,$00
+        .byte   $38,$08,$00,$12,$07,$63,$0e,$00
+        .byte   $40,$08,$00,$0f,$16,$80,$fb,$08
+        .byte   $38,$08,$00,$04,$13,$5a,$00,$80
+        .byte   $48,$08,$03,$aa,$09,$00,$0e,$00
+        .byte   $00,$08,$00,$cd,$22,$64,$00,$00
+        .byte   $38,$08,$00,$14,$18,$32,$00,$00
+        .byte   $28,$10,$00,$84,$00,$00,$00,$00
+        .byte   $28,$10,$00,$88,$00,$00,$00,$00
+        .byte   $28,$10,$00,$82,$00,$00,$00,$00
+        .byte   $48,$10,$00,$8a,$00,$00,$00,$00
+        .byte   $48,$10,$00,$8c,$00,$00,$00,$00
+        .byte   $48,$10,$00,$8b,$00,$00,$00,$00
+        .byte   $48,$10,$00,$99,$00,$00,$00,$00
+        .byte   $40,$10,$00,$92,$00,$00,$00,$00
+        .byte   $28,$10,$00,$a1,$00,$00,$00,$00
+        .byte   $40,$10,$00,$ad,$00,$00,$00,$00
+        .byte   $48,$10,$00,$a0,$00,$00,$00,$00
+        .byte   $48,$10,$00,$b0,$00,$00,$00,$00
+        .byte   $20,$10,$00,$e3,$80,$00,$00,$00
+        .byte   $48,$10,$00,$a7,$00,$00,$00,$00
+        .byte   $48,$10,$00,$c2,$00,$00,$00,$00
+        .byte   $00,$20,$00,$80,$5e,$00,$00,$80
+        .byte   $00,$20,$00,$80,$5e,$00,$00,$40
+        .byte   $40,$20,$00,$80,$14,$80,$00,$01
+        .byte   $00,$20,$00,$80,$5e,$00,$00,$10
+        .byte   $00,$20,$00,$80,$5e,$00,$00,$08
+        .byte   $48,$20,$00,$80,$5f,$01,$e1,$ff
+        .byte   $48,$20,$00,$80,$14,$63,$78,$10
+        .byte   $48,$20,$00,$80,$13,$63,$00,$10
+        .byte   $38,$10,$00,$84,$0a,$64,$1e,$00
+        .byte   $28,$10,$00,$88,$1b,$00,$1e,$00
+        .byte   $28,$10,$00,$82,$13,$64,$78,$20
+        .byte   $48,$10,$00,$8a,$06,$00,$26,$02
+        .byte   $48,$10,$00,$8c,$06,$00,$35,$04
+        .byte   $48,$10,$00,$8b,$06,$00,$2d,$01
+        .byte   $48,$10,$00,$99,$2d,$00,$6e,$20
+        .byte   $00,$10,$00,$92,$23,$63,$32,$00
+        .byte   $28,$10,$00,$a1,$12,$63,$00,$40
+        .byte   $40,$10,$00,$ad,$14,$80,$9a,$80
+        .byte   $48,$10,$00,$a0,$06,$00,$a5,$40
+        .byte   $48,$10,$00,$b0,$18,$80,$00,$00
+        .byte   $48,$10,$00,$e3,$06,$00,$69,$01
+        .byte   $48,$10,$00,$a7,$06,$00,$c3,$80
+        .byte   $48,$10,$00,$c2,$06,$00,$fa,$00
+        .byte   $38,$10,$00,$84,$0a,$80,$4b,$00
+        .byte   $48,$10,$00,$b0,$0a,$80,$ff,$00
+        .byte   $20,$10,$00,$80,$9a,$80,$e0,$10
+        .byte   $38,$00,$00,$80,$0d,$80,$2d,$00
+        .byte   $38,$00,$00,$80,$0e,$80,$04,$00
+        .byte   $28,$10,$00,$80,$7f,$00,$00,$00
+        .byte   $08,$20,$00,$80,$07,$63,$01,$00
+        .byte   $00,$20,$00,$80,$07,$63,$02,$40
+        .byte   $00,$20,$00,$80,$07,$63,$03,$10
+        .byte   $00,$00,$00,$80,$6c,$00,$4b,$11
+        .byte   $00,$00,$00,$80,$00,$00,$00,$00
+        .byte   $38,$04,$00,$80,$0e,$80,$08,$00
+        .byte   $38,$04,$00,$80,$0d,$80,$2d,$00
+        .byte   $38,$02,$00,$80,$13,$80,$00,$10
+        .byte   $30,$02,$00,$80,$14,$80,$00,$20
+        .byte   $00,$00,$00,$00,$1c,$01,$02,$00
+        .byte   $00,$00,$00,$00,$1c,$02,$01,$00
+        .byte   $38,$00,$00,$80,$13,$80,$78,$20
+        .byte   $38,$01,$80,$80,$01,$00,$00,$00
+        .byte   $38,$01,$80,$80,$02,$00,$00,$00
+        .byte   $38,$01,$40,$8a,$29,$80,$1e,$10
+        .byte   $3c,$01,$40,$81,$97,$63,$00,$80
+        .byte   $48,$01,$40,$a6,$6c,$00,$4b,$40
+        .byte   $48,$01,$40,$16,$4b,$05,$00,$80
+        .byte   $48,$01,$40,$09,$4d,$04,$0c,$00
+        .byte   $48,$01,$40,$0b,$4c,$02,$00,$80
+        .byte   $48,$01,$40,$12,$4e,$03,$fe,$00
+        .byte   $38,$01,$40,$85,$12,$42,$00,$20
+        .byte   $38,$01,$40,$85,$12,$42,$00,$10
+        .byte   $48,$01,$40,$87,$12,$4b,$00,$01
+        .byte   $38,$01,$40,$89,$13,$5a,$00,$c0
+        .byte   $40,$01,$40,$83,$13,$80,$00,$08
+        .byte   $38,$01,$40,$95,$3d,$42,$78,$20
+        .byte   $b8,$01,$40,$04,$06,$00,$14,$40
+        .byte   $b8,$01,$40,$0a,$06,$00,$32,$40
+        .byte   $b8,$01,$40,$18,$06,$00,$8c,$40
+        .byte   $38,$01,$40,$85,$06,$00,$32,$01
+        .byte   $38,$01,$40,$80,$50,$80,$03,$00
+        .byte   $38,$01,$40,$1b,$51,$42,$40,$00
+        .byte   $38,$01,$40,$13,$51,$50,$20,$00
+        .byte   $20,$01,$40,$8d,$55,$00,$00,$80
+        .byte   $38,$01,$40,$06,$58,$80,$50,$2d
+        .byte   $38,$01,$40,$82,$6d,$63,$02,$00
+        .byte   $38,$01,$40,$83,$53,$4b,$08,$00
+        .byte   $40,$01,$40,$48,$27,$08,$00,$60
+        .byte   $28,$01,$40,$81,$2b,$00,$10,$80
+        .byte   $38,$01,$40,$83,$54,$63,$00,$00
+        .byte   $38,$01,$40,$99,$28,$80,$e8,$03
+        .byte   $40,$01,$40,$9c,$5a,$00,$00,$00
+        .byte   $38,$01,$40,$87,$07,$4b,$0c,$00
+        .byte   $30,$01,$80,$85,$15,$80,$00,$20
+        .byte   $00,$01,$80,$80,$f1,$00,$00,$00
+        .byte   $00,$01,$80,$80,$c4,$00,$00,$00
+        .byte   $b8,$01,$00,$80,$e1,$00,$00,$00
+        .byte   $b8,$01,$00,$80,$e2,$00,$00,$00
+        .byte   $00,$01,$00,$80,$27,$80,$00,$00
+        .byte   $48,$01,$00,$80,$63,$00,$00,$00
+        .byte   $b8,$01,$00,$1e,$0b,$00,$e3,$40
+        .byte   $b8,$01,$00,$80,$e5,$80,$80,$80
+        .byte   $00,$01,$00,$80,$00,$00,$00,$00
+        .byte   $38,$00,$00,$80,$00,$00,$00,$00
+        .byte   $48,$01,$80,$80,$06,$00,$32,$40
+        .byte   $00,$01,$80,$80,$80,$00,$00,$00
+        .byte   $b8,$01,$00,$00,$66,$00,$00,$00
+        .byte   $48,$01,$80,$0a,$19,$f7,$ff,$ff
+        .byte   $00,$01,$80,$80,$a7,$80,$00,$00
+        .byte   $38,$01,$80,$80,$2e,$63,$4b,$80
+        .byte   $b8,$01,$80,$80,$27,$80,$00,$00
+        .byte   $38,$01,$80,$0a,$2c,$80,$78,$20
+        .byte   $38,$01,$80,$80,$12,$32,$00,$40
+        .byte   $38,$01,$80,$80,$5c,$42,$00,$40
+        .byte   $b8,$01,$80,$80,$12,$4b,$00,$04
+        .byte   $48,$01,$80,$80,$0b,$08,$cb,$04
+        .byte   $28,$01,$80,$80,$dd,$80,$00,$00
+        .byte   $28,$01,$80,$80,$dd,$80,$00,$00
+        .byte   $48,$01,$80,$80,$3f,$00,$05,$00
+        .byte   $38,$01,$80,$80,$cf,$32,$00,$02
+        .byte   $b8,$01,$80,$80,$13,$4b,$00,$10
+        .byte   $38,$01,$80,$80,$13,$4b,$78,$20
+        .byte   $b8,$01,$80,$80,$57,$01,$7f,$04
+        .byte   $38,$01,$80,$80,$13,$4b,$00,$40
+        .byte   $b8,$01,$80,$00,$14,$4b,$5a,$10
+        .byte   $38,$01,$80,$e3,$12,$63,$00,$c0
+        .byte   $38,$01,$80,$80,$2c,$01,$78,$04
+        .byte   $48,$01,$80,$80,$0f,$63,$00,$00
+        .byte   $38,$01,$80,$80,$0f,$32,$00,$00
+        .byte   $28,$01,$80,$80,$0f,$63,$00,$00
+        .byte   $38,$01,$80,$80,$0c,$00,$1e,$78
+        .byte   $38,$01,$80,$80,$07,$63,$08,$10
+        .byte   $38,$01,$80,$80,$0c,$00,$4b,$78
+        .byte   $48,$01,$80,$b2,$0c,$10,$b4,$78
+        .byte   $48,$01,$80,$80,$0c,$20,$0f,$ff
+        .byte   $48,$01,$80,$00,$06,$00,$44,$01
+        .byte   $48,$01,$80,$00,$06,$00,$14,$02
+        .byte   $48,$01,$80,$80,$06,$00,$8c,$02
+        .byte   $48,$01,$80,$80,$0c,$02,$3c,$78
+        .byte   $38,$01,$80,$00,$06,$00,$14,$04
+        .byte   $48,$01,$80,$80,$2d,$00,$78,$20
+        .byte   $78,$01,$80,$80,$09,$00,$08,$40
+        .byte   $48,$01,$80,$80,$06,$00,$c3,$80
+        .byte   $48,$01,$80,$00,$06,$00,$f0,$00
+        .byte   $b8,$01,$80,$80,$51,$50,$80,$00
+        .byte   $b8,$01,$80,$80,$16,$63,$f7,$04
+        .byte   $b8,$01,$80,$80,$52,$63,$f7,$04
+        .byte   $48,$01,$80,$80,$2d,$00,$9b,$20
+        .byte   $38,$80,$80,$80,$6f,$00,$00,$00
+        .byte   $b0,$01,$80,$80,$19,$8a,$03,$ff
+        .byte   $20,$01,$80,$80,$13,$80,$00,$02
+        .byte   $48,$01,$80,$80,$2a,$40,$04,$00
+        .byte   $48,$01,$80,$80,$2a,$01,$04,$00
+        .byte   $48,$01,$80,$80,$2a,$04,$04,$00
+        .byte   $48,$01,$80,$80,$2a,$00,$08,$ff
+        .byte   $38,$01,$80,$80,$01,$00,$00,$00
+        .byte   $b0,$01,$00,$80,$11,$00,$87,$00
+        .byte   $28,$01,$80,$80,$07,$4b,$08,$80
+        .byte   $48,$01,$80,$80,$08,$00,$ff,$00
+        .byte   $28,$01,$80,$85,$29,$42,$00,$80
+        .byte   $b8,$01,$80,$80,$f0,$80,$00,$80
+        .byte   $28,$01,$80,$80,$29,$63,$00,$80
+        .byte   $48,$01,$80,$80,$40,$63,$80,$00
+        .byte   $a8,$01,$80,$80,$40,$63,$40,$00
+        .byte   $b8,$01,$00,$80,$00,$00,$00,$00
+        .byte   $38,$01,$00,$80,$0a,$80,$69,$00
+        .byte   $00,$08,$00,$80,$27,$80,$00,$00
+        .byte   $38,$01,$00,$80,$0f,$63,$00,$00
+        .byte   $38,$01,$00,$80,$12,$63,$00,$40
+        .byte   $48,$01,$00,$80,$e7,$00,$00,$00
+        .byte   $00,$00,$00,$80,$6a,$00,$00,$00
+        .byte   $00,$00,$00,$80,$e0,$00,$00,$00
+        .byte   $b8,$01,$00,$80,$e8,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+
+; ---------------------------------------------------------------------------
+
+; some of these are shared with the menu module
+.segment "item_prop2"
+
+; ---------------------------------------------------------------------------
+
+; d1/2480: weapon/armor equipment types (64 items, 4 bytes each)
+EquipTypeTbl:
+        .incbin "equip_type.dat"
+
+; d1/2580: armor elemental properties (64 items, 5 bytes each)
+ArmorElementTbl:
+        .incbin "armor_element.dat"
+
+; d1/26c0: armor status properties (64 items, 7 bytes each)
+ArmorStatusTbl:
+        .incbin "armor_status.dat"
+
+; d1/2880: item stat bonus values (8 items, 2 bytes each)
+EquipStatBonusTbl:
+        .byte   $00,$01
+        .byte   $00,$02
+        .byte   $00,$03
+        .byte   $ff,$01
+        .byte   $ff,$00
+        .byte   $fb,$05
+        .byte   $fb,$00
+        .byte   $00,$05
+        .byte   $15,$04
+        .byte   $22,$0f
+        .byte   $24,$00
+        .byte   $25,$01
+        .byte   $26,$02
+        .byte   $27,$03
+        .byte   $28,$05
+        .byte   $2a,$06
+
+; d1/2890: magic sword spells (19 items, 2 bytes each)
+MagicSwordAttackTbl:
+        .byte   $2b,$07
+        .byte   $2c,$08
+        .byte   $2d,$09
+        .byte   $2e,$0a
+        .byte   $2f,$0b
+        .byte   $30,$0c
+        .byte   $31,$0d
+        .byte   $32,$0e
+        .byte   $33,$10
+        .byte   $35,$11
+        .byte   $00,$00
+
+; ---------------------------------------------------------------------------
+
+.segment "battle_data3"
+
+; d1/2976: battle timer durations (11 items, 1 byte each)
+TimerDurTbl:
+        .byte   0,2,4,14,1,0,0,1,0,0,0
+
+; attacks $80-$FF using magic animation (128 * 1 bit)
+_d12981:
+        .byte   $c0,$00,$00,$08,$5c,$28,$40,$00,$00,$00,$01,$03,$81,$0f,$00,$00
+
+; ---------------------------------------------------------------------------
+
+.segment "level_up"
+
+; d1/5000: experience progression data (99 items, 3 bytes each)
+
+; this table is generated by starting with 0 at level 1, then for each
+; successive level add floor(10 * L + 0.41 * L^3) to the previous value, where
+; L is the previous level.
+
+LevelUpExp:
+
+        @curr_exp .set 0
+.repeat 99, level
+        @curr_exp .set @curr_exp + level * 10 + 41 * level * level * level / 100
+        .faraddr @curr_exp
+.endrep
+
+; ---------------------------------------------------------------------------
+
+; d1/5129: hp progression data (99 items, 2 bytes each)
+
+; this table starts at 20 and adds an increment value every level.
+; the increment value changes as level increases as follows:
+
+; Level       Increment
+; -----       ---------
+; 1-3           5
+; 4-10          10
+; 11-30         20
+; 31-35         30
+; 36-40         40
+; 41-45         50
+; 46-60         60
+; 61-99         50
+
+LevelUpHP:
+
+        @curr_hp .set 20
+
+.mac level_hp num_levels, hp_inc
+        .repeat num_levels
+        .word @curr_hp
+        @curr_hp .set @curr_hp + hp_inc
+        .endrep
+.endmac
+
+        level_hp 2, 5
+        level_hp 7, 10
+        level_hp 20, 20
+        level_hp 5, 30
+        level_hp 5, 40
+        level_hp 5, 50
+        level_hp 15, 60
+        level_hp 40, 50
+
+; ---------------------------------------------------------------------------
+
+; d1/51ef: mp progression data (99 items, 2 bytes each)
+
+; this table simply starts with 2 and adds 3 to the previous value each level
+LevelUpMP:
+
+        @curr_mp .set 2
+.repeat 99
+        .word @curr_mp
+        @curr_mp .set @curr_mp + 3
+.endrep
+
+; ---------------------------------------------------------------------------
+
+.segment "job_ability"
+
+.scope JobAbilityList
+        Start := bank_start JobAbilityList
+        ARRAY_LENGTH = 21
+.endscope
+
+; d1/52c0: pointers to job ability data (+$D10000)
+JobAbilityListPtrs:
+        ptr_tbl JobAbilityList
+
+; d1/52ea: number of abilities for each job (22 items, 1 byte each)
+; this could be automatically generated from the data below
+
+JobAbilityCount:
+        .byte   6,7,7,3,5,5,2,4,7,7,7,7,6,4,4,4,5,3,3,3,1,0
+
+; d1/5300: job ability data (21 items, variable size)
+JobAbilityList:
+
+.mac job_ability ap, ability
+        .word   ap
+        .byte   ability
+.endmac
+
+JobAbilityList::_0:
+        job_ability 10, $94
+        job_ability 30, $06
+        job_ability 50, $91
+        job_ability 100, $80
+        job_ability 150, $81
+        job_ability 350, $83
+JobAbilityList::_1:
+        job_ability 15, $08
+        job_ability 30, $90
+        job_ability 45, $09
+        job_ability 60, $95
+        job_ability 100, $8b
+        job_ability 150, $8c
+        job_ability 300, $8d
+JobAbilityList::_2:
+        job_ability 10, $9c
+        job_ability 20, $0a
+        job_ability 30, $a0
+        job_ability 50, $0b
+        job_ability 75, $9a
+        job_ability 150, $0c
+        job_ability 300, $8a
+JobAbilityList::_3:
+        job_ability 50, $0d
+        job_ability 150, $0e
+        job_ability 400, $84
+JobAbilityList::_4:
+        job_ability 10, $0f
+        job_ability 30, $10
+        job_ability 50, $9b
+        job_ability 150, $11
+        job_ability 450, $92
+JobAbilityList::_5:
+        job_ability 10, $12
+        job_ability 30, $13
+        job_ability 60, $96
+        job_ability 180, $85
+        job_ability 540, $14
+JobAbilityList::_6:
+        job_ability 100, $99
+        job_ability 400, $86
+JobAbilityList::_7:
+        job_ability 15, $15
+        job_ability 45, $16
+        job_ability 135, $87
+        job_ability 405, $17
+JobAbilityList::_8:
+        job_ability 10, $98
+        job_ability 20, $2c
+        job_ability 30, $2d
+        job_ability 50, $2e
+        job_ability 70, $2f
+        job_ability 100, $30
+        job_ability 400, $31
+JobAbilityList::_9:
+        job_ability 10, $32
+        job_ability 20, $33
+        job_ability 30, $34
+        job_ability 50, $35
+        job_ability 70, $36
+        job_ability 100, $37
+        job_ability 300, $8e
+JobAbilityList::_10:
+        job_ability 10, $38
+        job_ability 20, $39
+        job_ability 30, $3a
+        job_ability 50, $3b
+        job_ability 70, $3c
+        job_ability 100, $3d
+        job_ability 450, $8f
+JobAbilityList::_11:
+        job_ability 10, $3e
+        job_ability 20, $3f
+        job_ability 30, $40
+        job_ability 50, $41
+        job_ability 70, $42
+        job_ability 100, $43
+        job_ability 250, $9f
+JobAbilityList::_12:
+        job_ability 15, $44
+        job_ability 30, $45
+        job_ability 45, $46
+        job_ability 60, $47
+        job_ability 100, $48
+        job_ability 500, $18
+JobAbilityList::_13:
+        job_ability 10, $19
+        job_ability 20, $97
+        job_ability 70, $4d
+        job_ability 250, $1a
+JobAbilityList::_14:
+        job_ability 20, $49
+        job_ability 40, $4a
+        job_ability 100, $4b
+        job_ability 999, $4c
+JobAbilityList::_15:
+        job_ability 10, $1b
+        job_ability 50, $1c
+        job_ability 100, $88
+        job_ability 300, $1d
+JobAbilityList::_16:
+        job_ability 15, $93
+        job_ability 30, $1f
+        job_ability 45, $20
+        job_ability 135, $21
+        job_ability 405, $22
+JobAbilityList::_17:
+        job_ability 25, $23
+        job_ability 50, $9e
+        job_ability 100, $9d
+JobAbilityList::_18:
+        job_ability 25, $25
+        job_ability 50, $89
+        job_ability 100, $28
+JobAbilityList::_19:
+        job_ability 25, $29
+        job_ability 50, $2a
+        job_ability 325, $82
+JobAbilityList::_20:
+        job_ability 999, $2b
+JobAbilityList::_21:
+
+; ---------------------------------------------------------------------------
+
+.segment "battle_cmd_prop"
+
+; d1/59e0: battle command properties (96 items, 8 bytes each)
+
+BattleCmdProp:
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $00,$00,$00,$00,$40,$80,$80,$00
+        .byte   $00,$00,$80,$00,$7f,$00,$00,$00
+        .byte   $38,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $00,$00,$40,$00,$7f,$00,$00,$00
+        .byte   $48,$00,$00,$00,$30,$00,$00,$00
+        .byte   $38,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $00,$00,$00,$00,$42,$80,$1e,$fa
+        .byte   $08,$00,$00,$00,$20,$64,$00,$00
+        .byte   $28,$00,$00,$00,$c3,$28,$00,$00
+        .byte   $28,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $28,$00,$00,$80,$7f,$00,$00,$00
+        .byte   $28,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $40,$00,$00,$00,$20,$64,$00,$00
+        .byte   $00,$00,$00,$00,$13,$80,$00,$02
+        .byte   $28,$00,$00,$c0,$45,$80,$00,$00
+        .byte   $38,$00,$00,$02,$7f,$00,$00,$00
+        .byte   $48,$00,$00,$00,$46,$32,$96,$00
+        .byte   $48,$00,$00,$00,$18,$55,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $38,$00,$00,$80,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$8c,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $28,$00,$00,$00,$1d,$30,$00,$00
+        .byte   $28,$00,$00,$00,$1d,$f8,$00,$00
+        .byte   $28,$00,$00,$00,$47,$32,$1e,$10
+        .byte   $28,$00,$00,$00,$69,$00,$00,$00
+        .byte   $28,$00,$00,$00,$48,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $30,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $40,$00,$00,$00,$99,$8a,$0b,$ff
+        .byte   $40,$00,$00,$00,$1a,$00,$80,$01
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $00,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $00,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $28,$00,$00,$00,$49,$32,$00,$00
+        .byte   $28,$00,$00,$00,$4a,$19,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$10,$7f,$00,$00,$00
+        .byte   $08,$00,$10,$80,$7f,$00,$00,$00
+        .byte   $38,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+        .byte   $08,$00,$00,$00,$7f,$00,$00,$00
+
+; ---------------------------------------------------------------------------
+
+; d1/5ce0: battle command status to disable (96 items, 2 bytes each)
+BattleCmdDisableStatus:
+        .byte   $00,$00
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $f0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c1,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$6c
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $c0,$6c
+        .byte   $c0,$6c
+        .byte   $c0,$6c
+        .byte   $c0,$6c
+        .byte   $c0,$6c
+        .byte   $c0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $e0,$6c
+        .byte   $c0,$6c
+        .byte   $c0,$6c
+        .byte   $c0,$6c
+        .byte   $c0,$6c
+        .byte   $e0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $c0,$68
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+
+; ---------------------------------------------------------------------------
+
+; d1/5da0: battle command time delay (96 items, 1 byte each)
+
+BattleCmdDelay:
+        .byte   $01,$01,$80,$01,$01,$80,$01,$01,$01,$01,$01,$01,$01,$0A,$01,$01
+        .byte   $01,$01,$01,$01,$3C,$01,$05,$01,$01,$05,$05,$01,$01,$01,$01,$01
+        .byte   $01,$05,$05,$01,$00,$01,$01,$01,$01,$01,$01,$05,$80,$80,$80,$80
+        .byte   $80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80
+        .byte   $80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$3C,$50
+        .byte   $01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01
+
+; ---------------------------------------------------------------------------
+
+; d1/5e00: battle command stat bonuses (96 items, 4 bytes each)
+
+BattleCmdStatBonus:
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $1C,$00,$00,$0F
+        .byte   $1E,$00,$00,$11
+        .byte   $20,$00,$00,$13
+        .byte   $22,$00,$00,$15
+        .byte   $24,$00,$00,$17
+        .byte   $26,$00,$00,$19
+        .byte   $00,$00,$00,$27
+        .byte   $00,$00,$00,$29
+        .byte   $00,$00,$00,$2B
+        .byte   $00,$00,$00,$2D
+        .byte   $00,$00,$00,$2F
+        .byte   $00,$00,$00,$31
+        .byte   $00,$00,$00,$28
+        .byte   $00,$00,$00,$2B
+        .byte   $00,$00,$00,$2E
+        .byte   $00,$00,$00,$31
+        .byte   $00,$00,$00,$34
+        .byte   $00,$00,$00,$37
+        .byte   $00,$00,$00,$26
+        .byte   $00,$00,$00,$28
+        .byte   $00,$00,$00,$2A
+        .byte   $00,$00,$00,$2C
+        .byte   $00,$00,$00,$2E
+        .byte   $00,$00,$00,$30
+        .byte   $00,$00,$00,$29
+        .byte   $00,$00,$00,$2D
+        .byte   $00,$00,$00,$31
+        .byte   $00,$00,$00,$35
+        .byte   $00,$00,$00,$39
+        .byte   $00,$00,$00,$1E
+        .byte   $00,$00,$00,$1F
+        .byte   $00,$00,$00,$20
+        .byte   $00,$00,$00,$20
+        .byte   $00,$00,$00,$2F
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+
+; ---------------------------------------------------------------------------
+
+.segment "passive_ability_prop"
+
+; d1/6308: passive ability stat bonuses (33 items, 4 bytes each)
+PassiveAbilityStatBonus:
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $2f,$00,$00,$00
+        .byte   $2a,$00,$00,$00
+        .byte   $2b,$00,$00,$00
+        .byte   $2d,$00,$00,$00
+        .byte   $28,$24,$00,$00
+        .byte   $25,$19,$00,$00
+        .byte   $00,$20,$00,$23
+        .byte   $00,$28,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $32,$00,$00,$00
+        .byte   $25,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+
+; ---------------------------------------------------------------------------
+
+; d1/638c: passive ability properties (33 items, 2 bytes each)
+PassiveAbilityProp:
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$00
+        .byte   $00,$40
+        .byte   $00,$20
+        .byte   $00,$01
+        .byte   $00,$10
+        .byte   $00,$80
+        .byte   $80,$00
+        .byte   $40,$00
+        .byte   $10,$00
+        .byte   $20,$00
+        .byte   $00,$08
+        .byte   $00,$04
+        .byte   $00,$02
+        .byte   $01,$00
+        .byte   $04,$00
+        .byte   $02,$00
+        .byte   $00,$00
+        .byte   $08,$00
+
+; ---------------------------------------------------------------------------
+
+; d1/63ce: passive ability equipment types (33 items, 4 bytes each)
+PassiveAbilityEquip:
+        .byte   $00,$00,$01,$00
+        .byte   $00,$00,$30,$00
+        .byte   $00,$00,$08,$00
+        .byte   $0C,$00,$00,$00
+        .byte   $10,$00,$00,$00
+        .byte   $80,$00,$00,$00
+        .byte   $60,$00,$00,$00
+        .byte   $00,$08,$00,$00
+        .byte   $00,$20,$00,$00
+        .byte   $00,$10,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$00,$00,$00
+        .byte   $00,$07,$00,$00
+        .byte   $00,$00,$00,$00
+
+; ---------------------------------------------------------------------------
+
+.segment "special_ability_prop"
+
+; d1/6ab1: special ability attack properties (105 * 8 bytes)
+SpecialAbilityAttackProp:
+        .byte   $00,$00,$00,$80,$7f,$00,$00,$00
+        .byte   $28,$00,$00,$80,$2d,$00,$2d,$00
+        .byte   $48,$00,$00,$80,$0b,$00,$80,$04
+        .byte   $40,$00,$00,$80,$42,$80,$3c,$fa
+        .byte   $48,$00,$00,$80,$13,$80,$78,$20
+        .byte   $38,$00,$00,$80,$07,$80,$0c,$00
+        .byte   $48,$00,$00,$80,$12,$80,$00,$05
+        .byte   $28,$00,$00,$80,$2d,$00,$b4,$00
+        .byte   $40,$00,$00,$80,$26,$80,$00,$00
+        .byte   $38,$00,$00,$80,$29,$80,$ff,$08
+        .byte   $30,$00,$00,$80,$24,$0a,$09,$00
+        .byte   $30,$00,$00,$80,$14,$80,$00,$01
+        .byte   $30,$00,$00,$80,$26,$80,$00,$00
+        .byte   $30,$00,$00,$80,$26,$c0,$00,$00
+        .byte   $30,$00,$00,$80,$9a,$63,$80,$10
+        .byte   $08,$00,$00,$80,$42,$80,$1e,$df
+        .byte   $48,$00,$00,$80,$25,$0a,$08,$00
+        .byte   $30,$00,$00,$80,$42,$80,$1e,$fb
+        .byte   $30,$00,$00,$80,$42,$80,$1e,$fe
+        .byte   $00,$00,$00,$80,$51,$80,$10,$14
+        .byte   $38,$00,$00,$80,$28,$63,$9a,$02
+        .byte   $30,$00,$00,$80,$24,$32,$12,$00
+        .byte   $08,$00,$00,$80,$26,$40,$00,$00
+        .byte   $08,$00,$00,$80,$25,$14,$08,$00
+        .byte   $48,$00,$00,$80,$26,$40,$00,$00
+        .byte   $08,$00,$00,$80,$9a,$63,$80,$10
+        .byte   $30,$00,$00,$80,$0e,$63,$2d,$00
+        .byte   $48,$00,$00,$80,$6b,$00,$04,$00
+        .byte   $48,$00,$00,$80,$1c,$01,$00,$00
+        .byte   $00,$00,$00,$80,$1c,$00,$07,$00
+        .byte   $08,$00,$00,$80,$53,$63,$0c,$00
+        .byte   $08,$00,$00,$80,$3e,$19,$78,$08
+        .byte   $28,$00,$00,$80,$07,$80,$08,$00
+        .byte   $00,$00,$00,$80,$00,$00,$00,$00
+        .byte   $38,$00,$00,$80,$59,$00,$00,$04
+        .byte   $00,$00,$00,$80,$0f,$63,$00,$00
+        .byte   $00,$00,$00,$80,$9a,$63,$00,$04
+        .byte   $00,$00,$00,$80,$9a,$63,$80,$08
+        .byte   $08,$00,$00,$80,$6b,$00,$80,$00
+        .byte   $30,$00,$00,$80,$19,$8a,$03,$eb
+        .byte   $00,$00,$00,$80,$1c,$02,$00,$00
+        .byte   $30,$00,$00,$80,$1c,$04,$00,$00
+        .byte   $00,$00,$00,$80,$27,$00,$00,$e1
+        .byte   $00,$00,$00,$80,$17,$80,$00,$80
+        .byte   $00,$00,$00,$80,$27,$00,$0a,$08
+        .byte   $38,$00,$00,$80,$0d,$63,$ff,$00
+        .byte   $30,$00,$00,$80,$12,$80,$00,$08
+        .byte   $00,$00,$00,$80,$13,$80,$00,$10
+        .byte   $00,$00,$00,$80,$6b,$30,$00,$00
+        .byte   $00,$00,$00,$80,$12,$80,$00,$20
+        .byte   $00,$00,$00,$80,$42,$80,$4b,$fd
+        .byte   $00,$00,$00,$80,$13,$80,$00,$08
+        .byte   $38,$00,$00,$80,$51,$80,$10,$0a
+        .byte   $30,$00,$00,$80,$6b,$00,$00,$ff
+        .byte   $00,$00,$00,$80,$2b,$10,$10,$00
+        .byte   $00,$00,$00,$80,$12,$80,$00,$04
+        .byte   $00,$00,$00,$80,$14,$80,$00,$60
+        .byte   $08,$00,$00,$80,$51,$80,$20,$00
+        .byte   $00,$00,$00,$80,$16,$80,$fb,$08
+        .byte   $00,$00,$00,$80,$07,$80,$04,$10
+        .byte   $00,$00,$00,$80,$2b,$00,$10,$80
+        .byte   $00,$00,$00,$80,$19,$fb,$ff,$ff
+        .byte   $00,$00,$00,$80,$19,$ff,$03,$ff
+        .byte   $30,$00,$00,$80,$2b,$08,$08,$00
+        .byte   $30,$00,$00,$80,$12,$63,$00,$04
+        .byte   $30,$00,$00,$80,$19,$fe,$ff,$ff
+        .byte   $30,$00,$00,$80,$57,$01,$00,$10
+        .byte   $38,$00,$00,$80,$12,$63,$00,$01
+        .byte   $38,$00,$00,$80,$2b,$07,$10,$00
+        .byte   $38,$00,$00,$80,$54,$80,$00,$00
+        .byte   $38,$00,$00,$80,$0c,$00,$f0,$ff
+        .byte   $30,$00,$00,$80,$19,$fb,$ff,$ff
+        .byte   $00,$00,$00,$80,$19,$ff,$03,$eb
+        .byte   $08,$00,$00,$80,$06,$00,$26,$40
+        .byte   $48,$00,$00,$80,$2d,$00,$5a,$20
+        .byte   $48,$00,$00,$80,$06,$00,$5a,$40
+        .byte   $08,$00,$00,$80,$0f,$63,$00,$00
+        .byte   $08,$00,$00,$80,$0a,$80,$35,$00
+        .byte   $48,$00,$00,$80,$0b,$40,$e3,$01
+        .byte   $08,$00,$00,$80,$0a,$80,$96,$00
+        .byte   $48,$00,$00,$80,$16,$80,$08,$04
+        .byte   $48,$00,$00,$80,$0b,$60,$b2,$01
+        .byte   $08,$00,$00,$80,$18,$80,$00,$00
+        .byte   $48,$00,$00,$80,$06,$00,$5a,$60
+        .byte   $48,$00,$00,$80,$06,$00,$96,$21
+        .byte   $48,$00,$00,$80,$06,$00,$26,$00
+        .byte   $08,$00,$00,$80,$0f,$63,$00,$00
+        .byte   $48,$00,$00,$80,$06,$00,$5a,$00
+        .byte   $48,$00,$00,$80,$06,$00,$78,$00
+        .byte   $08,$00,$00,$80,$17,$64,$00,$80
+        .byte   $28,$00,$00,$80,$0b,$01,$32,$10
+        .byte   $48,$00,$00,$80,$18,$42,$80,$00
+        .byte   $48,$00,$00,$80,$0b,$08,$e3,$04
+        .byte   $08,$00,$00,$80,$06,$00,$78,$80
+        .byte   $08,$00,$00,$80,$06,$00,$78,$00
+        .byte   $08,$00,$03,$80,$09,$80,$0c,$00
+        .byte   $28,$00,$00,$80,$07,$80,$0c,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+        .byte   $00,$00,$00,$00,$00,$00,$00,$00
+
+; ---------------------------------------------------------------------------
+
+; d1/6df9: terrain attacks for each battle background (64 * 4 bytes)
+TerrainAttackTbl:
+        .byte   $49,$4a,$4b,$4c
+        .byte   $4d,$4e,$4f,$50
+        .byte   $51,$52,$53,$54
+        .byte   $5a,$5b,$5c,$5b
+        .byte   $55,$59,$56,$57
+        .byte   $5a,$5a,$5a,$60
+        .byte   $5a,$5e,$4b,$5f
+        .byte   $5a,$5e,$56,$5f
+        .byte   $4b,$4b,$60,$4c
+        .byte   $49,$4b,$60,$4c
+        .byte   $49,$4b,$60,$4c
+        .byte   $49,$4b,$60,$4c
+        .byte   $49,$4b,$4c,$4c
+        .byte   $5a,$5a,$5a,$60
+        .byte   $49,$60,$4c,$4c
+        .byte   $4d,$4e,$4f,$50
+        .byte   $49,$4a,$5f,$4c
+        .byte   $5a,$5c,$60,$5f
+        .byte   $4b,$4b,$60,$4c
+        .byte   $4d,$4e,$4f,$50
+        .byte   $49,$4b,$60,$60
+        .byte   $55,$56,$57,$5d
+        .byte   $49,$4a,$4c,$4c
+        .byte   $4b,$60,$4c,$4c
+        .byte   $4b,$4b,$60,$4c
+        .byte   $55,$56,$57,$5d
+        .byte   $49,$4b,$60,$60
+        .byte   $4b,$4c,$60,$4c
+        .byte   $4b,$4b,$4b,$4b
+        .byte   $55,$59,$56,$57
+        .byte   $51,$52,$53,$54
+        .byte   $4b,$4b,$4b,$4b
+        .byte   $4c,$4b,$60,$4c
+        .byte   $4c,$4a,$4b,$4c
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+        .byte   $49,$49,$49,$49
+
+; ---------------------------------------------------------------------------
+
+; d1/6ef9: item combination data for mix ability (12x12 * 1 byte)
+MixComboTbl:
+        .byte   $0a,$0b,$0c,$0d,$0e,$0f,$0a,$10,$11,$12,$13,$14
+        .byte   $0b,$15,$16,$0d,$0e,$0f,$15,$17,$11,$12,$13,$14
+        .byte   $0c,$16,$10,$0d,$19,$1a,$10,$0c,$1b,$1c,$1d,$1e
+        .byte   $0d,$0d,$0d,$0d,$19,$1a,$0d,$1f,$0d,$0d,$22,$23
+        .byte   $0e,$0e,$19,$19,$24,$25,$26,$27,$28,$29,$2a,$2b
+        .byte   $0f,$0f,$1a,$1a,$25,$0f,$2c,$2d,$2e,$2f,$30,$31
+        .byte   $0a,$15,$10,$0d,$26,$2c,$32,$33,$34,$35,$36,$37
+        .byte   $10,$17,$0c,$1f,$27,$2d,$33,$38,$39,$3a,$3b,$3c
+        .byte   $11,$11,$1b,$0d,$28,$2e,$34,$39,$3d,$3e,$3f,$40
+        .byte   $12,$12,$1c,$0d,$29,$2f,$35,$3a,$3e,$41,$42,$43
+        .byte   $13,$13,$1d,$22,$2a,$30,$36,$3b,$3f,$42,$44,$45
+        .byte   $14,$14,$1e,$23,$2b,$31,$37,$3c,$40,$43,$45,$46
+
+; ---------------------------------------------------------------------------

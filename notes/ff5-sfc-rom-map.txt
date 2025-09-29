@@ -23,8 +23,9 @@
 | C0D380-C0D980 | menu window graphics (4bpp)                               |
 | C0D980-C0D9B8 | pointers to overlay properties (+$C0D980)                 |
 | C0D9B8-C0DF00 | overlay properties (compressed)                           |
-| C0DF00-C0E600 | overlay sprite graphics (1bpp)                            |
-| C0E600-       | menu data                                                 |
+| C0DF00-C0E500 | overlay sprite graphics (1bpp)                            |
+| C0E500-C0E600 | key item names                                            |
+| C0E600-C0FEC0 | menu data                                                 |
 |               |                                                           |
 | C0E841-C0E861 | pointers to menu tutorial scripts                         |
 | C0E861-C0E8DF | menu tutorial scripts                                     |
@@ -32,7 +33,7 @@
 | C0E8F0-C0E8F8 |                                                           |
 | C0E8F8-C0E900 |                                                           |
 |               |                                                           |
-| C0E931-C0E94D | spell list for battle commands $2C-$48 (magcswd-summon)   |
+| C0E931-C0E94D | spell list for battle commands $2C-$48 (spellblade-summon)|
 |               |                                                           |
 | C0EEAE-C0EEB2 | spells learned from items (4 items, 1 byte each)          |
 | C0EEB2-C0EEB6 | sound effects for spells learned from items               |
@@ -41,6 +42,9 @@
 | C0F592-C0F5B2 | menu pause durations (16 items, 2 bytes each)             |
 | C0F5B2-       |                                                           |
 |               |                                                           |
+| C0F987-C0FA9D | pointers to data at C0/FA9D                               |
+| C0FA9D-C0FEBB | (11 items, variable size)                                 |
+| C0FEBB-C0FEC0 | unused space (5 bytes)                                    |
 | C0FEC0-C0FFC0 | random number table (256 items, 1 byte each)              |
 | C0FFC0-C10000 | snes/sfc header                                           |
 | C10000-C20000 | battle graphics code                                      |
@@ -48,11 +52,61 @@
 | C2A000-C30000 | menu code                                                 |
 | C30000-C30170 | cinematic/decompression code                              |
 | C30170-C30200 | dummy code                                                |
-|               |                                                           |
-| C37E4D-C3A2ED | cinematic code (compressed)                               |
-|               |                                                           |
+| C30200-C302B3 | sine table (rle8)                                         |
+| C302B3-C30368 | (lzss)                                                    |
+| C30368-C305F9 | (rle8)                                                    |
+| C305F9-C305FD | (rle8)                                                    |
+| C305FD-C30663 |                                                           |
+| C30663-C3067C |                                                           |
+| C3067C-C306F5 |                                                           |
+| C306F5-C309D2 | cutscene clouds graphics (4bpp)                           |
+| C309D2-C30D89 | misc cutscene sprite graphics (4bpp)                      |
+| C30D89-C30DA3 |                                                           |
+| C30DA3-C30E1B |                                                           |
+| C30E1B-C30E70 |                                                           |
+| C30E70-C30F4A |                                                           |
+| C30F4A-C30F70 |                                                           |
+| C30F70-C31177 |                                                           |
+| C31177-C31243 |                                                           |
+| C31243-C31C65 | title graphics (4bpp)                                     |
+| C31C65-C31C69 |                                                           |
+| C31C69-C31D25 |                                                           |
+| C31D25-C31D48 | (raw)                                                     |
+| C31D48-C31E83 |                                                           |
+| C31E83-C32D22 | ending sprite graphics 1 (4bpp)                           |
+| C32D22-C3331F | title dragon/copyright graphics (4bpp)                    |
+| C3331F-C33342 |                                                           |
+| C33342-C333F6 |                                                           |
+| C333F6-C3362B | ending big font graphics (4bpp)                           |
+| C3362B-C3383C |                                                           |
+| C3383C-C33909 |                                                           |
+| C33909-C34452 | credits bg graphics (4bpp)                                |
+| C34452-C34469 |                                                           |
+| C34469-C34DF8 | (lzss, no header byte)                                    |
+| C34DF8-C34E34 |                                                           |
+| C34E34-C350D4 | (lzss, no header byte)                                    |
+| C350D4-C351EF | (lzss, no header byte)                                    |
+| C351EF-C35B1E | (lzss, no header byte)                                    |
+| C35B1E-C366D8 | ending sprite graphics 2 (4bpp, lzss)                     |
+| C366D8-C372E7 | ending sprite graphics 3 (4bpp, lzss)                     |
+| C372E7-C37445 | bird graphics (4bpp, lzss)                                |
+| C37445-C3750D | (lzss)                                                    |
+| C3750D-C3759A | (lzss)                                                    |
+| C3759A-C3765C | (lzss)                                                    |
+| C3765C-C377AE | (lzss)                                                    |
+| C377AE-C37891 | (lzss)                                                    |
+| C37891-C37A07 | (lzss)                                                    |
+| C37A07-C37A69 | (lzss)                                                    |
+| C37A69-C37B92 | (lzss)                                                    |
+| C37B92-C37E4D | (lzss)                                                    |
+| C37E4D-C3A06F | cinematic code (compressed)                               |
+| C3A06F-C3A300 | stale data ???                                            |
+| C3A300-C3B94A | menu tilemaps and cursor data                             |
+| C3B94A-C3B960 | unused space (23 bytes)                                   |
+| C3B960-C3BA00 | menu palettes                                             |
+| C3BA00-C3BB00 | unused space (256 bytes)                                  |
 | C3BB00-C3E700 | map palettes (44 items, 256 bytes each)                   |
-|               |                                                           |
+| C3E700-C3EB00 | unused space (1024 bytes)                                 |
 | C3EB00-C3FE00 | kana graphics (1bpp)                                      |
 | C3FE00-C40000 | unused space (512 bytes)                                  |
 | C40000-C4064D | sound/music code                                          |
@@ -94,14 +148,10 @@
 | CE9C00-CED000 | map properties (512 items, 26 bytes each)                 |
 | CED000-CEF270 | monster palettes (314 items, 16 or 32 bytes each)         |
 | CEF270-CEF400 | unused space (400 bytes)                                  |
-| CEF400-       |                                                           |
-|               |                                                           |
-| CEF600-CEF6FF | sine table                                                |
-| CEF700-CEFB00 | battle hdma data ???                                      |
-| CEFB00-CEFF00 | battle hdma data ???                                      |
-|               |                                                           |
-| CEFF8D-CEFF95 | pointers to character battle lists (+$7E0000)             |
-|               |                                                           |
+| CEF400-CEF600 | 16-bit sine table (battle)                                |
+| CEF600-CEF6FF | 8-bit sine table (battle)                                 |
+| CEF700-CF0000 | misc battle graphics data                                 |
+|               |   CEFF8D-CEFF95 pointers to char battle lists (+$7E0000)  |
 | CF0000-CF0038 | pointers to map tilesets (+$CF0000)                       |
 | CF0038-CFC540 | map tilesets (28 items, compressed)                       |
 | CFC540-CFC56E | pointers to map tile properties (+$CFC540)                |
@@ -139,15 +189,29 @@
 | D0D000-D0D004 | pointers to small/large monster graphic maps (+$D00000)   |
 | D0D004-D0D334 | small monster graphic maps (102 items, 8 bytes each)      |
 | D0D334-D0DBD4 | large monster graphic maps (69 items, 32 bytes each)      |
-|               |                                                           |
-| D0DC2A-D0DEF8 | battle graphics code                                      |
-| D0DEF8-D0DEFA | 16-bit fixed value zero for clearing vram                 |
-| D0DEFA-       |                                                           |
-|               |                                                           |
-| D0DF44-       |                                                           |
-|               |                                                           |
-| D0DFBC-       |                                                           |
-|               |                                                           |
+| D0DBD4-D0DBE3 | related to hdma ???                                       |
+| D0DBE3-D0DC2A | ??? sound effects                                         |
+| D0DC2A-D0DEFA | battle graphics code                                      |
+| D0DEFA-D0DF44 | unknown cave psychic text                                 |
+| D0DF44-D0DF68 | ??? 16-bit values                                         |
+| D0DF68-D0DFBC | animation graphics pointers (7 * 12 bytes)                |
+| D0DFBC-D0E003 |                                                           |
+| D0E003-D0E163 | mini, frog, character shadow graphics (4bpp)              |
+| D0E163-D0E169 |                                                           |
+| D0E169-D0E198 | ??? text                                                  |                                                          |
+| D0E198-D0E1D8 |                                                           |
+| D0E1D8-D0E1E0 |                                                           |
+| D0E1E0-D0E1E8 |                                                           |
+| D0E1E8-D0E220 | ??? sprite data (18 * 4 bytes)                            |
+| D0E220-D0E320 | ??? graphics (4bpp)                                       |
+| D0E320-D0E340 | ??? color palette                                         |
+| D0E340-D0E41B | crystal prophecy text                                     |
+| D0E41B-D0E42B |                                                           |
+| D0E42B-D0E48B |                                                           |
+| D0E48B-D0E4CB | ??? color palettes                                        |
+| D0E4CB-D0EBE5 | the end graphics (compressed)                             |
+| D0EBE5-D0EC00 | unused space (27 bytes)                                   |
+| D0EC00-D0ECDE | bit index for each ability (111 * 2 bytes)                |
 | D0ECDE-D0ECE6 | inverse bit masks                                         |
 | D0ECE6-D0ECEE | bit masks                                                 |
 | D0ECEE-D0ECF2 | spell casting delays (0, 10, 20, 30)                      |
@@ -168,10 +232,13 @@
 | D0EED3-D0EEDB | pointers to character abilities in ram                    |
 | D0EEDB-D0EEDF | pointers to control ability command lists (0, 20, 40, 60) |
 | D0EEDF-D0EEE7 | spc commands for battle songs                             |
-| D0EEE7-D0EEF4 | magic lamp spells                                         |
-|               |                                                           |
-| D0EF26-D0EF78 |                                                           |
-|               |                                                           |
+| D0EEE7-D0EEF6 | magic lamp spells                                         |
+| D0EEF6-D0EF06 |                                                           |
+| D0EF06-D0EF26 | magic spell levels                                        |
+| D0EF26-D0EF58 |                                                           |
+| D0EF58-D0EF78 | commands that can be used as toad                         |
+| D0EF78-D0EF92 | validate inventory (battle code)                          |
+| D0EF92-D0F000 | unused space (110 bytes)                                  |
 | D0F000-D0F1D4 | pointers to battle dialogue (+$D00000/+$E70000)           |
 | D0F1D4-D0FEBC | battle dialogue (234 items, variable size) jap ver. only  |
 | D0FEBC-D0FFA0 | unused space (228 bytes)                                  |
@@ -184,7 +251,7 @@
 | D11380-D11C80 | item names (256 items, 9 bytes each)                      |
 | D11C80-D11E30 | spell names (72 items, 6 bytes each)                      |
 | D11E30-D11E8A | summon names (15 items, 6 bytes each)                     |
-| D11E8A-D1247B | short attack names (161 items, 9 bytes each)              |
+| D11E8A-D1247B | attack names (161 items, 9 bytes each)                    |
 | D1247B-D12480 | unused space (5 bytes)                                    |
 | D12480-D12580 | weapon/armor equipment types (64 items, 4 bytes each)     |
 | D12580-D126C0 | armor elemental properties (64 items, 5 bytes each)       |
@@ -193,7 +260,8 @@
 | D12890-D128B6 | magic sword spells (19 items, 2 bytes each)               |
 | D128B6-D12976 | status names (24 items, 8 bytes each)                     |
 | D12976-D12981 | battle timer durations (11 items, 1 byte each)            |
-|               |                                                           |
+| D12981-D12991 | attacks $80-$FF using magic animation (128 * 1 bit)       |
+| D12991-D12A00 | unused space (111 bytes)                                  |
 | D12A00-D12D00 | item/spell prices (384 items, 2 bytes each)               |
 | D12D00-D12D40 | shop type names (8 items, 8 bytes each)                   |
 | D12D40-D12F80 | shop properties (64 items, 9 bytes each)                  |
@@ -201,7 +269,7 @@
 | D13000-D13210 | map treasures (528 items, 1 byte each)                    |
 | D13210-D13600 | treasure properties (252 items, 4 bytes each)             |
 | D13600-D13840 | unused space (576 bytes)                                  |
-| D13840-D139A9 | ???                                                       |
+| D13840-D139A9 | battle message for each attack (361 * 1 byte)             |
 | D139A9-D13BA9 | pointers to battle messages (+$D10000/+$E70000)           |
 | D13BA9-D13F0E | battle messages (256 items, variable size) jap ver. only  |
 | D13F0E-D14000 | unused space (242 bytes)                                  |
@@ -223,26 +291,29 @@
 | D156B0-D15708 | job stat modifiers (22 items, 4 bytes each)               |
 | D15708-D15760 | job equipment types (22 items, 4 bytes each)              |
 | D15760-D157B8 | job default commands (22 items, 4 bytes each)             |
-| D157B8-D157E4 | job innate abilities (22 items, 2 bytes each)             |
+| D157B8-D157E4 | job passive abilities (22 items, 2 bytes each)            |
 | D157E4-D15800 | unused space (28 bytes)                                   |
 | D15800-D159E0 | battle command names (96 * 5 bytes) jap ver. only         |
 | D159E0-D15CE0 | battle command properties (96 items, 8 bytes each)        |
 | D15CE0-D15DA0 | battle command status to disable (96 items, 2 bytes each) |
 | D15DA0-D15E00 | battle command time delay (96 items, 1 byte each)         |
-| D15E00-D16200 | battle command stat bonuses (128 items, 4 bytes each)     |
-| D16200-D16308 | innate ability names (33 items, 8 bytes each)             |
-| D16308-D1638C | innate ability stat bonuses (33 items, 4 bytes each)      |
-| D1638C-D163CE | innate ability properties (33 items, 2 bytes each)        |
-| D163CE-D16452 | innate ability equipment types (33 items, 4 bytes each)   |
-| D16452-D16700 |                                                           |
-| D16700-D16AB1 | special ability names ??? (105 items, 9 bytes each)       |
-| D16AB1-D16DF9 | (105 items, 8 bytes each)                                 |
+| D15E00-D15F80 | battle command stat bonuses (96 items, 4 bytes each)      |
+| D15F80-D16200 | unused space (640 bytes)                                  |
+| D16200-D16308 | passive ability names (33 items, 8 bytes each)            |
+| D16308-D1638C | passive ability stat bonuses (33 items, 4 bytes each)     |
+| D1638C-D163CE | passive ability properties (33 items, 2 bytes each)       |
+| D163CE-D16452 | passive ability equipment types (33 items, 4 bytes each)  |
+| D16452-D16700 | unused space (686 bytes)                                  |
+| D16700-D16AB1 | special ability names (105 items, 9 bytes each)           |
+| D16AB1-D16DF9 | special ability attack properties (105 * 8 bytes)         |
 | D16DF9-D16EF9 | terrain attacks for each battle background (64 * 4 bytes) |
 | D16EF9-D16F89 | item combination data for mix ability (144 * 1 byte)      |
 | D16F89-D17000 | unused space (119 bytes)                                  |
 | D17000-D17140 | initial character data (4 items, 80 bytes each)           |
-| D17140-D1724A | pointers to job/ability descriptions (+$D10000)           |
-| D1724A-D177BA | job/ability descriptions (133 items, variable size)       |
+| D17140-D1716C | pointers to job descriptions (+$D10000)                   |
+| D1716C-D1724A | pointers to ability descriptions (+$D10000)               |
+| D1724A-D17337 | job descriptions (22 items, variable size)               |
+| D17337-D177BA | ability descriptions (111 items, variable size)           |
 | D177BA-D17FA0 | unused space (2022 bytes)                                 |
 | D17FA0-D187A0 | attack tilemaps 1                                         |
 | D187A0-D18FA0 | attack tilemaps 2                                         |
@@ -257,11 +328,18 @@
 | D1F000-D20000 | fixed-width font graphics (2bpp)                          |
 | D20000-D49400 | battle character graphics (5*22 * 1536 bytes, 4bpp)       |
 | D49400-D497C0 | dead battle character graphics (5 * 192 bytes, 4bpp)      |
-| D497C0-D4A3C0 | misc. battle sprite graphics (3bpp)                       |
+| D497C0-D49E50 | misc. battle sprite graphics (3bpp)                       |
+| D49E50-D4A3C0 | misc. battle sprite graphics (3bpp)                       |
 | D4A3C0-D4B180 | battle character palettes (5*22 items, 32 bytes each)     |
 | D4B180-D4B900 | monster graphics properties (384 items, 5 bytes each)     |
-|               |                                                           |
-| D4B957-       |                                                           |
+| D4B900-D4B908 |                                                           |
+| D4B908-D4B916 |                                                           |
+| D4B916-D4B91C |                                                           |
+| D4B91C-D4B922 |                                                           |
+| D4B922-D4B93A |                                                           |
+| D4B93A-D4B952 |                                                           |
+| D4B952-D4B957 |                                                           |
+| D4B957-D4B969 |                                                           |
 | D4B969-D4B997 | damage numeral vertical offsets (for bouncing)            |
 | D4B997-D4BA21 | battle character spritesheets (23 items, 6 bytes each)    |
 | D4BA21-D4BB31 | battle bg properties (34 items, 8 bytes each)             |
@@ -278,21 +356,33 @@
 | D4FE7E-D50000 | unused space (386 bytes)                                  |
 | D50000-D83000 | monster graphics (3bpp/4bpp)                              |
 | D83000-D83008 | battle menu cursor positions                              |
-| D83008-D83016 |                                                           |
-|               |                                                           |
-| D832D6-       |                                                           |
-|               |                                                           |
+| D83008-D83016 | pointers to data at D8/3016                               |
+| D83016-D8314E | (7 items, variables size)                                 |
+| D8314E-D83196 |                                                           |
+| D83196-D83216 |                                                           |
+| D83216-D83246 |                                                           |
+| D83246-D832C6 |                                                           |
+| D832C6-D832D6 |                                                           |
+| D832D6-D832EB |                                                           |
+| D832EB-D832F2 |                                                           |
+| D832F2-D83302 |                                                           |
+| D83302-D83316 |                                                           |
 | D83316-D8335E | battle menu properties (9 items, 8 bytes each)            |
-|               |                                                           |
-| D833E2-       |                                                           |
-|               |                                                           |
+| D8335E-D83366 |                                                           |
+| D83366-D83392 |                                                           |
+| D83392-D833E2 |                                                           |
+| D833E2-D83452 |                                                           |
 | D83452-D835B2 | sprite data for battle status sprites (22 * 4*4 bytes)    |
-| D835B2-       |                                                           |
+| D835B2-D838EC | ??? tiles (compressed)                                    |
 | D838EC-D84157 | attack animation properties (431 items, 5 bytes each)     |
 | D84157-D84196 | destination address for battle bg graphics (absolute)     |
 | D84196-D841D5 | pointers to battle bg graphics (absolute)                 |
 | D841D5-D8DE36 | battle bg graphics (21 items, variable size)              |
-|               |                                                           |
+| D8DE36-D8DE4E |                                                           |
+| D8DE4E-D8DE5A |                                                           |
+| D8DE5A-D8DFFA |                                                           |
+| D8DE7A-D8DFFA |                                                           |
+| D8DFFA-D8DFFF | unused space (6 bytes)                                    |
 | D8E000-D8E080 | initial npc flags (512 items, 1 bit each)                 |
 | D8E080-D8E600 | pointers to trigger scripts (+$D8E080)                    |
 | D8E600-D90000 | trigger scripts (704 items, variable size)                |
@@ -312,15 +402,12 @@
 | D97D42-D97F4E | pointers to attack animation scripts (+$D90000)           |
 | D97F4E-D99655 | attack animation scripts (262 items, variable size)       |
 | D99655-D99855 | attack animation target palettes (16 * 32 bytes)          |
-| D99855-D99CD5 | weapon animation properties (128 items, 9 bytes each)     |
-|               |                                                           |
-| D99D56-D99DF8 | spellblade animation properties (18 items, 9 bytes each)  |
-|               |                                                           |
-| D99E34-D99EF2 | pointers to data at D9/9EF2 (+$D90000)                    |
+| D99855-D99E34 | weapon animation properties (167 items, 9 bytes each)     |
+| D99E34-D99E94 | pointers to data at D9/9EF2 (+$D90000)                    |
+| D99E94-D99EF2 | more pointers to data at D9/9EF2 (+$D90000)               |
 | D99EF2-D9A486 | (95 items, variable size)                                 |
 | D9A486-D9A7B0 | pointers to data at D9/A7C0 (+$D90000)                    |
-| D9A7B0-D9A7C0 |                                                           |
-| D9A7C0-D9B35E | (405 items, variable size)                                |
+| D9A7B0-D9B35E | (405 items, variable size)                                |
 | D9B35E-D9BE48 | pointers to attack animation frame data (+$D90000)        |
 | D9BE48-DA0000 | attack animation frame data (1397 items, variable size)   |
 | DA0000-DB8000 | map sprite graphics (4bpp)                                |
@@ -346,7 +433,7 @@
 | E00000-E00050 | code                                                      |
 | E00050-E00F50 | monster names (10 bytes each)                             |
 | E00F50-E00F70 | code                                                      |
-| E00F70-E01150 |                                                           |
+| E00F70-E01150 | multiples of 7 for battle command names (5 bytes each)    |
 | E01150-E013F0 | battle command names (7 bytes each)                       |
 | E013F0-E02D40 | pointers to dialog (absolute)                             |
 | E02D40-E03225 | code                                                      |
@@ -354,16 +441,18 @@
 | E03725-E04C25 | prophecy text graphics                                    |
 | E04C25-E10000 | unused                                                    |
 | E10000-E36FBB | dialog (2160 items, variable size)                        |
-| E36FBB-E70000 | unused                                                    |
-| E70000-E70763 | map titles (163 items, variable size)                     |
-| E70763-E70900 | unused                                                    |
-| E70900-E70F90 | ability names (16 bytes each)                             |
-| E70F90-E71780 | med. attack names (168 items, 12 bytes each)              |
+| E36FBB-E372B7 | stale dialog                                              |
+| E372B7-E70000 | unused                                                    |
+| E70000-E70673 | map titles (163 items, variable size)                     |
+| E70673-E707D9 | stale map titles                                          |
+| E707D9-E70900 | unused                                                    |
+| E70900-E70F90 | special ability names (105 items, 16 bytes each)          |
+| E70F90-E71780 | short attack names (168 items, 12 bytes each)             |
 | E71780-E72740 | long attack names (168 items, 24 bytes each)              |
 | E72760-E72F00 | battle messages (256 items, variable size)                |
 | E72F00-E733EC | menu strings                                              |
 | E733EC-E73568 | unused                                                    |
-| E73568-E736A0 | rare item names (13 bytes each)                           |
+| E73568-E736A0 | rare item names (24 items, 13 bytes each)                 |
 | E736A0-E73700 |                                                           |
 | E73700-E73B00 | monster special attack names (64 items, 16 bytes each)    |
 | E73B00-E74FAD | battle dialogue (234 items, variable size)                |
@@ -372,6 +461,6 @@
 | E75200-E75800 | item descriptions                                         |
 | E75800-E75860 | battle record text ???                                    |
 | E75860-E77060 | long item names (256 items, 24 bytes each)                |
-| E77060-E77378 | long innate ability names (33 items, 24 bytes each)       |
+| E77060-E77378 | long passive ability names (33 items, 24 bytes each)      |
 | E773A0-E77520 | crystal prophecy                                          |
 +---------------+-----------------------------------------------------------+

@@ -16,10 +16,13 @@
 .include "hardware.inc"
 .include "const.inc"
 
-.include "text/dlg_jp.inc"
-.include "text/item_name_jp.inc"
-.include "text/magic_name_jp.inc"
-.include "text/map_title_jp.inc"
+inc_lang "text/dlg_%s.inc"
+inc_lang "text/map_title_%s.inc"
+inc_lang "text/item_desc_%s.inc"
+inc_lang "text/ability_desc_%s.inc"
+inc_lang "text/job_desc_%s.inc"
+
+.import ItemName, MagicName, AttackName
 
 .include "field/event_cond.inc"
 .include "field/event_script.inc"
@@ -13800,7 +13803,7 @@ _c08a85:
         inx
         inc     $09
         lda     $09
-        cmp     #MagicName::ITEM_SIZE
+        cmp     #6
         bne     @8a98
 @8ab2:  sty     $ab
         jmp     _c08459
@@ -13842,7 +13845,7 @@ _8acb:
 .if LANG_EN
         cmp     #$18
 .else
-        cmp     #ItemName::ITEM_SIZE - 1
+        cmp     #8
 .endif
         bne     _8acb
 ::_c08ae5:
@@ -22413,11 +22416,16 @@ EventCond:
 
 .if LANG_EN
 
+.import MonsterSpecialName, BattleCmdName, AttackNameLong
+
 .segment "rpge_code1"
 
 ; ---------------------------------------------------------------------------
 
         fixed_block $20
+
+.export _e00000, _e00014
+.import _c12c8d, _c12c99
 
 _e00000:
         lda     #$18
@@ -22428,19 +22436,21 @@ _e00004:
         nop4
         cmp     #$e3
         bcs     _e00014
-        jml     $c12c8d
+        jml     _c12c8d
 
 _e00014:
         inx
         dec     $70
         bne     _e00004
-        jml     $c12c99
+        jml     _c12c99
 
         end_fixed_block
 
 ; ---------------------------------------------------------------------------
 
         fixed_block $10
+
+.export _e00020
 
 _e00020:
         dey2
@@ -22453,6 +22463,8 @@ _e00020:
         end_fixed_block
 
 ; ---------------------------------------------------------------------------
+
+.export _e00030
 
 _e00030:
         phy
@@ -22472,20 +22484,27 @@ _e00030:
 
 ; ---------------------------------------------------------------------------
 
-; E0/0F50: 98           TYA
-; E0/0F51: 18           CLC
-; E0/0F52: E9 00 58     SBC #$5800
-; E0/0F55: AA           TAX
-; E0/0F56: BF 71 0F E0  LDA $E00F71,X
-; E0/0F5A: 18           CLC
-; E0/0F5B: 69 50 11     ADC #$1150
-; E0/0F5E: AA           TAX
-; E0/0F5F: A0 40 2B     LDY #$2B40
-; E0/0F62: 6B           RTL
+.segment "rpge_code2"
+
+.export _e00f50
+.import BattleCmdNameOffsets
+
+_e00f50:
+        .a16
+        tya
+        clc
+        sbc     #$5800
+        tax
+        lda     f:BattleCmdNameOffsets+1,x
+        clc
+        adc     #$1150
+        tax
+        ldy     #$2b40
+        rtl
 
 ; ---------------------------------------------------------------------------
 
-.segment "rpge_code2"
+.segment "rpge_code3"
 
 ; ---------------------------------------------------------------------------
 
@@ -22643,14 +22662,20 @@ _e02e10:
 
 ; ---------------------------------------------------------------------------
 
+.export _e02e52
+.import _c12cf7
+
 _e02e52:
         sta     $7e1b00
         sec
         sbc     #$20
         tax
-        jml     $c12cf7
+        jml     _c12cf7
 
 ; ---------------------------------------------------------------------------
+
+.export _e02e5e
+.import _c12da9
 
 _e02e5e:
         longa
@@ -22665,7 +22690,7 @@ _e02e5e:
         nop2
         sta     $f507
         plx
-        jml     $c12da9
+        jml     _c12da9
 
 ; ---------------------------------------------------------------------------
 
@@ -22773,48 +22798,83 @@ _e02f11:
 
 ; ---------------------------------------------------------------------------
 
+.export _e02f25
+.import _c12b0a, _c12b12, _c12b0d
+
 _e02f25:
         cmp     #$ff
         beq     @2f31
         cmp     #$e3
         bcs     @2f35
-        jml     $c12b0a
-@2f31:  jml     $c12b12
-@2f35:  jml     $c12b0d
+        jml     _c12b0a
+@2f31:  jml     _c12b12
+@2f35:  jml     _c12b0d
+
+; ---------------------------------------------------------------------------
+
+.export _e02f39
 
 _e02f39:
-        lda     #$e7
-        ldy     #$1780      ; long attack names
+        lda     #^AttackNameLong
+        ldy     #near AttackNameLong
         bra     _2f68
+
+; ---------------------------------------------------------------------------
+
+.export _e02f40
 
 _e02f40:
-        lda     #$d1
-        ldy     #$1c80      ; spell names (short)
+        lda     #^MagicName
+        ldy     #near MagicName      ; spell names (short)
         bra     _2f68
+
+; ---------------------------------------------------------------------------
+
+.export _e02f47
 
 _e02f47:
-        lda     #$d1
-        ldy     #$1c81      ; spell names (short, no icon)
+        lda     #^MagicName
+        ldy     #near (MagicName+1)      ; spell names (short, no icon)
         bra     _2f68
+
+; ---------------------------------------------------------------------------
+
+.export _e02f4e
 
 _e02f4e:
-        lda     #$e0
-        ldy     #$1150      ; battle command names
+        lda     #^BattleCmdName
+        ldy     #near BattleCmdName
         bra     _2f68
+
+; ---------------------------------------------------------------------------
+
+.export _e02f55
 
 _e02f55:
-        lda     #$e7
-        ldy     #$0900      ; spell names (long)
+        lda     #^MagicName
+        ldy     #near MagicName
         bra     _2f68
+
+; ---------------------------------------------------------------------------
+
+.export _e02f5c
 
 _e02f5c:
-        lda     #$e7
-        ldy     #$3700      ; enemy attack names
+        lda     #^MonsterSpecialName
+        ldy     #near MonsterSpecialName
         bra     _2f68
 
+; ---------------------------------------------------------------------------
+
+.export _e02f63
+
 _e02f63:
-        lda     #$e7
-        ldy     #$5860
+        lda     #^ItemName
+        ldy     #near ItemName
+
+; ---------------------------------------------------------------------------
+
+.import _c13c87
 
 _2f68:
         sta     $7e1c03
@@ -22827,8 +22887,7 @@ _2f68:
         sta     $7e1c00
         lda     #$6b
         sta     $7e1c04
-@2f84:
-        jsl     $7e1c00
+@2f84:  jsl     $7e1c00
         cmp     #$ff
         beq     @2fa1
         cmp     #$e3
@@ -22837,7 +22896,7 @@ _2f68:
         tax
         lda     $80
         clc
-        adc     $e03225,x
+        adc     f:FontWidth,x
         sta     $80
         tyx
 @2f9c:  inx
@@ -22850,28 +22909,39 @@ _2f68:
         sec
         sbc     $80
         sta     $f507
-        jml     $c13c87
+        jml     _c13c87
         lda     [$b8]
         bra     _2fb9
+
+; ---------------------------------------------------------------------------
+
+.export _e02fb6
 
 _e02fb6:
         lda     $dbf7
 _2fb9:  longa
         and     #$00ff
-        asl
-        asl
-        asl
-        asl
+        asl4
         tax
         lda     #$0000
         shorta
         rtl
 
+; ---------------------------------------------------------------------------
+
+.export _e02fc9
+.import _c12fb5
+
 _e02fc9:
         lda     #$09
         sta     $70
         lda     #$0c
-        jml     $c12fb5
+        jml     _c12fb5
+
+; ---------------------------------------------------------------------------
+
+.export _e02fd3
+.import _c2c76b
 
 _e02fd3:
         shorta
@@ -22882,27 +22952,34 @@ _e02fd3:
         longa
         nop6
         lda     f:$004216
-        jml     $c2c76b
+        jml     _c2c76b
+
+; ---------------------------------------------------------------------------
+
+inc_lang "text/menu_text_%s.inc"
+
+.export _e02ff0
+.import _c2c340, _c2c349, MenuTextPtrs
 
 _e02ff0:
         stz     $1a17
         ldx     $e8
         tya
-        cmp     $c0fa29
+        cmp     f:MenuTextPtrs+$a2
         beq     @302a
-        cmp     $c0f997
+        cmp     f:MenuTextPtrs+$10
         beq     @3034
-        cmp     $c0f999
+        cmp     f:MenuTextPtrs+$12
         beq     @3051
-        cmp     $c0f9e5
+        cmp     f:MenuTextPtrs+$5e
         beq     @3082
-        cmp     $c0fa43
+        cmp     f:MenuTextPtrs+$bc
         beq     @307a
-        cmp     $c0fa45
+        cmp     f:MenuTextPtrs+$be
         beq     @307a
-        cmp     $c0fa4b
+        cmp     f:MenuTextPtrs+$c4
         beq     @307a
-        cmp     $c0fa4d
+        cmp     f:MenuTextPtrs+$c6
         beq     @307a
         jml     @3096
 
@@ -22936,10 +23013,10 @@ _e02ff0:
 
 @3069:  ldx     $e8
         lda     $e4
-        ldy     #$3113
+        ldy     #near _e03113
         and     #$00ff
-        ora     #$e000
-        jml     $c2c340
+        ora     #make_word 0, ^_e03113
+        jml     _c2c340
 
 @307a:  dex4
         jml     @30a2
@@ -22953,17 +23030,17 @@ _e02ff0:
 @308c:  dex2
         jml     @30a2
 
-@3092:  jml     $c2c349
+@3092:  jml     _c2c349
 
-@3096:  cmp     $c0f9bb
+@3096:  cmp     f:MenuTextPtrs+$34
         beq     @30ae
-        cmp     $c0f9d3
+        cmp     f:MenuTextPtrs+$4c
         beq     @30d1
 
 @30a2:  lda     $e4
         and     #$00ff
         ora     #$e700
-        jml     $c2c340
+        jml     _c2c340
 
 @30ae:  cpx     #$5532
         beq     @30bc
@@ -22976,10 +23053,10 @@ _e02ff0:
         sbc     #$0006
         tax
         lda     $e4
-        ldy     #$3118
+        ldy     #near _e03118
         and     #$00ff
-        ora     #$e000
-        jml     $c2c340
+        ora     #make_word 0, ^_e03118
+        jml     _c2c340
 
 @30d1:  cpx     #$66a0
         beq     @30e9
@@ -22991,22 +23068,24 @@ _e02ff0:
         beq     @30f6
         jml     @30a2
 
-@30e9:  ldy     #$3103
+@30e9:  ldy     #near _e03103
         and     #$00ff
-        ora     #$e000
-        jml     $c2c340
+        ora     #make_word 0, ^_e03103
+        jml     _c2c340
 
-@30f6:  ldy     #$310e
+@30f6:  ldy     #near _e0310e
         and     #$00ff
-        ora     #$e000
-        jml     $c2c340
+        ora     #make_word 0, ^_e0310e
+        jml     _c2c340
+
+; ---------------------------------------------------------------------------
 
 ; "Defense   "
 _e03103:
         .byte   $63,$7e,$7f,$7e,$87,$8c,$7e,$ff,$ff,$ff,$00
 
 ; ".Def"
-_e0310f:
+_e0310e:
         .byte   $a3,$63,$7e,$7f,$00
 
 ; "Eqp."
@@ -23017,11 +23096,21 @@ _e03113:
 _e03118:
         .byte   $64,$86,$89,$8d,$92,$00
 
+; ---------------------------------------------------------------------------
+
+.export _e0311e
+.import _c2c477
+
 _e0311e:
         longa
         lda     #$0004
         sta     $2b92
-        jml     $c2c477
+        jml     _c2c477
+
+; ---------------------------------------------------------------------------
+
+.export _e0312a
+.import _c2c486
 
 _e0312a:
         lda     f:_e03143
@@ -23030,11 +23119,16 @@ _e0312a:
         sta     $0992
         lda     f:_e03143 + 4
         sta     $0994
-        jml     $c2c486
+        jml     _c2c486
 
 ; "Butz  "
 _e03143:
         .byte   $61,$8e,$8d,$93,$ff,$ff
+
+; ---------------------------------------------------------------------------
+
+.export _e03149
+.import _c2ab73
 
 _e03149:
         php
@@ -23042,8 +23136,13 @@ _e03149:
         lda     #$01
         sta     $7e1a21
         plp
-        lda     $d14000,x
-        jml     $c2ab73
+        lda     f:ItemDescPtrs,x
+        jml     _c2ab73
+
+; ---------------------------------------------------------------------------
+
+.export _e0315b
+.import _c2a9f5
 
 _e0315b:
         php
@@ -23051,8 +23150,13 @@ _e0315b:
         lda     #$00
         sta     $7e1a21
         plp
-        lda     $d17140,x
-        jml     $c2a9f5
+        lda     f:JobDescPtrs,x
+        jml     _c2a9f5
+
+; ---------------------------------------------------------------------------
+
+.export _e0316d
+.import _c2ac88
 
 _e0316d:
         php
@@ -23060,8 +23164,13 @@ _e0316d:
         lda     #$00
         sta     $7e1a21
         plp
-        lda     $d14000,x
-        jml     $c2ac88
+        lda     f:ItemDescPtrs,x
+        jml     _c2ac88
+
+; ---------------------------------------------------------------------------
+
+.export _e0317f
+.import _c2d78d
 
 _e0317f:
         php
@@ -23069,8 +23178,12 @@ _e0317f:
         lda     #$00
         sta     $7e1a21
         plp
-        lda     $d1716c,x
-        jml     $c2d78d
+        lda     f:AbilityDescPtrs,x
+        jml     _c2d78d
+
+; ---------------------------------------------------------------------------
+
+.export _e03191
 
 _e03191:
         dec
@@ -23078,12 +23191,15 @@ _e03191:
         php
         shorta
         lda     $7e1a21
-        nop
-        nop
+        nop2
         plp
         pla
         mvn     #$d1,#$7e
         rtl
+
+; ---------------------------------------------------------------------------
+
+; unused ???
 
 _e031a2:
         plp
@@ -23112,6 +23228,10 @@ _e031b2:
 
 ; ---------------------------------------------------------------------------
 
+; unused ???
+
+.import _c1f840, _c12999
+
 _e031ba:
         dec
         beq     @31cb
@@ -23119,8 +23239,8 @@ _e031ba:
         bne     @31c7
         ldx     #$73a0
         stx     $f9df
-@31c7:  jml     $c1f840
-@31cb:  jml     $c12999
+@31c7:  jml     _c1f840
+@31cb:  jml     _c12999
 
 ; ---------------------------------------------------------------------------
 
@@ -23140,6 +23260,8 @@ _e031cf:
 
 ; ---------------------------------------------------------------------------
 
+.export _e031e6
+
 _e031e6:
         lda     #$74
         sta     $7e1c00
@@ -23150,6 +23272,10 @@ _e031e6:
         bne     @31ed
         rtl
 
+; ---------------------------------------------------------------------------
+
+.export _e031f7
+
 _e031f7:
         tdc
         sta     $7e1c00
@@ -23157,14 +23283,22 @@ _e031f7:
         inx
         rtl
 
+; ---------------------------------------------------------------------------
+
+.export _e03201
+
 _e03201:
         lda     $7e1c00
         cmp     #$74
         bne     @320e
         lda     f:ProphecyTextGfx,x
         rtl
-@320e:  lda     $c3eb00,x
+@320e:  lda     f:BigFontGfx,x
         rtl
+
+; ---------------------------------------------------------------------------
+
+.export _e03213
 
 _e03213:
         lda     $7e1c00
@@ -23172,7 +23306,7 @@ _e03213:
         bne     @3220
         lda     f:ProphecyTextGfx + 12,x
         rtl
-@3220:  lda     $c3eb0c,x
+@3220:  lda     f:BigFontGfx+12,x
         rtl
 
 ; ---------------------------------------------------------------------------

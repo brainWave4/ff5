@@ -33,11 +33,11 @@ AttackerOffset = $32	;16 bit offset into Character Structures (should be multipl
 SpellOffset = $34	;16 bit offset into CharSpells struct, char index * 650
 
 TimerOffset = $36 	;16 bit offset into timer structures, pulled from rom for a given target
- 
-AttackerOffset2 = $39	;Offset into combat tables for multi-commands? 
-			;equal to MultiCommand*12 
 
-RNGA = $3A	
+AttackerOffset2 = $39	;Offset into combat tables for multi-commands?
+			;equal to MultiCommand*12
+
+RNGA = $3A
 RNGB = $3B
 
 ;$3D - 46 are used for various things (temp area)
@@ -49,24 +49,24 @@ TempMonsterOffset = $3F
 MMOffset = $3D			;init to Monster index of acting monster * 16 during AI script
 MMTargetOffset = $3F		;init to Monster index of acting monster * 32 during AI script
 
-AIScriptOffset = $41		;monster index *100 	
-AIBufferOffset = $43		
+AIScriptOffset = $41		;monster index *100
+AIBufferOffset = $43
 
 AISpellCount = $45		;number of spells already in Spell Queue (MonsterMagic)
 
 ;for magic
 HalfMP = $3D		;1 indicates half mp is active, 1 byte * 4 characters
 
-SpellOffsetRandom = $41	;16 bit offset into CharSpells struct, char index * 650 
+SpellOffsetRandom = $41	;16 bit offset into CharSpells struct, char index * 650
 				;used when randomly determining a magic spell to cast
 
 TempNumHits = $41		;meteor style multihit
 
-TempSpellOffset = $45		;16 bit offset into CharSpells struct, char index * 650 
+TempSpellOffset = $45		;16 bit offset into CharSpells struct, char index * 650
 
 ;for items
 TempHand = $45			;0 for RH, 1 for LH
-TempItemMagic = $46		
+TempItemMagic = $46
 
 
 AttackerIndex = $47
@@ -76,9 +76,9 @@ wTargetIndex = $48
 	;   1 - Character2
 	;   2 - Character3
 	;   3 - Character4
-	;   4 - Monster1 
-	;   5 - Monster2 
-	;   ... 
+	;   4 - Monster1
+	;   5 - Monster2
+	;   ...
 	;   B - Monster8
 
 TargetOffset = $49	;16 bit offset into Character Structures (should be multiple of $80)
@@ -95,18 +95,18 @@ M = $52		;Attack Multiplier (16 bit)
 
 Defense = $54		;Defense value used during calculations (16 bit)
 			;could be physical or magical depending on attack type
-			
+
 AtkMissed = $56		;Greater than 0 means attack has missed
 				;80h is something specific (physical miss?)
 
-;These are used for different things depending on attack type 
-Param1 = $57	
+;These are used for different things depending on attack type
+Param1 = $57
 Param2 = $58
 Param3 = $59
 			;Battle Params			$57		$58		$59
-				
-			;Weapons:	
-			
+
+			;Weapons:
+
 			;30 Fists			Crit%		-		-
 			;31 Swords: 			Element 	Proc% 		Proc
 			;32 Knives: 			Element 	Proc% 		Proc
@@ -116,20 +116,20 @@ Param3 = $59
 			;36 Bows(Element):		Hit%		Crit%		Element
 			;37 Katanas:			Crit%		Proc%		Proc
 			;38 Whips:			Hit%		Proc%		Proc
-			;39 Bells:			-		-		-					
+			;39 Bells:			-		-		-
 			;3A Long Axes:			Hit%		Proc%		Proc
 			;3B Rods:			Hit%		-		Element
 			;3C Rune:			Hit%		Dmg Boost	MP Cost
 			;64 Chicken Knife		-		Proc%		Proc
 			;6E Brave Blade			-		-		-
-			;72 Bows(Creature):		Creature Type	-		-		
+			;72 Bows(Creature):		Creature Type	-		-
 			;73 Spears(Creature):		Creature Type	-		-
-				
-			;Other:	
-				
+
+			;Other:
+
 			;01 Monster Fight		-		-		-
 			;02 Monster Specialty		-		-		Status (special format)
-			;03-05 Magic Sword		Animation	Element		Status 
+			;03-05 Magic Sword		Animation	Element		Status
 			;06 Magic			-		Spell Power	Element
 			;07 Gravity			Hit%		*Fraction/16	Status 2
 			;08 Flare			-		Spell Power	Element
@@ -231,8 +231,8 @@ Param3 = $59
 			;75 Do Nothing			-		-		-
 			;7E Maps to 74			-		-		-
 			;7F Maps to 75			-		-		-
-			
-			
+
+
 			;  *	high bit here causes autohit except when it's monster vs party
 			; 	likely unintended in some cases
 
@@ -251,12 +251,12 @@ MagicSword = $60 	;set when Magic Sword is applied
 			;bypasses element calculations, some other effects
 
 TargetDead = $61	;Set to 1 when Target is instantly killed (by MSword)
-		
+
 AtkHealed = $62
 
 AttackerDamaged = $63	;makes attacker take damage from attack instead of target
 			;no target healing though so isn't undead reversing drain
-			;not sure where this is used?  
+			;not sure where this is used?
 
 MonsterTargets = $65
 wMonsterTargets = $65	;1 bit per monster
@@ -265,10 +265,10 @@ wPartyTargets = $66	;1 bit per party member then 0000
 PartyTargets = $66
 
 ;$70 seems to be a temp var, used for passing data to/from C1 bank
-MonsterDead = $70	
-MenuCurrentChar = $70	
+MonsterDead = $70
+MenuCurrentChar = $70
 C1Temp = $70
-		
+
 ;$00A2			;written to in C1 code, checked in AICondition0C
 
 FieldItemsWon = $013B	;8 bytes, BattleItemsWon copied here at end
@@ -299,7 +299,7 @@ TerrainType = $04F2
 	BattleCommands        .res 4		;16-19
 	Status1		.res 1		;1A
 	Status2	        .res 1		;1B
-	Status3       	.res 1		;1C 
+	Status3       	.res 1		;1C
 	Status4		.res 1		;1D
 	CmdStatus		.res 1		;1E
 	DamageMod		.res 1		;1F
@@ -320,7 +320,7 @@ TerrainType = $04F2
 	MEvade                .res 1		;2E
 	MDefense              .res 1		;2F
 	EAbsorb               .res 1		;30
-	EBlock                .res 1		;31		
+	EBlock                .res 1		;31
 	EImmune               .res 1		;32
 	EHalf                 .res 1		;33
 	EWeak                 .res 1		;34
@@ -337,7 +337,7 @@ TerrainType = $04F2
 	EquipWeapons		.res 2		;40		bitmask for equippable weapons
 	EquipArmor		.res 2		;42		bitmask for equippable armor
 	MonsterAttack		.res 1		;44		Only used for Goblin Punch and Monsters
-	MonsterAttackLH       .res 1		;45		Only used for Goblin Punch 
+	MonsterAttackLH       .res 1		;45		Only used for Goblin Punch
 	;rest differs from the battle CharStruct
 	;could use Asar struct extensions but syntax would be annoying for the often-used CharStruct
 	Unused			.res 4		;46-2049
@@ -1418,7 +1418,7 @@ MultiDamage = $79FB			;Used *24 when calculating the offset for displayed damage
 							;04 Black
 							;02 White
 							;01 Blue
-					
+
 
 	;EquipmentType		;2	;79FE	404B	4087	4093
 						;For Weapons
@@ -1438,7 +1438,7 @@ MultiDamage = $79FB			;Used *24 when calculating the offset for displayed damage
 							;40h Guarding
 							;10h Jumping
 							;08h Throbbing (from Flirt)
-					
+
 
 	;ElementOrStatsUp	;3	;79FF	404C	4088	4094
 						;For Weapons
@@ -1471,7 +1471,7 @@ MultiDamage = $79FB			;Used *24 when calculating the offset for displayed damage
 							; 4h: Defense = 0
 							; 2h: SwdSlap?
 							; 1h: Damage * 2 vs Humans (80h Creature Type)
-					
+
 
 
 	;DoubleGrip 		;4 	;7A00	404D	4089	4095
@@ -1480,7 +1480,7 @@ MultiDamage = $79FB			;Used *24 when calculating the offset for displayed damage
 							;40 Double Grip allowed
 							;20-01 Table of which "equip notes" description to display, such as "Magic Sword OK"
 	MagicAtkType	.res 1		;For some reason (whyyy) they put attack type here for magic/items, rather than the same byte weapons use
-					
+
 	;Entries 5-8 are weapon only
 	Properties		.res 1;5	;7A01	404E	408A	4096
 						;Special properties
@@ -1492,25 +1492,25 @@ MultiDamage = $79FB			;Used *24 when calculating the offset for displayed damage
 							;04h: Magic Sword OK                      ;04h Sword Dance / Flirt up
 							;02h: Command instead of attack           ;02h Become undead
 							;01h: Wonder Rod                          ;01h Improved Catch
-					
+
 
 	;ItemMagic		;6	;7A02	404F	408B	4097
 	ShieldEvade		.res 1	;Byte also reused for shield evade values
 					;Item magic:
 							;80: Breaks after Use
 							;40-01 Magic cast
-					
+
 
 	;AtkPower		;7 	;7A03	4050	408C	4098
 	Defense			.res 1;Attack power or Defense, depending if weapon/magic or armor
-					
+
 
 	;AtkType		;8	;7A04	4051	408D	4099
 	MEvade		.res 1;Magic Evade for armor
 					;Flag + Attack formula for weapons
 							;80 Don't Retarget (can hit inactive/dead)
 							;40-01 [Attack formula]  Attack formula
-					
+
 
 	;Param1		;9	;7A05	4052	408E	409A	;Parameter 1
 	MDefense			.res 1	 			;or MDefense for armor
@@ -1846,108 +1846,108 @@ BattleFrameCount = $DB6E		;4 bytes, time elapsed in battle (in frames)
 wMusicChanged = $DBB3			;1 while music change routine is being called
 
 ;Rom Structures
-ROMRNG = $C0FEC0
+; ROMRNG = $C0FEC0
 
-CreateMonsterStatsStruct ROMMonsterStats, $D00000	;32 bytes * 256 regular monsters
+; CreateMonsterStatsStruct ROMMonsterStats, $D00000	;32 bytes * 256 regular monsters
 ;ROMBossStats = ROMMonsterStats[$2000]			;then another 128 boss monsters
 
-CreateEncounterInfoStruct ROMEncounterInfo, $D03000
+; CreateEncounterInfoStruct ROMEncounterInfo, $D03000
 
-.struct ROMLoot		;4 bytes, 384 entries, ends at
-.org $D05000
-	RareSteal		.res 1
-	CommonSteal		.res 1
-	RareDrop		.res 1
-	AlwaysDrop		.res 1
-.endstruct
+; .struct ROMLoot		;4 bytes, 384 entries, ends at
+; .org $D05000
+; 	RareSteal		.res 1
+; 	CommonSteal		.res 1
+; 	RareDrop		.res 1
+; 	AlwaysDrop		.res 1
+; .endstruct
 
-ROMControlActions = $D05600 		;monster actions for control, 4 bytes * 384 monsters
+; ROMControlActions = $D05600 		;monster actions for control, 4 bytes * 384 monsters
 
-ROMMonsterReleaseActions = $D08600	;monster actions for release
+; ROMMonsterReleaseActions = $D08600	;monster actions for release
 
-ROMMonsterCoordinates = $D08900
+; ROMMonsterCoordinates = $D08900
 
-.struct ROMSpecialtyData		;monster specialty attacks, 2 bytes * 384 monsters
-.org $D09900
-	Properties		.res 1
-	Name			.res 1
-.endstruct
+; .struct ROMSpecialtyData		;monster specialty attacks, 2 bytes * 384 monsters
+; .org $D09900
+; 	Properties		.res 1
+; 	Name			.res 1
+; .endstruct
 
-ROMAIScriptOffsets = $D09C00
+; ROMAIScriptOffsets = $D09C00
 
-RomAbilityBitInfo = $D0EC00		;2 bytes per ability
+; RomAbilityBitInfo = $D0EC00		;2 bytes per ability
 					;first byte is byte offset in FieldAbilityList
 					;second is which bit corresponds with the ability
 
 ;rom data tables for multiplication and other calculation saving lookups
-ROMBitUnset = $D0ECDE			;0111 1111 bit selection table, 0 moves toward low bits
-ROMBitSet = $D0ECE6			;1000 0000 bit selection table, 1 moves toward low bits
-ROMTimes10 = $D0ECEE			;*10 valid for 0-3
-ROMBattleSpeedTable = $D0ECF2		;0 then 15 then doubles until 240 then repeats
+; ROMBitUnset = $D0ECDE			;0111 1111 bit selection table, 0 moves toward low bits
+; ROMBitSet = $D0ECE6			;1000 0000 bit selection table, 1 moves toward low bits
+; ROMTimes10 = $D0ECEE			;*10 valid for 0-3
+; ROMBattleSpeedTable = $D0ECF2		;0 then 15 then doubles until 240 then repeats
 					;2nd copy is for active/wait
 
-ROMCommandMap = $D0ED02		;converts commands into Command table offsets
+; ROMCommandMap = $D0ED02		;converts commands into Command table offsets
 					;0 then counts from 0 to 42, then has 43 repeated 34 times, then counts to 52
 					;the repeated item is for Magic commands, they're all Command $2B
 
-ROMTimes650w = $D0ED59			;*650 valid for 0-3 (16 bit)
-ROMTimes11w = $D0ED61			;*11 valid for 0-11 (16 bit)
-ROMCombatantReorder = $D0ED79		;8 9 10 11 0 1 2 3 4 5 6 7 to rearrange party members after monsters instead of before
-ROMTimes84 = $D0ED85			;*84 valid for 0-3
-ROMTimes5w = $D0ED89			;*5 valid for 0-101 (16 bit) (yes, the table is that big)
-ROMTimes12 = $D0EE55			;*12 valid for 0-15
-ROMTimes24w = $D0EE65			;*24 valid for 0-15 (16 bit)
-ROMTimes7 = $D0EE85			;*7 valid for 0-15
-ROMTimes100w = $D0EE95			;*100 valid for 0-7 (16 bit)
-ROMTimes1620w = $D0EEA5			;*1620 valid for 0-7 (16 bit)
-ROMTimes64w = $D0EEB5			;*64 valid for 0-9 (16 bit)
-ROMTimes17 = $D0EEC9			;*17 valid for 0-9
-ROMTimes20 = $D0EEDB			;*20 valid for 0-3
+; ROMTimes650w = $D0ED59			;*650 valid for 0-3 (16 bit)
+; ROMTimes11w = $D0ED61			;*11 valid for 0-11 (16 bit)
+; ROMCombatantReorder = $D0ED79		;8 9 10 11 0 1 2 3 4 5 6 7 to rearrange party members after monsters instead of before
+; ROMTimes84 = $D0ED85			;*84 valid for 0-3
+; ROMTimes5w = $D0ED89			;*5 valid for 0-101 (16 bit) (yes, the table is that big)
+; ROMTimes12 = $D0EE55			;*12 valid for 0-15
+; ROMTimes24w = $D0EE65			;*24 valid for 0-15 (16 bit)
+; ROMTimes7 = $D0EE85			;*7 valid for 0-15
+; ROMTimes100w = $D0EE95			;*100 valid for 0-7 (16 bit)
+; ROMTimes1620w = $D0EEA5			;*1620 valid for 0-7 (16 bit)
+; ROMTimes64w = $D0EEB5			;*64 valid for 0-9 (16 bit)
+; ROMTimes17 = $D0EEC9			;*17 valid for 0-9
+; ROMTimes20 = $D0EEDB			;*20 valid for 0-3
 
 
-ROMAbilityListPointers = $D0EED3	;pointers to character ability inventories (in ram)
+; ROMAbilityListPointers = $D0EED3	;pointers to character ability inventories (in ram)
 ;Points to FieldAbilityList:
 ;Butz 		$08F7
 ;Lenna 		$090B
 ;Galuf/Krile1F 	$091F
 ;Faris		$0933
 
-ROMMusicTable = $D0EEDF			;maps the numbers from EncounterInfo.Music to values that the Music Change routine in C4 bank wants
+; ROMMusicTable = $D0EEDF			;maps the numbers from EncounterInfo.Music to values that the Music Change routine in C4 bank wants
 
-ROMMagicLamp = $D0EEE7			;list of spells to use from magic lamp casts
+; ROMMagicLamp = $D0EEE7			;list of spells to use from magic lamp casts
 
 
-ROMHideMessages = $D0EEF6		;bitfield, bits are set for messages that are hidden
+; ROMHideMessages = $D0EEF6		;bitfield, bits are set for messages that are hidden
 					;when there's no target data for the attack animation
 					;$00 00 00 07 A4 00 00 00 00 1B 80 00 00 00 00 00
 
-ROMJobMagicLevels = $D0EF06	;used to map magic commands to their magic level to display a job level up
+; ROMJobMagicLevels = $D0EF06	;used to map magic commands to their magic level to display a job level up
 				;(such as white or black level 1-6)
 
-ROMFightCommands = $D0EF26	;has 1 for commands which are standard "fight" type commands, by some criteria?
+; ROMFightCommands = $D0EF26	;has 1 for commands which are standard "fight" type commands, by some criteria?
 
-ROMToadOK = $D0EF58		;1 bit per spell, determines whether magic can be used as a toad
+; ROMToadOK = $D0EF58		;1 bit per spell, determines whether magic can be used as a toad
 
 ;$D0EF78 is code 	CleanupFieldItems_D0	;set quantities to 0 for id 0 items, set ids to 0 for qty 0 items
 
-.struct ROMMonsterFormData	;16 bytes * 4 entries
-.org $D0FFA0
-					;there's only one actual entry in the vanilla rom, the rest are blank
-					;even the one with data there is likely usused
-	Encounter		.res 2
-	FormData		.res 14
-.endstruct
+; .struct ROMMonsterFormData	;16 bytes * 4 entries
+; .org $D0FFA0
+; 					;there's only one actual entry in the vanilla rom, the rest are blank
+; 					;even the one with data there is likely usused
+; 	Encounter		.res 2
+; 	FormData		.res 14
+; .endstruct
 
-.struct ROMOneTime	;4 bytes * 8 entries for one-time encounters
-.org $D0FFE0
-	Encounter		.res 2
-	Replacement		.res 2
-.endstruct
+; .struct ROMOneTime	;4 bytes * 8 entries for one-time encounters
+; .org $D0FFE0
+; 	Encounter		.res 2
+; 	Replacement		.res 2
+; .endstruct
 
-CreateAttackInfoStruct ROMItems, $D10000		;12 bytes, 256 entries, ends at $D10BFF
+; CreateAttackInfoStruct ROMItems, $D10000		;12 bytes, 256 entries, ends at $D10BFF
 							;identical to AttackInfo .struct at, see that for details
-CreateAttackInfoStruct ROMWeapons, $D10000
-CreateAttackInfoStruct ROMArmor, $D10600
+; CreateAttackInfoStruct ROMWeapons, $D10000
+; CreateAttackInfoStruct ROMArmor, $D10600
 ;consumable items use the 8 byte magic/ability structure instead
 
 .macro CreateMagicInfoStruct name, addr
@@ -1959,7 +1959,7 @@ CreateAttackInfoStruct ROMArmor, $D10600
 	Category		.res 1		;1
 	Misc			.res 1		;2 Also used as CmdStatus
 	MPCost 			.res 1		;3 Also used for DamageMod
-	AtkType			.res 1		;4	
+	AtkType			.res 1		;4
 	Param1			.res 1	 	;5
 	Param2			.res 1		;6
 	Param3			.res 1		;7
@@ -1971,61 +1971,61 @@ name := name::Targetting	;makes a define so we don't have to keep specifying a p
 
 
 CreateMagicInfoStruct TempMagicInfo, $262A
-CreateMagicInfoStruct ROMConsumables, $D10A80		;8 bytes * 32 consumables
-CreateMagicInfoStruct ROMMagicInfo, $D10B80		;8 bytes * 256 spells
+; CreateMagicInfoStruct ROMConsumables, $D10A80		;8 bytes * 32 consumables
+; CreateMagicInfoStruct ROMMagicInfo, $D10B80		;8 bytes * 256 spells
 
-CreateEquippableStruct ROMItemEquippable, $D12480	;4 bytes * 64 entries
+; CreateEquippableStruct ROMItemEquippable, $D12480	;4 bytes * 64 entries
 
-.struct ROMElementDef
-.org $D12580	
-	Absorb 	.res 1
-	Evade		.res 1
-	Immune	.res 1
-	Half		.res 1
-	Weak		.res 1
-.endstruct
-ROMElementDef = ROMElementDef::Absorb
+; .struct ROMElementDef
+; .org $D12580
+; 	Absorb 	.res 1
+; 	Evade		.res 1
+; 	Immune	.res 1
+; 	Half		.res 1
+; 	Weak		.res 1
+; .endstruct
+; ROMElementDef = ROMElementDef::Absorb
 
-.struct ROMArmorStatus
-.org $D126C0
-	Status1	.res 1		;high bit here indicates always status, for all other status below as well
-	Status2       	.res 1		;only the last item per type with an always status will apply
-	Status3       	.res 1		
-	Status4       	.res 1		
-	Immune1        .res 1
-	Immune2        .res 1
-	Immune3        .res 1
-.endstruct
+; .struct ROMArmorStatus
+; .org $D126C0
+; 	Status1	.res 1		;high bit here indicates always status, for all other status below as well
+; 	Status2       	.res 1		;only the last item per type with an always status will apply
+; 	Status3       	.res 1
+; 	Status4       	.res 1
+; 	Immune1        .res 1
+; 	Immune2        .res 1
+; 	Immune3        .res 1
+; .endstruct
 
-ROMStatBonuses = $D12880	;16 bytes, 8 stat mod pairs
+; ROMStatBonuses = $D12880	;16 bytes, 8 stat mod pairs
 
-CreateTimerStruct ROMGlobalTimer, $D12976	;11 bytes
+; CreateTimerStruct ROMGlobalTimer, $D12976	;11 bytes
 
-ROMMagicAnim = $D12981		;16 byte table of bitfields mapping to spells $80+
+; ROMMagicAnim = $D12981		;16 byte table of bitfields mapping to spells $80+
 				;1 indicates a given spell uses animation type 7 (magic)
 
-ROMBattleMessageOffsets = $D13840
+; ROMBattleMessageOffsets = $D13840
 
-ROMLevelExp = $D15000		;3 bytes * 99 entries
-ROMLevelHP = $D15129		;2 bytes * 99
-ROMLevelMP = $D151EF		;2 bytes * 99
+; ROMLevelExp = $D15000		;3 bytes * 99 entries
+; ROMLevelHP = $D15129		;2 bytes * 99
+; ROMLevelMP = $D151EF		;2 bytes * 99
 
-ROMJobPointers = $D152C0	;2 bytes * 21, pointer to first ability for each job (no freelancer)
-ROMJobLevels = $D152EA		;1 byte * 22, number of levels for each job (also ability count)
-ROMJobAbilities = $D15300	;3 bytes, 2 byte ap cost followed by 1 byte id, accessed via ROMJobPointers
+; ROMJobPointers = $D152C0	;2 bytes * 21, pointer to first ability for each job (no freelancer)
+; ROMJobLevels = $D152EA		;1 byte * 22, number of levels for each job (also ability count)
+; ROMJobAbilities = $D15300	;3 bytes, 2 byte ap cost followed by 1 byte id, accessed via ROMJobPointers
 
-CreateMagicInfoStruct ROMAbilityInfo, $D159E0		;8 bytes * 96 abilities
+; CreateMagicInfoStruct ROMAbilityInfo, $D159E0		;8 bytes * 96 abilities
 
-ROMStatusDisableCommands = $D15CE0	;16 bit entries, index is command ID
+; ROMStatusDisableCommands = $D15CE0	;16 bit entries, index is command ID
 					;holds Status1 and Status2 that should disable that command
 
-ROMCommandDelay = $D15DA0	;1 byte per command, atb delay when used
+; ROMCommandDelay = $D15DA0	;1 byte per command, atb delay when used
 				;80h set -> use weapon or spell delay instead
 
-CreateMagicInfoStruct ROMEffectInfo, $D16AB1	;Spell effects for Animals, Mix, etc. 
+; CreateMagicInfoStruct ROMEffectInfo, $D16AB1	;Spell effects for Animals, Mix, etc.
 						;8 bytes * 105? abilities
-ROMTerrainSpells = $D16DF9	;4 bytes per terrain type
-							
-ROMCombineSpells = $D16EF9	;144 bytes?
+; ROMTerrainSpells = $D16DF9	;4 bytes per terrain type
+
+; ROMCombineSpells = $D16EF9	;144 bytes?
 				;Effect spell ids for combine/mix
 				;12*item2 + item1
