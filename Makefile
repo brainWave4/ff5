@@ -74,6 +74,11 @@ endef
 
 $(foreach M, $(MODULES), $(eval $(call MAKE_MODULE,$(M))))
 
+# temporary compressed cutscene program file
+LZ_DIR = temp_lz
+CUTSCENE_LZ = $(LZ_DIR)/cutscene.lz
+CUTSCENE_LZ_ASM = $(LZ_DIR)/cutscene_lz.asm
+
 # list of all text files
 TEXT_JSON_JP = $(wildcard src/text/*jp.json)
 TEXT_JSON_EN = $(wildcard src/text/*en.json)
@@ -88,14 +93,23 @@ src/text/%.dat: src/text/%.json
 	python3 tools/encode_text.py $<
 
 # rules for making ROM files
+# run linker twice: 1st for the cutscene program, 2nd for the ROM itself
 $(FF5_JP_PATH): cfg/ff5-jp.cfg text_jp $(OBJ_FILES_JP)
-	@mkdir -p $(ROM_DIR)
-	$(LINK) $(LINKFLAGS) --dbgfile $(@:sfc=dbg) -m $(@:sfc=map) -o $@ -C $< $(OBJ_FILES_JP)
+	@mkdir -p $(LZ_DIR) $(ROM_DIR)
+	$(LINK) $(LINKFLAGS) -o "" -C $< $(OBJ_FILES_JP)
+	python3 tools/encode_cutscene.py $(CUTSCENE_LZ:lz=bin) $(CUTSCENE_LZ)
+	@printf '.segment "cutscene_lz"\n.incbin "cutscene.lz"' > $(CUTSCENE_LZ_ASM)
+	$(ASM) --bin-include-dir $(LZ_DIR) $(CUTSCENE_LZ_ASM) -o $(CUTSCENE_LZ).o
+	$(LINK) $(LINKFLAGS) --dbgfile $(@:sfc=dbg) -m $(@:sfc=map) -o $@ -C $< $(OBJ_FILES_JP) $(CUTSCENE_LZ).o
 	@$(RM) -rf $(LZ_DIR)
 	$(FIX_CHECKSUM) $@
 
 $(FF5_EN_PATH): cfg/ff5-en.cfg text_en $(OBJ_FILES_EN)
-	@mkdir -p $(ROM_DIR)
-	$(LINK) $(LINKFLAGS) --dbgfile $(@:sfc=dbg) -m $(@:sfc=map) -o $@ -C $< $(OBJ_FILES_EN)
+	@mkdir -p $(LZ_DIR) $(ROM_DIR)
+	$(LINK) $(LINKFLAGS) -o "" -C $< $(OBJ_FILES_EN)
+	python3 tools/encode_cutscene.py $(CUTSCENE_LZ:lz=bin) $(CUTSCENE_LZ)
+	@printf '.segment "cutscene_lz"\n.incbin "cutscene.lz"' > $(CUTSCENE_LZ_ASM)
+	$(ASM) --bin-include-dir $(LZ_DIR) $(CUTSCENE_LZ_ASM) -o $(CUTSCENE_LZ).o
+	$(LINK) $(LINKFLAGS) --dbgfile $(@:sfc=dbg) -m $(@:sfc=map) -o $@ -C $< $(OBJ_FILES_EN) $(CUTSCENE_LZ).o
 	@$(RM) -rf $(LZ_DIR)
 	$(FIX_CHECKSUM) $@

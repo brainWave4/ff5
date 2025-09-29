@@ -57,6 +57,202 @@
       "asset_range": "0xC0FEC0-0xC0FFBF"
     },
     {
+      "file_path": "src/cutscene/cutscene_code.bin.lz",
+      "asset_range": "0xC37E4D-0xC3A06E"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c30200.dat.cmp",
+      "asset_range": "0xC30200-0xC302B2"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c302b3.dat.cmp",
+      "asset_range": "0xC302B3-0xC30367"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c30368.dat.cmp",
+      "asset_range": "0xC30368-0xC305F8"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c305f9.dat.cmp",
+      "asset_range": "0xC305F9-0xC305FC"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c305fd.dat.cmp",
+      "asset_range": "0xC305FD-0xC30662"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c30663.dat.cmp",
+      "asset_range": "0xC30663-0xC3067B"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c3067c.dat.cmp",
+      "asset_range": "0xC3067C-0xC306F4"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c306f5.dat.cmp",
+      "asset_range": "0xC306F5-0xC309D1"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c309d2.dat.cmp",
+      "asset_range": "0xC309D2-0xC30D88"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c30d89.dat.cmp",
+      "asset_range": "0xC30D89-0xC30DA2"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c30da3.dat.cmp",
+      "asset_range": "0xC30DA3-0xC30E1A"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c30e1b.dat.cmp",
+      "asset_range": "0xC30E1B-0xC30E6F"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c30e70.dat.cmp",
+      "asset_range": "0xC30E70-0xC30F49"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c30f4a.dat.cmp",
+      "asset_range": "0xC30F4A-0xC30F6F"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c30f70.dat.cmp",
+      "asset_range": "0xC30F70-0xC31176"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c31177.dat.cmp",
+      "asset_range": "0xC31177-0xC31242"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c31243.dat.cmp",
+      "asset_range": "0xC31243-0xC31C64"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c31c65.dat.cmp",
+      "asset_range": "0xC31C65-0xC31C68"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c31c69.dat.cmp",
+      "asset_range": "0xC31C69-0xC31D24"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c31d25.dat.cmp",
+      "asset_range": "0xC31D25-0xC31D47"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c31d48.dat.cmp",
+      "asset_range": "0xC31D48-0xC31DFD"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c31dfe.dat.cmp",
+      "asset_range": "0xC31DFE-0xC31E82"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c31e83.dat.cmp",
+      "asset_range": "0xC31E83-0xC32D21"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c32d22.dat.cmp",
+      "asset_range": "0xC32D22-0xC3331E"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c3331f.dat.cmp",
+      "asset_range": "0xC3331F-0xC33341"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c33342.dat.cmp",
+      "asset_range": "0xC33342-0xC333F5"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c333f6.dat.cmp",
+      "asset_range": "0xC333F6-0xC3362A"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c3362b.dat.cmp",
+      "asset_range": "0xC3362B-0xC3383B"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c3383c.dat.cmp",
+      "asset_range": "0xC3383C-0xC33908"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c33909.dat.cmp",
+      "asset_range": "0xC33909-0xC34451"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c34452.dat.cmp",
+      "asset_range": "0xC34452-0xC34468"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c34469.dat.lz",
+      "asset_range": "0xC34469-0xC34DF7"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c34df8.dat.cmp",
+      "asset_range": "0xC34DF8-0xC34E33"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c34e34.dat.lz",
+      "asset_range": "0xC34E34-0xC350D3"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c350d4.dat.lz",
+      "asset_range": "0xC350D4-0xC351EE"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c351ef.dat.lz",
+      "asset_range": "0xC351EF-0xC35B1D"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c35b1e.dat.cmp",
+      "asset_range": "0xC35B1E-0xC366D7"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c366d8.dat.cmp",
+      "asset_range": "0xC366D8-0xC372E6"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c372e7.dat.cmp",
+      "asset_range": "0xC372E7-0xC37444"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c37445.dat.cmp",
+      "asset_range": "0xC37445-0xC3750C"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c3750d.dat.cmp",
+      "asset_range": "0xC3750D-0xC37599"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c3759a.dat.cmp",
+      "asset_range": "0xC3759A-0xC3765B"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c3765c.dat.cmp",
+      "asset_range": "0xC3765C-0xC377AD"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c377ae.dat.cmp",
+      "asset_range": "0xC377AE-0xC37890"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c37891.dat.cmp",
+      "asset_range": "0xC37891-0xC37A06"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c37a07.dat.cmp",
+      "asset_range": "0xC37A07-0xC37A68"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c37a69.dat.cmp",
+      "asset_range": "0xC37A69-0xC37B91"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c37b92.dat.cmp",
+      "asset_range": "0xC37B92-0xC37E4C"
+    },
+    {
       "file_path": "src/gfx/map_pal/map_pal_%s.pal",
       "asset_range": "0xC3BB00-0xC3E6FF",
       "item_size": 256

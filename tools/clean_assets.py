@@ -42,6 +42,9 @@ def clean_assets(rip_list):
             if asset_path.endswith('.lz') and os.path.exists(asset_path[:-3]):
                 # remove uncompressed asset files
                 os.remove(asset_path[:-3])
+            elif asset_path.endswith('.cmp') and os.path.exists(asset_path[:-4]):
+                # remove uncompressed asset files
+                os.remove(asset_path[:-4])
             elif asset_path.endswith('.trm') and os.path.exists(asset_path[:-4]):
                 # remove trimmed monster graphics files
                 os.remove(asset_path[:-4])

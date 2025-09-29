@@ -4,8 +4,7 @@ import os
 import binascii
 import json
 import romtools as rt
-from ff5_lzss import decode_lzss
-from ff5_multi import decode_multi
+from ff5_compress import *
 
 class AssetExtractor:
 
