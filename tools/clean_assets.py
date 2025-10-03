@@ -25,10 +25,10 @@ def clean_assets(rip_list):
         with open(json_path, 'w', encoding='utf8') as f:
             f.write(asset_json)
 
-        # delete the binary text file
-        asset_root, _ = os.path.splitext(json_path)
-        if os.path.exists(asset_root + '.dat'):
-            os.remove(asset_root + '.dat')
+        # # delete the binary text file
+        # asset_root, _ = os.path.splitext(json_path)
+        # if os.path.exists(asset_root + '.dat'):
+        #     os.remove(asset_root + '.dat')
 
     # remove data assets
     for data_def in rip_list['data'] + rip_list['array']:
@@ -39,13 +39,24 @@ def clean_assets(rip_list):
         for asset_path in glob.glob(file_path):
             if os.path.exists(asset_path):
                 os.remove(asset_path)
-            if asset_path.endswith('.lz') and os.path.exists(asset_path[:-3]):
-                # remove uncompressed asset files
-                os.remove(asset_path[:-3])
-            elif asset_path.endswith('.trm') and os.path.exists(asset_path[:-4]):
-                # remove trimmed monster graphics files
-                os.remove(asset_path[:-4])
 
+        if file_path.endswith('.lz'):
+            for asset_path in glob.glob(file_path[:-3]):
+                if os.path.exists(asset_path):
+                    # remove uncompressed asset files
+                    os.remove(asset_path)
+        elif file_path.endswith('.cmp'):
+            for asset_path in glob.glob(file_path[:-4]):
+                if os.path.exists(asset_path):
+                    # remove uncompressed asset files
+                    os.remove(asset_path)
+        elif file_path.endswith('.trm'):
+            for asset_path in glob.glob(file_path[:-4]):
+                if os.path.exists(asset_path):
+                    # remove trimmed monster graphics files
+                    os.remove(asset_path)
+
+        # clear out automatically generated code from include files
         if 'inc_path' in data_def:
             rt.insert_asm(data_def['inc_path'], '')
 

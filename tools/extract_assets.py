@@ -4,7 +4,7 @@ import os
 import binascii
 import json
 import romtools as rt
-from ff5_lzss import *
+from ff5_compress import *
 
 class AssetExtractor:
 
@@ -159,6 +159,9 @@ class AssetExtractor:
         if asset_path.endswith('.lz'):
             with open(asset_path[:-3], 'wb') as f:
                 f.write(decode_lzss(asset_bytes))
+        elif asset_path.endswith('.cmp'):
+            with open(asset_path[:-4], 'wb') as f:
+                f.write(decode_multi(asset_bytes))
 
         # save the raw data
         with open(asset_path, 'wb') as f:

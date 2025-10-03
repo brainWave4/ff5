@@ -214,7 +214,11 @@
     },
     {
       "file_path": "src/cutscene/unknown_c31d48.dat.cmp",
-      "asset_range": "0xC31D48-0xC31E82"
+      "asset_range": "0xC31D48-0xC31DFD"
+    },
+    {
+      "file_path": "src/cutscene/unknown_c31dfe.dat.cmp",
+      "asset_range": "0xC31DFE-0xC31E82"
     },
     {
       "file_path": "src/cutscene/unknown_c31e83.dat.cmp",
@@ -282,7 +286,7 @@
     },
     {
       "file_path": "src/cutscene/unknown_c372e7.dat.cmp",
-      "asset_range": "0xC372E7-0xC37445"
+      "asset_range": "0xC372E7-0xC37444"
     },
     {
       "file_path": "src/cutscene/unknown_c37445.dat.cmp",
@@ -319,6 +323,10 @@
     {
       "file_path": "src/cutscene/unknown_c37b92.dat.cmp",
       "asset_range": "0xC37B92-0xC37E4C"
+    },
+    {
+      "file_path": "src/cutscene/cutscene_code.bin.lz",
+      "asset_range": "0xC37E4D-0xC3A06E"
     },
     {
       "file_path": "src/gfx/map_pal/map_pal_%s.pal",
