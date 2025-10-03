@@ -213,6 +213,13 @@ def encode_lzss(src):
     # remember the source length
     src_len = len(src)
 
+    if src_len == 0:
+        # return empty if length is zero
+        return bytearray(0)
+    elif src_len == 1:
+        # submap tilemaps filled with a single byte
+        return bytearray(src)
+
     # create a source buffer preceded by 2K of empty space
     # (this increases compression for some data)
     src = bytearray(0x0800) + src

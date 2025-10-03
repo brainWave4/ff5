@@ -254,7 +254,7 @@ Decomp:
 
 ; ------------------------------------------------------------------------------
 
-.segment "cutscene_lz"
+.segment "cutscene_data"
 
 ; c3/0200
 _c30200:
@@ -448,8 +448,14 @@ _c37a69:
 _c37b92:
         .incbin "unknown_c37b92.dat.cmp"
 
+; ------------------------------------------------------------------------------
+
+.segment "cutscene_code_lz"
+
 ; c3/7e4d
 CutsceneProg:
+
+; lz-compressed cutscene code will be inserted here during the 2nd linker pass
 
 ; ------------------------------------------------------------------------------
 
@@ -477,8 +483,8 @@ _7f8000:
 
 ; cutscene jump table
 _7f801a:
-        .addr $8c78,$804b,$8516,$8784,$8516,$867d,$8516,$8aa2
-        .addr $8c09,$8b80,$8888,$8963,$804a,$804a,$804a,$804a
+        .addr _7f8c78,_7f804b,_7f8516,_7f8784,_7f8516,_7f867d,_7f8516,_7f8aa2
+        .addr _7f8c09,_7f8b80,_7f8888,_7f8963,_7f804a,_7f804a,_7f804a,_7f804a
 
 ; ------------------------------------------------------------------------------
 
@@ -490,6 +496,8 @@ _7f803a:
         sta     $4200
         lda     $c7
         sta     $420c
+
+_7f804a:
         rts
 
 ; ------------------------------------------------------------------------------
@@ -1487,7 +1495,7 @@ _7f8888:
 
 ; [ cutscene $0b: flash red (long) ]
 
-_7f7963:
+_7f8963:
         jsr     _7f8660
         jsr     _7fab7a
         lda     #$02
@@ -1783,6 +1791,10 @@ _7f8b80:
         lda     $71
         bne     @8be8
         brl     _7f803a
+
+; ------------------------------------------------------------------------------
+
+_7f8c09:
         jsr     _7f8a4e
         ldx     #$1000
         stx     $58
@@ -5215,13 +5227,11 @@ _7fa963:
         lda     $c7
         ldy     $c7
         sta     [$d3],y
-        iny
-        iny
+        iny2
         lda     $7e9000
         sta     $7ff130
 @aac0:  sta     [$d3],y
-        iny
-        iny
+        iny2
         cpy     #$0020
         bne     @aac0
         shorta
@@ -5463,8 +5473,7 @@ _7facab:
 @acbb:  lda     [$d0],y
         jsr     _7faccc
         sta     [$d3],y
-        iny
-        iny
+        iny2
         cpy     #$03e0
         bne     @acbb
         shorta
@@ -5489,32 +5498,16 @@ _7faccc:
         and     #$001f
         beq     @acf2
         dec
-        asl
-        asl
-        asl
-        asl
-        asl
+        asl5
         ora     $1a
         sta     $1a
 @acf2:  lda     $18
-        lsr
-        lsr
-        lsr
-        lsr
-        lsr
+        lsr5
         and     #$001f
         beq     @ad09
         dec
-        asl
-        asl
-        asl
-        asl
-        asl
-        asl
-        asl
-        asl
-        asl
-        asl
+        asl8
+        asl2
 @ad09:  ora     $1a
         ply
         rts
@@ -5555,18 +5548,14 @@ _7fad23:
         inc
         clc
         adc     $0c
-        asl
-        asl
-        asl
+        asl3
         eor     $c5
         inc
         sta     $86
         bra     @ad54
 @ad4c:  sec
         sbc     $0c
-        asl
-        asl
-        asl
+        asl3
         sta     $86
 @ad54:  lda     [$d0]
         and     #$03e0
@@ -5579,16 +5568,14 @@ _7fad23:
         inc
         clc
         adc     $0c
-        lsr
-        lsr
+        lsr2
         eor     $c5
         inc
         sta     $88
         bra     @ad7a
 @ad73:  sec
         sbc     $0c
-        lsr
-        lsr
+        lsr2
         sta     $88
 @ad7a:  lda     [$d0]
         and     #$7c00
@@ -5620,14 +5607,11 @@ _7fad23:
         pla
         pha
         and     #$03e0
-        asl
-        asl
-        asl
+        asl3
         sta     $82
         pla
         and     #$7c00
-        lsr
-        lsr
+        lsr2
         sta     $84
         lda     $d0
         clc
@@ -5645,9 +5629,7 @@ _7fad23:
         clc
         adc     $88
         sta     $82
-        lsr
-        lsr
-        lsr
+        lsr3
         and     #$03e0
         ora     $0a
         sta     $0a
@@ -5655,8 +5637,7 @@ _7fad23:
         clc
         adc     $8a
         sta     $84
-        asl
-        asl
+        asl2
         and     #$7c00
         ora     $0a
         sta     [$d3]
@@ -5984,8 +5965,7 @@ _7fafff:
         phx
         lda     $10
         and     #$00ff
-        asl
-        asl
+        asl2
         tax
         lda     $14
         sta     $0200,x
@@ -5999,9 +5979,7 @@ _7fafff:
         sta     $12
         lda     $10
         and     #$00ff
-        lsr
-        lsr
-        lsr
+        lsr3
         asl
         tax
         lda     $0400,x
@@ -6018,8 +5996,7 @@ _7fb035:
         longa
         lda     $10
         and     $c6
-        asl
-        asl
+        asl2
         tax
         shorta
         lda     $14
@@ -6032,8 +6009,7 @@ _7fb046:
         phx
         lda     $10
         and     $c6
-        asl
-        asl
+        asl2
         tax
         lda     $0200,x
         shorta
@@ -6055,8 +6031,7 @@ _7fb046:
 _7fb067:
 @b067:  phx
         lda     $10
-        asl
-        asl
+        asl2
         tax
         shorta
         lda     $0201,x
@@ -6079,8 +6054,7 @@ _7fb067:
 _7fb08a:
 @b08a:  phx
         lda     $10
-        asl
-        asl
+        asl2
         tax
         shorta
         lda     $0201,x
@@ -6105,9 +6079,7 @@ _7fb0ad:
         lda     $10
         and     $c6
         sta     $10
-        lsr
-        lsr
-        lsr
+        lsr3
         asl
         sta     $14
         lda     $10
@@ -6121,8 +6093,7 @@ _7fb0ad:
         and     $12
         bne     @b0f6
         lda     $10
-        asl
-        asl
+        asl2
         tax
         shorta
         lda     $0200,x
@@ -6143,8 +6114,7 @@ _7fb0ad:
         rts
 @b0f6:  longa
         lda     $10
-        asl
-        asl
+        asl2
         tax
         shorta
         lda     $0200,x
@@ -6174,9 +6144,7 @@ _7fb124:
         lda     $10
         and     $c6
         sta     $10
-        lsr
-        lsr
-        lsr
+        lsr3
         asl
         sta     $14
         lda     $10
@@ -6190,8 +6158,7 @@ _7fb124:
         and     $12
         bne     @b16f
         lda     $10
-        asl
-        asl
+        asl2
         tax
         shorta
         lda     $0200,x
@@ -6213,8 +6180,7 @@ _7fb124:
         rts
 @b16f:  longa
         lda     $10
-        asl
-        asl
+        asl2
         tax
         shorta
         lda     $0200,x
@@ -6243,9 +6209,7 @@ _7fb124:
 _7fb19f:
         phx
         lda     $10
-        lsr
-        lsr
-        lsr
+        lsr3
         asl
         sta     $14
         lda     $10
@@ -6259,8 +6223,7 @@ _7fb19f:
         and     $12
         bne     @b1e5
         lda     $10
-        asl
-        asl
+        asl2
         tax
         shorta
         lda     $0200,x
@@ -6281,8 +6244,7 @@ _7fb19f:
         rts
 @b1e5:  longa
         lda     $10
-        asl
-        asl
+        asl2
         tax
         shorta
         lda     $0200,x
@@ -6300,8 +6262,7 @@ _7fb1fd:
         .a16
         phx
         lda     $10
-        asl
-        asl
+        asl2
         tax
         shorta
         lda     $0200,x
@@ -7504,16 +7465,13 @@ _7fbaa9:
         iny
         lda     [$d0],y
         sta     $14
-        iny
-        iny
+        iny2
         lda     [$d0],y
         sta     $12
-        iny
-        iny
+        iny2
         lda     [$d0],y
         sta     $16
-        iny
-        iny
+        iny2
         jsr     _7fafff
         bra     @baad
 @bad8:  shorta
@@ -7532,12 +7490,10 @@ _7fbaa9:
         longa
         lda     [$d0],y
         sta     $12
-        iny
-        iny
+        iny2
         lda     [$d0],y
         sta     $16
-        iny
-        iny
+        iny2
         jsr     _7fafff
         bra     @baad
         .a8
@@ -7605,12 +7561,10 @@ _7fbb00:
 @bb65:  iny
         lda     [$d0],y
         sta     $14
-        iny
-        iny
+        iny2
         lda     [$d0],y
         sta     $12
-        iny
-        iny
+        iny2
         jsr     _7fb046
         shorta
         bra     @bb02
@@ -7789,8 +7743,7 @@ _7fbc9a:
 @bc9a:  longa
         and     #$00ff
         xba
-        asl
-        asl
+        asl2
         sta     $08
         asl
         clc
@@ -7824,11 +7777,7 @@ _7fbcd7:
         asl
         tax
         lda     $7fc7b0,x
-        lsr
-        lsr
-        lsr
-        lsr
-        lsr
+        lsr5
         sta     $22
         shorta
         stz     $25
@@ -7924,9 +7873,7 @@ _7fbd6c:
 
 _7fbd88:
 @bd88:  lda     $25
-        asl
-        asl
-        asl
+        asl3
         sta     $18
         lda     #$ff
         sec
@@ -7955,56 +7902,26 @@ _7fbdb3:
 @bdb3:  longa
         and     $c6
         sta     $18
-        lsr
-        lsr
-        lsr
-        lsr
-        asl
-        asl
-        asl
-        asl
-        asl
-        asl
-        asl
-        asl
-        asl
-        asl
+        lsr4
+        asl8
+        asl2
         sta     $1e
         lda     $18
         and     #$000f
-        asl
-        asl
-        asl
-        asl
-        asl
+        asl5
         clc
         adc     $1e
         clc
         adc     #$4800
         sta     $d0
         lda     $22
-        lsr
-        lsr
-        lsr
-        lsr
-        asl
-        asl
-        asl
-        asl
-        asl
-        asl
-        asl
-        asl
-        asl
-        asl
+        lsr4
+        asl8
+        asl2
         sta     $1e
         lda     $22
         and     #$000f
-        asl
-        asl
-        asl
-        asl
-        asl
+        asl5
         clc
         adc     $1e
         clc
@@ -8061,9 +7978,7 @@ _7fbe55:
         cmp     #$0003
         beq     @be79
         xba
-        asl
-        asl
-        asl
+        asl3
         clc
         adc     #$2000
         sta     $d3
@@ -8249,9 +8164,7 @@ _7fbfaf:
         shorti
         tax
         lda     $25
-        asl
-        asl
-        asl
+        asl3
         sta     $18
         lda     $c6
         sec
@@ -8408,13 +8321,11 @@ _7fc0a1:
         iny
         longa
         lda     [$d0],y
-        iny
-        iny
+        iny2
         sty     $0c
         ldy     $0e
 @c0c0:  sta     [$d3],y
-        iny
-        iny
+        iny2
         sty     $0e
         ldx     $08
         beq     @c0a9
@@ -8427,13 +8338,11 @@ _7fc0a1:
         longa
 @c0d7:  ldy     $0c
         lda     [$d0],y
-        iny
-        iny
+        iny2
         sty     $0c
         ldy     $0e
         sta     [$d3],y
-        iny
-        iny
+        iny2
         sty     $0e
         ldx     $08
         beq     @c0a9
@@ -8471,8 +8380,7 @@ _7fc0f0:
         txa
         tay
 @c117:  sta     $f7ff,x
-        inx
-        inx
+        inx2
         cpx     $cc
         bne     @c117
         stz     $ce
@@ -8508,19 +8416,13 @@ _7fc0f0:
         shorta
         xba
         sta     $da
-        lsr
-        lsr
-        lsr
-        lsr
-        lsr
+        lsr5
         xba
         longa
         sta     $d8
         lda     $da
         and     $c2
-        inc
-        inc
-        inc
+        inc3
         sta     $da
         stz     $dc
         inc     $d0

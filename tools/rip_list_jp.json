@@ -133,10 +133,6 @@
       "asset_range": "0xC0FEC0-0xC0FFBF"
     },
     {
-      "file_path": "src/cutscene/cutscene_code.bin.lz",
-      "asset_range": "0xC37E4D-0xC3A06E"
-    },
-    {
       "file_path": "src/cutscene/unknown_c30200.dat.cmp",
       "asset_range": "0xC30200-0xC302B2"
     },
@@ -327,6 +323,10 @@
     {
       "file_path": "src/cutscene/unknown_c37b92.dat.cmp",
       "asset_range": "0xC37B92-0xC37E4C"
+    },
+    {
+      "file_path": "src/cutscene/cutscene_code.bin.lz",
+      "asset_range": "0xC37E4D-0xC3A06E"
     },
     {
       "file_path": "src/gfx/map_pal/map_pal_%s.pal",
