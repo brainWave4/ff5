@@ -177,7 +177,7 @@ WeaponHitTiles:
 ; d1/a3a0
 AttackPal:
         .repeat 128, i
-        .incbin .sprintf("attack_pal/pal_%04X.pal", i)
+        .incbin .sprintf("attack_pal/pal_%04x.pal", i)
         .endrep
 
 ; d1/aba0
@@ -223,7 +223,7 @@ BattleCharGfx:
         .if (i .mod 22) = 0
         .ident(.sprintf("BattleCharGfx_%d", i / 22)) := *
         .endif
-        .incbin .sprintf("battle_char_gfx/gfx_%04X.4bpp", i)
+        .incbin .sprintf("battle_char_gfx/gfx_%04x.4bpp", i)
         .endrep
 
 ; ------------------------------------------------------------------------------
@@ -238,7 +238,7 @@ BattleCharGfx:
 DeadCharGfx:
         .repeat 5, i
         .ident(.sprintf("DeadCharGfx_%d", i)) := *
-        .incbin .sprintf("dead_char_gfx/gfx_%04X.4bpp", i)
+        .incbin .sprintf("dead_char_gfx/gfx_%04x.4bpp", i)
         .endrep
 
 ; ------------------------------------------------------------------------------
@@ -268,7 +268,7 @@ BattleCharPal:
         .if (i .mod 22) = 0
         .ident(.sprintf("BattleCharPal_%d", i / 22)) := *
         .endif
-        .incbin .sprintf("battle_char_pal/pal_%04X.pal", i)
+        .incbin .sprintf("battle_char_pal/pal_%04x.pal", i)
         .endrep
 
 ; ------------------------------------------------------------------------------
@@ -684,7 +684,7 @@ BattleBGProp:
 ; d4/bb31: battle bg palettes (84 items, 32 bytes each)
 BattleBGPal:
         .repeat 84, i
-        .incbin .sprintf("battle_bg_pal/pal_%04X.pal", i)
+        .incbin .sprintf("battle_bg_pal/pal_%04x.pal", i)
         .endrep
 
 ; d4/c5b1: pointers to battle bg animation data (+$D40000)
